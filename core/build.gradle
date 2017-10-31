@@ -1,0 +1,15 @@
+apply plugin: "java"
+sourceCompatibility = 1.6
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceSets.main.java.srcDirs = ["src/"]
+eclipse.project {
+    name = appName + "-core"
+}
+dependencies {
+    compile project(':rtoserver')
+    compile files('src/libs/kryonet-2.22.0-RC1.jar')
+    compile files('src/libs/jsonbeans-0.7.jar')
+    compile files('src/libs/kryo-2.24.0.jar')
+    compile files('src/libs/minlog-1.2.jar')
+    compile files('src/libs/objenesis-2.1.jar')
+}
