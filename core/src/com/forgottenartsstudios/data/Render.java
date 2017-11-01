@@ -1,5 +1,6 @@
 package com.forgottenartsstudios.data;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -412,6 +413,9 @@ public class Render {
         renderMap_Upper();
         drawNames();
         drawUI();
+
+        // FPS
+        drawText("" + Gdx.graphics.getFramesPerSecond(), 20, 20, Color.WHITE);
 
         if (Variables.inMenu) { drawMenu(); }
         if (Variables.inShop) { drawShop(); }
