@@ -405,9 +405,11 @@ public class InputData {
                     }
                 }
             }
-            if (worldCoordinates.x >= 16 && worldCoordinates.x <= 464) {
-                if (worldCoordinates.y >= 440 && worldCoordinates.y <= 464) {
-                    Variables.inChat = true;
+            if (!Variables.inStatus && !Variables.inInventory && !Variables.inMenu && !Variables.inShop) {
+                if (worldCoordinates.x >= 16 && worldCoordinates.x <= 464) {
+                    if (worldCoordinates.y >= 440 && worldCoordinates.y <= 464) {
+                        Variables.inChat = true;
+                    }
                 }
             }
             if (Variables.inShop) { handleShop(worldCoordinates); }
