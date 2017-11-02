@@ -22,6 +22,7 @@ import com.forgottenartsstudios.networking.packets.SendKillNPC;
 import com.forgottenartsstudios.networking.packets.SendLogin;
 import com.forgottenartsstudios.networking.packets.SendMapItems;
 import com.forgottenartsstudios.networking.packets.SendMapNPCs;
+import com.forgottenartsstudios.networking.packets.SendMessage;
 import com.forgottenartsstudios.networking.packets.SendNPCDead;
 import com.forgottenartsstudios.networking.packets.SendNPCDir;
 import com.forgottenartsstudios.networking.packets.SendNPCDmg;
@@ -837,5 +838,14 @@ public class SendServerData {
         NotEnoughGoldMsg notEnoughGoldMsg = new NotEnoughGoldMsg();
 
         server.sendToTCP(ServerVars.Accounts[Index].getCID(), notEnoughGoldMsg);
+    }
+    public static void SendMessage(int index, int type, String msg) {
+        SendMessage sendMessage = new SendMessage();
+
+        sendMessage.index = index;
+        sendMessage.type = type;
+        sendMessage.msg = msg;
+
+        server.sendToTCP(ServerVars.Accounts[index].getCID(), sendMessage);
     }
 }

@@ -421,6 +421,7 @@ public class Render {
         if (Variables.inShop) { drawShop(); }
         if (Variables.inStatus) { drawStatus(); }
         if (Variables.inInventory) { drawInventory(); }
+        if (Variables.inChat) { drawChat(); }
     }
 
     public static void drawText(String text, float X, float Y, Color color) {
@@ -613,6 +614,7 @@ public class Render {
                 for (int y = Variables.MinY; y <= Variables.MaxY - 1; y++) {
                     for (int LoopL = 0; LoopL <= 2; LoopL++) {
                         if (Variables.mapRender == null) { break; }
+                        if (Variables.mapRender[mapNum] == null) { break; }
                         if (Variables.mapRender[mapNum].Tile == null) { break; }
                         if (Variables.mapRender[mapNum].Tile[x][y] == null) { break; }
                         if (Variables.mapRender[mapNum].Tile[x][y].Layer == null) { break; }
@@ -654,6 +656,7 @@ public class Render {
                 for (int y = Variables.MinY; y <= Variables.MaxY - 1; y++) {
                     for (int LoopL = 3; LoopL <= 4; LoopL++) {
                         if (Variables.mapRender == null) { break; }
+                        if (Variables.mapRender[mapNum] == null) { break; }
                         if (Variables.mapRender[mapNum].Tile == null) { break; }
                         if (Variables.mapRender[mapNum].Tile[x][y] == null) { break; }
                         if (Variables.mapRender[mapNum].Tile[x][y].TileNum == null) { break; }
@@ -1235,6 +1238,16 @@ public class Render {
         drawName("XP", 299, 475, Color.WHITE);
         // Chat Bar
         batcher.draw(AssetLoader.chatBar, 16, 440, 448, 24, 0, 0, 448, 24, false, true);
+        if (Variables.chatMessageIndex > 0) {
+            int type = Variables.chatMessages[Variables.chatMessageIndex].getType();
+            if (type == Variables.MESSAGE_TYPE_MAP) {
+                drawName(Variables.chatMessages[Variables.chatMessageIndex].getMsg(), 24, 446, Color.WHITE);
+            } else if (type == Variables.MESSAGE_TYPE_GLOBAL) {
+                drawName(Variables.chatMessages[Variables.chatMessageIndex].getMsg(), 24, 446, Color.ORANGE);
+            } else if (type == Variables.MESSAGE_TYPE_WHISPER) {
+                drawName(Variables.chatMessages[Variables.chatMessageIndex].getMsg(), 24, 446, Color.PINK);
+            }
+        }
     }
     public static void drawNames() {
         // Render NPC Names
@@ -1432,6 +1445,43 @@ public class Render {
                 }
             }
         }
+    }
+    public static void drawChat() {
+        batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
+        batcher.draw(AssetLoader.chatBar, 16, 403, 448, 24, 0, 0, 448, 24, false, true);
+
+        if (Variables.chatInput != null && !Variables.chatInput.isEmpty()) {
+            drawName(Variables.chatInput, 24, 409, Color.WHITE);
+        }
+
+        if (Variables.chatMessageIndex < 21) {
+            for (int i = 1; i <= 100; i++) {
+                if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_MAP) {
+                    drawName(Variables.chatMessages[i].getMsg(), 24, (18 * i) + 10, Color.WHITE);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_GLOBAL) {
+                    drawName(Variables.chatMessages[i].getMsg(), 24, (18 * i) + 10, Color.ORANGE);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_WHISPER) {
+                    drawName(Variables.chatMessages[i].getMsg(), 24, (18 * i) + 10, Color.PINK);
+                }
+            }
+        } else {
+            int line = 1;
+            for (int i = Variables.chatMessageIndex - 20; i <= Variables.chatMessageIndex; i++) {
+                if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_MAP) {
+                    drawName(Variables.chatMessages[i].getMsg(), 24, (18 * line) + 10, Color.WHITE);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_GLOBAL) {
+                    drawName(Variables.chatMessages[i].getMsg(), 24, (18 * line) + 10, Color.ORANGE);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_WHISPER) {
+                    drawName(Variables.chatMessages[i].getMsg(), 24, (18 * line) + 10, Color.PINK);
+                }
+                line++;
+            }
+        }
+
+        // Back Button
+        drawText("Back", 24, 437, Color.WHITE);
+        // Send Msg Button
+        drawText("Send", 400, 437, Color.WHITE);
     }
 
     public static void tryNPCSearch() {

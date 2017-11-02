@@ -43,6 +43,7 @@ import com.forgottenartsstudios.networking.packets.SendKillNPC;
 import com.forgottenartsstudios.networking.packets.SendLogin;
 import com.forgottenartsstudios.networking.packets.SendMapItems;
 import com.forgottenartsstudios.networking.packets.SendMapNPCs;
+import com.forgottenartsstudios.networking.packets.SendMessage;
 import com.forgottenartsstudios.networking.packets.SendNPCDead;
 import com.forgottenartsstudios.networking.packets.SendNPCDir;
 import com.forgottenartsstudios.networking.packets.SendNPCDmg;
@@ -379,53 +380,25 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(NotEnoughGoldMsg.class);
         server.getKryo().register(SendUsePoint.class);
         server.getKryo().register(SendPlayerDmg.class);
+        server.getKryo().register(SendMessage.class);
     }
     private static void checkPackets(Object object, Connection connection) {
-        if (object instanceof Connect) {
-            HandleServerData.HandleConnect(object);
-        }
-        if (object instanceof NewAccount) {
-            HandleServerData.HandleNewAccount(object, connection);
-        }
-        if (object instanceof Login) {
-            HandleServerData.HandleLogin(object, connection);
-        }
-        if (object instanceof CreateChar) {
-            HandleServerData.HandleCreateChar(object, connection);
-        }
-        if (object instanceof ChooseChar) {
-            HandleServerData.HandleChooseChar(object, connection);
-        }
-        if (object instanceof MovePlayer) {
-            HandleServerData.HandleMovePlayer(object);
-        }
-        if (object instanceof KeepAliveCheck) {
-            HandleServerData.HandleKeepAliveCheck(object);
-        }
-        if (object instanceof WarpCheck) {
-            HandleServerData.HandleWarpCheck(object);
-        }
-        if (object instanceof SendSearch) {
-            HandleServerData.HandleSearch(object);
-        }
-        if (object instanceof SendBuyItem) {
-            HandleServerData.HandleBuyItem(object);
-        }
-        if (object instanceof SendUseItem) {
-            HandleServerData.HandleUseItem(object);
-        }
-        if (object instanceof SendTryAttack) {
-            HandleServerData.HandleTryAttack(object);
-        }
-        if (object instanceof SendDropItem) {
-            HandleServerData.HandleDropItem(object);
-        }
-        if (object instanceof SendPickUpItem) {
-            HandleServerData.HandlePickUpItem(object);
-        }
-        if (object instanceof SendUsePoint) {
-            HandleServerData.HandleUsePoint(object);
-        }
+        if (object instanceof Connect) { HandleServerData.HandleConnect(object); }
+        if (object instanceof NewAccount) { HandleServerData.HandleNewAccount(object, connection); }
+        if (object instanceof Login) { HandleServerData.HandleLogin(object, connection); }
+        if (object instanceof CreateChar) { HandleServerData.HandleCreateChar(object, connection); }
+        if (object instanceof ChooseChar) { HandleServerData.HandleChooseChar(object, connection); }
+        if (object instanceof MovePlayer) { HandleServerData.HandleMovePlayer(object); }
+        if (object instanceof KeepAliveCheck) { HandleServerData.HandleKeepAliveCheck(object); }
+        if (object instanceof WarpCheck) { HandleServerData.HandleWarpCheck(object); }
+        if (object instanceof SendSearch) { HandleServerData.HandleSearch(object); }
+        if (object instanceof SendBuyItem) { HandleServerData.HandleBuyItem(object); }
+        if (object instanceof SendUseItem) { HandleServerData.HandleUseItem(object); }
+        if (object instanceof SendTryAttack) { HandleServerData.HandleTryAttack(object); }
+        if (object instanceof SendDropItem) { HandleServerData.HandleDropItem(object); }
+        if (object instanceof SendPickUpItem) { HandleServerData.HandlePickUpItem(object); }
+        if (object instanceof SendUsePoint) { HandleServerData.HandleUsePoint(object); }
+        if (object instanceof SendMessage) { HandleServerData.HandleSendMessage(object); }
     }
 
     private static void UpdateNpcAI(long tickCount) {

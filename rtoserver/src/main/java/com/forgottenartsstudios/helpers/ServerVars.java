@@ -70,6 +70,11 @@ public class ServerVars {
     public static final int TILE_TYPE_TRAP = 13;
     public static final int TILE_TYPE_CHAT = 14;
 
+    // Message types
+    public static final int MESSAGE_TYPE_MAP = 1;
+    public static final int MESSAGE_TYPE_GLOBAL = 2;
+    public static final int MESSAGE_TYPE_WHISPER = 3;
+
     // Search types
     public static final int SEARCH_TYPE_NONE = 0;
     public static final int SEARCH_TYPE_PLAYER = 1;

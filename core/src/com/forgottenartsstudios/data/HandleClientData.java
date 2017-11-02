@@ -14,6 +14,7 @@ import com.forgottenartsstudios.networking.packets.SendKillNPC;
 import com.forgottenartsstudios.networking.packets.SendLogin;
 import com.forgottenartsstudios.networking.packets.SendMapItems;
 import com.forgottenartsstudios.networking.packets.SendMapNPCs;
+import com.forgottenartsstudios.networking.packets.SendMessage;
 import com.forgottenartsstudios.networking.packets.SendNPCDead;
 import com.forgottenartsstudios.networking.packets.SendNPCDir;
 import com.forgottenartsstudios.networking.packets.SendNPCDmg;
@@ -25,6 +26,8 @@ import com.forgottenartsstudios.networking.packets.SendPlayerWarp;
 import com.forgottenartsstudios.networking.packets.SendRespawnNPC;
 import com.forgottenartsstudios.networking.packets.SendShop;
 import com.forgottenartsstudios.networking.packets.SendVital;
+
+import java.lang.reflect.Array;
 
 /**
  * Created by forgo on 10/8/2017.
@@ -533,6 +536,37 @@ public class HandleClientData {
                 Variables.DrawPlayerDamage[i].setY((int)nameY);
                 Variables.DrawPlayerDamage[i].setTimer(20);
                 break;
+            }
+        }
+    }
+    public static void HandleSendMessage(Object object) {
+        SendMessage sendMessage = (SendMessage) object;
+
+        int type = sendMessage.type;
+        String msg = sendMessage.msg;
+        double msgLength = msg.length();
+
+        if (msgLength > 60) {
+            String[] multiLine = msg.split("(?<=\\G.{60})");
+            double lines = Array.getLength(multiLine);
+            for (int a = 0; a <= lines - 1; a++) {
+                for (int i = 1; i <= 100; i++) {
+                    if (Variables.chatMessages[i].getType() == 0) {
+                        Variables.chatMessages[i].setType(type);
+                        Variables.chatMessages[i].setMsg(multiLine[a]);
+                        Variables.chatMessageIndex = i;
+                        break;
+                    }
+                }
+            }
+        } else {
+            for (int i = 1; i <= 100; i++) {
+                if (Variables.chatMessages[i].getType() == 0) {
+                    Variables.chatMessages[i].setType(type);
+                    Variables.chatMessages[i].setMsg(msg);
+                    Variables.chatMessageIndex = i;
+                    break;
+                }
             }
         }
     }

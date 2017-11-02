@@ -6,6 +6,7 @@ import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
 import com.forgottenartsstudios.data.MapTiles;
+import com.forgottenartsstudios.data.Message;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
 import com.forgottenartsstudios.data.TileLayer_Struct;
@@ -31,6 +32,10 @@ public class Variables {
     public static final int Game_State_Loading = 5;
     public static final int Game_State_InGame = 6;
 
+    public static String chatInput;
+    public static Message[] chatMessages = new Message[100 + 1];
+    public static int chatMessageIndex;
+
     // MOUSE INFO
     public static int CurX;
     public static int CurY;
@@ -45,10 +50,9 @@ public class Variables {
 
     public static boolean pressUp, pressDown, pressLeft, pressRight, pressAttack, pickUpItem;
     public static boolean dPad_Up, dPad_Down, dPad_Left, dPad_Right, bBtn, aBtn;
-    public static boolean inMenu, inShop, inInventory, inStatus;
+    public static boolean inMenu, inShop, inInventory, inStatus, inChat;
     public static boolean buyItem, useItem, usePoint;
     public static int usePointTimer;
-    public static boolean inChat = false;
     public static boolean longPress, touchDown;
 
     public static int MyIndex;
@@ -89,6 +93,11 @@ public class Variables {
     public static final int TILE_TYPE_HEAL = 12;
     public static final int TILE_TYPE_TRAP = 13;
     public static final int TILE_TYPE_CHAT = 14;
+
+    // Message types
+    public static final int MESSAGE_TYPE_MAP = 1;
+    public static final int MESSAGE_TYPE_GLOBAL = 2;
+    public static final int MESSAGE_TYPE_WHISPER = 3;
 
     // Search types
     public static final int SEARCH_TYPE_NONE = 0;

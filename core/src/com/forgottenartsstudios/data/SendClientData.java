@@ -9,6 +9,7 @@ import com.forgottenartsstudios.networking.packets.MovePlayer;
 import com.forgottenartsstudios.networking.packets.NewAccount;
 import com.forgottenartsstudios.networking.packets.SendBuyItem;
 import com.forgottenartsstudios.networking.packets.SendDropItem;
+import com.forgottenartsstudios.networking.packets.SendMessage;
 import com.forgottenartsstudios.networking.packets.SendPickUpItem;
 import com.forgottenartsstudios.networking.packets.SendSearch;
 import com.forgottenartsstudios.networking.packets.SendTryAttack;
@@ -142,5 +143,23 @@ public class SendClientData {
         Variables.usePointTimer = 1;
 
         client.sendTCP(sendUsePoint);
+    }
+    public static void SendMessage() {
+        SendMessage sendMessage = new SendMessage();
+
+        sendMessage.index = Variables.MyIndex;
+        if (Variables.chatInput.substring(0, 1).equals("'")) {
+            sendMessage.type = Variables.MESSAGE_TYPE_GLOBAL;
+        } else if (Variables.chatInput.substring(0, 1).equals("@")) {
+            System.out.println("Whisper");
+            sendMessage.type = Variables.MESSAGE_TYPE_WHISPER;
+        } else {
+            sendMessage.type = Variables.MESSAGE_TYPE_MAP;
+        }
+        sendMessage.msg = Variables.chatInput;
+
+        Variables.chatInput = "";
+
+        client.sendTCP(sendMessage);
     }
 }

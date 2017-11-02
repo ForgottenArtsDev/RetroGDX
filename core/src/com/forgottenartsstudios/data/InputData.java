@@ -384,81 +384,6 @@ public class InputData {
                         }
                     }
                 }
-            } else if (Variables.inInventory) {
-                if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
-                    if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
-                        if (!Variables.inMenu) {
-                            Variables.inInventory = false;
-                            Variables.inStatus = false;
-                            Variables.selectedInvSlot = 0;
-                            Variables.inMenu = true;
-                        }
-                    }
-                }
-            } else if (Variables.inStatus) {
-                // Add Points
-                // STR
-                if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
-                    if (worldCoordinates.y >= 77 && worldCoordinates.y <= 100) {
-                        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
-                            if (!Variables.usePoint) {
-                                SendClientData.SendUsePoint(1);
-                            }
-                        }
-                    }
-                }
-                // DEF
-                if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
-                    if (worldCoordinates.y >= 108 && worldCoordinates.y <= 129) {
-                        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
-                            if (!Variables.usePoint) {
-                                SendClientData.SendUsePoint(2);
-                            }
-                        }
-                    }
-                }
-                // VIT
-                if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
-                    if (worldCoordinates.y >= 138 && worldCoordinates.y <= 159) {
-                        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
-                            if (!Variables.usePoint) {
-                                SendClientData.SendUsePoint(3);
-                            }
-                        }
-                    }
-                }
-                // AGI
-                if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
-                    if (worldCoordinates.y >= 167 && worldCoordinates.y <= 189) {
-                        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
-                            if (!Variables.usePoint) {
-                                SendClientData.SendUsePoint(4);
-                            }
-                        }
-                    }
-                }
-                // MAG
-                if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
-                    if (worldCoordinates.y >= 198 && worldCoordinates.y <= 218) {
-                        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
-                            if (!Variables.usePoint) {
-                                SendClientData.SendUsePoint(5);
-                            }
-                        }
-                    }
-                }
-
-                // Back
-                if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
-                    if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
-                        if (!Variables.inMenu) {
-                            Variables.inInventory = false;
-                            Variables.inStatus = false;
-                            Variables.selectedInvSlot = 0;
-                            Variables.inMenu = true;
-                        }
-                    }
-                }
             }
             if (Variables.inMenu) {
                 if (worldCoordinates.x >= 360 && worldCoordinates.x <= 432) {
@@ -480,226 +405,15 @@ public class InputData {
                     }
                 }
             }
-            if (Variables.inShop) {
-                int x = 36;
-                int y = 122 - 8;
-                for (int i = 1; i <= 20; i++) {
-                    if (i == 11) {
-                        x = 36;
-                        y = 163 - 8;
-                        if (Variables.Shop.itemNum[i] > 0) {
-                            if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                                if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                    if (Variables.selectedShopSlot != i) {
-                                        Variables.selectedShopSlot = i;
-                                    }
-                                }
-                            }
-                        }
-                        x = x + 41;
-                    } else {
-                        if (Variables.Shop.itemNum[i] > 0) {
-                            if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                                if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                    if (Variables.selectedShopSlot != i) {
-                                        Variables.selectedShopSlot = i;
-                                    }
-                                }
-                            }
-                        }
-                        x = x + 41;
-                    }
-                }
-
-                if (worldCoordinates.x >= 413 && worldCoordinates.x <= 460) {
-                    if (worldCoordinates.y >= 434 && worldCoordinates.y <= 456) {
-                        if (!Variables.buyItem) {
-                            if (Variables.BoughtMsgTimer == 0) {
-                                SendClientData.SendBuyItem();
-                            }
-                        }
-                    }
-
+            if (worldCoordinates.x >= 16 && worldCoordinates.x <= 464) {
+                if (worldCoordinates.y >= 440 && worldCoordinates.y <= 464) {
+                    Variables.inChat = true;
                 }
             }
-
-            if (Variables.inInventory) {
-                int x = 36;
-                int y = 36;
-                for (int i = 1; i <= 60; i++) {
-                    if (i == 11) {
-                        x = 36;
-                        y = 77;
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                                if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                    if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                            if (Variables.selectedInvSlot != i) {
-                                                Variables.selectedInvSlot = i;
-                                            } else {
-                                                SendClientData.SendUseItem();
-                                            }
-                                        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                            if (Variables.selectedInvSlot == i) {
-                                                SendClientData.SendDropItem(i);
-                                            }
-                                        }
-                                    } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        x = x + 41;
-                    } else if (i == 21) {
-                        x = 36;
-                        y = 118;
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                                if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                    if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                            if (Variables.selectedInvSlot != i) {
-                                                Variables.selectedInvSlot = i;
-                                            } else {
-                                                SendClientData.SendUseItem();
-                                            }
-                                        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                            if (Variables.selectedInvSlot == i) {
-                                                SendClientData.SendDropItem(i);
-                                            }
-                                        }
-                                    } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        x = x + 41;
-                    } else if (i == 31) {
-                        x = 36;
-                        y = 159;
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                                if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                    if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                            if (Variables.selectedInvSlot != i) {
-                                                Variables.selectedInvSlot = i;
-                                            } else {
-                                                SendClientData.SendUseItem();
-                                            }
-                                        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                            if (Variables.selectedInvSlot == i) {
-                                                SendClientData.SendDropItem(i);
-                                            }
-                                        }
-                                    } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        x = x + 41;
-                    } else if (i == 41) {
-                        x = 36;
-                        y = 200;
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                                if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                    if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                            if (Variables.selectedInvSlot != i) {
-                                                Variables.selectedInvSlot = i;
-                                            } else {
-                                                SendClientData.SendUseItem();
-                                            }
-                                        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                            if (Variables.selectedInvSlot == i) {
-                                                SendClientData.SendDropItem(i);
-                                            }
-                                        }
-                                    } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        x = x + 41;
-                    } else if (i == 51) {
-                        x = 36;
-                        y = 241;
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                                if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                    if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                            if (Variables.selectedInvSlot != i) {
-                                                Variables.selectedInvSlot = i;
-                                            } else {
-                                                SendClientData.SendUseItem();
-                                            }
-                                        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                            if (Variables.selectedInvSlot == i) {
-                                                SendClientData.SendDropItem(i);
-                                            }
-                                        }
-                                    } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        x = x + 41;
-                    } else {
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                                if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                    if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                            if (Variables.selectedInvSlot != i) {
-                                                Variables.selectedInvSlot = i;
-                                            } else {
-                                                SendClientData.SendUseItem();
-                                            }
-                                        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                            if (Variables.selectedInvSlot == i) {
-                                                SendClientData.SendDropItem(i);
-                                            }
-                                        }
-                                    } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        x = x + 41;
-                    }
-                }
-
-                if (worldCoordinates.x >= 413 && worldCoordinates.x <= 460) {
-                    if (worldCoordinates.y >= 434 && worldCoordinates.y <= 456) {
-                        if (Variables.selectedInvSlot > 0) {
-                            if (!Variables.useItem) {
-                                SendClientData.SendUseItem();
-                            }
-                        }
-                    }
-                }
-            }
+            if (Variables.inShop) { handleShop(worldCoordinates); }
+            if (Variables.inInventory) { handleInventory(worldCoordinates); }
+            if (Variables.inStatus) { handleStatus(worldCoordinates); }
+            if (Variables.inChat) { handleChat(worldCoordinates); }
         }
     }
 
@@ -721,55 +435,47 @@ public class InputData {
     }
     public static void checkMovement() {
         if (Variables.pressUp) {
-            if (Variables.players[Variables.MyIndex].getOffsetX() == 0) {
-                if (Variables.players[Variables.MyIndex].getOffsetY() == 0) {
-                    int mapNum = Variables.players[Variables.MyIndex].getMap();
-                    int x = Variables.players[Variables.MyIndex].getX();
-                    int y = Variables.players[Variables.MyIndex].getY();
-                    if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                        SendClientData.SendWarpCheck();
-                    } else {
-                        SendClientData.SendMovePlayer(Variables.DIR_UP);
-                    }
+            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                int mapNum = Variables.players[Variables.MyIndex].getMap();
+                int x = Variables.players[Variables.MyIndex].getX();
+                int y = Variables.players[Variables.MyIndex].getY();
+                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
+                    SendClientData.SendWarpCheck();
+                } else {
+                    SendClientData.SendMovePlayer(Variables.DIR_UP);
                 }
             }
         } else if (Variables.pressDown) {
-            if (Variables.players[Variables.MyIndex].getOffsetX() == 0) {
-                if (Variables.players[Variables.MyIndex].getOffsetY() == 0) {
-                    int mapNum = Variables.players[Variables.MyIndex].getMap();
-                    int x = Variables.players[Variables.MyIndex].getX();
-                    int y = Variables.players[Variables.MyIndex].getY();
-                    if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                        SendClientData.SendWarpCheck();
-                    } else {
-                        SendClientData.SendMovePlayer(Variables.DIR_DOWN);
-                    }
+            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                int mapNum = Variables.players[Variables.MyIndex].getMap();
+                int x = Variables.players[Variables.MyIndex].getX();
+                int y = Variables.players[Variables.MyIndex].getY();
+                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
+                    SendClientData.SendWarpCheck();
+                } else {
+                    SendClientData.SendMovePlayer(Variables.DIR_DOWN);
                 }
             }
         } else if (Variables.pressLeft) {
-            if (Variables.players[Variables.MyIndex].getOffsetX() == 0) {
-                if (Variables.players[Variables.MyIndex].getOffsetY() == 0) {
-                    int mapNum = Variables.players[Variables.MyIndex].getMap();
-                    int x = Variables.players[Variables.MyIndex].getX();
-                    int y = Variables.players[Variables.MyIndex].getY();
-                    if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                        SendClientData.SendWarpCheck();
-                    } else {
-                        SendClientData.SendMovePlayer(Variables.DIR_LEFT);
-                    }
+            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                int mapNum = Variables.players[Variables.MyIndex].getMap();
+                int x = Variables.players[Variables.MyIndex].getX();
+                int y = Variables.players[Variables.MyIndex].getY();
+                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
+                    SendClientData.SendWarpCheck();
+                } else {
+                    SendClientData.SendMovePlayer(Variables.DIR_LEFT);
                 }
             }
         } else if (Variables.pressRight) {
-            if (Variables.players[Variables.MyIndex].getOffsetX() == 0) {
-                if (Variables.players[Variables.MyIndex].getOffsetY() == 0) {
-                    int mapNum = Variables.players[Variables.MyIndex].getMap();
-                    int x = Variables.players[Variables.MyIndex].getX();
-                    int y = Variables.players[Variables.MyIndex].getY();
-                    if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                        SendClientData.SendWarpCheck();
-                    } else {
-                        SendClientData.SendMovePlayer(Variables.DIR_RIGHT);
-                    }
+            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                int mapNum = Variables.players[Variables.MyIndex].getMap();
+                int x = Variables.players[Variables.MyIndex].getX();
+                int y = Variables.players[Variables.MyIndex].getY();
+                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
+                    SendClientData.SendWarpCheck();
+                } else {
+                    SendClientData.SendMovePlayer(Variables.DIR_RIGHT);
                 }
             }
         }
@@ -829,7 +535,7 @@ public class InputData {
         }
     }
     public static void handleAndroidInput() {
-        if (!Variables.inChat) {
+        if (!Variables.inChat && !Variables.reloadingMap) {
             if (Variables.dPad_Up) {
                 Variables.pressUp = true;
                 Variables.pressLeft = false;
@@ -880,6 +586,334 @@ public class InputData {
                 Variables.pressAttack = false;
                 Variables.pickUpItem = false;
             }
+        }
+    }
+
+    public static void handleChat(Vector3 worldCoordinates) {
+        // Input
+        if (worldCoordinates.x >= 16 && worldCoordinates.x <= 464) {
+            if (worldCoordinates.y >= 403 && worldCoordinates.y <= 427) {
+                Gdx.input.getTextInput(new Input.TextInputListener() {
+
+                    @Override
+                    public void input(String text) {
+                        Variables.chatInput = text;
+                    }
+
+                    @Override
+                    public void canceled() {
+                    }
+                }, "Chat:", "", "");
+            }
+        }
+        // Send Msg Button
+        if (worldCoordinates.x >= 400 && worldCoordinates.x <= 450) {
+            if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
+                if (Variables.chatInput != null && !Variables.chatInput.isEmpty()) {
+                    SendClientData.SendMessage();
+                }
+            }
+        }
+        // Back
+        if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
+            if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
+                Variables.inChat = false;
+            }
+        }
+    }
+    public static void handleInventory(Vector3 worldCoordinates) {
+        int x = 36;
+        int y = 36;
+        for (int i = 1; i <= 60; i++) {
+            if (i == 11) {
+                x = 36;
+                y = 77;
+                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedInvSlot != i) {
+                                        Variables.selectedInvSlot = i;
+                                    } else {
+                                        SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedInvSlot == i) {
+                                        SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedInvSlot != i) {
+                                    Variables.selectedInvSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 21) {
+                x = 36;
+                y = 118;
+                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedInvSlot != i) {
+                                        Variables.selectedInvSlot = i;
+                                    } else {
+                                        SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedInvSlot == i) {
+                                        SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedInvSlot != i) {
+                                    Variables.selectedInvSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 31) {
+                x = 36;
+                y = 159;
+                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedInvSlot != i) {
+                                        Variables.selectedInvSlot = i;
+                                    } else {
+                                        SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedInvSlot == i) {
+                                        SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedInvSlot != i) {
+                                    Variables.selectedInvSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 41) {
+                x = 36;
+                y = 200;
+                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedInvSlot != i) {
+                                        Variables.selectedInvSlot = i;
+                                    } else {
+                                        SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedInvSlot == i) {
+                                        SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedInvSlot != i) {
+                                    Variables.selectedInvSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 51) {
+                x = 36;
+                y = 241;
+                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedInvSlot != i) {
+                                        Variables.selectedInvSlot = i;
+                                    } else {
+                                        SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedInvSlot == i) {
+                                        SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedInvSlot != i) {
+                                    Variables.selectedInvSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else {
+                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedInvSlot != i) {
+                                        Variables.selectedInvSlot = i;
+                                    } else {
+                                        SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedInvSlot == i) {
+                                        SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedInvSlot != i) {
+                                    Variables.selectedInvSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            }
+        }
+
+        if (worldCoordinates.x >= 413 && worldCoordinates.x <= 460) {
+            if (worldCoordinates.y >= 434 && worldCoordinates.y <= 456) {
+                if (Variables.selectedInvSlot > 0) {
+                    if (!Variables.useItem) {
+                        SendClientData.SendUseItem();
+                    }
+                }
+            }
+        }
+
+        if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
+            if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
+                if (!Variables.inMenu) {
+                    Variables.inInventory = false;
+                    Variables.inStatus = false;
+                    Variables.selectedInvSlot = 0;
+                    Variables.inMenu = true;
+                }
+            }
+        }
+    }
+    public static void handleStatus(Vector3 worldCoordinates) {
+// Add Points
+        // STR
+        if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
+            if (worldCoordinates.y >= 77 && worldCoordinates.y <= 100) {
+                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                    if (!Variables.usePoint) {
+                        SendClientData.SendUsePoint(1);
+                    }
+                }
+            }
+        }
+        // DEF
+        if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
+            if (worldCoordinates.y >= 108 && worldCoordinates.y <= 129) {
+                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                    if (!Variables.usePoint) {
+                        SendClientData.SendUsePoint(2);
+                    }
+                }
+            }
+        }
+        // VIT
+        if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
+            if (worldCoordinates.y >= 138 && worldCoordinates.y <= 159) {
+                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                    if (!Variables.usePoint) {
+                        SendClientData.SendUsePoint(3);
+                    }
+                }
+            }
+        }
+        // AGI
+        if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
+            if (worldCoordinates.y >= 167 && worldCoordinates.y <= 189) {
+                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                    if (!Variables.usePoint) {
+                        SendClientData.SendUsePoint(4);
+                    }
+                }
+            }
+        }
+        // MAG
+        if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
+            if (worldCoordinates.y >= 198 && worldCoordinates.y <= 218) {
+                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                    if (!Variables.usePoint) {
+                        SendClientData.SendUsePoint(5);
+                    }
+                }
+            }
+        }
+
+        // Back
+        if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
+            if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
+                if (!Variables.inMenu) {
+                    Variables.inInventory = false;
+                    Variables.inStatus = false;
+                    Variables.selectedInvSlot = 0;
+                    Variables.inMenu = true;
+                }
+            }
+        }
+    }
+    public static void handleShop(Vector3 worldCoordinates) {
+        int x = 36;
+        int y = 122 - 8;
+        for (int i = 1; i <= 20; i++) {
+            if (i == 11) {
+                x = 36;
+                y = 163 - 8;
+                if (Variables.Shop.itemNum[i] > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.selectedShopSlot != i) {
+                                Variables.selectedShopSlot = i;
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else {
+                if (Variables.Shop.itemNum[i] > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.selectedShopSlot != i) {
+                                Variables.selectedShopSlot = i;
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            }
+        }
+
+        if (worldCoordinates.x >= 413 && worldCoordinates.x <= 460) {
+            if (worldCoordinates.y >= 434 && worldCoordinates.y <= 456) {
+                if (!Variables.buyItem) {
+                    if (Variables.BoughtMsgTimer == 0) {
+                        SendClientData.SendBuyItem();
+                    }
+                }
+            }
+
         }
     }
 }

@@ -12,6 +12,7 @@ import com.forgottenartsstudios.data.Inventory_Struct;
 import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
+import com.forgottenartsstudios.data.Message;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
 import com.forgottenartsstudios.helpers.AssetLoader;
@@ -38,6 +39,7 @@ import com.forgottenartsstudios.networking.packets.SendKillNPC;
 import com.forgottenartsstudios.networking.packets.SendLogin;
 import com.forgottenartsstudios.networking.packets.SendMapItems;
 import com.forgottenartsstudios.networking.packets.SendMapNPCs;
+import com.forgottenartsstudios.networking.packets.SendMessage;
 import com.forgottenartsstudios.networking.packets.SendNPCDead;
 import com.forgottenartsstudios.networking.packets.SendNPCDir;
 import com.forgottenartsstudios.networking.packets.SendNPCDmg;
@@ -89,6 +91,13 @@ public class RTOnline extends Game {
             for (int a = 1; a <= 60; a++) {
                 Variables.players[i].inventory[a] = new Inventory_Struct();
             }
+        }
+
+        Variables.chatMessages = new Message[100 + 1];
+        for (int i = 1; i <= 100; i++) {
+            Variables.chatMessages[i] = new Message();
+            Variables.chatMessages[i].setMsg("");
+            Variables.chatMessages[i].setType(0);
         }
 
         Variables.DrawNPCDamage = new Damage_Struct[20 + 1];
@@ -184,107 +193,34 @@ public class RTOnline extends Game {
         client.getKryo().register(NotEnoughGoldMsg.class);
         client.getKryo().register(SendUsePoint.class);
         client.getKryo().register(SendPlayerDmg.class);
+        client.getKryo().register(SendMessage.class);
     }
     public static void checkPackets(Object object, Connection connection) {
-        // RECEIVE LOGIN
-        if (object instanceof SendLogin) {
-            HandleClientData.HandleSendLogin(object);
-        }
-        // ACCOUNT NOT FOUND
-        if (object instanceof AccountNotFound) {
-            HandleClientData.HandleAccountNotFound();
-        }
-        // ACCOUNT REGISTERED
-        if (object instanceof AccountRegistered) {
-            HandleClientData.HandleAccountRegistered();
-        }
-        // PLAYER DATA
-        if (object instanceof PlayerData) {
-            HandleClientData.HandlePlayerData(object);
-        }
-        // MOVE PLAYER
-        if (object instanceof MovePlayer) {
-            HandleClientData.HandleMovePlayer(object);
-        }
-        // SPAWN NPC
-        if (object instanceof SendNPCSpawn) {
-            HandleClientData.HandleSpawnNPC(object);
-        }
-        // Keep Alive Check
-        if (object instanceof KeepAliveCheck) {
-            HandleClientData.HandleKeepAliveCheck();
-        }
-        // Disconnect Player Update
-        if (object instanceof DisconnectPlayer) {
-            HandleClientData.HandleDisconnectPlayer(object);
-        }
-        // NPC Dead
-        if (object instanceof SendNPCDead) {
-            HandleClientData.HandleNPCDead(object);
-        }
-        // NPC Dir
-        if (object instanceof SendNPCDir) {
-            HandleClientData.HandleNPCDir(object);
-        }
-        // NPC Move
-        if (object instanceof SendNPCMove) {
-            HandleClientData.HandleNPCMove(object);
-        }
-        // Player Warp
-        if (object instanceof SendPlayerWarp) {
-            HandleClientData.HandlePlayerWarp(object);
-        }
-        // Vital
-        if (object instanceof SendVital) {
-            HandleClientData.HandleVital(object);
-        }
-        // Items
-        if (object instanceof SendItems) {
-            HandleClientData.HandleItems(object);
-        }
-        // Shop
-        if (object instanceof SendShop) {
-            HandleClientData.HandleSendShop(object);
-        }
-        // Inventory
-        if (object instanceof SendInventory) {
-            HandleClientData.HandleSendInventory(object);
-        }
-        // Bought Item Msg
-        if (object instanceof ItemBoughtMsg) {
-            HandleClientData.HandleBoughtItemMsg();
-        }
-        // Kill NPC
-        if (object instanceof SendKillNPC) {
-            HandleClientData.HandleKillNPC(object);
-        }
-        // NPC Dmg
-        if (object instanceof SendNPCDmg) {
-            HandleClientData.HandleDmgNPC(object);
-        }
-        // Respawn NPC
-        if (object instanceof SendRespawnNPC) {
-            HandleClientData.HandleRespawnNPC(object);
-        }
-        // Map NPCS
-        if (object instanceof SendMapNPCs) {
-            HandleClientData.HandleMapNPCs(object);
-        }
-        // NPC XP
-        if (object instanceof SendNPCXP) {
-            HandleClientData.HandleNPCXP(object);
-        }
-        // Map Items
-        if (object instanceof SendMapItems) {
-            HandleClientData.HandleMapItems(object);
-        }
-        // Not Enough Gold Msg
-        if (object instanceof NotEnoughGoldMsg) {
-            HandleClientData.HandleNotEnoughGoldMsg();
-        }
-        // Player Dmg
-        if (object instanceof SendPlayerDmg) {
-            HandleClientData.HandlePlayerDmg(object);
-        }
+        if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }
+        if (object instanceof AccountNotFound) { HandleClientData.HandleAccountNotFound(); }
+        if (object instanceof AccountRegistered) { HandleClientData.HandleAccountRegistered(); }
+        if (object instanceof PlayerData) { HandleClientData.HandlePlayerData(object); }
+        if (object instanceof MovePlayer) { HandleClientData.HandleMovePlayer(object); }
+        if (object instanceof SendNPCSpawn) { HandleClientData.HandleSpawnNPC(object); }
+        if (object instanceof KeepAliveCheck) { HandleClientData.HandleKeepAliveCheck(); }
+        if (object instanceof DisconnectPlayer) { HandleClientData.HandleDisconnectPlayer(object); }
+        if (object instanceof SendNPCDead) { HandleClientData.HandleNPCDead(object); }
+        if (object instanceof SendNPCDir) { HandleClientData.HandleNPCDir(object); }
+        if (object instanceof SendNPCMove) { HandleClientData.HandleNPCMove(object); }
+        if (object instanceof SendPlayerWarp) { HandleClientData.HandlePlayerWarp(object); }
+        if (object instanceof SendVital) { HandleClientData.HandleVital(object); }
+        if (object instanceof SendItems) { HandleClientData.HandleItems(object); }
+        if (object instanceof SendShop) { HandleClientData.HandleSendShop(object); }
+        if (object instanceof SendInventory) { HandleClientData.HandleSendInventory(object); }
+        if (object instanceof ItemBoughtMsg) { HandleClientData.HandleBoughtItemMsg(); }
+        if (object instanceof SendKillNPC) { HandleClientData.HandleKillNPC(object); }
+        if (object instanceof SendNPCDmg) { HandleClientData.HandleDmgNPC(object); }
+        if (object instanceof SendRespawnNPC) { HandleClientData.HandleRespawnNPC(object); }
+        if (object instanceof SendMapNPCs) { HandleClientData.HandleMapNPCs(object); }
+        if (object instanceof SendNPCXP) { HandleClientData.HandleNPCXP(object); }
+        if (object instanceof SendMapItems) { HandleClientData.HandleMapItems(object); }
+        if (object instanceof NotEnoughGoldMsg) { HandleClientData.HandleNotEnoughGoldMsg(); }
+        if (object instanceof SendPlayerDmg) { HandleClientData.HandlePlayerDmg(object); }
+        if (object instanceof SendMessage) { HandleClientData.HandleSendMessage(object); }
     }
 }

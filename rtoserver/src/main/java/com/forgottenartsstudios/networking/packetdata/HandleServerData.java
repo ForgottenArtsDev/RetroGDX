@@ -20,6 +20,7 @@ import com.forgottenartsstudios.networking.packets.PlayerData;
 import com.forgottenartsstudios.networking.packets.SendBuyItem;
 import com.forgottenartsstudios.networking.packets.SendDropItem;
 import com.forgottenartsstudios.networking.packets.SendMapItems;
+import com.forgottenartsstudios.networking.packets.SendMessage;
 import com.forgottenartsstudios.networking.packets.SendPickUpItem;
 import com.forgottenartsstudios.networking.packets.SendSearch;
 import com.forgottenartsstudios.networking.packets.SendTryAttack;
@@ -294,7 +295,7 @@ public class HandleServerData {
         int Y = mPlayer.Y;
         int Dir = mPlayer.Dir;
 
-        boolean canMove = false;
+        boolean canMove;
 
         switch (Dir) {
             case ServerVars.DIR_UP:
@@ -969,5 +970,53 @@ public class HandleServerData {
 
         SendServerData.SendVital(index);
         SaveData.SaveAccount(ServerVars.Accounts[index]);
+    }
+    public static void HandleSendMessage(Object object) {
+        SendMessage sendMessage = (SendMessage) object;
+        int index = sendMessage.index;
+        int type = sendMessage.type;
+        String msg = sendMessage.msg;
+
+        if (index <= 0 || index > ServerVars.MaxPlayers) { return; }
+        if (type < ServerVars.MESSAGE_TYPE_MAP || type > ServerVars.MESSAGE_TYPE_WHISPER) { return; }
+        if (msg == null || msg.isEmpty()) { return; }
+
+        switch (type) {
+            case ServerVars.MESSAGE_TYPE_MAP:
+                int mapNum = ServerVars.Players[index].getMap();
+                for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                    if (ServerVars.Players[i] != null) {
+                        if (ServerVars.Players[i].getMap() == mapNum) {
+                            SendServerData.SendMessage(i, type, ServerVars.Players[index].getName() + ": " + msg);
+                        }
+                    }
+                }
+                break;
+            case ServerVars.MESSAGE_TYPE_GLOBAL:
+                msg = msg.substring(1);
+                for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                    if (ServerVars.Players[i] != null) {
+                        SendServerData.SendMessage(i, type, ServerVars.Players[index].getName() + ": " + msg);
+                    }
+                }
+                break;
+            case ServerVars.MESSAGE_TYPE_WHISPER:
+                msg = msg.substring(1);
+                String[] whisper = msg.split(" ");
+                for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                    if (ServerVars.Players[i] != null) {
+                        System.out.println(whisper[0]);
+                        if (ServerVars.Players[i].getName() != null && !ServerVars.Players[i].getName().isEmpty()) {
+                            if (ServerVars.Players[i].getName().equals(whisper[0])) {
+                                String whisp = msg.substring(msg.indexOf(" ") + 1);
+                                SendServerData.SendMessage(i, type, ServerVars.Players[index].getName() + "->" + ServerVars.Players[i].getName() + ": " + whisp);
+                                SendServerData.SendMessage(index, type, ServerVars.Players[index].getName() + "->" + ServerVars.Players[i].getName() + ": " + whisp);
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
+        }
     }
 }
