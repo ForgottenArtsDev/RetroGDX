@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.forgottenartsstudios.data.Render;
+import com.forgottenartsstudios.data.RenderAndroid;
+import com.forgottenartsstudios.data.RenderDesktop;
 import com.forgottenartsstudios.helpers.Variables;
 
 /**
@@ -34,12 +35,23 @@ public class GameRenderer {
         this.midPointY = midPointY;
 
         cam = new OrthographicCamera();
-        cam.setToOrtho(true, Variables.ScreenWidth, Variables.ScreenHeight);
 
-        screenCam = new OrthographicCamera();
-        screenCam.setToOrtho(true, Variables.ScreenWidth, Variables.ScreenHeight);
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            cam.setToOrtho(true, Variables.AndroidScreenWidth, Variables.AndroidScreenHeight);
 
-        viewport = new StretchViewport(Variables.ScreenWidth, Variables.ScreenHeight, cam);
+            screenCam = new OrthographicCamera();
+            screenCam.setToOrtho(true, Variables.AndroidScreenWidth, Variables.AndroidScreenHeight);
+
+            viewport = new StretchViewport(Variables.AndroidScreenWidth, Variables.AndroidScreenHeight, cam);
+        } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+            cam.setToOrtho(true, Variables.DesktopScreenWidth, Variables.DesktopScreenHeight);
+
+            screenCam = new OrthographicCamera();
+            screenCam.setToOrtho(true, Variables.DesktopScreenWidth, Variables.DesktopScreenHeight);
+
+            viewport = new StretchViewport(Variables.DesktopScreenWidth, Variables.DesktopScreenHeight, cam);
+        }
+
         viewport.apply();
 
         batcher = new SpriteBatch();
@@ -69,22 +81,46 @@ public class GameRenderer {
         // Render
         switch (Variables.Game_State) {
             case Variables.Game_State_TitleScreen:
-                Render.gsTitleScreen(tickCount);
+                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                    RenderAndroid.gsTitleScreen(tickCount);
+                } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                    RenderDesktop.gsTitleScreen(tickCount);
+                }
                 break;
             case Variables.Game_State_Login:
-                Render.gsLogin(tickCount);
+                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                    RenderAndroid.gsLogin(tickCount);
+                } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                    RenderDesktop.gsLogin(tickCount);
+                }
                 break;
             case Variables.Game_State_CharSelect:
-                Render.gsCharSelect(tickCount);
+                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                    RenderAndroid.gsCharSelect(tickCount);
+                } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                    RenderDesktop.gsCharSelect(tickCount);
+                }
                 break;
             case Variables.Game_State_CharCreate:
-                Render.gsCharCreate(tickCount);
+                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                    RenderAndroid.gsCharCreate(tickCount);
+                } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                    RenderDesktop.gsCharCreate(tickCount);
+                }
                 break;
             case Variables.Game_State_Loading:
-                Render.gsLoading(tickCount);
+                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                    RenderAndroid.gsLoading(tickCount);
+                } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                    RenderDesktop.gsLoading(tickCount);
+                }
                 break;
             case Variables.Game_State_InGame:
-                Render.gsInGame(tickCount);
+                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                    RenderAndroid.gsInGame(tickCount);
+                } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                    RenderDesktop.gsInGame(tickCount);
+                }
                 break;
         }
 

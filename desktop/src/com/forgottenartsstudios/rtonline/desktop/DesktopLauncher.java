@@ -9,8 +9,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Retro Tales Online";
-		config.width = Variables.ScreenWidth;
-		config.height = Variables.ScreenHeight;
+		config.width = Variables.DesktopScreenWidth;
+		config.height = Variables.DesktopScreenHeight;
 		config.resizable = false;
 		Variables.Client_Mode = Variables.Client_Mode_Desktop;
 		new LwjglApplication(new RTOnline(), config);

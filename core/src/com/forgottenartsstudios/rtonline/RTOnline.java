@@ -1,6 +1,8 @@
 package com.forgottenartsstudios.rtonline;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -135,8 +137,22 @@ public class RTOnline extends Game {
 
         setScreen(new GameScreen());
 
-        Variables.Game_State = Variables.Game_State_TitleScreen;
+        AssetLoader.loadLogin();
+
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            Variables.Game_State = Variables.Game_State_TitleScreen;
+        } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+            Variables.Game_State = Variables.Game_State_Loading;
+        }
 	}
+
+    private Preferences preferences;
+    protected Preferences getPrefs() {
+        if(preferences == null){
+            preferences = Gdx.app.getPreferences("RTOPreferences");
+        }
+        return preferences;
+    }
 	
 	@Override
 	public void dispose () {  }

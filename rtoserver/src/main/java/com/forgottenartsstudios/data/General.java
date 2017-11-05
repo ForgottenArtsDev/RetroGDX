@@ -352,10 +352,10 @@ public class General {
     public static int getNextLevel(int index) {
         int level;
         if (index > 0) {
-            level = ServerVars.Players[index].getLevel();
+            level = ServerVars.Players[index].getLevel() + 1;
         } else {
-            level = 1;
+            level = 2;
         }
-        return ((500 * (level * level)) - (500 * level)) + 1000;
+        return ((500 * (level * level)) - (500 * level));
     }
 }

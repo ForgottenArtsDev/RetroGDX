@@ -8,7 +8,11 @@ import com.forgottenartsstudios.helpers.Variables;
 
 public class GameWorld {
     public GameWorld(int midPointY) {
-        Variables.Game_State = Variables.Game_State_TitleScreen;
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            Variables.Game_State = Variables.Game_State_TitleScreen;
+        } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            Variables.Game_State = Variables.Game_State_Loading;
+        }
     }
 
     public void update(float delta) {

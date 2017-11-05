@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -164,7 +165,7 @@ public class editorRenderer {
                 renderMap_Upper();
 
                 if (!editorVars.reloadingMap) {
-                    // Render Tile Types //
+                    // RenderAndroid Tile Types //
                     for (int X = 0; X <= editorVars.mapRender.MaxX - 1; X++) {
                         for (int Y = 0; Y <= editorVars.mapRender.MaxY - 1; Y++) {
                             //if (X >= 0 && Y >= 0)
@@ -174,53 +175,19 @@ public class editorRenderer {
                             if (editorVars.mapRender.Tile[X][Y] == null) { return; }
                             switch (editorVars.mapRender.Tile[X][Y].Type) {
                                 case editorVars.TILE_TYPE_BLOCKED:
-                                    editorAssetLoader.font.setColor(Color.BLACK);
-                                    editorAssetLoader.font.draw(batcher, "B", ((X * 32) + 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "B", ((X * 32) - 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "B", (X * 32) + 10, ((Y * 32) + 1) + 10);
-                                    editorAssetLoader.font.draw(batcher, "B", (X * 32) + 10, ((Y * 32) - 1) + 10);
-                                    editorAssetLoader.font.setColor(Color.RED);
-                                    editorAssetLoader.font.draw(batcher, "B", (X * 32) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.setColor(Color.WHITE);
+                                    drawText("B", (X * 32) + 10, (Y * 32) + 10, Color.RED);
                                     break;
                                 case editorVars.TILE_TYPE_NPCSPAWN:
-                                    editorAssetLoader.font.setColor(Color.BLACK);
-                                    editorAssetLoader.font.draw(batcher, "NS", ((X * 32) + 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "NS", ((X * 32) - 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "NS", (X * 32) + 10, ((Y * 32) + 1) + 10);
-                                    editorAssetLoader.font.draw(batcher, "NS", (X * 32) + 10, ((Y * 32) - 1) + 10);
-                                    editorAssetLoader.font.setColor(Color.CYAN);
-                                    editorAssetLoader.font.draw(batcher, "NS", (X * 32) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.setColor(Color.WHITE);
+                                    drawText("NS", (X * 32) + 10, (Y * 32) + 10, Color.CYAN);
                                     break;
                                 case editorVars.TILE_TYPE_NPCAVOID:
-                                    editorAssetLoader.font.setColor(Color.BLACK);
-                                    editorAssetLoader.font.draw(batcher, "NA", ((X * 32) + 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "NA", ((X * 32) - 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "NA", (X * 32) + 10, ((Y * 32) + 1) + 10);
-                                    editorAssetLoader.font.draw(batcher, "NA", (X * 32) + 10, ((Y * 32) - 1) + 10);
-                                    editorAssetLoader.font.setColor(Color.WHITE);
-                                    editorAssetLoader.font.draw(batcher, "NA", (X * 32) + 10, (Y * 32) + 10);
+                                    drawText("NA", (X * 32) + 10, (Y * 32) + 10, Color.WHITE);
                                     break;
                                 case editorVars.TILE_TYPE_ITEM:
-                                    editorAssetLoader.font.setColor(Color.BLACK);
-                                    editorAssetLoader.font.draw(batcher, "I", ((X * 32) + 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "I", ((X * 32) - 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "I", (X * 32) + 10, ((Y * 32) + 1) + 10);
-                                    editorAssetLoader.font.draw(batcher, "I", (X * 32) + 10, ((Y * 32) - 1) + 10);
-                                    editorAssetLoader.font.setColor(Color.YELLOW);
-                                    editorAssetLoader.font.draw(batcher, "I", (X * 32) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.setColor(Color.WHITE);
+                                    drawText("I", (X * 32) + 10, (Y * 32) + 10, Color.YELLOW);
                                     break;
                                 case editorVars.TILE_TYPE_WARP:
-                                    editorAssetLoader.font.setColor(Color.BLACK);
-                                    editorAssetLoader.font.draw(batcher, "W", ((X * 32) + 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "W", ((X * 32) - 1) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.draw(batcher, "W", (X * 32) + 10, ((Y * 32) + 1) + 10);
-                                    editorAssetLoader.font.draw(batcher, "W", (X * 32) + 10, ((Y * 32) - 1) + 10);
-                                    editorAssetLoader.font.setColor(Color.ROYAL);
-                                    editorAssetLoader.font.draw(batcher, "W", (X * 32) + 10, (Y * 32) + 10);
-                                    editorAssetLoader.font.setColor(Color.WHITE);
+                                    drawText("W", (X * 32) + 10, (Y * 32) + 10, Color.ROYAL);
                                     break;
                             }
                             //}
@@ -255,19 +222,35 @@ public class editorRenderer {
                 editorAssetLoader.font.draw(batcher, "Y: " + editorVars.Player.getY(), 10, 50);
                 editorAssetLoader.font.setColor(Color.WHITE);*/
 
-                editorAssetLoader.font.draw(batcher, Integer.toString(editorVars.disX), 5, 25);
-                editorAssetLoader.font.draw(batcher, Integer.toString(editorVars.disY), 5, 45);
-                editorAssetLoader.font.draw(batcher, Integer.toString(editorVars.Player.getMap()), 5, 5);
-                editorAssetLoader.font.draw(batcher, Integer.toString(editorVars.mapRender.Up), 220, 5);
-                editorAssetLoader.font.draw(batcher, Integer.toString(editorVars.mapRender.Down), 220, 420);
-                editorAssetLoader.font.draw(batcher, Integer.toString(editorVars.mapRender.Left), 5, 220);
-                editorAssetLoader.font.draw(batcher, Integer.toString(editorVars.mapRender.Right), 410, 220);
-
+                drawText(Integer.toString(editorVars.disX), 5, 25, Color.WHITE);
+                drawText(Integer.toString(editorVars.disY), 5, 45, Color.WHITE);
+                drawText(Integer.toString(editorVars.Player.getMap()), 5, 5, Color.WHITE);
+                drawText(Integer.toString(editorVars.mapRender.Up), 220, 5, Color.WHITE);
+                drawText(Integer.toString(editorVars.mapRender.Down), 220, 420, Color.WHITE);
+                drawText(Integer.toString(editorVars.mapRender.Left), 5, 220, Color.WHITE);
+                drawText(Integer.toString(editorVars.mapRender.Right), 410, 220, Color.WHITE);
 
                 batcher.disableBlending();
                 batcher.end();
             }
         }
+    }
+
+    public static GlyphLayout layout = new GlyphLayout();
+    public static void drawText(String text, float X, float Y, Color color) {
+        layout.setText(editorAssetLoader.font, text);
+        float width = layout.width;// contains the width of the current set text
+
+        //float nameX = (X - (int)width) - 20;
+        //float nameY = Y + 20;
+
+        editorAssetLoader.font.setColor(Color.BLACK);
+        editorAssetLoader.font.draw(batcher, text, X - 2, Y);
+        editorAssetLoader.font.draw(batcher, text, X + 2, Y);
+        editorAssetLoader.font.draw(batcher, text, X, Y - 2);
+        editorAssetLoader.font.draw(batcher, text, X, Y + 2);
+        editorAssetLoader.font.setColor(color);
+        editorAssetLoader.font.draw(batcher, text, X, Y);
     }
 
     private void handleInput() {

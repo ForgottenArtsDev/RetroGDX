@@ -6,18 +6,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
-import com.forgottenartsstudios.networking.packets.ChooseChar;
-import com.forgottenartsstudios.networking.packets.CreateChar;
-import com.forgottenartsstudios.networking.packets.NewAccount;
-
-import static com.forgottenartsstudios.gameworld.GameRenderer.batcher;
-import static com.forgottenartsstudios.rtonline.RTOnline.client;
 
 /**
- * Created by forgo on 10/6/2017.
+ * Created by forgo on 11/4/2017.
  */
 
-public class InputData {
+public class DesktopInputData {
     public static void inputTileScreen() {
         Variables.Game_State = Variables.Game_State_Loading;
     }
@@ -25,8 +19,8 @@ public class InputData {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
 
         // ID TEXT FIELD
-        if (worldCoordinates.x >= 141 && worldCoordinates.x <= 440) {
-            if (worldCoordinates.y >= 395 && worldCoordinates.y <= 424) {
+        if (worldCoordinates.x >= 220 && worldCoordinates.x <= 579) {
+            if (worldCoordinates.y >= 338 && worldCoordinates.y <= 361) {
                 Gdx.input.getTextInput(new Input.TextInputListener() {
 
                     @Override
@@ -41,8 +35,8 @@ public class InputData {
             }
         }
         // PW TEXT FIELD
-        if (worldCoordinates.x >= 141 && worldCoordinates.x <= 440) {
-            if (worldCoordinates.y >= 455 && worldCoordinates.y <= 484) {
+        if (worldCoordinates.x >= 220 && worldCoordinates.x <= 579) {
+            if (worldCoordinates.y >= 408 && worldCoordinates.y <= 431 ) {
                 Gdx.input.getTextInput(new Input.TextInputListener() {
 
                     @Override
@@ -56,12 +50,23 @@ public class InputData {
                 }, "PW:", "", "");
             }
         }
+        // SAVE LOGIN
+        if (worldCoordinates.x >= 220 && worldCoordinates.x <= 243) {
+            if (worldCoordinates.y >= 444 && worldCoordinates.y <= 467 ) {
+                Variables.saveLogin = true;
+            }
+        }
         // LOGIN BUTTON
-        if (worldCoordinates.x >= 165 && worldCoordinates.x <= 315) {
-            if (worldCoordinates.y >= 560 && worldCoordinates.y <= 615) {
+        if (worldCoordinates.x >= 658 && worldCoordinates.x <= 779) {
+            if (worldCoordinates.y >= 465 && worldCoordinates.y <= 497) {
                 if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
                     Variables.IDReq = false;
                     if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
+                        Variables.PasswordReq = false;
+                        Variables.IDReq = false;
+                        if (Variables.saveLogin) {
+                            AssetLoader.saveLogin();
+                        }
                         SendClientData.SendLogin(Variables.Login_ID, Variables.Login_PW);
                         Variables.PasswordReq = false;
                         Variables.IDReq = false;
@@ -74,14 +79,17 @@ public class InputData {
             }
         }
         // REGISTER BUTTON
-        if (worldCoordinates.x >= 115 && worldCoordinates.x <= 320) {
-            if (worldCoordinates.y >= 660 && worldCoordinates.y <= 720) {
+        if (worldCoordinates.x >= 578 && worldCoordinates.x <= 779) {
+            if (worldCoordinates.y >= 505 && worldCoordinates.y <= 537) {
                 if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
                     Variables.IDReq = false;
                     if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
-                        SendClientData.SendNewAccount(Variables.Login_ID, Variables.Login_PW);
                         Variables.PasswordReq = false;
                         Variables.IDReq = false;
+                        if (Variables.saveLogin) {
+                            AssetLoader.saveLogin();
+                        }
+                        SendClientData.SendNewAccount(Variables.Login_ID, Variables.Login_PW);
                     } else {
                         Variables.PasswordReq = true;
                     }
@@ -90,12 +98,18 @@ public class InputData {
                 }
             }
         }
+        // QUIT BUTTON
+        if (worldCoordinates.x >= 684 && worldCoordinates.x <= 779) {
+            if (worldCoordinates.y >= 545 && worldCoordinates.y <= 577) {
+
+            }
+        }
     }
     public static void inputCharSelect(int screenX, int screenY) {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
         // Char 1
-        if (worldCoordinates.x >= 7 && worldCoordinates.x <= 470) {
-            if (worldCoordinates.y >= 310 && worldCoordinates.y <= 460) {
+        if (worldCoordinates.x >= 39 && worldCoordinates.x <= 238) {
+            if (worldCoordinates.y >= 265 && worldCoordinates.y <= 564) {
                 Player char1 = Variables.MyAccount.chars[1];
                 if (char1.getName() != null && !char1.getName().isEmpty()) {
                     SendClientData.SendChooseChar(1);
@@ -108,8 +122,8 @@ public class InputData {
             }
         }
         // Char 2
-        if (worldCoordinates.x >= 7 && worldCoordinates.x <= 470) {
-            if (worldCoordinates.y >= 470 && worldCoordinates.y <= 620) {
+        if (worldCoordinates.x >= 299 && worldCoordinates.x <= 498) {
+            if (worldCoordinates.y >= 265 && worldCoordinates.y <= 564) {
                 Player char2 = Variables.MyAccount.chars[2];
                 if (char2.getName() != null && !char2.getName().isEmpty()) {
                     SendClientData.SendChooseChar(2);
@@ -122,8 +136,8 @@ public class InputData {
             }
         }
         // Char 3
-        if (worldCoordinates.x >= 7 && worldCoordinates.x <= 470) {
-            if (worldCoordinates.y >= 632 && worldCoordinates.y <= 778) {
+        if (worldCoordinates.x >= 560 && worldCoordinates.x <= 759) {
+            if (worldCoordinates.y >= 265 && worldCoordinates.y <= 564) {
                 Player char3 = Variables.MyAccount.chars[3];
                 if (char3.getName() != null && !char3.getName().isEmpty()) {
                     SendClientData.SendChooseChar(3);
@@ -415,7 +429,7 @@ public class InputData {
             if (Variables.inShop) { handleShop(worldCoordinates); }
             if (Variables.inInventory) { handleInventory(worldCoordinates); }
             if (Variables.inStatus) { handleStatus(worldCoordinates); }
-            if (Variables.inChat) { handleChat(worldCoordinates); }
+            handleChat(worldCoordinates);
         }
     }
 
@@ -526,6 +540,10 @@ public class InputData {
                 Variables.pressRight = false;
                 Variables.pressAttack = false;
                 Variables.pickUpItem = true;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+                if (Variables.chatInput != null && !Variables.chatInput.isEmpty()) {
+                    SendClientData.SendMessage();
+                }
             } else {
                 Variables.pressUp = false;
                 Variables.pressLeft = false;
@@ -593,8 +611,8 @@ public class InputData {
 
     public static void handleChat(Vector3 worldCoordinates) {
         // Input
-        if (worldCoordinates.x >= 16 && worldCoordinates.x <= 464) {
-            if (worldCoordinates.y >= 403 && worldCoordinates.y <= 427) {
+        if (worldCoordinates.x >= 9 && worldCoordinates.x <= 790) {
+            if (worldCoordinates.y >= 567 && worldCoordinates.y <= 690) {
                 Gdx.input.getTextInput(new Input.TextInputListener() {
 
                     @Override

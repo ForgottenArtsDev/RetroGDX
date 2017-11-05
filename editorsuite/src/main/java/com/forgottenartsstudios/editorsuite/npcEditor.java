@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -17,9 +18,11 @@ public class npcEditor {
 
     public static JTextField[] inputFields;
     public static JLabel[] inputLabels;
+    public static JLabel typeLabel;
     public static JList lstNPCs;
     public static JButton btnLoad, btnSave, btnCancel;
     public static JScrollPane scrlList;
+    public static JComboBox<String> types = new JComboBox<>();
 
     public static void create() {
         editorVars.npcEditor = new JFrame();
@@ -80,6 +83,26 @@ public class npcEditor {
         inputLabels[30].setText("Drop % 3:");
         inputLabels[31].setText("Drop % 4:");
         inputLabels[32].setText("Drop % 5:");
+
+        typeLabel = new JLabel();
+        types = new JComboBox<>();
+        JButton genType = new JButton();
+
+        types.addItem("Normal");
+        types.addItem("Weak");
+        types.addItem("Strong");
+        types.addItem("Minion");
+        types.addItem("Boss");
+
+        typeLabel.setText("Type:");
+        typeLabel.setBounds(530, 30, 50, 20);
+        types.setBounds(570, 30, 200, 20);
+        genType.setText("Generate Stats");
+        genType.setBounds(530, 60, 120, 20);
+
+        editorVars.npcEditor.add(typeLabel);
+        editorVars.npcEditor.add(types);
+        editorVars.npcEditor.add(genType);
 
         for (int i = 0; i <= 32; i++) {
             if (i >= 28 && i <= 32) {
@@ -157,6 +180,8 @@ public class npcEditor {
                 inputFields[30].setText(Integer.toString(editorVars.npcs[editorVars.npcIndex].dropChance3));
                 inputFields[31].setText(Integer.toString(editorVars.npcs[editorVars.npcIndex].dropChance4));
                 inputFields[32].setText(Integer.toString(editorVars.npcs[editorVars.npcIndex].dropChance5));
+
+                types.setSelectedIndex(editorVars.npcs[editorVars.npcIndex].Type - 1);
             }
         });
         btnSave.addActionListener(new ActionListener() {
@@ -204,6 +229,8 @@ public class npcEditor {
                 editorVars.npcs[editorVars.npcIndex].dropChance4 = Integer.parseInt(inputFields[31].getText());
                 editorVars.npcs[editorVars.npcIndex].dropChance5 = Integer.parseInt(inputFields[32].getText());
 
+                editorVars.npcs[editorVars.npcIndex].Type = types.getSelectedIndex() + 1;
+
                 editorAssetLoader.saveNPC(editorVars.npcIndex);
             }
         });
@@ -211,6 +238,198 @@ public class npcEditor {
             @Override
             public void actionPerformed(ActionEvent e) {
                 editorVars.npcEditor.setVisible(false);
+            }
+        });
+        genType.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int type = types.getSelectedIndex() + 1;
+                int level = Integer.parseInt(inputFields[22].getText());
+                int points = 0;
+
+                for (int i = 5; i <= 11; i++) {
+                    inputFields[i].setText("0");
+                }
+
+                switch (type) {
+                    case editorVars.MONSTER_TYPE_NORMAL:
+                        points = 25 + (level * 5);
+                        for (int i = 1; i <= points; i++) {
+                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            switch (stat) {
+                                case editorVars.STAT_TYPE_STR:
+                                    int STR = Integer.parseInt(inputFields[7].getText());
+                                    STR++;
+                                    inputFields[7].setText(Integer.toString(STR));
+                                    break;
+                                case editorVars.STAT_TYPE_DEF:
+                                    int DEF = Integer.parseInt(inputFields[8].getText());
+                                    DEF++;
+                                    inputFields[8].setText(Integer.toString(DEF));
+                                    break;
+                                case editorVars.STAT_TYPE_VIT:
+                                    int VIT = Integer.parseInt(inputFields[9].getText());
+                                    VIT++;
+                                    inputFields[9].setText(Integer.toString(VIT));
+                                    break;
+                                case editorVars.STAT_TYPE_AGI:
+                                    int AGI = Integer.parseInt(inputFields[10].getText());
+                                    AGI++;
+                                    inputFields[10].setText(Integer.toString(AGI));
+                                    break;
+                                case editorVars.STAT_TYPE_MAG:
+                                    int MAG = Integer.parseInt(inputFields[11].getText());
+                                    MAG++;
+                                    inputFields[11].setText(Integer.toString(MAG));
+                                    break;
+                            }
+                        }
+                        break;
+                    case editorVars.MONSTER_TYPE_WEAK:
+                        points = 15 + (level * 3);
+                        for (int i = 1; i <= points; i++) {
+                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            switch (stat) {
+                                case editorVars.STAT_TYPE_STR:
+                                    int STR = Integer.parseInt(inputFields[7].getText());
+                                    STR++;
+                                    inputFields[7].setText(Integer.toString(STR));
+                                    break;
+                                case editorVars.STAT_TYPE_DEF:
+                                    int DEF = Integer.parseInt(inputFields[8].getText());
+                                    DEF++;
+                                    inputFields[8].setText(Integer.toString(DEF));
+                                    break;
+                                case editorVars.STAT_TYPE_VIT:
+                                    int VIT = Integer.parseInt(inputFields[9].getText());
+                                    VIT++;
+                                    inputFields[9].setText(Integer.toString(VIT));
+                                    break;
+                                case editorVars.STAT_TYPE_AGI:
+                                    int AGI = Integer.parseInt(inputFields[10].getText());
+                                    AGI++;
+                                    inputFields[10].setText(Integer.toString(AGI));
+                                    break;
+                                case editorVars.STAT_TYPE_MAG:
+                                    int MAG = Integer.parseInt(inputFields[11].getText());
+                                    MAG++;
+                                    inputFields[11].setText(Integer.toString(MAG));
+                                    break;
+                            }
+                        }
+                        break;
+                    case editorVars.MONSTER_TYPE_STRONG:
+                        points = 35 + (level * 7);
+                        for (int i = 1; i <= points; i++) {
+                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            switch (stat) {
+                                case editorVars.STAT_TYPE_STR:
+                                    int STR = Integer.parseInt(inputFields[7].getText());
+                                    STR++;
+                                    inputFields[7].setText(Integer.toString(STR));
+                                    break;
+                                case editorVars.STAT_TYPE_DEF:
+                                    int DEF = Integer.parseInt(inputFields[8].getText());
+                                    DEF++;
+                                    inputFields[8].setText(Integer.toString(DEF));
+                                    break;
+                                case editorVars.STAT_TYPE_VIT:
+                                    int VIT = Integer.parseInt(inputFields[9].getText());
+                                    VIT++;
+                                    inputFields[9].setText(Integer.toString(VIT));
+                                    break;
+                                case editorVars.STAT_TYPE_AGI:
+                                    int AGI = Integer.parseInt(inputFields[10].getText());
+                                    AGI++;
+                                    inputFields[10].setText(Integer.toString(AGI));
+                                    break;
+                                case editorVars.STAT_TYPE_MAG:
+                                    int MAG = Integer.parseInt(inputFields[11].getText());
+                                    MAG++;
+                                    inputFields[11].setText(Integer.toString(MAG));
+                                    break;
+                            }
+                        }
+                        break;
+                    case editorVars.MONSTER_TYPE_MINION:
+                        points = 45 + (level * 10);
+                        for (int i = 1; i <= points; i++) {
+                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            switch (stat) {
+                                case editorVars.STAT_TYPE_STR:
+                                    int STR = Integer.parseInt(inputFields[7].getText());
+                                    STR++;
+                                    inputFields[7].setText(Integer.toString(STR));
+                                    break;
+                                case editorVars.STAT_TYPE_DEF:
+                                    int DEF = Integer.parseInt(inputFields[8].getText());
+                                    DEF++;
+                                    inputFields[8].setText(Integer.toString(DEF));
+                                    break;
+                                case editorVars.STAT_TYPE_VIT:
+                                    int VIT = Integer.parseInt(inputFields[9].getText());
+                                    VIT++;
+                                    inputFields[9].setText(Integer.toString(VIT));
+                                    break;
+                                case editorVars.STAT_TYPE_AGI:
+                                    int AGI = Integer.parseInt(inputFields[10].getText());
+                                    AGI++;
+                                    inputFields[10].setText(Integer.toString(AGI));
+                                    break;
+                                case editorVars.STAT_TYPE_MAG:
+                                    int MAG = Integer.parseInt(inputFields[11].getText());
+                                    MAG++;
+                                    inputFields[11].setText(Integer.toString(MAG));
+                                    break;
+                            }
+                        }
+                        break;
+                    case editorVars.MONSTER_TYPE_BOSS:
+                        points = 65 + (level * 20);
+                        for (int i = 1; i <= points; i++) {
+                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            switch (stat) {
+                                case editorVars.STAT_TYPE_STR:
+                                    int STR = Integer.parseInt(inputFields[7].getText());
+                                    STR++;
+                                    inputFields[7].setText(Integer.toString(STR));
+                                    break;
+                                case editorVars.STAT_TYPE_DEF:
+                                    int DEF = Integer.parseInt(inputFields[8].getText());
+                                    DEF++;
+                                    inputFields[8].setText(Integer.toString(DEF));
+                                    break;
+                                case editorVars.STAT_TYPE_VIT:
+                                    int VIT = Integer.parseInt(inputFields[9].getText());
+                                    VIT++;
+                                    inputFields[9].setText(Integer.toString(VIT));
+                                    break;
+                                case editorVars.STAT_TYPE_AGI:
+                                    int AGI = Integer.parseInt(inputFields[10].getText());
+                                    AGI++;
+                                    inputFields[10].setText(Integer.toString(AGI));
+                                    break;
+                                case editorVars.STAT_TYPE_MAG:
+                                    int MAG = Integer.parseInt(inputFields[11].getText());
+                                    MAG++;
+                                    inputFields[11].setText(Integer.toString(MAG));
+                                    break;
+                            }
+                        }
+                        break;
+                }
+                int STR = Integer.parseInt(inputFields[7].getText());
+                int DEF = Integer.parseInt(inputFields[8].getText());
+                int VIT = Integer.parseInt(inputFields[9].getText());
+                int AGI = Integer.parseInt(inputFields[10].getText());
+                int MAG = Integer.parseInt(inputFields[11].getText());
+                int total = STR + DEF + VIT + AGI + MAG;
+
+                int xp = (level * 50) + (total * (total / 4));
+                int hp = (VIT + (total / 2)) * (level * level);
+
+                inputFields[5].setText(Integer.toString(hp));
+                inputFields[6].setText(Integer.toString(xp));
             }
         });
 

@@ -1,7 +1,8 @@
 package com.forgottenartsstudios.helpers;
 
 import com.badlogic.gdx.InputProcessor;
-import com.forgottenartsstudios.data.InputData;
+import com.forgottenartsstudios.data.AndroidInputData;
+import com.forgottenartsstudios.data.DesktopInputData;
 import com.forgottenartsstudios.gameworld.GameWorld;
 
 /**
@@ -36,23 +37,44 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        switch (Variables.Game_State) {
-            case Variables.Game_State_TitleScreen:
-                InputData.inputTileScreen();
-                break;
-            case Variables.Game_State_Login:
-                InputData.inputLogin(screenX, screenY);
-                break;
-            case Variables.Game_State_CharSelect:
-                InputData.inputCharSelect(screenX, screenY);
-                break;
-            case Variables.Game_State_CharCreate:
-                InputData.inputCharCreate(screenX, screenY);
-                break;
-            case Variables.Game_State_InGame:
-                Variables.touchDown = true;
-                InputData.inputInGame(screenX, screenY);
-                break;
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            switch (Variables.Game_State) {
+                case Variables.Game_State_TitleScreen:
+                    AndroidInputData.inputTileScreen();
+                    break;
+                case Variables.Game_State_Login:
+                    AndroidInputData.inputLogin(screenX, screenY);
+                    break;
+                case Variables.Game_State_CharSelect:
+                    AndroidInputData.inputCharSelect(screenX, screenY);
+                    break;
+                case Variables.Game_State_CharCreate:
+                    AndroidInputData.inputCharCreate(screenX, screenY);
+                    break;
+                case Variables.Game_State_InGame:
+                    Variables.touchDown = true;
+                    AndroidInputData.inputInGame(screenX, screenY);
+                    break;
+            }
+        } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+            switch (Variables.Game_State) {
+                case Variables.Game_State_TitleScreen:
+                    DesktopInputData.inputTileScreen();
+                    break;
+                case Variables.Game_State_Login:
+                    DesktopInputData.inputLogin(screenX, screenY);
+                    break;
+                case Variables.Game_State_CharSelect:
+                    DesktopInputData.inputCharSelect(screenX, screenY);
+                    break;
+                case Variables.Game_State_CharCreate:
+                    DesktopInputData.inputCharCreate(screenX, screenY);
+                    break;
+                case Variables.Game_State_InGame:
+                    Variables.touchDown = true;
+                    DesktopInputData.inputInGame(screenX, screenY);
+                    break;
+            }
         }
         return false;
     }
@@ -86,7 +108,7 @@ public class InputHandler implements InputProcessor {
         switch (Variables.Game_State) {
             case Variables.Game_State_InGame:
                 Variables.touchDown = true;
-                InputData.inputInGame(screenX, screenY);
+                AndroidInputData.inputInGame(screenX, screenY);
                 break;
         }
         return false;

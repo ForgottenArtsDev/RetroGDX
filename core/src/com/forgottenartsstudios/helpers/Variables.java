@@ -17,8 +17,10 @@ import com.forgottenartsstudios.data.mapData;
  */
 
 public class Variables {
-    public static int ScreenWidth = 480;
-    public static int ScreenHeight = 854;
+    public static int AndroidScreenWidth = 480;
+    public static int AndroidScreenHeight = 854;
+    public static int DesktopScreenWidth = 800;
+    public static int DesktopScreenHeight = 600;
 
     public static int Client_Mode;
     public static final int Client_Mode_Desktop = 1;
@@ -40,7 +42,9 @@ public class Variables {
     public static int CurX;
     public static int CurY;
 
-    public static String Login_ID = "PerfektFA", Login_PW = "vicki144";
+    public static boolean saveLogin;
+    public static String Login_ID = "", Login_PW = "";
+    //public static String Login_ID = "PerfektFA", Login_PW = "vicki144";
     //public static String Login_ID = "Krynn", Login_PW = "1";
     //public static String Login_ID = "EkkohFA", Login_PW = "koolkid1";
 
@@ -77,6 +81,12 @@ public class Variables {
     public static final int JOB_CLERIC = 3;
     public static final int JOB_RANGER = 4;
     public static final int JOB_ROGUE = 5;
+
+    public static final int MONSTER_TYPE_NORMAL = 1;
+    public static final int MONSTER_TYPE_WEAK = 2;
+    public static final int MONSTER_TYPE_STRONG = 3;
+    public static final int MONSTER_TYPE_MINION = 4;
+    public static final int MONSTER_TYPE_BOSS = 5;
 
     public static final int TILE_TYPE_WALKABLE = 0;
     public static final int TILE_TYPE_BLOCKED = 1;

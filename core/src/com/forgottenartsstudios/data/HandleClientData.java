@@ -415,7 +415,7 @@ public class HandleClientData {
         }
     }
     public static void HandleBoughtItemMsg() {
-        Variables.BoughtMsgTimer = 2;
+        Variables.BoughtMsgTimer = 1;
     }
     public static void HandleKillNPC(Object object) {
         SendKillNPC sKNPC = (SendKillNPC) object;
@@ -513,7 +513,7 @@ public class HandleClientData {
         }
     }
     public static void HandleNotEnoughGoldMsg() {
-        Variables.NotEnoughGoldMsgTimer = 2;
+        Variables.NotEnoughGoldMsgTimer = 1;
     }
     public static void HandlePlayerDmg(Object object) {
         SendPlayerDmg sDmg = (SendPlayerDmg) object;

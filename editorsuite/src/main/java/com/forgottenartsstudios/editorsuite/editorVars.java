@@ -5,6 +5,7 @@ import com.forgottenartsstudios.data.Shop_Struct;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -58,12 +59,19 @@ public class editorVars {
     public static Shop_Struct[] shops;
 
     public static boolean reloadingMap;
+    public static Random Rnd = new Random();
 
     // DIRECTION
     public static final int Dir_Up = 1;
     public static final int Dir_Down = 2;
     public static final int Dir_Left = 3;
     public static final int Dir_Right = 4;
+
+    public static final int MONSTER_TYPE_NORMAL = 1;
+    public static final int MONSTER_TYPE_WEAK = 2;
+    public static final int MONSTER_TYPE_STRONG = 3;
+    public static final int MONSTER_TYPE_MINION = 4;
+    public static final int MONSTER_TYPE_BOSS = 5;
 
     public static final int MoveSize = 32;
 
@@ -150,6 +158,12 @@ public class editorVars {
     public static final int ITEM_TYPE_OFFHAND = 4;
     public static final int ITEM_TYPE_HELMET = 5;
     public static final int ITEM_TYPE_POTION = 6;
+
+    public static final int STAT_TYPE_STR = 1;
+    public static final int STAT_TYPE_DEF = 2;
+    public static final int STAT_TYPE_VIT = 3;
+    public static final int STAT_TYPE_AGI = 4;
+    public static final int STAT_TYPE_MAG = 5;
 
     // Map Tile Editor //
     public static int selectedTileType;

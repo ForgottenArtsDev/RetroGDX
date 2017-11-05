@@ -18,9 +18,16 @@ public class GameScreen implements Screen {
 
     public GameScreen() {
 
-        float screenWidth = Variables.ScreenWidth; //Gdx.graphics.getWidth();
-        float screenHeight = Variables.ScreenHeight; //Gdx.graphics.getHeight();
-        float gameWidth = Variables.ScreenWidth;
+        float screenWidth = 0, screenHeight = 0, gameWidth = 0;
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            screenWidth = Variables.AndroidScreenWidth; //Gdx.graphics.getWidth();
+            screenHeight = Variables.AndroidScreenHeight; //Gdx.graphics.getHeight();
+            gameWidth = Variables.AndroidScreenWidth;
+        } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+            screenWidth = Variables.DesktopScreenWidth; //Gdx.graphics.getWidth();
+            screenHeight = Variables.DesktopScreenHeight; //Gdx.graphics.getHeight();
+            gameWidth = Variables.DesktopScreenWidth;
+        }
         float gameHeight = screenHeight / (screenWidth / gameWidth);
 
         int midPointY = (int) (gameHeight / 2);

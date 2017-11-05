@@ -12,6 +12,7 @@ public class NPC_Struct implements Serializable {
     // Required Parameters //
     public int Sprite;
     public int Range;
+    public int Type;
     public int Behaviour;
     public int SpawnSecs;
     public int Health;
