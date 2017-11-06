@@ -87,12 +87,13 @@ public class RenderDesktop {
         batcher.draw(AssetLoader.loginMenuBG, 0, 0, 800, 600, 0, 0, 800, 600, false, true);
 
         if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
+            String id = Variables.Login_ID;
             drawText(Variables.Login_ID, 225, 340, Color.WHITE);
         }
         if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
             String starPW = "";
             for (int i = 1; i <= Variables.Login_PW.length(); i++) {
-                starPW = starPW + "x";
+                starPW = starPW + "*";
             }
             drawText(starPW, 225, 408, Color.WHITE);
         }
@@ -184,122 +185,122 @@ public class RenderDesktop {
             drawText("Create", 139 - (width / 2), 405, Color.WHITE);
         }
         if (Variables.MyAccount.chars[2].getName() != null && !Variables.MyAccount.chars[2].getName().isEmpty()) {
-            TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.MyAccount.chars[1].getSprite()], 32, 72, 32, 36);
+            TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.MyAccount.chars[2].getSprite()], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
             batcher.draw(spriteTex, 385, 290);
 
             layout.setText(AssetLoader.font, Variables.MyAccount.chars[1].getName());
             float width = layout.width;// contains the width of the current set text
-            drawText(Variables.MyAccount.chars[1].getName(), 399 - (width / 2), 335, Color.WHITE);
-            if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_WARRIOR) {
+            drawText(Variables.MyAccount.chars[2].getName(), 399 - (width / 2), 335, Color.WHITE);
+            if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_WARRIOR) {
                 layout.setText(AssetLoader.font, "Warrior");
                 width = layout.width;// contains the width of the current set text
                 drawText("Warrior", 399 - (width / 2), 355, Color.WHITE);
-            } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_WIZARD) {
+            } else if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_WIZARD) {
                 layout.setText(AssetLoader.font, "Mage");
                 width = layout.width;// contains the width of the current set text
                 drawText("Mage", 399 - (width / 2), 355, Color.WHITE);
-            } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_CLERIC) {
+            } else if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_CLERIC) {
                 layout.setText(AssetLoader.font, "Cleric");
                 width = layout.width;// contains the width of the current set text
                 drawText("Cleric", 399 - (width / 2), 355, Color.WHITE);
-            } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_RANGER) {
+            } else if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_RANGER) {
                 layout.setText(AssetLoader.font, "Ranger");
                 width = layout.width;// contains the width of the current set text
                 drawText("Ranger", 399 - (width / 2), 355, Color.WHITE);
-            } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_ROGUE) {
+            } else if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_ROGUE) {
                 layout.setText(AssetLoader.font, "Rogue");
                 width = layout.width;// contains the width of the current set text
                 drawText("Rogue", 399 - (width / 2), 355, Color.WHITE);
             }
-            layout.setText(AssetLoader.font, "Lvl: " + Variables.MyAccount.chars[1].getLevel());
+            layout.setText(AssetLoader.font, "Lvl: " + Variables.MyAccount.chars[2].getLevel());
             width = layout.width;// contains the width of the current set text
-            drawText("Lvl: " + Variables.MyAccount.chars[1].getLevel(), 399 - (width / 2), 375, Color.WHITE);
-            layout.setText(AssetLoader.font, "HP: " + Variables.MyAccount.chars[1].getHP() + "/" + Variables.MyAccount.chars[1].getMaxHP());
+            drawText("Lvl: " + Variables.MyAccount.chars[2].getLevel(), 399 - (width / 2), 375, Color.WHITE);
+            layout.setText(AssetLoader.font, "HP: " + Variables.MyAccount.chars[2].getHP() + "/" + Variables.MyAccount.chars[2].getMaxHP());
             width = layout.width;// contains the width of the current set text
-            drawText("HP: " + Variables.MyAccount.chars[1].getHP() + "/" + Variables.MyAccount.chars[1].getMaxHP(), 399 - (width / 2), 395, Color.WHITE);
-            layout.setText(AssetLoader.font, "MP: " + Variables.MyAccount.chars[1].getMP() + "/" + Variables.MyAccount.chars[1].getMaxMP());
+            drawText("HP: " + Variables.MyAccount.chars[2].getHP() + "/" + Variables.MyAccount.chars[2].getMaxHP(), 399 - (width / 2), 395, Color.WHITE);
+            layout.setText(AssetLoader.font, "MP: " + Variables.MyAccount.chars[2].getMP() + "/" + Variables.MyAccount.chars[2].getMaxMP());
             width = layout.width;// contains the width of the current set text
-            drawText("MP: " + Variables.MyAccount.chars[1].getMP() + "/" + Variables.MyAccount.chars[1].getMaxMP(), 399 - (width / 2), 415, Color.WHITE);
+            drawText("MP: " + Variables.MyAccount.chars[2].getMP() + "/" + Variables.MyAccount.chars[2].getMaxMP(), 399 - (width / 2), 415, Color.WHITE);
 
             // STATS
-            layout.setText(AssetLoader.font, "STR: " + Variables.MyAccount.chars[1].getSTR());
+            layout.setText(AssetLoader.font, "STR: " + Variables.MyAccount.chars[2].getSTR());
             width = layout.width;// contains the width of the current set text
-            drawText("STR: " + Variables.MyAccount.chars[1].getSTR(), 399 - (width / 2), 435, Color.WHITE);
-            layout.setText(AssetLoader.font, "DEF: " + Variables.MyAccount.chars[1].getDEF());
+            drawText("STR: " + Variables.MyAccount.chars[2].getSTR(), 399 - (width / 2), 435, Color.WHITE);
+            layout.setText(AssetLoader.font, "DEF: " + Variables.MyAccount.chars[2].getDEF());
             width = layout.width;// contains the width of the current set text
-            drawText("DEF: " + Variables.MyAccount.chars[1].getDEF(), 399 - (width / 2), 455, Color.WHITE);
-            layout.setText(AssetLoader.font, "VIT: " + Variables.MyAccount.chars[1].getVIT());
+            drawText("DEF: " + Variables.MyAccount.chars[2].getDEF(), 399 - (width / 2), 455, Color.WHITE);
+            layout.setText(AssetLoader.font, "VIT: " + Variables.MyAccount.chars[2].getVIT());
             width = layout.width;// contains the width of the current set text
-            drawText("VIT: " + Variables.MyAccount.chars[1].getVIT(), 399 - (width / 2), 475, Color.WHITE);
-            layout.setText(AssetLoader.font, "AGI: " + Variables.MyAccount.chars[1].getAGI());
+            drawText("VIT: " + Variables.MyAccount.chars[2].getVIT(), 399 - (width / 2), 475, Color.WHITE);
+            layout.setText(AssetLoader.font, "AGI: " + Variables.MyAccount.chars[2].getAGI());
             width = layout.width;// contains the width of the current set text
-            drawText("AGI: " + Variables.MyAccount.chars[1].getAGI(), 399 - (width / 2), 495, Color.WHITE);
-            layout.setText(AssetLoader.font, "MAG: " + Variables.MyAccount.chars[1].getMAG());
+            drawText("AGI: " + Variables.MyAccount.chars[2].getAGI(), 399 - (width / 2), 495, Color.WHITE);
+            layout.setText(AssetLoader.font, "MAG: " + Variables.MyAccount.chars[2].getMAG());
             width = layout.width;// contains the width of the current set text
-            drawText("MAG: " + Variables.MyAccount.chars[1].getMAG(), 399 - (width / 2), 515, Color.WHITE);
+            drawText("MAG: " + Variables.MyAccount.chars[2].getMAG(), 399 - (width / 2), 515, Color.WHITE);
         } else {
             layout.setText(AssetLoader.font, "Create");
             float width = layout.width;// contains the width of the current set text
             drawText("Create", 399 - (width / 2), 405, Color.WHITE);
         }
         if (Variables.MyAccount.chars[3].getName() != null && !Variables.MyAccount.chars[3].getName().isEmpty()) {
-            TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.MyAccount.chars[1].getSprite()], 32, 72, 32, 36);
+            TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.MyAccount.chars[3].getSprite()], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
             batcher.draw(spriteTex, 646, 290);
 
-            layout.setText(AssetLoader.font, Variables.MyAccount.chars[1].getName());
+            layout.setText(AssetLoader.font, Variables.MyAccount.chars[3].getName());
             float width = layout.width;// contains the width of the current set text
-            drawText(Variables.MyAccount.chars[1].getName(), 660 - (width / 2), 335, Color.WHITE);
-            if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_WARRIOR) {
+            drawText(Variables.MyAccount.chars[3].getName(), 660 - (width / 2), 335, Color.WHITE);
+            if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_WARRIOR) {
                 layout.setText(AssetLoader.font, "Warrior");
                 width = layout.width;// contains the width of the current set text
                 drawText("Warrior", 660 - (width / 2), 355, Color.WHITE);
-            } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_WIZARD) {
+            } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_WIZARD) {
                 layout.setText(AssetLoader.font, "Mage");
                 width = layout.width;// contains the width of the current set text
                 drawText("Mage", 660 - (width / 2), 355, Color.WHITE);
-            } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_CLERIC) {
+            } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_CLERIC) {
                 layout.setText(AssetLoader.font, "Cleric");
                 width = layout.width;// contains the width of the current set text
                 drawText("Cleric", 660 - (width / 2), 355, Color.WHITE);
-            } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_RANGER) {
+            } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_RANGER) {
                 layout.setText(AssetLoader.font, "Ranger");
                 width = layout.width;// contains the width of the current set text
                 drawText("Ranger", 660 - (width / 2), 355, Color.WHITE);
-            } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_ROGUE) {
+            } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_ROGUE) {
                 layout.setText(AssetLoader.font, "Rogue");
                 width = layout.width;// contains the width of the current set text
                 drawText("Rogue", 660 - (width / 2), 355, Color.WHITE);
             }
-            layout.setText(AssetLoader.font, "Lvl: " + Variables.MyAccount.chars[1].getLevel());
+            layout.setText(AssetLoader.font, "Lvl: " + Variables.MyAccount.chars[3].getLevel());
             width = layout.width;// contains the width of the current set text
-            drawText("Lvl: " + Variables.MyAccount.chars[1].getLevel(), 660 - (width / 2), 375, Color.WHITE);
-            layout.setText(AssetLoader.font, "HP: " + Variables.MyAccount.chars[1].getHP() + "/" + Variables.MyAccount.chars[1].getMaxHP());
+            drawText("Lvl: " + Variables.MyAccount.chars[3].getLevel(), 660 - (width / 2), 375, Color.WHITE);
+            layout.setText(AssetLoader.font, "HP: " + Variables.MyAccount.chars[3].getHP() + "/" + Variables.MyAccount.chars[3].getMaxHP());
             width = layout.width;// contains the width of the current set text
-            drawText("HP: " + Variables.MyAccount.chars[1].getHP() + "/" + Variables.MyAccount.chars[1].getMaxHP(), 660 - (width / 2), 395, Color.WHITE);
-            layout.setText(AssetLoader.font, "MP: " + Variables.MyAccount.chars[1].getMP() + "/" + Variables.MyAccount.chars[1].getMaxMP());
+            drawText("HP: " + Variables.MyAccount.chars[3].getHP() + "/" + Variables.MyAccount.chars[3].getMaxHP(), 660 - (width / 2), 395, Color.WHITE);
+            layout.setText(AssetLoader.font, "MP: " + Variables.MyAccount.chars[3].getMP() + "/" + Variables.MyAccount.chars[3].getMaxMP());
             width = layout.width;// contains the width of the current set text
-            drawText("MP: " + Variables.MyAccount.chars[1].getMP() + "/" + Variables.MyAccount.chars[1].getMaxMP(), 660 - (width / 2), 415, Color.WHITE);
+            drawText("MP: " + Variables.MyAccount.chars[3].getMP() + "/" + Variables.MyAccount.chars[3].getMaxMP(), 660 - (width / 2), 415, Color.WHITE);
 
             // STATS
-            layout.setText(AssetLoader.font, "STR: " + Variables.MyAccount.chars[1].getSTR());
+            layout.setText(AssetLoader.font, "STR: " + Variables.MyAccount.chars[3].getSTR());
             width = layout.width;// contains the width of the current set text
-            drawText("STR: " + Variables.MyAccount.chars[1].getSTR(), 660 - (width / 2), 435, Color.WHITE);
-            layout.setText(AssetLoader.font, "DEF: " + Variables.MyAccount.chars[1].getDEF());
+            drawText("STR: " + Variables.MyAccount.chars[3].getSTR(), 660 - (width / 2), 435, Color.WHITE);
+            layout.setText(AssetLoader.font, "DEF: " + Variables.MyAccount.chars[3].getDEF());
             width = layout.width;// contains the width of the current set text
-            drawText("DEF: " + Variables.MyAccount.chars[1].getDEF(), 660 - (width / 2), 455, Color.WHITE);
-            layout.setText(AssetLoader.font, "VIT: " + Variables.MyAccount.chars[1].getVIT());
+            drawText("DEF: " + Variables.MyAccount.chars[3].getDEF(), 660 - (width / 2), 455, Color.WHITE);
+            layout.setText(AssetLoader.font, "VIT: " + Variables.MyAccount.chars[3].getVIT());
             width = layout.width;// contains the width of the current set text
-            drawText("VIT: " + Variables.MyAccount.chars[1].getVIT(), 660 - (width / 2), 475, Color.WHITE);
-            layout.setText(AssetLoader.font, "AGI: " + Variables.MyAccount.chars[1].getAGI());
+            drawText("VIT: " + Variables.MyAccount.chars[3].getVIT(), 660 - (width / 2), 475, Color.WHITE);
+            layout.setText(AssetLoader.font, "AGI: " + Variables.MyAccount.chars[3].getAGI());
             width = layout.width;// contains the width of the current set text
-            drawText("AGI: " + Variables.MyAccount.chars[1].getAGI(), 660 - (width / 2), 495, Color.WHITE);
-            layout.setText(AssetLoader.font, "MAG: " + Variables.MyAccount.chars[1].getMAG());
+            drawText("AGI: " + Variables.MyAccount.chars[3].getAGI(), 660 - (width / 2), 495, Color.WHITE);
+            layout.setText(AssetLoader.font, "MAG: " + Variables.MyAccount.chars[3].getMAG());
             width = layout.width;// contains the width of the current set text
-            drawText("MAG: " + Variables.MyAccount.chars[1].getMAG(), 660 - (width / 2), 515, Color.WHITE);
+            drawText("MAG: " + Variables.MyAccount.chars[3].getMAG(), 660 - (width / 2), 515, Color.WHITE);
         } else {
             layout.setText(AssetLoader.font, "Create");
             float width = layout.width;// contains the width of the current set text
@@ -307,138 +308,216 @@ public class RenderDesktop {
         }
     }
     public static void gsCharCreate(long tickCount) {
-        batcher.draw(AssetLoader.charCreateBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
+        batcher.draw(AssetLoader.charCreateBG, 0, 0, 800, 600, 0, 0, 800, 600, false, true);
         if (Variables.TempName != null && !Variables.TempName.isEmpty()) {
-            drawText(Variables.TempName, 165, 379, Color.WHITE);
+            if (Variables.inputName) {
+                drawText(Variables.TempName + "|", 225, 299, Color.WHITE);
+            } else {
+                drawText(Variables.TempName, 225, 299, Color.WHITE);
+            }
+        } else {
+            if (Variables.inputName) {
+                drawText("|", 225, 299, Color.WHITE);
+            }
         }
 
         if (Variables.TempJob == Variables.JOB_WARRIOR) {
-            batcher.draw(AssetLoader.warriorEmb, 11, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.warriorEmb, 155, 327, 90, 90, 0, 0, 90, 90, false, true);
             layout.setText(AssetLoader.font, "Job: Warrior");
             float width = layout.width;
 
-            drawText("Job: Warrior", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Warrior", 300 - ((int)width / 2), 425, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Warrior.getVIT() * 2) * (Jobs.Warrior.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Warrior.getMAG() * 2) * (Jobs.Warrior.getDEF() / 2), 30, 680, Color.WHITE);
+            layout.setText(AssetLoader.font, "HP: " + (Jobs.Warrior.getVIT() * 2) * (Jobs.Warrior.getSTR() / 2));
+            width = layout.width;
+            drawText("HP: " + (Jobs.Warrior.getVIT() * 2) * (Jobs.Warrior.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            layout.setText(AssetLoader.font, "MP: " + (Jobs.Warrior.getMAG() * 2) * (Jobs.Warrior.getDEF() / 2));
+            width = layout.width;
+            drawText("MP: " + (Jobs.Warrior.getMAG() * 2) * (Jobs.Warrior.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Warrior.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Warrior.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Warrior.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Warrior.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Warrior.getMAG(), 365, 740, Color.WHITE);
+            layout.setText(AssetLoader.font, "STR: " + Jobs.Warrior.getSTR());
+            width = layout.width;
+            drawText("STR: " + Jobs.Warrior.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            layout.setText(AssetLoader.font, "DEF: " + Jobs.Warrior.getDEF());
+            width = layout.width;
+            drawText("DEF: " + Jobs.Warrior.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            layout.setText(AssetLoader.font, "VIT: " + Jobs.Warrior.getVIT());
+            width = layout.width;
+            drawText("VIT: " + Jobs.Warrior.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            layout.setText(AssetLoader.font, "AGI: " + Jobs.Warrior.getAGI());
+            width = layout.width;
+            drawText("AGI: " + Jobs.Warrior.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            layout.setText(AssetLoader.font, "MAG: " + Jobs.Warrior.getMAG());
+            width = layout.width;
+            drawText("MAG: " + Jobs.Warrior.getMAG(), 300 - (width / 2), 565, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.warriorEmbT, 11, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.warriorEmbT, 155, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
         if (Variables.TempJob == Variables.JOB_WIZARD) {
-            batcher.draw(AssetLoader.wizardEmb, 103, 477, 90, 90, 0, 0, 90, 90, false, true);
-            layout.setText(AssetLoader.font, "Job: Mage");
+            batcher.draw(AssetLoader.wizardEmb, 255, 327, 90, 90, 0, 0, 90, 90, false, true);
+            layout.setText(AssetLoader.font, "Job: Wizard");
             float width = layout.width;
 
-            drawText("Job: Mage", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Wizard", 300 - ((int)width / 2), 425, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Wizard.getVIT() * 2) * (Jobs.Wizard.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Wizard.getMAG() * 2) * (Jobs.Wizard.getDEF() / 2), 30, 680, Color.WHITE);
+            layout.setText(AssetLoader.font, "HP: " + (Jobs.Wizard.getVIT() * 2) * (Jobs.Wizard.getSTR() / 2));
+            width = layout.width;
+            drawText("HP: " + (Jobs.Wizard.getVIT() * 2) * (Jobs.Wizard.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            layout.setText(AssetLoader.font, "MP: " + (Jobs.Wizard.getMAG() * 2) * (Jobs.Wizard.getDEF() / 2));
+            width = layout.width;
+            drawText("MP: " + (Jobs.Wizard.getMAG() * 2) * (Jobs.Wizard.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Wizard.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Wizard.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Wizard.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Wizard.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Wizard.getMAG(), 365, 740, Color.WHITE);
+            layout.setText(AssetLoader.font, "STR: " + Jobs.Wizard.getSTR());
+            width = layout.width;
+            drawText("STR: " + Jobs.Wizard.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            layout.setText(AssetLoader.font, "DEF: " + Jobs.Wizard.getDEF());
+            width = layout.width;
+            drawText("DEF: " + Jobs.Wizard.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            layout.setText(AssetLoader.font, "VIT: " + Jobs.Wizard.getVIT());
+            width = layout.width;
+            drawText("VIT: " + Jobs.Wizard.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            layout.setText(AssetLoader.font, "AGI: " + Jobs.Wizard.getAGI());
+            width = layout.width;
+            drawText("AGI: " + Jobs.Wizard.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            layout.setText(AssetLoader.font, "MAG: " + Jobs.Wizard.getMAG());
+            width = layout.width;
+            drawText("MAG: " + Jobs.Wizard.getMAG(), 300 - (width / 2), 565, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.wizardEmbT, 103, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.wizardEmbT, 255, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
         if (Variables.TempJob == Variables.JOB_CLERIC) {
-            batcher.draw(AssetLoader.clericEmb, 195, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.clericEmb, 355, 327, 90, 90, 0, 0, 90, 90, false, true);
             layout.setText(AssetLoader.font, "Job: Cleric");
             float width = layout.width;
 
-            drawText("Job: Cleric", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Cleric", 300 - ((int)width / 2), 425, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Cleric.getVIT() * 2) * (Jobs.Cleric.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Cleric.getMAG() * 2) * (Jobs.Cleric.getDEF() / 2), 30, 680, Color.WHITE);
+            layout.setText(AssetLoader.font, "HP: " + (Jobs.Cleric.getVIT() * 2) * (Jobs.Cleric.getSTR() / 2));
+            width = layout.width;
+            drawText("HP: " + (Jobs.Cleric.getVIT() * 2) * (Jobs.Cleric.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            layout.setText(AssetLoader.font, "MP: " + (Jobs.Cleric.getMAG() * 2) * (Jobs.Cleric.getDEF() / 2));
+            width = layout.width;
+            drawText("MP: " + (Jobs.Cleric.getMAG() * 2) * (Jobs.Cleric.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Cleric.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Cleric.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Cleric.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Cleric.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Cleric.getMAG(), 365, 740, Color.WHITE);
+            layout.setText(AssetLoader.font, "STR: " + Jobs.Cleric.getSTR());
+            width = layout.width;
+            drawText("STR: " + Jobs.Cleric.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            layout.setText(AssetLoader.font, "DEF: " + Jobs.Cleric.getDEF());
+            width = layout.width;
+            drawText("DEF: " + Jobs.Cleric.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            layout.setText(AssetLoader.font, "VIT: " + Jobs.Cleric.getVIT());
+            width = layout.width;
+            drawText("VIT: " + Jobs.Cleric.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            layout.setText(AssetLoader.font, "AGI: " + Jobs.Cleric.getAGI());
+            width = layout.width;
+            drawText("AGI: " + Jobs.Cleric.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            layout.setText(AssetLoader.font, "MAG: " + Jobs.Cleric.getMAG());
+            width = layout.width;
+            drawText("MAG: " + Jobs.Cleric.getMAG(), 300 - (width / 2), 565, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.clericEmbT, 195, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.clericEmbT, 355, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
         if (Variables.TempJob == Variables.JOB_RANGER) {
-            batcher.draw(AssetLoader.rangerEmb, 287, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.wizardEmb, 455, 327, 90, 90, 0, 0, 90, 90, false, true);
             layout.setText(AssetLoader.font, "Job: Ranger");
             float width = layout.width;
 
-            drawText("Job: Ranger", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Ranger", 300 - ((int)width / 2), 425, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Ranger.getVIT() * 2) * (Jobs.Ranger.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Ranger.getMAG() * 2) * (Jobs.Ranger.getDEF() / 2), 30, 680, Color.WHITE);
+            layout.setText(AssetLoader.font, "HP: " + (Jobs.Ranger.getVIT() * 2) * (Jobs.Ranger.getSTR() / 2));
+            width = layout.width;
+            drawText("HP: " + (Jobs.Ranger.getVIT() * 2) * (Jobs.Ranger.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            layout.setText(AssetLoader.font, "MP: " + (Jobs.Ranger.getMAG() * 2) * (Jobs.Ranger.getDEF() / 2));
+            width = layout.width;
+            drawText("MP: " + (Jobs.Ranger.getMAG() * 2) * (Jobs.Ranger.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Ranger.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Ranger.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Ranger.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Ranger.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Ranger.getMAG(), 365, 740, Color.WHITE);
+            layout.setText(AssetLoader.font, "STR: " + Jobs.Ranger.getSTR());
+            width = layout.width;
+            drawText("STR: " + Jobs.Ranger.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            layout.setText(AssetLoader.font, "DEF: " + Jobs.Ranger.getDEF());
+            width = layout.width;
+            drawText("DEF: " + Jobs.Ranger.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            layout.setText(AssetLoader.font, "VIT: " + Jobs.Ranger.getVIT());
+            width = layout.width;
+            drawText("VIT: " + Jobs.Ranger.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            layout.setText(AssetLoader.font, "AGI: " + Jobs.Ranger.getAGI());
+            width = layout.width;
+            drawText("AGI: " + Jobs.Ranger.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            layout.setText(AssetLoader.font, "MAG: " + Jobs.Ranger.getMAG());
+            width = layout.width;
+            drawText("MAG: " + Jobs.Ranger.getMAG(), 300 - (width / 2), 565, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.rangerEmbT, 287, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.rangerEmbT, 455, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
         if (Variables.TempJob == Variables.JOB_ROGUE) {
-            batcher.draw(AssetLoader.rogueEmb, 379, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.rogueEmb, 555, 327, 90, 90, 0, 0, 90, 90, false, true);
             layout.setText(AssetLoader.font, "Job: Rogue");
             float width = layout.width;
 
-            drawText("Job: Rogue", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Rogue", 300 - ((int)width / 2), 425, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Rogue.getVIT() * 2) * (Jobs.Rogue.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Rogue.getMAG() * 2) * (Jobs.Rogue.getDEF() / 2), 30, 680, Color.WHITE);
+            layout.setText(AssetLoader.font, "HP: " + (Jobs.Rogue.getVIT() * 2) * (Jobs.Rogue.getSTR() / 2));
+            width = layout.width;
+            drawText("HP: " + (Jobs.Rogue.getVIT() * 2) * (Jobs.Rogue.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            layout.setText(AssetLoader.font, "MP: " + (Jobs.Rogue.getMAG() * 2) * (Jobs.Rogue.getDEF() / 2));
+            width = layout.width;
+            drawText("MP: " + (Jobs.Rogue.getMAG() * 2) * (Jobs.Rogue.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Rogue.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Rogue.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Rogue.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Rogue.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Rogue.getMAG(), 365, 740, Color.WHITE);
+            layout.setText(AssetLoader.font, "STR: " + Jobs.Rogue.getSTR());
+            width = layout.width;
+            drawText("STR: " + Jobs.Rogue.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            layout.setText(AssetLoader.font, "DEF: " + Jobs.Rogue.getDEF());
+            width = layout.width;
+            drawText("DEF: " + Jobs.Rogue.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            layout.setText(AssetLoader.font, "VIT: " + Jobs.Rogue.getVIT());
+            width = layout.width;
+            drawText("VIT: " + Jobs.Rogue.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            layout.setText(AssetLoader.font, "AGI: " + Jobs.Rogue.getAGI());
+            width = layout.width;
+            drawText("AGI: " + Jobs.Rogue.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            layout.setText(AssetLoader.font, "MAG: " + Jobs.Rogue.getMAG());
+            width = layout.width;
+            drawText("MAG: " + Jobs.Rogue.getMAG(), 300 - (width / 2), 565, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.rogueEmbT, 379, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.rogueEmbT, 555, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
-        batcher.draw(AssetLoader.male, 154, 648, 60, 60, 0, 0, 60, 60, false, true);
-        batcher.draw(AssetLoader.female, 266, 648, 60, 60, 0, 0, 60, 60, false, true);
+        batcher.draw(AssetLoader.male, 414, 480, 60, 60, 0, 0, 60, 60, false, true);
+        batcher.draw(AssetLoader.female, 526, 480, 60, 60, 0, 0, 60, 60, false, true);
     }
     private static int firstTick = 0;
     public static void gsLoading(long tickCount) {
@@ -507,7 +586,7 @@ public class RenderDesktop {
         drawUI();
 
         // FPS
-        drawText("" + Gdx.graphics.getFramesPerSecond(), 20, 20, Color.WHITE);
+        drawText("" + Gdx.graphics.getFramesPerSecond(), 12, 12, Color.WHITE);
 
         drawChat();
 
@@ -571,52 +650,52 @@ public class RenderDesktop {
                 case Variables.DIR_UP:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_DOWN:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_LEFT:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_RIGHT:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.players[i].getSprite()], x + 8, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
                             break;
                     }
                     return;
@@ -646,52 +725,52 @@ public class RenderDesktop {
             case Variables.DIR_UP:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                 }
                 return;
             case Variables.DIR_DOWN:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                 }
                 return;
             case Variables.DIR_LEFT:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                 }
                 return;
             case Variables.DIR_RIGHT:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
                         break;
                 }
                 return;
@@ -785,28 +864,28 @@ public class RenderDesktop {
 
     // Game State In Game
     public static void drawShop() {
-        batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
+        batcher.draw(AssetLoader.menuBG, 8, 8, 448, 448, 0, 0, 448, 448, false, true);
 
         layout.setText(AssetLoader.font, Variables.Shop.Name);
         float width = layout.width;// contains the width of the current set text
 
-        float nameX = 240 - ((int)width / 2);
-        float nameY = 32 - 8;
+        float nameX = 232 - ((int)width / 2);
+        float nameY = 24 - 8;
         drawText(Variables.Shop.Name, nameX, nameY, Color.WHITE);
 
         layout.setText(AssetLoader.nameFont, Variables.Shop.welcomeMsg);
         width = layout.width;// contains the width of the current set text
 
-        nameX = 240 - ((int)width / 2);
-        nameY = 82 - 8;
+        nameX = 2232 - ((int)width / 2);
+        nameY = 74 - 8;
         drawName(Variables.Shop.welcomeMsg, nameX, nameY, Color.WHITE);
 
-        int x = 36;
-        int y = 122 - 8;
+        int x = 28;
+        int y = 114 - 8;
         for (int i = 1; i <= 20; i++) {
             if (i == 11) {
-                x = 36;
-                y = 163 - 8;
+                x = 28;
+                y = 155 - 8;
                 if (Variables.selectedShopSlot == i) {
                     batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
                 } else {
@@ -833,25 +912,25 @@ public class RenderDesktop {
             layout.setText(AssetLoader.font, Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Name);
             width = layout.width;// contains the width of the current set text
 
-            nameX = 240 - ((int)width / 2);
-            nameY = 233 - 8;
+            nameX = 232 - ((int)width / 2);
+            nameY = 225 - 8;
             drawText(Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Name, nameX, nameY, Color.WHITE);
 
-            drawText("Lvl: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].LVL, 122, 282, Color.WHITE);
-            drawText("HP: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].HP, 212, 282, Color.WHITE);
-            drawText("MP: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].MP, 292, 282, Color.WHITE);
+            drawText("Lvl: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].LVL, 114, 274, Color.WHITE);
+            drawText("HP: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].HP, 204, 274, Color.WHITE);
+            drawText("MP: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].MP, 284, 274, Color.WHITE);
 
-            drawText("STR: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].STR, 32, 312, Color.WHITE);
-            drawText("DEF: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].DEF, 122, 312, Color.WHITE);
-            drawText("VIT: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].VIT, 212, 312, Color.WHITE);
-            drawText("AGI: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].AGI, 292, 312, Color.WHITE);
-            drawText("MAG: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].MAG, 372, 312, Color.WHITE);
+            drawText("STR: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].STR, 24, 304, Color.WHITE);
+            drawText("DEF: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].DEF, 114, 304, Color.WHITE);
+            drawText("VIT: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].VIT, 204, 304, Color.WHITE);
+            drawText("AGI: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].AGI, 284, 304, Color.WHITE);
+            drawText("MAG: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].MAG, 364, 304, Color.WHITE);
 
             layout.setText(AssetLoader.nameFont, "Cost: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost + " Gold");
             width = layout.width;// contains the width of the current set text
 
-            nameX = 240 - ((int)width / 2);
-            nameY = 342;
+            nameX = 232 - ((int)width / 2);
+            nameY = 334;
             drawName("Cost: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost + " Gold", nameX, nameY, Color.YELLOW);
         }
 
@@ -859,36 +938,36 @@ public class RenderDesktop {
             layout.setText(AssetLoader.font, "Purchase successful!");
             width = layout.width;// contains the width of the current set text
 
-            nameX = 240 - ((int)width / 2);
-            nameY = 370;
+            nameX = 232 - ((int)width / 2);
+            nameY = 362;
             drawText("Purchase successful!", nameX, nameY, Color.YELLOW);
         }
         if (Variables.NotEnoughGoldMsgTimer > 0) {
             layout.setText(AssetLoader.font, "You don't have enough gold.");
             width = layout.width;// contains the width of the current set text
 
-            nameX = 240 - ((int)width / 2);
-            nameY = 350;
+            nameX = 232 - ((int)width / 2);
+            nameY = 342;
             drawText("You don't have enough gold.", nameX, nameY, Color.RED);
         }
 
         // Back Button
-        drawText("Back", 24, 437, Color.WHITE);
+        drawText("Back", 16, 429, Color.WHITE);
 
         // Buy Button
-        drawText("Buy", 418, 437, Color.WHITE);
+        drawText("Buy", 410, 429, Color.WHITE);
     }
     public static void drawInventory() {
-        batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
+        batcher.draw(AssetLoader.menuBG, 8, 8, 448, 448, 0, 0, 448, 448, false, true);
 
-        int x = 36;
-        int y = 36;
+        int x = 28;
+        int y = 28;
         for (int i = 1; i <= 60; i++) {
             if (Variables.players[Variables.MyIndex].inventory != null) {
                 if (Variables.players[Variables.MyIndex].inventory[i] != null) {
                     if (i == 11) {
-                        x = 36;
-                        y = 77;
+                        x = 28;
+                        y = 69;
                         if (Variables.selectedInvSlot == i) {
                             batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
                         } else {
@@ -902,8 +981,8 @@ public class RenderDesktop {
                         }
                         x = x + 41;
                     } else if (i == 21) {
-                        x = 36;
-                        y = 118;
+                        x = 28;
+                        y = 110;
                         if (Variables.selectedInvSlot == i) {
                             batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
                         } else {
@@ -917,8 +996,8 @@ public class RenderDesktop {
                         }
                         x = x + 41;
                     } else if (i == 31) {
-                        x = 36;
-                        y = 159;
+                        x = 28;
+                        y = 151;
                         if (Variables.selectedInvSlot == i) {
                             batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
                         } else {
@@ -932,8 +1011,8 @@ public class RenderDesktop {
                         }
                         x = x + 41;
                     } else if (i == 41) {
-                        x = 36;
-                        y = 200;
+                        x = 28;
+                        y = 192;
                         if (Variables.selectedInvSlot == i) {
                             batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
                         } else {
@@ -947,8 +1026,8 @@ public class RenderDesktop {
                         }
                         x = x + 41;
                     } else if (i == 51) {
-                        x = 36;
-                        y = 241;
+                        x = 28;
+                        y = 233;
                         if (Variables.selectedInvSlot == i) {
                             batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
                         } else {
@@ -1017,19 +1096,19 @@ public class RenderDesktop {
         }
 
         // Back Button
-        drawText("Back", 24, 437, Color.WHITE);
+        drawText("Back", 16, 429, Color.WHITE);
 
         // Use Button
-        drawText("Use", 418, 437, Color.WHITE);
+        drawText("Use", 410, 429, Color.WHITE);
     }
     public static void drawStatus() {
-        batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
+        batcher.draw(AssetLoader.menuBG, 8, 8, 448, 448, 0, 0, 448, 448, false, true);
 
         layout.setText(AssetLoader.font, Variables.players[Variables.MyIndex].getName());
         float width = layout.width;// contains the width of the current set text
 
-        float nameX = 240 - ((int)width / 2);
-        float nameY = 50;
+        float nameX = 232 - ((int)width / 2);
+        float nameY = 42;
 
         drawText(Variables.players[Variables.MyIndex].getName(), nameX, nameY, Color.WHITE);
 
@@ -1093,8 +1172,8 @@ public class RenderDesktop {
             pMAG = pMAG + Variables.Items[itemNum].MAG;
         }
 
-        nameX = 75;
-        nameY = 80;
+        nameX = 67;
+        nameY = 72;
         drawText("STR: " + Variables.players[Variables.MyIndex].getSTR(), nameX, nameY, Color.WHITE);
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
@@ -1104,8 +1183,8 @@ public class RenderDesktop {
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pSTR + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
-        nameX = 75;
-        nameY = 110;
+        nameX = 67;
+        nameY = 102;
         drawText("DEF: " + Variables.players[Variables.MyIndex].getDEF(), nameX, nameY, Color.WHITE);
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
@@ -1115,8 +1194,8 @@ public class RenderDesktop {
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pDEF + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
-        nameX = 75;
-        nameY = 140;
+        nameX = 67;
+        nameY = 132;
         drawText("VIT: " + Variables.players[Variables.MyIndex].getVIT(), nameX, nameY, Color.WHITE);
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
@@ -1126,8 +1205,8 @@ public class RenderDesktop {
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pVIT + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
-        nameX = 75;
-        nameY = 170;
+        nameX = 69;
+        nameY = 162;
         drawText("AGI: " + Variables.players[Variables.MyIndex].getAGI(), nameX, nameY, Color.WHITE);
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
@@ -1137,8 +1216,8 @@ public class RenderDesktop {
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pAGI + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
-        nameX = 75;
-        nameY = 200;
+        nameX = 69;
+        nameY = 192;
         drawText("MAG: " + Variables.players[Variables.MyIndex].getMAG(), nameX, nameY, Color.WHITE);
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
@@ -1148,8 +1227,8 @@ public class RenderDesktop {
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pMAG + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
-        nameX = 75;
-        nameY = 230;
+        nameX = 69;
+        nameY = 222;
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), nameX, nameY, Color.YELLOW);
         } else {
@@ -1157,7 +1236,7 @@ public class RenderDesktop {
         }
 
         // Back Button
-        drawText("Back", 24, 437, Color.WHITE);
+        drawText("Back", 16, 429, Color.WHITE);
     }
     public static void drawMenu() {
         batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
@@ -1333,18 +1412,136 @@ public class RenderDesktop {
         maxWidth = ((((double) Variables.players[Variables.MyIndex].getEXP()) / 192) / ((double) Variables.players[Variables.MyIndex].getNextLVL() / 192) * 192);
         batcher.draw(AssetLoader.xpBar, 532, 184, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
         drawName("XP", 533, 184, Color.WHITE);
-        // Chat Bar
-        /*batcher.draw(AssetLoader.chatBar, 16, 440, 448, 24, 0, 0, 448, 24, false, true);
-        if (Variables.chatMessageIndex > 0) {
-            int type = Variables.chatMessages[Variables.chatMessageIndex].getType();
-            if (type == Variables.MESSAGE_TYPE_MAP) {
-                drawName(Variables.chatMessages[Variables.chatMessageIndex].getMsg(), 24, 446, Color.WHITE);
-            } else if (type == Variables.MESSAGE_TYPE_GLOBAL) {
-                drawName(Variables.chatMessages[Variables.chatMessageIndex].getMsg(), 24, 446, Color.ORANGE);
-            } else if (type == Variables.MESSAGE_TYPE_WHISPER) {
-                drawName(Variables.chatMessages[Variables.chatMessageIndex].getMsg(), 24, 446, Color.PINK);
+
+        // Player Sprite
+        batcher.draw(AssetLoader.spritesDown2[Variables.players[Variables.MyIndex].getSprite()], 613, 260, 32, 36);
+        // Player Equipment
+        batcher.draw(AssetLoader.eqBG, 592, 222, 36, 36);
+        if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
+            if (itemNum > 0) {
+                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 592 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
             }
-        }*/
+        }
+        batcher.draw(AssetLoader.eqBG, 576, 259, 36, 36);
+        if (Variables.players[Variables.MyIndex].getArmor() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
+            if (itemNum > 0) {
+                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 576 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+            }
+        }
+        batcher.draw(AssetLoader.eqBG, 629, 222, 36, 36);
+        if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
+            if (itemNum > 0) {
+                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 629 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
+            }
+        }
+        batcher.draw(AssetLoader.eqBG, 648, 259, 36, 36);
+        if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
+            if (itemNum > 0) {
+                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 648 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+            }
+        }
+        batcher.draw(AssetLoader.eqBG, 592, 296, 36, 36);
+        batcher.draw(AssetLoader.eqBG, 629, 296, 36, 36);
+
+        int pSTR = Variables.players[Variables.MyIndex].getSTR();
+        int pDEF = Variables.players[Variables.MyIndex].getDEF();
+        int pVIT = Variables.players[Variables.MyIndex].getVIT();
+        int pAGI = Variables.players[Variables.MyIndex].getAGI();
+        int pMAG = Variables.players[Variables.MyIndex].getMAG();
+        if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
+            if (itemNum <= 0) { return; }
+            pSTR = pSTR + Variables.Items[itemNum].STR;
+            pDEF = pDEF + Variables.Items[itemNum].DEF;
+            pVIT = pVIT + Variables.Items[itemNum].VIT;
+            pAGI = pAGI + Variables.Items[itemNum].AGI;
+            pMAG = pMAG + Variables.Items[itemNum].MAG;
+        }
+        if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
+            if (itemNum <= 0) { return; }
+            pSTR = pSTR + Variables.Items[itemNum].STR;
+            pDEF = pDEF + Variables.Items[itemNum].DEF;
+            pVIT = pVIT + Variables.Items[itemNum].VIT;
+            pAGI = pAGI + Variables.Items[itemNum].AGI;
+            pMAG = pMAG + Variables.Items[itemNum].MAG;
+        }
+        if (Variables.players[Variables.MyIndex].getArmor() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
+            if (itemNum <= 0) { return; }
+            pSTR = pSTR + Variables.Items[itemNum].STR;
+            pDEF = pDEF + Variables.Items[itemNum].DEF;
+            pVIT = pVIT + Variables.Items[itemNum].VIT;
+            pAGI = pAGI + Variables.Items[itemNum].AGI;
+            pMAG = pMAG + Variables.Items[itemNum].MAG;
+        }
+        if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
+            if (itemNum <= 0) { return; }
+            pSTR = pSTR + Variables.Items[itemNum].STR;
+            pDEF = pDEF + Variables.Items[itemNum].DEF;
+            pVIT = pVIT + Variables.Items[itemNum].VIT;
+            pAGI = pAGI + Variables.Items[itemNum].AGI;
+            pMAG = pMAG + Variables.Items[itemNum].MAG;
+        }
+        if (Variables.players[Variables.MyIndex].getAcc1() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc1()].getItemNum();
+            if (itemNum <= 0) { return; }
+            pSTR = pSTR + Variables.Items[itemNum].STR;
+            pDEF = pDEF + Variables.Items[itemNum].DEF;
+            pVIT = pVIT + Variables.Items[itemNum].VIT;
+            pAGI = pAGI + Variables.Items[itemNum].AGI;
+            pMAG = pMAG + Variables.Items[itemNum].MAG;
+        }
+        if (Variables.players[Variables.MyIndex].getAcc2() > 0) {
+            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc2()].getItemNum();
+            if (itemNum <= 0) { return; }
+            pSTR = pSTR + Variables.Items[itemNum].STR;
+            pDEF = pDEF + Variables.Items[itemNum].DEF;
+            pVIT = pVIT + Variables.Items[itemNum].VIT;
+            pAGI = pAGI + Variables.Items[itemNum].AGI;
+            pMAG = pMAG + Variables.Items[itemNum].MAG;
+        }
+
+        drawName("Level: " + Variables.players[Variables.MyIndex].getLevel(), 553, 347, Color.WHITE);
+        if (pSTR > Variables.players[Variables.MyIndex].getSTR()) {
+            drawName("STR: " + pSTR, 553, 362, Color.GREEN);
+        } else {
+            drawName("STR: " + pSTR, 553, 362, Color.WHITE);
+        }
+        if (pDEF > Variables.players[Variables.MyIndex].getDEF()) {
+            drawName("DEF: " + pDEF, 553, 377, Color.GREEN);
+        } else {
+            drawName("DEF: " + pDEF, 553, 377, Color.WHITE);
+        }
+        if (pVIT > Variables.players[Variables.MyIndex].getVIT()) {
+            drawName("VIT: " + pVIT, 553, 392, Color.GREEN);
+        } else {
+            drawName("VIT: " + pVIT, 553, 392, Color.WHITE);
+        }
+        if (pAGI > Variables.players[Variables.MyIndex].getAGI()) {
+            drawName("AGI: " + pAGI, 643, 362, Color.GREEN);
+        } else {
+            drawName("AGI: " + pAGI, 643, 362, Color.WHITE);
+        }
+        if (pMAG > Variables.players[Variables.MyIndex].getMAG()) {
+            drawName("MAG: " + pMAG, 643, 377, Color.GREEN);
+        } else {
+            drawName("MAG: " + pMAG, 643, 377, Color.WHITE);
+        }
+        drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), 643, 392, Color.WHITE);
+
+        int goldTotal = 0;
+        for (int i = 1; i <= 60; i++) {
+            if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
+                goldTotal += Variables.players[Variables.MyIndex].inventory[i].getItemVal();
+            }
+        }
+        drawName("Gold: " + goldTotal, 465, 441, Color.YELLOW);
     }
     public static void drawNames() {
         // RenderAndroid NPC Names
@@ -1359,8 +1556,8 @@ public class RenderDesktop {
                 layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
                 float width = layout.width;// contains the width of the current set text
 
-                float nameX = PlayerX - ((int)width / 2) + 32;
-                float nameY = PlayerY - 24;
+                float nameX = PlayerX - ((int)width / 2) + 24;
+                float nameY = PlayerY - 16;
                 if (Variables.MapNPCs[i].getHP() > 0) {
                     if (Variables.MapNPCs[i].getName() != null) {
                         drawName(Variables.MapNPCs[i].getName(), nameX, nameY, Color.WHITE);
@@ -1389,8 +1586,8 @@ public class RenderDesktop {
                     layout.setText(AssetLoader.nameFont, Variables.players[i].getName());
                     float width = layout.width;// contains the width of the current set text
 
-                    float nameX = PlayerX - ((int)width / 2) + 32;
-                    float nameY = PlayerY - 24;
+                    float nameX = PlayerX - ((int)width / 2) + 24;
+                    float nameY = PlayerY - 16;
                     drawName(Variables.players[i].getName(), nameX, nameY, Color.WHITE);
 
                     for (int a = 1; a <= 20; a++) {
@@ -1536,8 +1733,8 @@ public class RenderDesktop {
         for (int i = 1; i <= Variables.MaxMapItems; i++) {
             if (Variables.MapItems[i] != null) {
                 if (Variables.MapItems[i].itemNum > 0) {
-                    float itemX = (Variables.MapItems[i].x * Variables.MoveSize) + 16;
-                    float itemY = (Variables.MapItems[i].y * Variables.MoveSize) + 16;
+                    float itemX = (Variables.MapItems[i].x * Variables.MoveSize) + 8;
+                    float itemY = (Variables.MapItems[i].y * Variables.MoveSize) + 8;
                     batcher.draw(AssetLoader.items[Variables.Items[Variables.MapItems[i].itemNum].Icon], itemX, itemY, 24, 24, 0, 0, 24, 24, false, true);
                 }
             }
@@ -1545,37 +1742,42 @@ public class RenderDesktop {
     }
     public static void drawChat() {
         if (Variables.chatInput != null && !Variables.chatInput.isEmpty()) {
-            drawName(Variables.chatInput, 13, 576, Color.WHITE);
+            String chat = Variables.chatInput;
+            if (Variables.inChat) {
+                chat = chat + "|";
+            }
+            drawName(chat, 13, 576, Color.WHITE);
+        } else {
+            String chat = "";
+            if (Variables.inChat) {
+                chat = chat + "|";
+            }
+            drawName(chat, 13, 576, Color.WHITE);
         }
 
-        if (Variables.chatMessageIndex < 21) {
+        if (Variables.chatMessageIndex < 7) {
             for (int i = 1; i <= 100; i++) {
                 if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_MAP) {
-                    drawName(Variables.chatMessages[i].getMsg(), 13, (465 * i) + 10, Color.WHITE);
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.WHITE);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_GLOBAL) {
-                    drawName(Variables.chatMessages[i].getMsg(), 13, (465 * i) + 10, Color.ORANGE);
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.ORANGE);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_WHISPER) {
-                    drawName(Variables.chatMessages[i].getMsg(), 13, (465 * i) + 10, Color.PINK);
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.PINK);
                 }
             }
         } else {
             int line = 1;
-            for (int i = Variables.chatMessageIndex - 20; i <= Variables.chatMessageIndex; i++) {
+            for (int i = Variables.chatMessageIndex - 6; i <= Variables.chatMessageIndex; i++) {
                 if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_MAP) {
-                    drawName(Variables.chatMessages[i].getMsg(), 13, (465 * line) + 10, Color.WHITE);
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.WHITE);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_GLOBAL) {
-                    drawName(Variables.chatMessages[i].getMsg(), 13, (465 * line) + 10, Color.ORANGE);
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.ORANGE);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_WHISPER) {
-                    drawName(Variables.chatMessages[i].getMsg(), 13, (465 * line) + 10, Color.PINK);
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.PINK);
                 }
                 line++;
             }
         }
-
-        // Back Button
-        drawText("Back", 24, 437, Color.WHITE);
-        // Send Msg Button
-        drawText("Send", 400, 437, Color.WHITE);
     }
 
     public static void tryNPCSearch() {

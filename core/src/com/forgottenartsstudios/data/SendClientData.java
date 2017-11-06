@@ -151,7 +151,6 @@ public class SendClientData {
         if (Variables.chatInput.substring(0, 1).equals("'")) {
             sendMessage.type = Variables.MESSAGE_TYPE_GLOBAL;
         } else if (Variables.chatInput.substring(0, 1).equals("@")) {
-            System.out.println("Whisper");
             sendMessage.type = Variables.MESSAGE_TYPE_WHISPER;
         } else {
             sendMessage.type = Variables.MESSAGE_TYPE_MAP;
@@ -159,6 +158,7 @@ public class SendClientData {
         sendMessage.msg = Variables.chatInput;
 
         Variables.chatInput = "";
+        Variables.inChat = false;
 
         client.sendTCP(sendMessage);
     }

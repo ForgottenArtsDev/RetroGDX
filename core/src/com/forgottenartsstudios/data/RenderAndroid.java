@@ -24,7 +24,7 @@ public class RenderAndroid {
     ////////////////////
     // Routine Timers //
     ////////////////////
-    private static final long UpdateTime_InputTimer = 50;
+    private static final long UpdateTime_InputTimer = 100;
     private static final long UpdateTime_TapAnimTimer = 50;
     private static final long UpdateTime_BuyMsg = 1000;
     private static final long UpdateTime_Damage = 50;

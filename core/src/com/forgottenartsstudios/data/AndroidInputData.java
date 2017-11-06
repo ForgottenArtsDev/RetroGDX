@@ -442,6 +442,7 @@ public class AndroidInputData {
                 int mapNum = Variables.players[Variables.MyIndex].getMap();
                 int x = Variables.players[Variables.MyIndex].getX();
                 int y = Variables.players[Variables.MyIndex].getY();
+
                 if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
                     SendClientData.SendWarpCheck();
                 } else {

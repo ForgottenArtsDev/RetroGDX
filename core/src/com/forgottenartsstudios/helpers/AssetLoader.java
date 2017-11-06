@@ -438,12 +438,9 @@ public class AssetLoader {
         String absoPath = new File("").getAbsolutePath();
         String fileName = absoPath + "\\android\\assets\\data\\preferences.dat";
 
-        System.out.println("saveLogin check 1");
-
         ObjectOutputStream  outputStream = null;
 
         try{
-            System.out.println("saveLogin check 2");
             outputStream = new ObjectOutputStream(new FileOutputStream(fileName));
         }catch(IOException e){
             System.out.println("Could not open the file." + e);
@@ -451,7 +448,6 @@ public class AssetLoader {
         }
 
         try{
-            System.out.println("saveLogin check 3");
             Preferences prefs = new Preferences();
 
             prefs.saveLogin = Variables.saveLogin;
@@ -468,19 +464,16 @@ public class AssetLoader {
         }
     }
     public static void loadLogin() {
-        System.out.println("loadLogin check 1");
         String absoPath = new File("").getAbsolutePath();
         String fileName = absoPath + "\\android\\assets\\data\\preferences.dat";
 
         File f = new File(fileName);
         if(!f.exists() && !f.isDirectory()) {
-            System.out.println("loadLogin check 2");
             return;
         }
 
         ObjectInputStream inputStream = null;
         try{
-            System.out.println("loadLogin check 3");
             inputStream = new ObjectInputStream(new FileInputStream(fileName));
         }catch(IOException e){
             System.out.println("There was a problem opening the file: " + e);
@@ -488,12 +481,10 @@ public class AssetLoader {
         }
 
         try{
-            System.out.println("loadLogin check 4");
             Preferences prefs;
             prefs = (Preferences) inputStream.readObject();
 
             if (prefs.saveLogin) {
-                System.out.println("loadLogin check 5");
                 Variables.saveLogin = prefs.saveLogin;
                 Variables.Login_ID = prefs.ID;
                 Variables.Login_PW = prefs.PW;

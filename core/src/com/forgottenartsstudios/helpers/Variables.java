@@ -58,6 +58,7 @@ public class Variables {
     public static boolean buyItem, useItem, usePoint;
     public static int usePointTimer;
     public static boolean longPress, touchDown;
+    public static boolean inputID, inputPW, inputName;
 
     public static int MyIndex;
     public static int ShopNum;

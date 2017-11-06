@@ -177,6 +177,7 @@ public class HandleClientData {
     public static void HandlePlayerData(Object object) {
         PlayerData plData = (PlayerData) object;
         int index = plData.index;
+        if (plData.playerData.getMap() == 0) { return; }
         Variables.players[index] = plData.playerData;
         Variables.players[index].setName(plData.playerData.getName());
 
@@ -439,8 +440,8 @@ public class HandleClientData {
                 float PlayerX = ((Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getX() * Variables.MoveSize) + Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getOffsetX());
                 float PlayerY = ((Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getY() * Variables.MoveSize) + Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getOffsetY());
 
-                float nameX = PlayerX - ((int)width / 2) + 32;
-                float nameY = PlayerY - 34;
+                float nameX = PlayerX - ((int)width / 2) + 24;
+                float nameY = PlayerY - 28;
 
                 Variables.DrawNPCDamage[i].setX((int)nameX);
                 Variables.DrawNPCDamage[i].setY((int)nameY);
@@ -494,8 +495,8 @@ public class HandleClientData {
                 float PlayerX = ((Variables.players[Variables.MyIndex].getX() * Variables.MoveSize) + Variables.players[Variables.MyIndex].getOffsetX());
                 float PlayerY = ((Variables.players[Variables.MyIndex].getY() * Variables.MoveSize) + Variables.players[Variables.MyIndex].getOffsetY());
 
-                float nameX = PlayerX - ((int)width / 2) + 32;
-                float nameY = PlayerY - 34;
+                float nameX = PlayerX - ((int)width / 2) + 24;
+                float nameY = PlayerY - 28;
 
                 Variables.DrawXP[i].setMapNpcNum(Variables.MyIndex);
                 Variables.DrawXP[i].setX((int)nameX);
@@ -529,8 +530,8 @@ public class HandleClientData {
                 float PlayerX = ((Variables.players[sDmg.index].getX() * Variables.MoveSize) + Variables.players[sDmg.index].getOffsetX());
                 float PlayerY = ((Variables.players[sDmg.index].getY() * Variables.MoveSize) + Variables.players[sDmg.index].getOffsetY());
 
-                float nameX = PlayerX - ((int)width / 2) + 32;
-                float nameY = PlayerY - 34;
+                float nameX = PlayerX - ((int)width / 2) + 24;
+                float nameY = PlayerY - 28;
 
                 Variables.DrawPlayerDamage[i].setX((int)nameX);
                 Variables.DrawPlayerDamage[i].setY((int)nameY);
@@ -546,8 +547,10 @@ public class HandleClientData {
         String msg = sendMessage.msg;
         double msgLength = msg.length();
 
-        if (msgLength > 60) {
-            String[] multiLine = msg.split("(?<=\\G.{60})");
+        System.out.println(msg.length());
+
+        if (msgLength > 110) {
+            String[] multiLine = msg.split("(?<=\\G.{110})");
             double lines = Array.getLength(multiLine);
             for (int a = 0; a <= lines - 1; a++) {
                 for (int i = 1; i <= 100; i++) {
