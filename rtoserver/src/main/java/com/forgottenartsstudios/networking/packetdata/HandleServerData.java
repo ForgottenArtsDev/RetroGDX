@@ -300,12 +300,12 @@ public class HandleServerData {
         switch (Dir) {
             case ServerVars.DIR_UP:
                 if (Y <= 0 || (Y - 1) < 0) {
-                     if (ServerVars.mapData[Map].Up > 0) {
-                         int newMap = ServerVars.mapData[Map].Up;
-                         int newX = ServerVars.Players[Index].getX();
-                         int newY = ServerVars.mapData[ServerVars.mapData[Map].Up].MaxY - 1;
-                         General.PlayerWarp(Index, newMap, newX, newY);
-                     }
+                    if (ServerVars.mapData[Map].Up > 0) {
+                        int newMap = ServerVars.mapData[Map].Up;
+                        int newX = ServerVars.Players[Index].getX();
+                        int newY = ServerVars.mapData[ServerVars.mapData[Map].Up].MaxY - 1;
+                        General.PlayerWarp(Index, newMap, newX, newY);
+                    }
                 } else {
                     canMove = General.TileIsOpen(Map, X, Y - 1);
                     if (ServerVars.Players[Index].getMoving() == 0) {

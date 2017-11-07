@@ -391,7 +391,7 @@ public class RenderAndroid {
         longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
-        if (LastUpdateTime_InputTimer < tickCount) {
+        //if (LastUpdateTime_InputTimer < tickCount) {
             if (Variables.players[Variables.MyIndex].getMoving() == 0) {
                 if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
                     AndroidInputData.handleInput();
@@ -399,8 +399,8 @@ public class RenderAndroid {
                     AndroidInputData.handleAndroidInput();
                 }
             }
-            LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
-        }
+        //    LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
+        //}
 
         for (int i = 1; i <= Variables.MaxPlayers; i++) {
             processMovement(i);

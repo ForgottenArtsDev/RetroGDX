@@ -190,36 +190,41 @@ public class RTOServer extends ApplicationAdapter {
                     for (int mapNum = 1; mapNum <= ServerVars.MaxMaps; mapNum++) {
                         for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                             if (ServerVars.Players[i] != null) {
-                                switch (ServerVars.Players[i].getDir()) {
-                                    case ServerVars.DIR_UP:
-                                        ServerVars.Players[i].setOffsetY(ServerVars.Players[i].getOffsetY() - MovementSpeed);
-                                        System.out.println("OffsetY: " + ServerVars.Players[i].getOffsetY());
-                                        if (ServerVars.Players[i].getOffsetY() < 0) {
-                                            ServerVars.Players[i].setOffsetY(0);
-                                            ServerVars.Players[i].setMoving(0);
-                                        }
-                                        break;
-                                    case ServerVars.DIR_DOWN:
-                                        ServerVars.Players[i].setOffsetY(ServerVars.Players[i].getOffsetY() + MovementSpeed);
-                                        if (ServerVars.Players[i].getOffsetY() > 0) {
-                                            ServerVars.Players[i].setOffsetY(0);
-                                            ServerVars.Players[i].setMoving(0);
-                                        }
-                                        break;
-                                    case ServerVars.DIR_LEFT:
-                                        ServerVars.Players[i].setOffsetX(ServerVars.Players[i].getOffsetX() - MovementSpeed);
-                                        if (ServerVars.Players[i].getOffsetX() < 0) {
-                                            ServerVars.Players[i].setOffsetX(0);
-                                            ServerVars.Players[i].setMoving(0);
-                                        }
-                                        break;
-                                    case ServerVars.DIR_RIGHT:
-                                        ServerVars.Players[i].setOffsetX(ServerVars.Players[i].getOffsetX() + MovementSpeed);
-                                        if (ServerVars.Players[i].getOffsetX() > 0) {
-                                            ServerVars.Players[i].setOffsetX(0);
-                                            ServerVars.Players[i].setMoving(0);
-                                        }
-                                        break;
+                                if (ServerVars.Players[i].getMoving() == 1) {
+                                    switch (ServerVars.Players[i].getDir()) {
+                                        case ServerVars.DIR_UP:
+                                            ServerVars.Players[i].setOffsetY(ServerVars.Players[i].getOffsetY() - MovementSpeed);
+                                            System.out.println("OffsetX - Up: " + ServerVars.Players[i].getOffsetY());
+                                            if (ServerVars.Players[i].getOffsetY() < 0) {
+                                                ServerVars.Players[i].setOffsetY(0);
+                                                ServerVars.Players[i].setMoving(0);
+                                            }
+                                            break;
+                                        case ServerVars.DIR_DOWN:
+                                            ServerVars.Players[i].setOffsetY(ServerVars.Players[i].getOffsetY() + MovementSpeed);
+                                            System.out.println("OffsetX - Down: " + ServerVars.Players[i].getOffsetY());
+                                            if (ServerVars.Players[i].getOffsetY() > 0) {
+                                                ServerVars.Players[i].setOffsetY(0);
+                                                ServerVars.Players[i].setMoving(0);
+                                            }
+                                            break;
+                                        case ServerVars.DIR_LEFT:
+                                            ServerVars.Players[i].setOffsetX(ServerVars.Players[i].getOffsetX() - MovementSpeed);
+                                            System.out.println("OffsetX - Left: " + ServerVars.Players[i].getOffsetX());
+                                            if (ServerVars.Players[i].getOffsetX() < 0) {
+                                                ServerVars.Players[i].setOffsetX(0);
+                                                ServerVars.Players[i].setMoving(0);
+                                            }
+                                            break;
+                                        case ServerVars.DIR_RIGHT:
+                                            ServerVars.Players[i].setOffsetX(ServerVars.Players[i].getOffsetX() + MovementSpeed);
+                                            System.out.println("OffsetX - Right: " + ServerVars.Players[i].getOffsetX());
+                                            if (ServerVars.Players[i].getOffsetX() > 0) {
+                                                ServerVars.Players[i].setOffsetX(0);
+                                                ServerVars.Players[i].setMoving(0);
+                                            }
+                                            break;
+                                    }
                                 }
                             }
                         }
