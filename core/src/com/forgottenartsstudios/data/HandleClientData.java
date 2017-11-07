@@ -233,28 +233,21 @@ public class HandleClientData {
 
         if (Variables.players[Variables.MyIndex].getMap() == Map) {
             if (!canMove) {
-            //if (Variables.players[Index].getX() == X && Variables.players[Index].getY() == Y) {
-                Variables.players[Index].setDir(Dir);
-            } else {
-                Variables.players[Index].setX(X);
-                Variables.players[Index].setY(Y);
-                Variables.players[Index].setDir(Dir);
-
-                Variables.players[Index].setMoving(1);
-                switch (Dir) {
-                    case Variables.DIR_UP:
-                        Variables.players[Index].setOffsetY(32);
-                        break;
-                    case Variables.DIR_DOWN:
-                        Variables.players[Index].setOffsetY(32 * -1);
-                        break;
-                    case Variables.DIR_LEFT:
-                        Variables.players[Index].setOffsetX(32);
-                        break;
-                    case Variables.DIR_RIGHT:
-                        Variables.players[Index].setOffsetX(32 * -1);
-                        break;
+                if (Variables.players[Variables.MyIndex].getX() == X && Variables.players[Variables.MyIndex].getY() == Y) {
+                    Variables.players[Index].setDir(Dir);
+                } else {
+                    Variables.players[Index].setX(X);
+                    Variables.players[Index].setY(Y);
+                    Variables.players[Index].setDir(Dir);
                 }
+            } else {
+                if (Variables.players[Variables.MyIndex].getX() != X) {
+                    Variables.players[Variables.MyIndex].setX(X);
+                }
+                if (Variables.players[Variables.MyIndex].getY() != Y) {
+                    Variables.players[Variables.MyIndex].setY(Y);
+                }
+                Variables.players[Variables.MyIndex].setDir(Dir);
             }
         }
     }

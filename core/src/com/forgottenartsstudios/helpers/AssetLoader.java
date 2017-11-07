@@ -388,6 +388,7 @@ public class AssetLoader {
         }
     }
     public static void clearMap(int mapNum) {
+        Variables.mapRender[mapNum] = new mapData();
         Variables.mapRender[mapNum].Tileset = 1;
         Variables.mapRender[mapNum].Name = "Map";
         Variables.mapRender[mapNum].MaxX = 14;
@@ -435,13 +436,18 @@ public class AssetLoader {
         }
     }
     public static void saveLogin() {
-        String absoPath = new File("").getAbsolutePath();
-        String fileName = absoPath + "\\android\\assets\\data\\preferences.dat";
+        FileHandle prefFile = null;
+
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
+        } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+            prefFile = Gdx.files.internal(clientDir + "data/preferences.dat");
+        }
 
         ObjectOutputStream  outputStream = null;
 
         try{
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+            outputStream = new ObjectOutputStream(new FileOutputStream(prefFile.file()));
         }catch(IOException e){
             System.out.println("Could not open the file." + e);
             System.exit(0);
@@ -464,17 +470,21 @@ public class AssetLoader {
         }
     }
     public static void loadLogin() {
-        String absoPath = new File("").getAbsolutePath();
-        String fileName = absoPath + "\\android\\assets\\data\\preferences.dat";
+        FileHandle prefFile = null;
 
-        File f = new File(fileName);
-        if(!f.exists() && !f.isDirectory()) {
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
+        } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+            prefFile = Gdx.files.internal(clientDir + "data/preferences.dat");
+        }
+
+        if(!prefFile.exists() && !prefFile.isDirectory()) {
             return;
         }
 
         ObjectInputStream inputStream = null;
         try{
-            inputStream = new ObjectInputStream(new FileInputStream(fileName));
+            inputStream = new ObjectInputStream(new FileInputStream(prefFile.file()));
         }catch(IOException e){
             System.out.println("There was a problem opening the file: " + e);
             System.exit(0);

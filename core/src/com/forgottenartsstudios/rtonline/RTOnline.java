@@ -145,14 +145,6 @@ public class RTOnline extends Game {
             Variables.Game_State = Variables.Game_State_Loading;
         }
 	}
-
-    private Preferences preferences;
-    protected Preferences getPrefs() {
-        if(preferences == null){
-            preferences = Gdx.app.getPreferences("RTOPreferences");
-        }
-        return preferences;
-    }
 	
 	@Override
 	public void dispose () {  }

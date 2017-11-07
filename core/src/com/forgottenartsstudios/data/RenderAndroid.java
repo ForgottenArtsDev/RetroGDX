@@ -76,25 +76,25 @@ public class RenderAndroid {
         c = batcher.getColor();
         oldAlpha = c.a;
 
-        drawText("Server Status: ", 105, 300, Color.WHITE);
+        drawText("Server Status: ", 105, 200, Color.WHITE);
         if (Variables.serverOnline) {
-            drawText("Online", 305, 300, Color.GREEN);
+            drawText("Online", 305, 200, Color.GREEN);
         } else {
-            drawText("Offline", 305, 300, Color.RED);
+            drawText("Offline", 305, 200, Color.RED);
         }
     }
     public static void gsLogin(long tickCount) {
         batcher.draw(AssetLoader.loginMenuBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
 
         if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
-            drawText(Variables.Login_ID, 147, 401, Color.WHITE);
+            drawText(Variables.Login_ID, 151, 325, Color.WHITE);
         }
         if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
             String starPW = "";
             for (int i = 1; i <= Variables.Login_PW.length(); i++) {
                 starPW = starPW + "x";
             }
-            drawText(starPW, 147, 461, Color.WHITE);
+            drawText(starPW, 151, 381, Color.WHITE);
         }
         if (Variables.AccountNotFound) {
             drawText("Account Not Found", 132, 501, Color.RED);
@@ -109,11 +109,15 @@ public class RenderAndroid {
             drawText("Account Registered", 122, 501, Color.YELLOW);
         }
 
-        drawText("Server Status: ", 105, 300, Color.WHITE);
+        if (Variables.saveLogin) {
+            drawText("x", 151, 437, Color.WHITE);
+        }
+
+        drawText("Server Status: ", 105, 200, Color.WHITE);
         if (Variables.serverOnline) {
-            drawText("Online", 305, 300, Color.GREEN);
+            drawText("Online", 285, 200, Color.GREEN);
         } else {
-            drawText("Offline", 305, 300, Color.RED);
+            drawText("Offline", 285, 200, Color.RED);
         }
     }
     public static void gsCharSelect(long tickCount) {
@@ -125,30 +129,30 @@ public class RenderAndroid {
 
             batcher.draw(spriteTex, 40, 370);
 
-            drawText("Name: " + Variables.MyAccount.chars[1].getName(), 110, 335, Color.WHITE);
+            drawText("Name: " + Variables.MyAccount.chars[1].getName(), 110, 330, Color.WHITE);
             if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_WARRIOR) {
-                drawText("Job: Warrior", 110, 355, Color.WHITE);
+                drawText("Job: Warrior", 110, 350, Color.WHITE);
             } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_WIZARD) {
-                drawText("Job: Mage", 110, 355, Color.WHITE);
+                drawText("Job: Mage", 110, 350, Color.WHITE);
             } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_CLERIC) {
-                drawText("Job: Cleric", 110, 355, Color.WHITE);
+                drawText("Job: Cleric", 110, 350, Color.WHITE);
             } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_RANGER) {
-                drawText("Job: Ranger", 110, 355, Color.WHITE);
+                drawText("Job: Ranger", 110, 350, Color.WHITE);
             } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_ROGUE) {
-                drawText("Job: Rogue", 110, 355, Color.WHITE);
+                drawText("Job: Rogue", 110, 350, Color.WHITE);
             }
-            drawText("Lvl: " + Variables.MyAccount.chars[1].getLevel(), 110, 375, Color.WHITE);
-            drawText("HP: " + Variables.MyAccount.chars[1].getHP() + "/" + Variables.MyAccount.chars[1].getMaxHP(), 110, 395, Color.WHITE);
-            drawText("MP: " + Variables.MyAccount.chars[1].getMP() + "/" + Variables.MyAccount.chars[1].getMaxMP(), 110, 415, Color.WHITE);
+            drawText("Lvl: " + Variables.MyAccount.chars[1].getLevel(), 110, 370, Color.WHITE);
+            drawText("HP: " + Variables.MyAccount.chars[1].getHP() + "/" + Variables.MyAccount.chars[1].getMaxHP(), 110, 390, Color.WHITE);
+            drawText("MP: " + Variables.MyAccount.chars[1].getMP() + "/" + Variables.MyAccount.chars[1].getMaxMP(), 110, 410, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Variables.MyAccount.chars[1].getSTR(), 360, 335, Color.WHITE);
-            drawText("DEF: " + Variables.MyAccount.chars[1].getDEF(), 360, 355, Color.WHITE);
-            drawText("VIT: " + Variables.MyAccount.chars[1].getVIT(), 360, 375, Color.WHITE);
-            drawText("AGI: " + Variables.MyAccount.chars[1].getAGI(), 360, 395, Color.WHITE);
-            drawText("MAG: " + Variables.MyAccount.chars[1].getMAG(), 360, 415, Color.WHITE);
+            drawText("STR: " + Variables.MyAccount.chars[1].getSTR(), 360, 330, Color.WHITE);
+            drawText("DEF: " + Variables.MyAccount.chars[1].getDEF(), 360, 350, Color.WHITE);
+            drawText("VIT: " + Variables.MyAccount.chars[1].getVIT(), 360, 370, Color.WHITE);
+            drawText("AGI: " + Variables.MyAccount.chars[1].getAGI(), 360, 390, Color.WHITE);
+            drawText("MAG: " + Variables.MyAccount.chars[1].getMAG(), 360, 410, Color.WHITE);
         } else {
-            drawText("Create Character", 135, 380, Color.WHITE);
+            drawText("Create Character", 135, 370, Color.WHITE);
         }
         if (Variables.MyAccount.chars[2].getName() != null && !Variables.MyAccount.chars[2].getName().isEmpty()) {
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.MyAccount.chars[2].getSprite()], 32, 72, 32, 36);
@@ -179,36 +183,36 @@ public class RenderAndroid {
             drawText("AGI: " + Variables.MyAccount.chars[2].getAGI(), 360, 555, Color.WHITE);
             drawText("MAG: " + Variables.MyAccount.chars[2].getMAG(), 360, 575, Color.WHITE);
         } else {
-            drawText("Create Character", 135, 540, Color.WHITE);
+            drawText("Create Character", 135, 535, Color.WHITE);
         }
         if (Variables.MyAccount.chars[3].getName() != null && !Variables.MyAccount.chars[3].getName().isEmpty()) {
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.MyAccount.chars[3].getSprite()], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 40, 690);
+            batcher.draw(spriteTex, 40, 695);
 
-            drawText("Name: " + Variables.MyAccount.chars[3].getName(), 110, 655, Color.WHITE);
+            drawText("Name: " + Variables.MyAccount.chars[3].getName(), 110, 660, Color.WHITE);
             if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_WARRIOR) {
-                drawText("Job: Warrior", 110, 675, Color.WHITE);
+                drawText("Job: Warrior", 110, 680, Color.WHITE);
             } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_WIZARD) {
-                drawText("Job: Mage", 110, 675, Color.WHITE);
+                drawText("Job: Mage", 110, 680, Color.WHITE);
             } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_CLERIC) {
-                drawText("Job: Cleric", 110, 675, Color.WHITE);
+                drawText("Job: Cleric", 110, 680, Color.WHITE);
             } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_RANGER) {
-                drawText("Job: Ranger", 110, 675, Color.WHITE);
+                drawText("Job: Ranger", 110, 680, Color.WHITE);
             } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_ROGUE) {
-                drawText("Job: Rogue", 110, 675, Color.WHITE);
+                drawText("Job: Rogue", 110, 680, Color.WHITE);
             }
-            drawText("Lvl: " + Variables.MyAccount.chars[3].getLevel(), 110, 695, Color.WHITE);
-            drawText("HP: " + Variables.MyAccount.chars[3].getHP() + "/" + Variables.MyAccount.chars[3].getMaxHP(), 110, 715, Color.WHITE);
-            drawText("MP: " + Variables.MyAccount.chars[3].getMP() + "/" + Variables.MyAccount.chars[3].getMaxMP(), 110, 735, Color.WHITE);
+            drawText("Lvl: " + Variables.MyAccount.chars[3].getLevel(), 110, 700, Color.WHITE);
+            drawText("HP: " + Variables.MyAccount.chars[3].getHP() + "/" + Variables.MyAccount.chars[3].getMaxHP(), 110, 720, Color.WHITE);
+            drawText("MP: " + Variables.MyAccount.chars[3].getMP() + "/" + Variables.MyAccount.chars[3].getMaxMP(), 110, 740, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Variables.MyAccount.chars[3].getSTR(), 360, 655, Color.WHITE);
-            drawText("DEF: " + Variables.MyAccount.chars[3].getDEF(), 360, 675, Color.WHITE);
-            drawText("VIT: " + Variables.MyAccount.chars[3].getVIT(), 360, 695, Color.WHITE);
-            drawText("AGI: " + Variables.MyAccount.chars[3].getAGI(), 360, 715, Color.WHITE);
-            drawText("MAG: " + Variables.MyAccount.chars[3].getMAG(), 360, 735, Color.WHITE);
+            drawText("STR: " + Variables.MyAccount.chars[3].getSTR(), 360, 660, Color.WHITE);
+            drawText("DEF: " + Variables.MyAccount.chars[3].getDEF(), 360, 680, Color.WHITE);
+            drawText("VIT: " + Variables.MyAccount.chars[3].getVIT(), 360, 700, Color.WHITE);
+            drawText("AGI: " + Variables.MyAccount.chars[3].getAGI(), 360, 720, Color.WHITE);
+            drawText("MAG: " + Variables.MyAccount.chars[3].getMAG(), 360, 740, Color.WHITE);
         } else {
             drawText("Create Character", 135, 700, Color.WHITE);
         }
@@ -216,136 +220,136 @@ public class RenderAndroid {
     public static void gsCharCreate(long tickCount) {
         batcher.draw(AssetLoader.charCreateBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
         if (Variables.TempName != null && !Variables.TempName.isEmpty()) {
-            drawText(Variables.TempName, 165, 379, Color.WHITE);
+            drawText(Variables.TempName, 159, 257, Color.WHITE);
         }
 
         if (Variables.TempJob == Variables.JOB_WARRIOR) {
-            batcher.draw(AssetLoader.warriorEmb, 11, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.warriorEmb, 11, 327, 90, 90, 0, 0, 90, 90, false, true);
             layout.setText(AssetLoader.font, "Job: Warrior");
             float width = layout.width;
 
-            drawText("Job: Warrior", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Warrior", 240 - ((int)width / 2), 435, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 224, 510);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Warrior.getVIT() * 2) * (Jobs.Warrior.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Warrior.getMAG() * 2) * (Jobs.Warrior.getDEF() / 2), 30, 680, Color.WHITE);
+            drawText("HP: " + (Jobs.Warrior.getVIT() * 2) * (Jobs.Warrior.getSTR() / 2), 80, 610, Color.WHITE);
+            drawText("MP: " + (Jobs.Warrior.getMAG() * 2) * (Jobs.Warrior.getDEF() / 2), 80, 630, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Warrior.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Warrior.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Warrior.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Warrior.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Warrior.getMAG(), 365, 740, Color.WHITE);
+            drawText("STR: " + Jobs.Warrior.getSTR(), 315, 610, Color.WHITE);
+            drawText("DEF: " + Jobs.Warrior.getDEF(), 315, 630, Color.WHITE);
+            drawText("VIT: " + Jobs.Warrior.getVIT(), 315, 650, Color.WHITE);
+            drawText("AGI: " + Jobs.Warrior.getAGI(), 315, 670, Color.WHITE);
+            drawText("MAG: " + Jobs.Warrior.getMAG(), 315, 690, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.warriorEmbT, 11, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.warriorEmbT, 11, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
         if (Variables.TempJob == Variables.JOB_WIZARD) {
-            batcher.draw(AssetLoader.wizardEmb, 103, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.wizardEmb, 103, 327, 90, 90, 0, 0, 90, 90, false, true);
             layout.setText(AssetLoader.font, "Job: Mage");
             float width = layout.width;
 
-            drawText("Job: Mage", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Mage", 240 - ((int)width / 2), 435, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 224, 510);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Wizard.getVIT() * 2) * (Jobs.Wizard.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Wizard.getMAG() * 2) * (Jobs.Wizard.getDEF() / 2), 30, 680, Color.WHITE);
+            drawText("HP: " + (Jobs.Wizard.getVIT() * 2) * (Jobs.Wizard.getSTR() / 2), 80, 610, Color.WHITE);
+            drawText("MP: " + (Jobs.Wizard.getMAG() * 2) * (Jobs.Wizard.getDEF() / 2), 80, 630, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Wizard.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Wizard.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Wizard.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Wizard.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Wizard.getMAG(), 365, 740, Color.WHITE);
+            drawText("STR: " + Jobs.Wizard.getSTR(), 315, 610, Color.WHITE);
+            drawText("DEF: " + Jobs.Wizard.getDEF(), 315, 630, Color.WHITE);
+            drawText("VIT: " + Jobs.Wizard.getVIT(), 315, 650, Color.WHITE);
+            drawText("AGI: " + Jobs.Wizard.getAGI(), 315, 670, Color.WHITE);
+            drawText("MAG: " + Jobs.Wizard.getMAG(), 315, 690, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.wizardEmbT, 103, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.wizardEmbT, 103, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
         if (Variables.TempJob == Variables.JOB_CLERIC) {
-            batcher.draw(AssetLoader.clericEmb, 195, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.clericEmb, 195, 327, 90, 90, 0, 0, 90, 90, false, true);
             layout.setText(AssetLoader.font, "Job: Cleric");
             float width = layout.width;
 
-            drawText("Job: Cleric", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Cleric", 240 - ((int)width / 2), 435, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 224, 510);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Cleric.getVIT() * 2) * (Jobs.Cleric.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Cleric.getMAG() * 2) * (Jobs.Cleric.getDEF() / 2), 30, 680, Color.WHITE);
+            drawText("HP: " + (Jobs.Cleric.getVIT() * 2) * (Jobs.Cleric.getSTR() / 2), 80, 610, Color.WHITE);
+            drawText("MP: " + (Jobs.Cleric.getMAG() * 2) * (Jobs.Cleric.getDEF() / 2), 80, 630, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Cleric.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Cleric.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Cleric.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Cleric.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Cleric.getMAG(), 365, 740, Color.WHITE);
+            drawText("STR: " + Jobs.Cleric.getSTR(), 315, 610, Color.WHITE);
+            drawText("DEF: " + Jobs.Cleric.getDEF(), 315, 630, Color.WHITE);
+            drawText("VIT: " + Jobs.Cleric.getVIT(), 315, 650, Color.WHITE);
+            drawText("AGI: " + Jobs.Cleric.getAGI(), 315, 670, Color.WHITE);
+            drawText("MAG: " + Jobs.Cleric.getMAG(), 315, 690, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.clericEmbT, 195, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.clericEmbT, 195, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
         if (Variables.TempJob == Variables.JOB_RANGER) {
-            batcher.draw(AssetLoader.rangerEmb, 287, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.rangerEmb, 287, 327, 90, 90, 0, 0, 90, 90, false, true);
             layout.setText(AssetLoader.font, "Job: Ranger");
             float width = layout.width;
 
-            drawText("Job: Ranger", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Ranger", 240 - ((int)width / 2), 435, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 224, 510);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Ranger.getVIT() * 2) * (Jobs.Ranger.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Ranger.getMAG() * 2) * (Jobs.Ranger.getDEF() / 2), 30, 680, Color.WHITE);
+            drawText("HP: " + (Jobs.Ranger.getVIT() * 2) * (Jobs.Ranger.getSTR() / 2), 80, 610, Color.WHITE);
+            drawText("MP: " + (Jobs.Ranger.getMAG() * 2) * (Jobs.Ranger.getDEF() / 2), 80, 630, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Ranger.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Ranger.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Ranger.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Ranger.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Ranger.getMAG(), 365, 740, Color.WHITE);
+            drawText("STR: " + Jobs.Ranger.getSTR(), 315, 610, Color.WHITE);
+            drawText("DEF: " + Jobs.Ranger.getDEF(), 315, 630, Color.WHITE);
+            drawText("VIT: " + Jobs.Ranger.getVIT(), 315, 650, Color.WHITE);
+            drawText("AGI: " + Jobs.Ranger.getAGI(), 315, 670, Color.WHITE);
+            drawText("MAG: " + Jobs.Ranger.getMAG(), 315, 690, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.rangerEmbT, 287, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.rangerEmbT, 287, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
         if (Variables.TempJob == Variables.JOB_ROGUE) {
-            batcher.draw(AssetLoader.rogueEmb, 379, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.rogueEmb, 379, 327, 90, 90, 0, 0, 90, 90, false, true);
             layout.setText(AssetLoader.font, "Job: Rogue");
             float width = layout.width;
 
-            drawText("Job: Rogue", 240 - ((int)width / 2), 585, Color.WHITE);
+            drawText("Job: Rogue", 240 - ((int)width / 2), 435, Color.WHITE);
 
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.TempSprite], 32, 72, 32, 36);
             spriteTex.flip(false, true);
 
-            batcher.draw(spriteTex, 224, 660);
+            batcher.draw(spriteTex, 224, 510);
 
             // HP-MP
-            drawText("HP: " + (Jobs.Rogue.getVIT() * 2) * (Jobs.Rogue.getSTR() / 2), 30, 660, Color.WHITE);
-            drawText("MP: " + (Jobs.Rogue.getMAG() * 2) * (Jobs.Rogue.getDEF() / 2), 30, 680, Color.WHITE);
+            drawText("HP: " + (Jobs.Rogue.getVIT() * 2) * (Jobs.Rogue.getSTR() / 2), 80, 610, Color.WHITE);
+            drawText("MP: " + (Jobs.Rogue.getMAG() * 2) * (Jobs.Rogue.getDEF() / 2), 80, 630, Color.WHITE);
 
             // STATS
-            drawText("STR: " + Jobs.Rogue.getSTR(), 365, 660, Color.WHITE);
-            drawText("DEF: " + Jobs.Rogue.getDEF(), 365, 680, Color.WHITE);
-            drawText("VIT: " + Jobs.Rogue.getVIT(), 365, 700, Color.WHITE);
-            drawText("AGI: " + Jobs.Rogue.getAGI(), 365, 720, Color.WHITE);
-            drawText("MAG: " + Jobs.Rogue.getMAG(), 365, 740, Color.WHITE);
+            drawText("STR: " + Jobs.Rogue.getSTR(), 315, 610, Color.WHITE);
+            drawText("DEF: " + Jobs.Rogue.getDEF(), 315, 630, Color.WHITE);
+            drawText("VIT: " + Jobs.Rogue.getVIT(), 315, 650, Color.WHITE);
+            drawText("AGI: " + Jobs.Rogue.getAGI(), 315, 670, Color.WHITE);
+            drawText("MAG: " + Jobs.Rogue.getMAG(), 315, 690, Color.WHITE);
         } else {
-            batcher.draw(AssetLoader.rogueEmbT, 379, 477, 90, 90, 0, 0, 90, 90, false, true);
+            batcher.draw(AssetLoader.rogueEmbT, 379, 327, 90, 90, 0, 0, 90, 90, false, true);
         }
-        batcher.draw(AssetLoader.male, 154, 648, 60, 60, 0, 0, 60, 60, false, true);
-        batcher.draw(AssetLoader.female, 266, 648, 60, 60, 0, 0, 60, 60, false, true);
+        batcher.draw(AssetLoader.male, 154, 498, 60, 60, 0, 0, 60, 60, false, true);
+        batcher.draw(AssetLoader.female, 266, 498, 60, 60, 0, 0, 60, 60, false, true);
     }
     private static int firstTick = 0;
     public static void gsLoading(long tickCount) {
@@ -356,17 +360,18 @@ public class RenderAndroid {
             firstTick++;
         }
 
-        drawText("Server Status: ", 105, 300, Color.WHITE);
+        drawText("Server Status: ", 105, 200, Color.WHITE);
         if (Variables.serverOnline) {
-            drawText("Online", 305, 300, Color.GREEN);
+            drawText("Online", 305, 200, Color.GREEN);
         } else {
-            drawText("Offline", 305, 300, Color.RED);
+            drawText("Offline", 305, 200, Color.RED);
         }
 
         if (LastUpdateTime_Loading < tickCount) {
             //if (firstTick > 0) {
                 AssetLoader.checkMaps();
                 for (int i = 1; i <= Variables.MaxMaps; i++) {
+                    AssetLoader.clearMap(i);
                     AssetLoader.loadMap(i);
                     AssetLoader.cacheTiles(i);
                 }
@@ -386,12 +391,15 @@ public class RenderAndroid {
         longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
-        if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                AndroidInputData.handleInput();
-            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                AndroidInputData.handleAndroidInput();
+        if (LastUpdateTime_InputTimer < tickCount) {
+            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                    AndroidInputData.handleInput();
+                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                    AndroidInputData.handleAndroidInput();
+                }
             }
+            LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
         }
 
         for (int i = 1; i <= Variables.MaxPlayers; i++) {
@@ -1222,33 +1230,50 @@ public class RenderAndroid {
     }
     public static void drawUI() {
         // Empty Bar
-        batcher.draw(AssetLoader.emptyBar, 86, 475, 96, 12, 0, 0, 96, 12, false, true);
-        batcher.draw(AssetLoader.emptyBar, 192, 475, 96, 12, 0, 0, 96, 12, false, true);
-        batcher.draw(AssetLoader.emptyBar, 298, 475, 96, 12, 0, 0, 96, 12, false, true);
+        batcher.draw(AssetLoader.emptyBar, 86, 0, 96, 12, 0, 0, 96, 12, false, true);
+        batcher.draw(AssetLoader.emptyBar, 192, 0, 96, 12, 0, 0, 96, 12, false, true);
+        batcher.draw(AssetLoader.emptyBar, 298, 0, 96, 12, 0, 0, 96, 12, false, true);
         // HP Bar
         if (Variables.players[Variables.MyIndex].getHP() > Variables.players[Variables.MyIndex].getMaxHP()) { Variables.players[Variables.MyIndex].setHP(Variables.players[Variables.MyIndex].getMaxHP()); }
         double maxWidth = ((((double) Variables.players[Variables.MyIndex].getHP()) / 96) / ((double) Variables.players[Variables.MyIndex].getMaxHP() / 96) * 96);
-        batcher.draw(AssetLoader.hpBar, 86, 475, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
-        drawName("HP", 87, 476, Color.WHITE);
+        batcher.draw(AssetLoader.hpBar, 86, 0, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
+        drawName("HP", 87, 1, Color.WHITE);
         // MP Bar
         if (Variables.players[Variables.MyIndex].getMP() > Variables.players[Variables.MyIndex].getMaxMP()) { Variables.players[Variables.MyIndex].setMP(Variables.players[Variables.MyIndex].getMaxMP()); }
         maxWidth = ((((double) Variables.players[Variables.MyIndex].getMP()) / 96) / ((double) Variables.players[Variables.MyIndex].getMaxMP() / 96) * 96);
-        batcher.draw(AssetLoader.mpBar, 192, 475, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
-        drawName("MP", 193, 475, Color.WHITE);
+        batcher.draw(AssetLoader.mpBar, 192, 0, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
+        drawName("MP", 193, 1, Color.WHITE);
         // MP Bar
         maxWidth = ((((double) Variables.players[Variables.MyIndex].getEXP()) / 96) / ((double) Variables.players[Variables.MyIndex].getNextLVL() / 96) * 96);
-        batcher.draw(AssetLoader.xpBar, 298, 475, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
-        drawName("XP", 299, 475, Color.WHITE);
+        batcher.draw(AssetLoader.xpBar, 298, 0, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
+        drawName("XP", 299, 1, Color.WHITE);
         // Chat Bar
-        batcher.draw(AssetLoader.chatBar, 16, 440, 448, 24, 0, 0, 448, 24, false, true);
-        if (Variables.chatMessageIndex > 0) {
-            int type = Variables.chatMessages[Variables.chatMessageIndex].getType();
-            if (type == Variables.MESSAGE_TYPE_MAP) {
-                drawName(Variables.chatMessages[Variables.chatMessageIndex].getMsg(), 24, 446, Color.WHITE);
-            } else if (type == Variables.MESSAGE_TYPE_GLOBAL) {
-                drawName(Variables.chatMessages[Variables.chatMessageIndex].getMsg(), 24, 446, Color.ORANGE);
-            } else if (type == Variables.MESSAGE_TYPE_WHISPER) {
-                drawName(Variables.chatMessages[Variables.chatMessageIndex].getMsg(), 24, 446, Color.PINK);
+        //batcher.draw(AssetLoader.chatBar, 16, 472, 448, 24, 0, 0, 448, 24, false, true);
+        if (!Variables.inChat) {
+            if (Variables.chatMessageIndex > 0) {
+                if (Variables.chatMessageIndex < 5) {
+                    for (int i = 1; i <= Variables.chatMessageIndex; i++) {
+                        int type = Variables.chatMessages[i].getType();
+                        if (type == Variables.MESSAGE_TYPE_MAP) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.WHITE);
+                        } else if (type == Variables.MESSAGE_TYPE_GLOBAL) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.ORANGE);
+                        } else if (type == Variables.MESSAGE_TYPE_WHISPER) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.PINK);
+                        }
+                    }
+                } else if (Variables.chatMessageIndex > 4) {
+                    for (int i = Variables.chatMessageIndex - 4; i <= Variables.chatMessageIndex; i++) {
+                        int type = Variables.chatMessages[i].getType();
+                        if (type == Variables.MESSAGE_TYPE_MAP) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.WHITE);
+                        } else if (type == Variables.MESSAGE_TYPE_GLOBAL) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.ORANGE);
+                        } else if (type == Variables.MESSAGE_TYPE_WHISPER) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.PINK);
+                        }
+                    }
+                }
             }
         }
     }

@@ -308,7 +308,11 @@ public class HandleServerData {
                      }
                 } else {
                     canMove = General.TileIsOpen(Map, X, Y - 1);
-                    SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                    if (ServerVars.Players[Index].getMoving() == 0) {
+                        SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                        ServerVars.Players[Index].setMoving(1);
+                        ServerVars.Players[Index].setOffsetY(32);
+                    }
                 }
                 break;
             case ServerVars.DIR_DOWN:
@@ -321,7 +325,11 @@ public class HandleServerData {
                     }
                 } else {
                     canMove = General.TileIsOpen(Map, X, Y + 1);
-                    SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                    if (ServerVars.Players[Index].getMoving() == 0) {
+                        SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                        ServerVars.Players[Index].setMoving(1);
+                        ServerVars.Players[Index].setOffsetY(32 * -1);
+                    }
                 }
                 break;
             case ServerVars.DIR_LEFT:
@@ -334,7 +342,11 @@ public class HandleServerData {
                     }
                 } else {
                     canMove = General.TileIsOpen(Map, X - 1, Y);
-                    SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                    if (ServerVars.Players[Index].getMoving() == 0) {
+                        SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                        ServerVars.Players[Index].setMoving(1);
+                        ServerVars.Players[Index].setOffsetX(32);
+                    }
                 }
                 break;
             case ServerVars.DIR_RIGHT:
@@ -347,7 +359,11 @@ public class HandleServerData {
                     }
                 } else {
                     canMove = General.TileIsOpen(Map, X + 1, Y);
-                    SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                    if (ServerVars.Players[Index].getMoving() == 0) {
+                        SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                        ServerVars.Players[Index].setMoving(1);
+                        ServerVars.Players[Index].setOffsetX(32 * -1);
+                    }
                 }
                 break;
         }

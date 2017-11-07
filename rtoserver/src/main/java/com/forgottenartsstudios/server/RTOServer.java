@@ -61,6 +61,7 @@ import com.forgottenartsstudios.networking.packets.SendUseItem;
 import com.forgottenartsstudios.networking.packets.SendUsePoint;
 import com.forgottenartsstudios.networking.packets.SendVital;
 import com.forgottenartsstudios.networking.packets.WarpCheck;
+import com.sun.org.apache.xpath.internal.operations.Variable;
 
 import java.util.Random;
 
@@ -183,6 +184,46 @@ public class RTOServer extends ApplicationAdapter {
 
                 while (ServerVars.ServerRunning) {
                     long tickCount = System.currentTimeMillis();
+
+                    int MovementSpeed = 4;
+
+                    for (int mapNum = 1; mapNum <= ServerVars.MaxMaps; mapNum++) {
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] != null) {
+                                switch (ServerVars.Players[i].getDir()) {
+                                    case ServerVars.DIR_UP:
+                                        ServerVars.Players[i].setOffsetY(ServerVars.Players[i].getOffsetY() - MovementSpeed);
+                                        System.out.println("OffsetY: " + ServerVars.Players[i].getOffsetY());
+                                        if (ServerVars.Players[i].getOffsetY() < 0) {
+                                            ServerVars.Players[i].setOffsetY(0);
+                                            ServerVars.Players[i].setMoving(0);
+                                        }
+                                        break;
+                                    case ServerVars.DIR_DOWN:
+                                        ServerVars.Players[i].setOffsetY(ServerVars.Players[i].getOffsetY() + MovementSpeed);
+                                        if (ServerVars.Players[i].getOffsetY() > 0) {
+                                            ServerVars.Players[i].setOffsetY(0);
+                                            ServerVars.Players[i].setMoving(0);
+                                        }
+                                        break;
+                                    case ServerVars.DIR_LEFT:
+                                        ServerVars.Players[i].setOffsetX(ServerVars.Players[i].getOffsetX() - MovementSpeed);
+                                        if (ServerVars.Players[i].getOffsetX() < 0) {
+                                            ServerVars.Players[i].setOffsetX(0);
+                                            ServerVars.Players[i].setMoving(0);
+                                        }
+                                        break;
+                                    case ServerVars.DIR_RIGHT:
+                                        ServerVars.Players[i].setOffsetX(ServerVars.Players[i].getOffsetX() + MovementSpeed);
+                                        if (ServerVars.Players[i].getOffsetX() > 0) {
+                                            ServerVars.Players[i].setOffsetX(0);
+                                            ServerVars.Players[i].setMoving(0);
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                    }
 
                     if (LastUpdateTime_KeepAlive < tickCount) {
 

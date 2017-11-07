@@ -558,12 +558,15 @@ public class RenderDesktop {
         longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
-        if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                DesktopInputData.handleInput();
-            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                DesktopInputData.handleAndroidInput();
+        if (LastUpdateTime_InputTimer < tickCount) {
+            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                    DesktopInputData.handleInput();
+                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                    DesktopInputData.handleAndroidInput();
+                }
             }
+            LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
         }
 
         for (int i = 1; i <= Variables.MaxPlayers; i++) {
@@ -650,52 +653,52 @@ public class RenderDesktop {
                 case Variables.DIR_UP:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_DOWN:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_LEFT:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_RIGHT:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.players[i].getSprite()], x + 8, y + 5, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.players[i].getSprite()], x + 8, y + 3, 32, 36);
                             break;
                     }
                     return;
@@ -725,52 +728,52 @@ public class RenderDesktop {
             case Variables.DIR_UP:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                 }
                 return;
             case Variables.DIR_DOWN:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                 }
                 return;
             case Variables.DIR_LEFT:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                 }
                 return;
             case Variables.DIR_RIGHT:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 5, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 8, y + 3, 32, 36);
                         break;
                 }
                 return;

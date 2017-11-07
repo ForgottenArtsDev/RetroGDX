@@ -64,6 +64,67 @@ public class SendClientData {
         mPlayer.Y = Variables.players[Variables.MyIndex].getY();
         mPlayer.Dir = dir;
         client.sendTCP(mPlayer);
+
+        int X = mPlayer.X;
+        int Y = mPlayer.Y;
+        int Map = Variables.players[Variables.MyIndex].getMap();
+
+        boolean canMove;
+
+        switch (dir) {
+            case Variables.DIR_UP:
+                if (Y <= 0 || (Y - 1) < 0) {
+
+                } else {
+                    canMove = TileIsOpen(Map, X, Y - 1);
+                    if (canMove) {
+                        Variables.players[Variables.MyIndex].setY(Y - 1);
+                        Variables.players[Variables.MyIndex].setOffsetY(32);
+                        Variables.players[Variables.MyIndex].setMoving(1);
+                        Variables.players[Variables.MyIndex].setDir(dir);
+                    }
+                }
+                break;
+            case Variables.DIR_DOWN:
+                if (Y >= Variables.mapRender[Map].MaxY - 1 || (Y + 1) > Variables.mapRender[Map].MaxY - 1) {
+
+                } else {
+                    canMove = TileIsOpen(Map, X, Y + 1);
+                    if (canMove) {
+                        Variables.players[Variables.MyIndex].setY(Y + 1);
+                        Variables.players[Variables.MyIndex].setOffsetY(32 * -1);
+                        Variables.players[Variables.MyIndex].setMoving(1);
+                        Variables.players[Variables.MyIndex].setDir(dir);
+                    }
+                }
+                break;
+            case Variables.DIR_LEFT:
+                if (X <= 0 || (X - 1) < 0) {
+
+                } else {
+                    canMove = TileIsOpen(Map, X - 1, Y);
+                    if (canMove) {
+                        Variables.players[Variables.MyIndex].setX(X - 1);
+                        Variables.players[Variables.MyIndex].setOffsetX(32);
+                        Variables.players[Variables.MyIndex].setMoving(1);
+                        Variables.players[Variables.MyIndex].setDir(dir);
+                    }
+                }
+                break;
+            case Variables.DIR_RIGHT:
+                if (X >= Variables.mapRender[Map].MaxX - 1 || (X + 1) > Variables.mapRender[Map].MaxX - 1) {
+
+                } else {
+                    canMove = TileIsOpen(Map, X + 1, Y);
+                    if (canMove) {
+                        Variables.players[Variables.MyIndex].setX(X + 1);
+                        Variables.players[Variables.MyIndex].setOffsetX(32 * -1);
+                        Variables.players[Variables.MyIndex].setMoving(1);
+                        Variables.players[Variables.MyIndex].setDir(dir);
+                    }
+                }
+                break;
+        }
     }
     public static void SendKeepAliveCheck() {
         KeepAliveCheck keepAliveCheck = new KeepAliveCheck();
@@ -158,8 +219,51 @@ public class SendClientData {
         sendMessage.msg = Variables.chatInput;
 
         Variables.chatInput = "";
-        Variables.inChat = false;
 
         client.sendTCP(sendMessage);
+    }
+
+    public static boolean TileIsOpen(int mapNum, int X, int Y) {
+        // CHECK FOR PLAYERS ON MAP //
+        //if (Static.PlayersOnMap[mapNum])
+        //{
+        for (int LoopI = 1; LoopI <= Variables.MaxPlayers; LoopI++) {
+            if (Variables.players[LoopI] != null) {
+                if (Variables.players[LoopI].getMap() == mapNum) {
+                    if (Variables.players[LoopI].getX() == X) {
+                        if (Variables.players[LoopI].getY() == Y) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        //}
+
+        // CHECK FOR NPCS ON MAP //
+        for (int LoopI = 1; LoopI <= Variables.MaxMapNPCs; LoopI++) {
+            if (Variables.MapNPCs[LoopI].getNum() > 0) {
+                if (Variables.MapNPCs[LoopI].getX() == X) {
+                    if (Variables.MapNPCs[LoopI].getY() == Y) {
+                        if (!Variables.MapNPCs[LoopI].isDead()) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        // CHECK TILE TYPE //
+        if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_WALKABLE) {
+            if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_NPCSPAWN) {
+                if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_ITEM) {
+                    if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_WARP) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }

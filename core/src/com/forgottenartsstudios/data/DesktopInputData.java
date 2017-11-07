@@ -22,18 +22,24 @@ public class DesktopInputData {
         if (worldCoordinates.x >= 220 && worldCoordinates.x <= 579) {
             if (worldCoordinates.y >= 338 && worldCoordinates.y <= 361) {
                 Variables.inputID = true;
+                Variables.inputPW = false;
             }
         }
         // PW TEXT FIELD
         if (worldCoordinates.x >= 220 && worldCoordinates.x <= 579) {
             if (worldCoordinates.y >= 408 && worldCoordinates.y <= 431 ) {
                 Variables.inputPW = true;
+                Variables.inputID = false;
             }
         }
         // SAVE LOGIN
         if (worldCoordinates.x >= 220 && worldCoordinates.x <= 243) {
             if (worldCoordinates.y >= 444 && worldCoordinates.y <= 467 ) {
-                Variables.saveLogin = true;
+                if (!Variables.saveLogin) {
+                    Variables.saveLogin = true;
+                } else {
+                    Variables.saveLogin = false;
+                }
             }
         }
         // LOGIN BUTTON

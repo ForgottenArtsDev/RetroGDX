@@ -20,10 +20,6 @@ import java.io.ObjectOutputStream;
 public class editorAssetLoader {
 
     static String clientDir = "";
-    public static Texture mainMenuBG, mainMenuTap, loginMenuBG, charSelectBG, charCreateBG;
-    public static Texture warriorEmb, wizardEmb, clericEmb, rangerEmb, rogueEmb;
-    public static Texture warriorEmbT, wizardEmbT, clericEmbT, rangerEmbT, rogueEmbT;
-    public static Texture male, female;
     public static Texture[] sprites, tiles;
     public static TextureRegion[] spritesUp1, spritesUp2, spritesUp3;
     public static TextureRegion[] spritesDown1, spritesDown2, spritesDown3;
@@ -33,42 +29,6 @@ public class editorAssetLoader {
 
     public static void load() {
         clientDir = "android/assets/";
-        mainMenuBG = new Texture(Gdx.files.internal(clientDir + "data/ui/main_menu_bg.png"));
-        mainMenuBG.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        mainMenuTap = new Texture(Gdx.files.internal(clientDir + "data/ui/main_menu_tap.png"));
-        mainMenuTap.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        loginMenuBG = new Texture(Gdx.files.internal(clientDir + "data/ui/login_menu_bg.png"));
-        loginMenuBG.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        charSelectBG = new Texture(Gdx.files.internal(clientDir + "data/ui/char_select_bg.png"));
-        charSelectBG.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        charCreateBG = new Texture(Gdx.files.internal(clientDir + "data/ui/char_create_bg.png"));
-        charCreateBG.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
-        male = new Texture(Gdx.files.internal(clientDir + "data/ui/male.png"));
-        male.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        female = new Texture(Gdx.files.internal(clientDir + "data/ui/female.png"));
-        female.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
-        warriorEmb = new Texture(Gdx.files.internal(clientDir + "data/ui/warrior_emblem.png"));
-        warriorEmb.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        warriorEmbT = new Texture(Gdx.files.internal(clientDir + "data/ui/warrior_emblem_tran.png"));
-        warriorEmbT.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        wizardEmb = new Texture(Gdx.files.internal(clientDir + "data/ui/wizard_emblem.png"));
-        wizardEmb.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        wizardEmbT = new Texture(Gdx.files.internal(clientDir + "data/ui/wizard_emblem_tran.png"));
-        wizardEmbT.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        clericEmb = new Texture(Gdx.files.internal(clientDir + "data/ui/cleric_emblem.png"));
-        clericEmb.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        clericEmbT = new Texture(Gdx.files.internal(clientDir + "data/ui/cleric_emblem_tran.png"));
-        clericEmbT.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        rangerEmb = new Texture(Gdx.files.internal(clientDir + "data/ui/ranger_emblem.png"));
-        rangerEmb.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        rangerEmbT = new Texture(Gdx.files.internal(clientDir + "data/ui/ranger_emblem_tran.png"));
-        rangerEmbT.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        rogueEmb = new Texture(Gdx.files.internal(clientDir + "data/ui/rogue_emblem.png"));
-        rogueEmb.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        rogueEmbT = new Texture(Gdx.files.internal(clientDir + "data/ui/rogue_emblem_tran.png"));
-        rogueEmbT.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         tiles = new Texture[editorVars.MaxTiles + 1];
         for (int i = 1; i <= editorVars.MaxTiles; i++) {

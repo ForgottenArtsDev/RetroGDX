@@ -26,8 +26,8 @@ public class AndroidInputData {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
 
         // ID TEXT FIELD
-        if (worldCoordinates.x >= 141 && worldCoordinates.x <= 440) {
-            if (worldCoordinates.y >= 395 && worldCoordinates.y <= 424) {
+        if (worldCoordinates.x >= 146 && worldCoordinates.x <= 439) {
+            if (worldCoordinates.y >= 321 && worldCoordinates.y <= 346) {
                 Gdx.input.getTextInput(new Input.TextInputListener() {
 
                     @Override
@@ -42,8 +42,8 @@ public class AndroidInputData {
             }
         }
         // PW TEXT FIELD
-        if (worldCoordinates.x >= 141 && worldCoordinates.x <= 440) {
-            if (worldCoordinates.y >= 455 && worldCoordinates.y <= 484) {
+        if (worldCoordinates.x >= 146 && worldCoordinates.x <= 439) {
+            if (worldCoordinates.y >= 379 && worldCoordinates.y <= 404) {
                 Gdx.input.getTextInput(new Input.TextInputListener() {
 
                     @Override
@@ -57,14 +57,27 @@ public class AndroidInputData {
                 }, "PW:", "", "");
             }
         }
+        // SAVE LOGIN
+        if (worldCoordinates.x >= 146 && worldCoordinates.x <= 171) {
+            if (worldCoordinates.y >= 435 && worldCoordinates.y <= 460) {
+                if (!Variables.saveLogin) {
+                    Variables.saveLogin = true;
+                } else {
+                    Variables.saveLogin = false;
+                }
+            }
+        }
         // LOGIN BUTTON
-        if (worldCoordinates.x >= 165 && worldCoordinates.x <= 315) {
-            if (worldCoordinates.y >= 560 && worldCoordinates.y <= 615) {
+        if (worldCoordinates.x >= 162 && worldCoordinates.x <= 324) {
+            if (worldCoordinates.y >= 540 && worldCoordinates.y <= 584) {
                 if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
                     Variables.IDReq = false;
                     if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
                         Variables.PasswordReq = false;
                         Variables.IDReq = false;
+                        if (Variables.saveLogin) {
+                            AssetLoader.saveLogin();
+                        }
                         SendClientData.SendLogin(Variables.Login_ID, Variables.Login_PW);
                     } else {
                         Variables.PasswordReq = true;
@@ -75,11 +88,14 @@ public class AndroidInputData {
             }
         }
         // REGISTER BUTTON
-        if (worldCoordinates.x >= 115 && worldCoordinates.x <= 320) {
-            if (worldCoordinates.y >= 660 && worldCoordinates.y <= 720) {
+        if (worldCoordinates.x >= 114 && worldCoordinates.x <= 380) {
+            if (worldCoordinates.y >= 662 && worldCoordinates.y <= 705) {
                 if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
                     Variables.IDReq = false;
                     if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
+                        if (Variables.saveLogin) {
+                            AssetLoader.saveLogin();
+                        }
                         SendClientData.SendNewAccount(Variables.Login_ID, Variables.Login_PW);
                         Variables.PasswordReq = false;
                         Variables.IDReq = false;
@@ -95,8 +111,8 @@ public class AndroidInputData {
     public static void inputCharSelect(int screenX, int screenY) {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
         // Char 1
-        if (worldCoordinates.x >= 7 && worldCoordinates.x <= 470) {
-            if (worldCoordinates.y >= 310 && worldCoordinates.y <= 460) {
+        if (worldCoordinates.x >= 8 && worldCoordinates.x <= 471) {
+            if (worldCoordinates.y >= 304 && worldCoordinates.y <= 457) {
                 Player char1 = Variables.MyAccount.chars[1];
                 if (char1.getName() != null && !char1.getName().isEmpty()) {
                     SendClientData.SendChooseChar(1);
@@ -109,8 +125,8 @@ public class AndroidInputData {
             }
         }
         // Char 2
-        if (worldCoordinates.x >= 7 && worldCoordinates.x <= 470) {
-            if (worldCoordinates.y >= 470 && worldCoordinates.y <= 620) {
+        if (worldCoordinates.x >= 8 && worldCoordinates.x <= 471) {
+            if (worldCoordinates.y >= 469 && worldCoordinates.y <= 622) {
                 Player char2 = Variables.MyAccount.chars[2];
                 if (char2.getName() != null && !char2.getName().isEmpty()) {
                     SendClientData.SendChooseChar(2);
@@ -123,8 +139,8 @@ public class AndroidInputData {
             }
         }
         // Char 3
-        if (worldCoordinates.x >= 7 && worldCoordinates.x <= 470) {
-            if (worldCoordinates.y >= 632 && worldCoordinates.y <= 778) {
+        if (worldCoordinates.x >= 8 && worldCoordinates.x <= 471) {
+            if (worldCoordinates.y >= 634 && worldCoordinates.y <= 787) {
                 Player char3 = Variables.MyAccount.chars[3];
                 if (char3.getName() != null && !char3.getName().isEmpty()) {
                     SendClientData.SendChooseChar(3);
@@ -140,8 +156,8 @@ public class AndroidInputData {
     public static void inputCharCreate(int screenX, int screenY) {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
         // NAME
-        if (worldCoordinates.x >= 158 && worldCoordinates.x <= 460) {
-            if (worldCoordinates.y >= 372 && worldCoordinates.y <= 400) {
+        if (worldCoordinates.x >= 154 && worldCoordinates.x <= 445) {
+            if (worldCoordinates.y >= 254 && worldCoordinates.y <= 279) {
                 Gdx.input.getTextInput(new Input.TextInputListener() {
 
                     @Override
@@ -155,42 +171,42 @@ public class AndroidInputData {
         }
         // WARRIOR
         if (worldCoordinates.x >= 11 && worldCoordinates.x <= 101) {
-            if (worldCoordinates.y >= 477 && worldCoordinates.y <= 567) {
+            if (worldCoordinates.y >= 327 && worldCoordinates.y <= 417) {
                 Variables.TempJob = Variables.JOB_WARRIOR;
                 Variables.TempSprite = 1;
             }
         }
         // WIZARD
         if (worldCoordinates.x >= 103 && worldCoordinates.x <= 193) {
-            if (worldCoordinates.y >= 477 && worldCoordinates.y <= 567) {
+            if (worldCoordinates.y >= 327 && worldCoordinates.y <= 417) {
                 Variables.TempJob = Variables.JOB_WIZARD;
                 Variables.TempSprite = 3;
             }
         }
         // CLERIC
         if (worldCoordinates.x >= 195 && worldCoordinates.x <= 285) {
-            if (worldCoordinates.y >= 477 && worldCoordinates.y <= 567) {
+            if (worldCoordinates.y >= 327 && worldCoordinates.y <= 417) {
                 Variables.TempJob = Variables.JOB_CLERIC;
                 Variables.TempSprite = 5;
             }
         }
         // RANGER
         if (worldCoordinates.x >= 287 && worldCoordinates.x <= 377) {
-            if (worldCoordinates.y >= 477 && worldCoordinates.y <= 567) {
+            if (worldCoordinates.y >= 327 && worldCoordinates.y <= 417) {
                 Variables.TempJob = Variables.JOB_RANGER;
                 Variables.TempSprite = 7;
             }
         }
         // ROGUE
         if (worldCoordinates.x >= 379 && worldCoordinates.x <= 469) {
-            if (worldCoordinates.y >= 477 && worldCoordinates.y <= 567) {
+            if (worldCoordinates.y >= 327 && worldCoordinates.y <= 417) {
                 Variables.TempJob = Variables.JOB_ROGUE;
                 Variables.TempSprite = 9;
             }
         }
         // MALE
         if (worldCoordinates.x >= 154 && worldCoordinates.x <= 214) {
-            if (worldCoordinates.y >= 648 && worldCoordinates.y <= 708) {
+            if (worldCoordinates.y >= 498 && worldCoordinates.y <= 558) {
                 switch (Variables.TempSprite) {
                     case 2:
                         Variables.TempSprite = 1;
@@ -212,7 +228,7 @@ public class AndroidInputData {
         }
         // FEMALE
         if (worldCoordinates.x >= 266 && worldCoordinates.x <= 326) {
-            if (worldCoordinates.y >= 648 && worldCoordinates.y <= 708) {
+            if (worldCoordinates.y >= 498 && worldCoordinates.y <= 558) {
                 switch (Variables.TempSprite) {
                     case 1:
                         Variables.TempSprite = 2;
@@ -233,8 +249,8 @@ public class AndroidInputData {
             }
         }
         // CREATE CHAR
-        if (worldCoordinates.x >= 160 && worldCoordinates.x <= 320) {
-            if (worldCoordinates.y >= 730 && worldCoordinates.y <= 775) {
+        if (worldCoordinates.x >= 138 && worldCoordinates.x <= 348) {
+            if (worldCoordinates.y >= 751 && worldCoordinates.y <= 795) {
                 SendClientData.SendCreateChar(Variables.MyIndex);
             }
         }
@@ -245,8 +261,8 @@ public class AndroidInputData {
         Variables.CurY = (int)worldCoordinates.y / Variables.MoveSize;
         if (!Variables.reloadingMap) {
             // UP
-            if (worldCoordinates.x >= 110 && worldCoordinates.x <= 158) {
-                if (worldCoordinates.y >= 517 && worldCoordinates.y <= 598) {
+            if (worldCoordinates.x >= 88 && worldCoordinates.x <= 133) {
+                if (worldCoordinates.y >= 600 && worldCoordinates.y <= 639) {
                     if (!Variables.dPad_Up) {
                         Variables.dPad_Up = true;
                         Variables.dPad_Down = false;
@@ -261,8 +277,8 @@ public class AndroidInputData {
                 }
             }
             // DOWN
-            if (worldCoordinates.x >= 110 && worldCoordinates.x <= 158) {
-                if (worldCoordinates.y >= 642 && worldCoordinates.y <= 723) {
+            if (worldCoordinates.x >= 88 && worldCoordinates.x <= 133) {
+                if (worldCoordinates.y >= 686 && worldCoordinates.y <= 724) {
                     if (!Variables.dPad_Down) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = true;
@@ -277,8 +293,8 @@ public class AndroidInputData {
                 }
             }
             // LEFT
-            if (worldCoordinates.x >= 29 && worldCoordinates.x <= 110) {
-                if (worldCoordinates.y >= 598 && worldCoordinates.y <= 646) {
+            if (worldCoordinates.x >= 48 && worldCoordinates.x <= 87) {
+                if (worldCoordinates.y >= 640 && worldCoordinates.y <= 685) {
                     if (!Variables.dPad_Left) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = false;
@@ -293,8 +309,8 @@ public class AndroidInputData {
                 }
             }
             // RIGHT
-            if (worldCoordinates.x >= 154 && worldCoordinates.x <= 235) {
-                if (worldCoordinates.y >= 598 && worldCoordinates.y <= 646) {
+            if (worldCoordinates.x >= 134 && worldCoordinates.x <= 172) {
+                if (worldCoordinates.y >= 640 && worldCoordinates.y <= 685) {
                     if (!Variables.dPad_Right) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = false;
@@ -309,8 +325,8 @@ public class AndroidInputData {
                 }
             }
             // MENU
-            if (worldCoordinates.x >= 200 && worldCoordinates.x <= 285) {
-                if (worldCoordinates.y >= 731 && worldCoordinates.y <= 762) {
+            if (worldCoordinates.x >= 173 && worldCoordinates.x <= 236) {
+                if (worldCoordinates.y >= 749 && worldCoordinates.y <= 772) {
                     if (!Variables.inMenu) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = false;
@@ -334,8 +350,8 @@ public class AndroidInputData {
                 }
             }
             // A BUTTON
-            if (worldCoordinates.x >= 303 && worldCoordinates.x <= 373) {
-                if (worldCoordinates.y >= 636 && worldCoordinates.y <= 706) {
+            if (worldCoordinates.x >= 267 && worldCoordinates.x <= 350) {
+                if (worldCoordinates.y >= 665 && worldCoordinates.y <= 450) {
                     if (!Variables.bBtn) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = false;
@@ -363,8 +379,8 @@ public class AndroidInputData {
                 }
             }
             // B BUTTON
-            if (worldCoordinates.x >= 374 && worldCoordinates.x <= 445) {
-                if (worldCoordinates.y >= 564 && worldCoordinates.y <= 632) {
+            if (worldCoordinates.x >= 360 && worldCoordinates.x <= 445) {
+                if (worldCoordinates.y >= 575 && worldCoordinates.y <= 659) {
                     if (!Variables.bBtn) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = false;
@@ -407,8 +423,8 @@ public class AndroidInputData {
                 }
             }
             if (!Variables.inStatus && !Variables.inInventory && !Variables.inMenu && !Variables.inShop) {
-                if (worldCoordinates.x >= 16 && worldCoordinates.x <= 464) {
-                    if (worldCoordinates.y >= 440 && worldCoordinates.y <= 464) {
+                if (worldCoordinates.x >= 16 && worldCoordinates.x <= 463) {
+                    if (worldCoordinates.y >= 472 && worldCoordinates.y <= 535) {
                         Variables.inChat = true;
                     }
                 }
@@ -597,17 +613,21 @@ public class AndroidInputData {
         // Input
         if (worldCoordinates.x >= 16 && worldCoordinates.x <= 464) {
             if (worldCoordinates.y >= 403 && worldCoordinates.y <= 427) {
-                Gdx.input.getTextInput(new Input.TextInputListener() {
+                if (!Variables.inputOpen) {
+                    Variables.inputOpen = true;
+                    Gdx.input.getTextInput(new Input.TextInputListener() {
 
-                    @Override
-                    public void input(String text) {
-                        Variables.chatInput = text;
-                    }
+                        @Override
+                        public void input(String text) {
+                            Variables.chatInput = text;
+                            Variables.inputOpen = false;
+                        }
 
-                    @Override
-                    public void canceled() {
-                    }
-                }, "Chat:", "", "");
+                        @Override
+                        public void canceled() {
+                        }
+                    }, "Chat:", "", "");
+                }
             }
         }
         // Send Msg Button

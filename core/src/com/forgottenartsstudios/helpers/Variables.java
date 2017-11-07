@@ -42,6 +42,8 @@ public class Variables {
     public static int CurX;
     public static int CurY;
 
+    public static boolean inputOpen;
+
     public static boolean saveLogin;
     public static String Login_ID = "", Login_PW = "";
     //public static String Login_ID = "PerfektFA", Login_PW = "vicki144";
