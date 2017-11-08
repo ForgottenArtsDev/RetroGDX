@@ -285,16 +285,10 @@ public class SendServerData {
             sPlayer.canMove = canMove;
             if (canMove) {
                 sPlayer.Y = Y - 1;
-                ServerVars.Players[Index].setY(Y - 1);
             } else {
                 sPlayer.Y = Y;
-                ServerVars.Players[Index].setY(Y);
             }
             sPlayer.Dir = Dir;
-
-            ServerVars.Players[Index].setMap(Map);
-            ServerVars.Players[Index].setX(X);
-            ServerVars.Players[Index].setDir(Dir);
 
             for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                 if (ServerVars.Players[i] != null) {
@@ -325,16 +319,10 @@ public class SendServerData {
             sPlayer.canMove = canMove;
             if (canMove) {
                 sPlayer.Y = Y + 1;
-                ServerVars.Players[Index].setY(Y + 1);
             } else {
                 sPlayer.Y = Y;
-                ServerVars.Players[Index].setY(Y);
             }
             sPlayer.Dir = Dir;
-
-            ServerVars.Players[Index].setMap(Map);
-            ServerVars.Players[Index].setX(X);
-            ServerVars.Players[Index].setDir(Dir);
 
             for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                 if (ServerVars.Players[i] != null) {
@@ -364,17 +352,11 @@ public class SendServerData {
             sPlayer.canMove = canMove;
             if (canMove) {
                 sPlayer.X = X - 1;
-                ServerVars.Players[Index].setX(X - 1);
             } else {
                 sPlayer.X = X;
-                ServerVars.Players[Index].setX(X);
             }
             sPlayer.Y = Y;
             sPlayer.Dir = Dir;
-
-            ServerVars.Players[Index].setMap(Map);
-            ServerVars.Players[Index].setY(Y);
-            ServerVars.Players[Index].setDir(Dir);
 
             for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                 if (ServerVars.Players[i] != null) {
@@ -404,17 +386,11 @@ public class SendServerData {
             sPlayer.canMove = canMove;
             if (canMove) {
                 sPlayer.X = X + 1;
-                ServerVars.Players[Index].setX(X + 1);
             } else {
                 sPlayer.X = X;
-                ServerVars.Players[Index].setX(X);
             }
             sPlayer.Y = Y;
             sPlayer.Dir = Dir;
-
-            ServerVars.Players[Index].setMap(Map);
-            ServerVars.Players[Index].setY(Y);
-            ServerVars.Players[Index].setDir(Dir);
 
             for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                 if (ServerVars.Players[i] != null) {

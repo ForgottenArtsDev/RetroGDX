@@ -282,14 +282,12 @@ public class General {
         }
 
         for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
-            if (i != Index) {
-                if (ServerVars.Players[i] != null) {
-                    if (ServerVars.Players[i].getMap() == mapNum) {
-                        SendServerData.SendPlayerData(Index, i);
-                        SendServerData.SendPlayerData(i, Index);
-                    } else if (ServerVars.Players[i].getMap() == oldMap) {
-                        SendServerData.SendPlayerData(Index, i);
-                    }
+            if (ServerVars.Players[i] != null) {
+                if (ServerVars.Players[i].getMap() == mapNum) {
+                    SendServerData.SendPlayerData(Index, i);
+                    SendServerData.SendPlayerData(i, Index);
+                } else if (ServerVars.Players[i].getMap() == oldMap) {
+                    SendServerData.SendPlayerData(Index, i);
                 }
             }
         }

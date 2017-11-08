@@ -210,7 +210,7 @@ public class RTOnline extends Game {
         if (object instanceof PlayerData) { HandleClientData.HandlePlayerData(object); }
         if (object instanceof MovePlayer) { HandleClientData.HandleMovePlayer(object); }
         if (object instanceof SendNPCSpawn) { HandleClientData.HandleSpawnNPC(object); }
-        if (object instanceof KeepAliveCheck) { HandleClientData.HandleKeepAliveCheck(); }
+        if (object instanceof KeepAliveCheck) { HandleClientData.HandleKeepAliveCheck(object); }
         if (object instanceof DisconnectPlayer) { HandleClientData.HandleDisconnectPlayer(object); }
         if (object instanceof SendNPCDead) { HandleClientData.HandleNPCDead(object); }
         if (object instanceof SendNPCDir) { HandleClientData.HandleNPCDir(object); }

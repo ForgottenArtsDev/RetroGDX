@@ -261,8 +261,8 @@ public class AndroidInputData {
         Variables.CurY = (int)worldCoordinates.y / Variables.MoveSize;
         if (!Variables.reloadingMap) {
             // UP
-            if (worldCoordinates.x >= 88 && worldCoordinates.x <= 133) {
-                if (worldCoordinates.y >= 600 && worldCoordinates.y <= 639) {
+            if (worldCoordinates.x >= 77 && worldCoordinates.x <= 145) {
+                if (worldCoordinates.y >= 569 && worldCoordinates.y <= 628) {
                     if (!Variables.dPad_Up) {
                         Variables.dPad_Up = true;
                         Variables.dPad_Down = false;
@@ -277,8 +277,8 @@ public class AndroidInputData {
                 }
             }
             // DOWN
-            if (worldCoordinates.x >= 88 && worldCoordinates.x <= 133) {
-                if (worldCoordinates.y >= 686 && worldCoordinates.y <= 724) {
+            if (worldCoordinates.x >= 77 && worldCoordinates.x <= 145) {
+                if (worldCoordinates.y >= 698 && worldCoordinates.y <= 756) {
                     if (!Variables.dPad_Down) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = true;
@@ -293,8 +293,8 @@ public class AndroidInputData {
                 }
             }
             // LEFT
-            if (worldCoordinates.x >= 48 && worldCoordinates.x <= 87) {
-                if (worldCoordinates.y >= 640 && worldCoordinates.y <= 685) {
+            if (worldCoordinates.x >= 17 && worldCoordinates.x <= 76) {
+                if (worldCoordinates.y >= 630 && worldCoordinates.y <= 697) {
                     if (!Variables.dPad_Left) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = false;
@@ -309,8 +309,8 @@ public class AndroidInputData {
                 }
             }
             // RIGHT
-            if (worldCoordinates.x >= 134 && worldCoordinates.x <= 172) {
-                if (worldCoordinates.y >= 640 && worldCoordinates.y <= 685) {
+            if (worldCoordinates.x >= 147 && worldCoordinates.x <= 204) {
+                if (worldCoordinates.y >= 630 && worldCoordinates.y <= 697) {
                     if (!Variables.dPad_Right) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = false;
@@ -325,7 +325,7 @@ public class AndroidInputData {
                 }
             }
             // MENU
-            if (worldCoordinates.x >= 173 && worldCoordinates.x <= 236) {
+            if (worldCoordinates.x >= 189 && worldCoordinates.x <= 252) {
                 if (worldCoordinates.y >= 749 && worldCoordinates.y <= 772) {
                     if (!Variables.inMenu) {
                         Variables.dPad_Up = false;
@@ -351,7 +351,7 @@ public class AndroidInputData {
             }
             // A BUTTON
             if (worldCoordinates.x >= 267 && worldCoordinates.x <= 350) {
-                if (worldCoordinates.y >= 665 && worldCoordinates.y <= 450) {
+                if (worldCoordinates.y >= 665 && worldCoordinates.y <= 750) {
                     if (!Variables.bBtn) {
                         Variables.dPad_Up = false;
                         Variables.dPad_Down = false;
@@ -453,48 +453,33 @@ public class AndroidInputData {
         }
     }
     public static void checkMovement() {
-        if (Variables.pressUp) {
-            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.players[Variables.MyIndex].getMap();
-                int x = Variables.players[Variables.MyIndex].getX();
-                int y = Variables.players[Variables.MyIndex].getY();
-
-                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                    SendClientData.SendWarpCheck();
-                } else {
+        if (!Variables.pauseMovement) {
+            if (Variables.pressUp) {
+                if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                    int mapNum = Variables.players[Variables.MyIndex].getMap();
+                    int x = Variables.players[Variables.MyIndex].getX();
+                    int y = Variables.players[Variables.MyIndex].getY();
                     SendClientData.SendMovePlayer(Variables.DIR_UP);
                 }
-            }
-        } else if (Variables.pressDown) {
-            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.players[Variables.MyIndex].getMap();
-                int x = Variables.players[Variables.MyIndex].getX();
-                int y = Variables.players[Variables.MyIndex].getY();
-                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                    SendClientData.SendWarpCheck();
-                } else {
+            } else if (Variables.pressDown) {
+                if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                    int mapNum = Variables.players[Variables.MyIndex].getMap();
+                    int x = Variables.players[Variables.MyIndex].getX();
+                    int y = Variables.players[Variables.MyIndex].getY();
                     SendClientData.SendMovePlayer(Variables.DIR_DOWN);
                 }
-            }
-        } else if (Variables.pressLeft) {
-            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.players[Variables.MyIndex].getMap();
-                int x = Variables.players[Variables.MyIndex].getX();
-                int y = Variables.players[Variables.MyIndex].getY();
-                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                    SendClientData.SendWarpCheck();
-                } else {
+            } else if (Variables.pressLeft) {
+                if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                    int mapNum = Variables.players[Variables.MyIndex].getMap();
+                    int x = Variables.players[Variables.MyIndex].getX();
+                    int y = Variables.players[Variables.MyIndex].getY();
                     SendClientData.SendMovePlayer(Variables.DIR_LEFT);
                 }
-            }
-        } else if (Variables.pressRight) {
-            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.players[Variables.MyIndex].getMap();
-                int x = Variables.players[Variables.MyIndex].getX();
-                int y = Variables.players[Variables.MyIndex].getY();
-                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                    SendClientData.SendWarpCheck();
-                } else {
+            } else if (Variables.pressRight) {
+                if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+                    int mapNum = Variables.players[Variables.MyIndex].getMap();
+                    int x = Variables.players[Variables.MyIndex].getX();
+                    int y = Variables.players[Variables.MyIndex].getY();
                     SendClientData.SendMovePlayer(Variables.DIR_RIGHT);
                 }
             }

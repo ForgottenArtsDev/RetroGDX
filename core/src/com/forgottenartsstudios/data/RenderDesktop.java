@@ -88,14 +88,22 @@ public class RenderDesktop {
 
         if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
             String id = Variables.Login_ID;
-            drawText(Variables.Login_ID, 225, 340, Color.WHITE);
+            if (Variables.inputID) {
+                drawText(Variables.Login_ID + "|", 225, 340, Color.WHITE);
+            } else {
+                drawText(Variables.Login_ID, 225, 340, Color.WHITE);
+            }
         }
         if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
             String starPW = "";
             for (int i = 1; i <= Variables.Login_PW.length(); i++) {
                 starPW = starPW + "*";
             }
-            drawText(starPW, 225, 408, Color.WHITE);
+            if (Variables.inputPW) {
+                drawText(starPW + "|", 225, 408, Color.WHITE);
+            } else {
+                drawText(starPW, 225, 408, Color.WHITE);
+            }
         }
         if (Variables.saveLogin) {
             drawText("x", 225, 444, Color.WHITE);
@@ -1619,7 +1627,7 @@ public class RenderDesktop {
             for (int i = 1; i <= Variables.MaxMapNPCs; i++) {
                 if (Variables.MapNPCs[i].getNum() > 0) {
                     if (Variables.MapNPCs[i].getY() == LoopY) {
-                        int MovementSpeed = 8;
+                        int MovementSpeed = 4;
 
                         switch (Variables.MapNPCs[i].getDir()) {
                             case Variables.DIR_UP:
@@ -1671,13 +1679,6 @@ public class RenderDesktop {
                                     if (Variables.players[i].getOffsetY() < 0) {
                                         Variables.players[i].setOffsetY(0);
                                         Variables.players[i].setMoving(0);
-                                        if (i == Variables.MyIndex) {
-                                            int X = Variables.players[i].getX();
-                                            int Y = Variables.players[i].getY();
-                                            if (Variables.mapRender[mapNum].Tile[X][Y].Type == Variables.TILE_TYPE_WARP) {
-                                                SendClientData.SendWarpCheck();
-                                            }
-                                        }
                                     }
                                     break;
                                 case Variables.DIR_DOWN:
@@ -1685,13 +1686,6 @@ public class RenderDesktop {
                                     if (Variables.players[i].getOffsetY() > 0) {
                                         Variables.players[i].setOffsetY(0);
                                         Variables.players[i].setMoving(0);
-                                        if (i == Variables.MyIndex) {
-                                            int X = Variables.players[i].getX();
-                                            int Y = Variables.players[i].getY();
-                                            if (Variables.mapRender[mapNum].Tile[X][Y].Type == Variables.TILE_TYPE_WARP) {
-                                                SendClientData.SendWarpCheck();
-                                            }
-                                        }
                                     }
                                     break;
                                 case Variables.DIR_LEFT:
@@ -1699,13 +1693,6 @@ public class RenderDesktop {
                                     if (Variables.players[i].getOffsetX() < 0) {
                                         Variables.players[i].setOffsetX(0);
                                         Variables.players[i].setMoving(0);
-                                        if (i == Variables.MyIndex) {
-                                            int X = Variables.players[i].getX();
-                                            int Y = Variables.players[i].getY();
-                                            if (Variables.mapRender[mapNum].Tile[X][Y].Type == Variables.TILE_TYPE_WARP) {
-                                                SendClientData.SendWarpCheck();
-                                            }
-                                        }
                                     }
                                     break;
                                 case Variables.DIR_RIGHT:
@@ -1713,13 +1700,6 @@ public class RenderDesktop {
                                     if (Variables.players[i].getOffsetX() > 0) {
                                         Variables.players[i].setOffsetX(0);
                                         Variables.players[i].setMoving(0);
-                                        if (i == Variables.MyIndex) {
-                                            int X = Variables.players[i].getX();
-                                            int Y = Variables.players[i].getY();
-                                            if (Variables.mapRender[mapNum].Tile[X][Y].Type == Variables.TILE_TYPE_WARP) {
-                                                SendClientData.SendWarpCheck();
-                                            }
-                                        }
                                     }
                                     break;
                             }

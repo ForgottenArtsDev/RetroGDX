@@ -308,11 +308,24 @@ public class HandleServerData {
                     }
                 } else {
                     canMove = General.TileIsOpen(Map, X, Y - 1);
-                    if (ServerVars.Players[Index].getMoving() == 0) {
-                        SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
-                        ServerVars.Players[Index].setMoving(1);
-                        ServerVars.Players[Index].setOffsetY(32);
+                    if (canMove) {
+                        ServerVars.Players[Index].setX(X);
+                        ServerVars.Players[Index].setY(Y - 1);
+                        ServerVars.Players[Index].setDir(Dir);
+                    } else {
+                        ServerVars.Players[Index].setDir(Dir);
                     }
+                    for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                        if (ServerVars.Players[i] != null) {
+                            if (i != Index) {
+                                if (ServerVars.Players[i].getMap() == Map) {
+                                    SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                                }
+                            }
+                        }
+                    }
+                    ServerVars.Players[Index].setMoving(1);
+                    ServerVars.Players[Index].setOffsetY(32);
                 }
                 break;
             case ServerVars.DIR_DOWN:
@@ -325,11 +338,24 @@ public class HandleServerData {
                     }
                 } else {
                     canMove = General.TileIsOpen(Map, X, Y + 1);
-                    if (ServerVars.Players[Index].getMoving() == 0) {
-                        SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
-                        ServerVars.Players[Index].setMoving(1);
-                        ServerVars.Players[Index].setOffsetY(32 * -1);
+                    if (canMove) {
+                        ServerVars.Players[Index].setX(X);
+                        ServerVars.Players[Index].setY(Y + 1);
+                        ServerVars.Players[Index].setDir(Dir);
+                    } else {
+                        ServerVars.Players[Index].setDir(Dir);
                     }
+                    for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                        if (ServerVars.Players[i] != null) {
+                            if (i != Index) {
+                                if (ServerVars.Players[i].getMap() == Map) {
+                                    SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                                }
+                            }
+                        }
+                    }
+                    ServerVars.Players[Index].setMoving(1);
+                    ServerVars.Players[Index].setOffsetY(32 * -1);
                 }
                 break;
             case ServerVars.DIR_LEFT:
@@ -342,11 +368,24 @@ public class HandleServerData {
                     }
                 } else {
                     canMove = General.TileIsOpen(Map, X - 1, Y);
-                    if (ServerVars.Players[Index].getMoving() == 0) {
-                        SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
-                        ServerVars.Players[Index].setMoving(1);
-                        ServerVars.Players[Index].setOffsetX(32);
+                    if (canMove) {
+                        ServerVars.Players[Index].setX(X - 1);
+                        ServerVars.Players[Index].setY(Y);
+                        ServerVars.Players[Index].setDir(Dir);
+                    } else {
+                        ServerVars.Players[Index].setDir(Dir);
                     }
+                    for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                        if (ServerVars.Players[i] != null) {
+                            if (i != Index) {
+                                if (ServerVars.Players[i].getMap() == Map) {
+                                    SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                                }
+                            }
+                        }
+                    }
+                    ServerVars.Players[Index].setMoving(1);
+                    ServerVars.Players[Index].setOffsetX(32);
                 }
                 break;
             case ServerVars.DIR_RIGHT:
@@ -359,11 +398,64 @@ public class HandleServerData {
                     }
                 } else {
                     canMove = General.TileIsOpen(Map, X + 1, Y);
-                    if (ServerVars.Players[Index].getMoving() == 0) {
-                        SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
-                        ServerVars.Players[Index].setMoving(1);
-                        ServerVars.Players[Index].setOffsetX(32 * -1);
+                    if (canMove) {
+                        ServerVars.Players[Index].setX(X + 1);
+                        ServerVars.Players[Index].setY(Y);
+                        ServerVars.Players[Index].setDir(Dir);
+                    } else {
+                        ServerVars.Players[Index].setDir(Dir);
                     }
+                    for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                        if (ServerVars.Players[i] != null) {
+                            if (i != Index) {
+                                if (ServerVars.Players[i].getMap() == Map) {
+                                    SendServerData.SendMovePlayer(Index, Map, X, Y, Dir, canMove);
+                                }
+                            }
+                        }
+                    }
+                    ServerVars.Players[Index].setMoving(1);
+                    ServerVars.Players[Index].setOffsetX(32 * -1);
+                }
+                break;
+        }
+
+        // Check for warp tile
+        switch (Dir) {
+            case ServerVars.DIR_UP:
+                if (Y - 1 <= 0) { return; }
+                if (ServerVars.mapData[Map].Tile[X][Y - 1].Type == ServerVars.TILE_TYPE_WARP) {
+                    int newMap = ServerVars.mapData[Map].Tile[X][Y - 1].Data1;
+                    int newX = ServerVars.mapData[Map].Tile[X][Y - 1].Data2;
+                    int newY = ServerVars.mapData[Map].Tile[X][Y - 1].Data3;
+                    General.PlayerWarp(Index, newMap, newX, newY);
+                }
+                break;
+            case ServerVars.DIR_DOWN:
+                if (Y + 1 >= ServerVars.mapData[Map].MaxY) { return; }
+                if (ServerVars.mapData[Map].Tile[X][Y + 1].Type == ServerVars.TILE_TYPE_WARP) {
+                    int newMap = ServerVars.mapData[Map].Tile[X][Y + 1].Data1;
+                    int newX = ServerVars.mapData[Map].Tile[X][Y + 1].Data2;
+                    int newY = ServerVars.mapData[Map].Tile[X][Y + 1].Data3;
+                    General.PlayerWarp(Index, newMap, newX, newY);
+                }
+                break;
+            case ServerVars.DIR_LEFT:
+                if (X - 1 <= 0) { return; }
+                if (ServerVars.mapData[Map].Tile[X - 1][Y].Type == ServerVars.TILE_TYPE_WARP) {
+                    int newMap = ServerVars.mapData[Map].Tile[X - 1][Y].Data1;
+                    int newX = ServerVars.mapData[Map].Tile[X - 1][Y].Data2;
+                    int newY = ServerVars.mapData[Map].Tile[X - 1][Y].Data3;
+                    General.PlayerWarp(Index, newMap, newX, newY);
+                }
+                break;
+            case ServerVars.DIR_RIGHT:
+                if (X + 1 >= ServerVars.mapData[Map].MaxX) { return; }
+                if (ServerVars.mapData[Map].Tile[X + 1][Y].Type == ServerVars.TILE_TYPE_WARP) {
+                    int newMap = ServerVars.mapData[Map].Tile[X + 1][Y].Data1;
+                    int newX = ServerVars.mapData[Map].Tile[X + 1][Y].Data2;
+                    int newY = ServerVars.mapData[Map].Tile[X + 1][Y].Data3;
+                    General.PlayerWarp(Index, newMap, newX, newY);
                 }
                 break;
         }
@@ -838,6 +930,8 @@ public class HandleServerData {
     public static void HandlePickUpItem(Object object) {
         SendPickUpItem sendPickUpItem = (SendPickUpItem) object;
 
+        System.out.println("HandlePickUpItem");
+
         int index = sendPickUpItem.index;
 
         for (int i = 1; i <= ServerVars.MaxMapItems; i++) {
@@ -852,6 +946,7 @@ public class HandleServerData {
             int pY = ServerVars.Players[index].getY();
             boolean itemPlaced = false;
             if (x == pX && y == pY) {
+                System.out.println("Standing on item");
                 if (ServerVars.Items[ServerVars.MapItems[mapNum].Item[i].itemNum].isStackable == 1) {
                     for (int a = 1; a <= 60; a++) {
                         if (ServerVars.Players[index].inventory[a].getItemNum() == ServerVars.MapItems[mapNum].Item[i].itemNum) {

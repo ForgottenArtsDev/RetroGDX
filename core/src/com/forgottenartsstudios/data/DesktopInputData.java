@@ -290,44 +290,28 @@ public class DesktopInputData {
                 int mapNum = Variables.players[Variables.MyIndex].getMap();
                 int x = Variables.players[Variables.MyIndex].getX();
                 int y = Variables.players[Variables.MyIndex].getY();
-                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                    SendClientData.SendWarpCheck();
-                } else {
-                    SendClientData.SendMovePlayer(Variables.DIR_UP);
-                }
+                SendClientData.SendMovePlayer(Variables.DIR_UP);
             }
         } else if (Variables.pressDown) {
             if (Variables.players[Variables.MyIndex].getMoving() == 0) {
                 int mapNum = Variables.players[Variables.MyIndex].getMap();
                 int x = Variables.players[Variables.MyIndex].getX();
                 int y = Variables.players[Variables.MyIndex].getY();
-                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                    SendClientData.SendWarpCheck();
-                } else {
-                    SendClientData.SendMovePlayer(Variables.DIR_DOWN);
-                }
+                SendClientData.SendMovePlayer(Variables.DIR_DOWN);
             }
         } else if (Variables.pressLeft) {
             if (Variables.players[Variables.MyIndex].getMoving() == 0) {
                 int mapNum = Variables.players[Variables.MyIndex].getMap();
                 int x = Variables.players[Variables.MyIndex].getX();
                 int y = Variables.players[Variables.MyIndex].getY();
-                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                    SendClientData.SendWarpCheck();
-                } else {
-                    SendClientData.SendMovePlayer(Variables.DIR_LEFT);
-                }
+                SendClientData.SendMovePlayer(Variables.DIR_LEFT);
             }
         } else if (Variables.pressRight) {
             if (Variables.players[Variables.MyIndex].getMoving() == 0) {
                 int mapNum = Variables.players[Variables.MyIndex].getMap();
                 int x = Variables.players[Variables.MyIndex].getX();
                 int y = Variables.players[Variables.MyIndex].getY();
-                if (Variables.mapRender[mapNum].Tile[x][y].Type == Variables.TILE_TYPE_WARP) {
-                    SendClientData.SendWarpCheck();
-                } else {
-                    SendClientData.SendMovePlayer(Variables.DIR_RIGHT);
-                }
+                SendClientData.SendMovePlayer(Variables.DIR_RIGHT);
             }
         }
     }

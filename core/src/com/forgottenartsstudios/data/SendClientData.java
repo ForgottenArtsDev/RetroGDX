@@ -82,6 +82,8 @@ public class SendClientData {
                         Variables.players[Variables.MyIndex].setOffsetY(32);
                         Variables.players[Variables.MyIndex].setMoving(1);
                         Variables.players[Variables.MyIndex].setDir(dir);
+                    } else {
+                        Variables.players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
@@ -95,9 +97,12 @@ public class SendClientData {
                         Variables.players[Variables.MyIndex].setOffsetY(32 * -1);
                         Variables.players[Variables.MyIndex].setMoving(1);
                         Variables.players[Variables.MyIndex].setDir(dir);
+                    } else {
+                        Variables.players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
+
             case Variables.DIR_LEFT:
                 if (X <= 0 || (X - 1) < 0) {
 
@@ -107,6 +112,8 @@ public class SendClientData {
                         Variables.players[Variables.MyIndex].setX(X - 1);
                         Variables.players[Variables.MyIndex].setOffsetX(32);
                         Variables.players[Variables.MyIndex].setMoving(1);
+                        Variables.players[Variables.MyIndex].setDir(dir);
+                    } else {
                         Variables.players[Variables.MyIndex].setDir(dir);
                     }
                 }
@@ -121,6 +128,8 @@ public class SendClientData {
                         Variables.players[Variables.MyIndex].setOffsetX(32 * -1);
                         Variables.players[Variables.MyIndex].setMoving(1);
                         Variables.players[Variables.MyIndex].setDir(dir);
+                    } else {
+                        Variables.players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
@@ -133,12 +142,6 @@ public class SendClientData {
         keepAliveCheck.keepAlive = true;
 
         client.sendTCP(keepAliveCheck);
-    }
-    public static void SendWarpCheck() {
-        WarpCheck wCheck = new WarpCheck();
-        wCheck.index = Variables.MyIndex;
-
-        client.sendTCP(wCheck);
     }
     public static void SendSearch(int X, int Y, int Type, int npcNum) {
         SendSearch sndSearch = new SendSearch();
@@ -191,6 +194,8 @@ public class SendClientData {
         SendPickUpItem sendPickUpItem = new SendPickUpItem();
 
         sendPickUpItem.index = Variables.MyIndex;
+
+        System.out.println("sendPickUpItem");
 
         client.sendTCP(sendPickUpItem);
     }

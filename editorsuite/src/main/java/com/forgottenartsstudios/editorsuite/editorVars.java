@@ -73,6 +73,11 @@ public class editorVars {
     public static final int MONSTER_TYPE_MINION = 4;
     public static final int MONSTER_TYPE_BOSS = 5;
 
+    public static final int MONSTER_SUBTYPE_MELEE = 1;
+    public static final int MONSTER_SUBTYPE_TANK = 2;
+    public static final int MONSTER_SUBTYPE_MAGE = 3;
+    public static final int MONSTER_SUBTYPE_QUICK = 4;
+
     public static final int MoveSize = 32;
 
     // Scrolling Map //

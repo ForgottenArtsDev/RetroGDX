@@ -229,12 +229,32 @@ public class HandleClientData {
         int X = mPlayer.X;
         int Y = mPlayer.Y;
         int Dir = mPlayer.Dir;
+        boolean canMove = mPlayer.canMove;
 
-        if (Variables.players[Index].getMap() == Map) {
-            Variables.players[Index].setMap(Map);
-            Variables.players[Index].setX(X);
-            Variables.players[Index].setY(Y);
-            Variables.players[Index].setDir(Dir);
+        if (Index != Variables.MyIndex) {
+            if (canMove) {
+                Variables.players[Index].setMap(Map);
+                Variables.players[Index].setX(X);
+                Variables.players[Index].setY(Y);
+                Variables.players[Index].setDir(Dir);
+
+                switch (Dir) {
+                    case Variables.DIR_UP:
+                        Variables.players[Index].setOffsetY(32);
+                        break;
+                    case Variables.DIR_DOWN:
+                        Variables.players[Index].setOffsetY(32 * -1);
+                        break;
+                    case Variables.DIR_LEFT:
+                        Variables.players[Index].setOffsetX(32);
+                        break;
+                    case Variables.DIR_RIGHT:
+                        Variables.players[Index].setOffsetX(32 * -1);
+                        break;
+                }
+            } else {
+                Variables.players[Index].setDir(Dir);
+            }
         }
     }
     public static void HandleSpawnNPC(Object object) {
@@ -260,10 +280,9 @@ public class HandleClientData {
         Variables.MapNPCs[mapNPCNum].setY(y);
         Variables.MapNPCs[mapNPCNum].setDir(dir);
         Variables.MapNPCs[mapNPCNum].setSprite(sprite);
+        Variables.MapNPCs[mapNPCNum].setDead(false);
     }
-    public static void HandleKeepAliveCheck() {
-        SendClientData.SendKeepAliveCheck();
-    }
+    public static void HandleKeepAliveCheck(Object object) { SendClientData.SendKeepAliveCheck(); }
     public static void HandleDisconnectPlayer(Object object) {
         DisconnectPlayer dPlayer = (DisconnectPlayer) object;
 
@@ -342,6 +361,7 @@ public class HandleClientData {
     }
     public static void HandlePlayerWarp(Object object) {
         Variables.reloadingMap = true;
+        Variables.pauseMovement = true;
         SendPlayerWarp sPWarp = (SendPlayerWarp) object;
 
         int index = sPWarp.index;
@@ -403,6 +423,7 @@ public class HandleClientData {
         int mapNpcNum = sKNPC.mapNpcIndex;
 
         Variables.MapNPCs[mapNpcNum].setHP(0);
+        Variables.MapNPCs[mapNpcNum].setDead(true);
     }
     public static GlyphLayout layout = new GlyphLayout();
     public static void HandleDmgNPC(Object object) {
@@ -441,6 +462,7 @@ public class HandleClientData {
         Variables.MapNPCs[mapNPCNum].setX(x);
         Variables.MapNPCs[mapNPCNum].setY(y);
         Variables.MapNPCs[mapNPCNum].setDir(Variables.DIR_DOWN);
+        Variables.MapNPCs[mapNPCNum].setDead(false);
     }
     public static void HandleMapNPCs(Object object) {
         SendMapNPCs sendMapNPCs = (SendMapNPCs) object;

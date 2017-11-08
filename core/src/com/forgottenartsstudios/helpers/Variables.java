@@ -46,15 +46,13 @@ public class Variables {
 
     public static boolean saveLogin;
     public static String Login_ID = "", Login_PW = "";
-    //public static String Login_ID = "PerfektFA", Login_PW = "vicki144";
-    //public static String Login_ID = "Krynn", Login_PW = "1";
-    //public static String Login_ID = "EkkohFA", Login_PW = "koolkid1";
 
     public static String Server_IP =  "24.127.44.48"; //"24.127.44.48"; //"162.198.233.237";
     public static int Server_Port = 4001;
     public static boolean serverOnline = false;
 
     public static boolean pressUp, pressDown, pressLeft, pressRight, pressAttack, pickUpItem;
+    public static boolean pauseMovement;
     public static boolean dPad_Up, dPad_Down, dPad_Left, dPad_Right, bBtn, aBtn;
     public static boolean inMenu, inShop, inInventory, inStatus, inChat;
     public static boolean buyItem, useItem, usePoint;

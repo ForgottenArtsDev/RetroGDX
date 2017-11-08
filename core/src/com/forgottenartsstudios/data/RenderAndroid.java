@@ -24,7 +24,7 @@ public class RenderAndroid {
     ////////////////////
     // Routine Timers //
     ////////////////////
-    private static final long UpdateTime_InputTimer = 100;
+    private static final long UpdateTime_InputTimer = 500;
     private static final long UpdateTime_TapAnimTimer = 50;
     private static final long UpdateTime_BuyMsg = 1000;
     private static final long UpdateTime_Damage = 50;
@@ -391,16 +391,20 @@ public class RenderAndroid {
         longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
-        //if (LastUpdateTime_InputTimer < tickCount) {
-            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                    AndroidInputData.handleInput();
-                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                    AndroidInputData.handleAndroidInput();
-                }
+        if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                AndroidInputData.handleInput();
+            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                AndroidInputData.handleAndroidInput();
             }
-        //    LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
-        //}
+        }
+
+        if (LastUpdateTime_InputTimer < tickCount) {
+            if (Variables.pauseMovement) {
+                Variables.pauseMovement = false;
+            }
+            LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
+        }
 
         for (int i = 1; i <= Variables.MaxPlayers; i++) {
             processMovement(i);
@@ -485,52 +489,52 @@ public class RenderAndroid {
                 case Variables.DIR_UP:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_DOWN:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_LEFT:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_RIGHT:
                     switch (Variables.players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.players[i].getSprite()], x + 16, y - 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
@@ -560,52 +564,52 @@ public class RenderAndroid {
             case Variables.DIR_UP:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                 }
                 return;
             case Variables.DIR_DOWN:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                 }
                 return;
             case Variables.DIR_LEFT:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                 }
                 return;
             case Variables.DIR_RIGHT:
                 switch (Variables.MapNPCs[mapNpcNum].getStep()) {
                     case 0:
-                        GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                     case 1:
-                        GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                     case 2:
-                        GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y - 3, 32, 36);
+                        GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.MapNPCs[mapNpcNum].getSprite()], x + 16, y + 11, 32, 36);
                         break;
                 }
                 return;
@@ -1204,7 +1208,7 @@ public class RenderAndroid {
         }
         drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), 226, 126, Color.WHITE);
 
-        batcher.draw(AssetLoader.sepBarV, 320, 8, 9, 464);
+        batcher.draw(AssetLoader.sepBarV, 320, 13, 9, 454);
 
         drawText("Items", 365, 31, Color.WHITE);
         drawText("Spells", 364, 71, Color.WHITE);
@@ -1223,7 +1227,7 @@ public class RenderAndroid {
         float nameY = 447;
         drawName("Gold: " + goldTotal, nameX, nameY, Color.YELLOW);
 
-        batcher.draw(AssetLoader.sepBarH, 320, 370, 152, 9);
+        batcher.draw(AssetLoader.sepBarH, 320, 370, 147, 9);
 
         // Back Button
         drawText("Back", 24, 437, Color.WHITE);
@@ -1402,13 +1406,6 @@ public class RenderAndroid {
                                     if (Variables.players[i].getOffsetY() < 0) {
                                         Variables.players[i].setOffsetY(0);
                                         Variables.players[i].setMoving(0);
-                                        if (i == Variables.MyIndex) {
-                                            int X = Variables.players[i].getX();
-                                            int Y = Variables.players[i].getY();
-                                            if (Variables.mapRender[mapNum].Tile[X][Y].Type == Variables.TILE_TYPE_WARP) {
-                                                SendClientData.SendWarpCheck();
-                                            }
-                                        }
                                     }
                                     break;
                                 case Variables.DIR_DOWN:
@@ -1416,13 +1413,6 @@ public class RenderAndroid {
                                     if (Variables.players[i].getOffsetY() > 0) {
                                         Variables.players[i].setOffsetY(0);
                                         Variables.players[i].setMoving(0);
-                                        if (i == Variables.MyIndex) {
-                                            int X = Variables.players[i].getX();
-                                            int Y = Variables.players[i].getY();
-                                            if (Variables.mapRender[mapNum].Tile[X][Y].Type == Variables.TILE_TYPE_WARP) {
-                                                SendClientData.SendWarpCheck();
-                                            }
-                                        }
                                     }
                                     break;
                                 case Variables.DIR_LEFT:
@@ -1430,13 +1420,6 @@ public class RenderAndroid {
                                     if (Variables.players[i].getOffsetX() < 0) {
                                         Variables.players[i].setOffsetX(0);
                                         Variables.players[i].setMoving(0);
-                                        if (i == Variables.MyIndex) {
-                                            int X = Variables.players[i].getX();
-                                            int Y = Variables.players[i].getY();
-                                            if (Variables.mapRender[mapNum].Tile[X][Y].Type == Variables.TILE_TYPE_WARP) {
-                                                SendClientData.SendWarpCheck();
-                                            }
-                                        }
                                     }
                                     break;
                                 case Variables.DIR_RIGHT:
@@ -1444,13 +1427,6 @@ public class RenderAndroid {
                                     if (Variables.players[i].getOffsetX() > 0) {
                                         Variables.players[i].setOffsetX(0);
                                         Variables.players[i].setMoving(0);
-                                        if (i == Variables.MyIndex) {
-                                            int X = Variables.players[i].getX();
-                                            int Y = Variables.players[i].getY();
-                                            if (Variables.mapRender[mapNum].Tile[X][Y].Type == Variables.TILE_TYPE_WARP) {
-                                                SendClientData.SendWarpCheck();
-                                            }
-                                        }
                                     }
                                     break;
                             }
@@ -1467,8 +1443,8 @@ public class RenderAndroid {
         for (int i = 1; i <= Variables.MaxMapItems; i++) {
             if (Variables.MapItems[i] != null) {
                 if (Variables.MapItems[i].itemNum > 0) {
-                    float itemX = (Variables.MapItems[i].x * Variables.MoveSize) + 16;
-                    float itemY = (Variables.MapItems[i].y * Variables.MoveSize) + 16;
+                    float itemX = (Variables.MapItems[i].x * Variables.MoveSize) + 24;
+                    float itemY = (Variables.MapItems[i].y * Variables.MoveSize) + 24;
                     batcher.draw(AssetLoader.items[Variables.Items[Variables.MapItems[i].itemNum].Icon], itemX, itemY, 24, 24, 0, 0, 24, 24, false, true);
                 }
             }

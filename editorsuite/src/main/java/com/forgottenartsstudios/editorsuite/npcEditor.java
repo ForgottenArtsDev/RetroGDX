@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ public class npcEditor {
     public static JButton btnLoad, btnSave, btnCancel;
     public static JScrollPane scrlList;
     public static JComboBox<String> types = new JComboBox<>();
+    public static JCheckBox[] useStat = new JCheckBox[5 + 1];
 
     public static void create() {
         editorVars.npcEditor = new JFrame();
@@ -100,9 +102,29 @@ public class npcEditor {
         genType.setText("Generate Stats");
         genType.setBounds(530, 60, 120, 20);
 
+        useStat = new JCheckBox[5 + 1];
+        for (int i = 1; i <= 5; i++) {
+            useStat[i] = new JCheckBox();
+        }
+
+        useStat[1].setText("STR");
+        useStat[2].setText("DEF");
+        useStat[3].setText("VIT");
+        useStat[4].setText("AGI");
+        useStat[5].setText("MAG");
+
+        useStat[1].setBounds(570, 85, 200, 20);
+        useStat[2].setBounds(570, 105, 200, 20);
+        useStat[3].setBounds(570, 125, 200, 20);
+        useStat[4].setBounds(570, 145, 200, 20);
+        useStat[5].setBounds(570, 165, 200, 20);
+
         editorVars.npcEditor.add(typeLabel);
         editorVars.npcEditor.add(types);
         editorVars.npcEditor.add(genType);
+        for (int i = 1; i <= 5; i++) {
+            editorVars.npcEditor.add(useStat[i]);
+        }
 
         for (int i = 0; i <= 32; i++) {
             if (i >= 28 && i <= 32) {
@@ -258,29 +280,39 @@ public class npcEditor {
                             int stat = (editorVars.Rnd.nextInt(5 + 1));
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
-                                    int STR = Integer.parseInt(inputFields[7].getText());
-                                    STR++;
-                                    inputFields[7].setText(Integer.toString(STR));
+                                    if (useStat[1].isSelected()) {
+                                        int STR = Integer.parseInt(inputFields[7].getText());
+                                        STR++;
+                                        inputFields[7].setText(Integer.toString(STR));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_DEF:
-                                    int DEF = Integer.parseInt(inputFields[8].getText());
-                                    DEF++;
-                                    inputFields[8].setText(Integer.toString(DEF));
+                                    if (useStat[2].isSelected()) {
+                                        int DEF = Integer.parseInt(inputFields[8].getText());
+                                        DEF++;
+                                        inputFields[8].setText(Integer.toString(DEF));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_VIT:
-                                    int VIT = Integer.parseInt(inputFields[9].getText());
-                                    VIT++;
-                                    inputFields[9].setText(Integer.toString(VIT));
+                                    if (useStat[3].isSelected()) {
+                                        int VIT = Integer.parseInt(inputFields[9].getText());
+                                        VIT++;
+                                        inputFields[9].setText(Integer.toString(VIT));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_AGI:
-                                    int AGI = Integer.parseInt(inputFields[10].getText());
-                                    AGI++;
-                                    inputFields[10].setText(Integer.toString(AGI));
+                                    if (useStat[4].isSelected()) {
+                                        int AGI = Integer.parseInt(inputFields[10].getText());
+                                        AGI++;
+                                        inputFields[10].setText(Integer.toString(AGI));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_MAG:
-                                    int MAG = Integer.parseInt(inputFields[11].getText());
-                                    MAG++;
-                                    inputFields[11].setText(Integer.toString(MAG));
+                                    if (useStat[5].isSelected()) {
+                                        int MAG = Integer.parseInt(inputFields[11].getText());
+                                        MAG++;
+                                        inputFields[11].setText(Integer.toString(MAG));
+                                    }
                                     break;
                             }
                         }
@@ -291,29 +323,39 @@ public class npcEditor {
                             int stat = (editorVars.Rnd.nextInt(5 + 1));
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
-                                    int STR = Integer.parseInt(inputFields[7].getText());
-                                    STR++;
-                                    inputFields[7].setText(Integer.toString(STR));
+                                    if (useStat[1].isSelected()) {
+                                        int STR = Integer.parseInt(inputFields[7].getText());
+                                        STR++;
+                                        inputFields[7].setText(Integer.toString(STR));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_DEF:
-                                    int DEF = Integer.parseInt(inputFields[8].getText());
-                                    DEF++;
-                                    inputFields[8].setText(Integer.toString(DEF));
+                                    if (useStat[2].isSelected()) {
+                                        int DEF = Integer.parseInt(inputFields[8].getText());
+                                        DEF++;
+                                        inputFields[8].setText(Integer.toString(DEF));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_VIT:
-                                    int VIT = Integer.parseInt(inputFields[9].getText());
-                                    VIT++;
-                                    inputFields[9].setText(Integer.toString(VIT));
+                                    if (useStat[3].isSelected()) {
+                                        int VIT = Integer.parseInt(inputFields[9].getText());
+                                        VIT++;
+                                        inputFields[9].setText(Integer.toString(VIT));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_AGI:
-                                    int AGI = Integer.parseInt(inputFields[10].getText());
-                                    AGI++;
-                                    inputFields[10].setText(Integer.toString(AGI));
+                                    if (useStat[4].isSelected()) {
+                                        int AGI = Integer.parseInt(inputFields[10].getText());
+                                        AGI++;
+                                        inputFields[10].setText(Integer.toString(AGI));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_MAG:
-                                    int MAG = Integer.parseInt(inputFields[11].getText());
-                                    MAG++;
-                                    inputFields[11].setText(Integer.toString(MAG));
+                                    if (useStat[5].isSelected()) {
+                                        int MAG = Integer.parseInt(inputFields[11].getText());
+                                        MAG++;
+                                        inputFields[11].setText(Integer.toString(MAG));
+                                    }
                                     break;
                             }
                         }
@@ -324,29 +366,39 @@ public class npcEditor {
                             int stat = (editorVars.Rnd.nextInt(5 + 1));
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
-                                    int STR = Integer.parseInt(inputFields[7].getText());
-                                    STR++;
-                                    inputFields[7].setText(Integer.toString(STR));
+                                    if (useStat[1].isSelected()) {
+                                        int STR = Integer.parseInt(inputFields[7].getText());
+                                        STR++;
+                                        inputFields[7].setText(Integer.toString(STR));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_DEF:
-                                    int DEF = Integer.parseInt(inputFields[8].getText());
-                                    DEF++;
-                                    inputFields[8].setText(Integer.toString(DEF));
+                                    if (useStat[2].isSelected()) {
+                                        int DEF = Integer.parseInt(inputFields[8].getText());
+                                        DEF++;
+                                        inputFields[8].setText(Integer.toString(DEF));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_VIT:
-                                    int VIT = Integer.parseInt(inputFields[9].getText());
-                                    VIT++;
-                                    inputFields[9].setText(Integer.toString(VIT));
+                                    if (useStat[3].isSelected()) {
+                                        int VIT = Integer.parseInt(inputFields[9].getText());
+                                        VIT++;
+                                        inputFields[9].setText(Integer.toString(VIT));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_AGI:
-                                    int AGI = Integer.parseInt(inputFields[10].getText());
-                                    AGI++;
-                                    inputFields[10].setText(Integer.toString(AGI));
+                                    if (useStat[4].isSelected()) {
+                                        int AGI = Integer.parseInt(inputFields[10].getText());
+                                        AGI++;
+                                        inputFields[10].setText(Integer.toString(AGI));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_MAG:
-                                    int MAG = Integer.parseInt(inputFields[11].getText());
-                                    MAG++;
-                                    inputFields[11].setText(Integer.toString(MAG));
+                                    if (useStat[5].isSelected()) {
+                                        int MAG = Integer.parseInt(inputFields[11].getText());
+                                        MAG++;
+                                        inputFields[11].setText(Integer.toString(MAG));
+                                    }
                                     break;
                             }
                         }
@@ -357,29 +409,39 @@ public class npcEditor {
                             int stat = (editorVars.Rnd.nextInt(5 + 1));
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
-                                    int STR = Integer.parseInt(inputFields[7].getText());
-                                    STR++;
-                                    inputFields[7].setText(Integer.toString(STR));
+                                    if (useStat[1].isSelected()) {
+                                        int STR = Integer.parseInt(inputFields[7].getText());
+                                        STR++;
+                                        inputFields[7].setText(Integer.toString(STR));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_DEF:
-                                    int DEF = Integer.parseInt(inputFields[8].getText());
-                                    DEF++;
-                                    inputFields[8].setText(Integer.toString(DEF));
+                                    if (useStat[2].isSelected()) {
+                                        int DEF = Integer.parseInt(inputFields[8].getText());
+                                        DEF++;
+                                        inputFields[8].setText(Integer.toString(DEF));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_VIT:
-                                    int VIT = Integer.parseInt(inputFields[9].getText());
-                                    VIT++;
-                                    inputFields[9].setText(Integer.toString(VIT));
+                                    if (useStat[3].isSelected()) {
+                                        int VIT = Integer.parseInt(inputFields[9].getText());
+                                        VIT++;
+                                        inputFields[9].setText(Integer.toString(VIT));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_AGI:
-                                    int AGI = Integer.parseInt(inputFields[10].getText());
-                                    AGI++;
-                                    inputFields[10].setText(Integer.toString(AGI));
+                                    if (useStat[4].isSelected()) {
+                                        int AGI = Integer.parseInt(inputFields[10].getText());
+                                        AGI++;
+                                        inputFields[10].setText(Integer.toString(AGI));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_MAG:
-                                    int MAG = Integer.parseInt(inputFields[11].getText());
-                                    MAG++;
-                                    inputFields[11].setText(Integer.toString(MAG));
+                                    if (useStat[5].isSelected()) {
+                                        int MAG = Integer.parseInt(inputFields[11].getText());
+                                        MAG++;
+                                        inputFields[11].setText(Integer.toString(MAG));
+                                    }
                                     break;
                             }
                         }
@@ -390,29 +452,39 @@ public class npcEditor {
                             int stat = (editorVars.Rnd.nextInt(5 + 1));
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
-                                    int STR = Integer.parseInt(inputFields[7].getText());
-                                    STR++;
-                                    inputFields[7].setText(Integer.toString(STR));
+                                    if (useStat[1].isSelected()) {
+                                        int STR = Integer.parseInt(inputFields[7].getText());
+                                        STR++;
+                                        inputFields[7].setText(Integer.toString(STR));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_DEF:
-                                    int DEF = Integer.parseInt(inputFields[8].getText());
-                                    DEF++;
-                                    inputFields[8].setText(Integer.toString(DEF));
+                                    if (useStat[2].isSelected()) {
+                                        int DEF = Integer.parseInt(inputFields[8].getText());
+                                        DEF++;
+                                        inputFields[8].setText(Integer.toString(DEF));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_VIT:
-                                    int VIT = Integer.parseInt(inputFields[9].getText());
-                                    VIT++;
-                                    inputFields[9].setText(Integer.toString(VIT));
+                                    if (useStat[3].isSelected()) {
+                                        int VIT = Integer.parseInt(inputFields[9].getText());
+                                        VIT++;
+                                        inputFields[9].setText(Integer.toString(VIT));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_AGI:
-                                    int AGI = Integer.parseInt(inputFields[10].getText());
-                                    AGI++;
-                                    inputFields[10].setText(Integer.toString(AGI));
+                                    if (useStat[4].isSelected()) {
+                                        int AGI = Integer.parseInt(inputFields[10].getText());
+                                        AGI++;
+                                        inputFields[10].setText(Integer.toString(AGI));
+                                    }
                                     break;
                                 case editorVars.STAT_TYPE_MAG:
-                                    int MAG = Integer.parseInt(inputFields[11].getText());
-                                    MAG++;
-                                    inputFields[11].setText(Integer.toString(MAG));
+                                    if (useStat[5].isSelected()) {
+                                        int MAG = Integer.parseInt(inputFields[11].getText());
+                                        MAG++;
+                                        inputFields[11].setText(Integer.toString(MAG));
+                                    }
                                     break;
                             }
                         }
@@ -425,8 +497,8 @@ public class npcEditor {
                 int MAG = Integer.parseInt(inputFields[11].getText());
                 int total = STR + DEF + VIT + AGI + MAG;
 
-                int xp = (level * 50) + (total * (total / 4));
-                int hp = (VIT + (total / 2)) * (level * level);
+                int xp = (level * 50) + (total * (total / 2));
+                int hp = (VIT + (total / 2)) * (level * (level / 2));
 
                 inputFields[5].setText(Integer.toString(hp));
                 inputFields[6].setText(Integer.toString(xp));
