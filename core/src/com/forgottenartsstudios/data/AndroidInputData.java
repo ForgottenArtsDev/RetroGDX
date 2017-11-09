@@ -2,17 +2,10 @@ package com.forgottenartsstudios.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector3;
 import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
-import com.forgottenartsstudios.networking.packets.ChooseChar;
-import com.forgottenartsstudios.networking.packets.CreateChar;
-import com.forgottenartsstudios.networking.packets.NewAccount;
-
-import static com.forgottenartsstudios.gameworld.GameRenderer.batcher;
-import static com.forgottenartsstudios.rtonline.RTOnline.client;
 
 /**
  * Created by forgo on 10/6/2017.
@@ -418,6 +411,13 @@ public class AndroidInputData {
                             Variables.inMenu = false;
                             Variables.inInventory = false;
                             Variables.inStatus = true;
+
+                            Variables.tempStats.Points = Variables.players[Variables.MyIndex].getPoints();
+                            Variables.tempStats.STR = 0;
+                            Variables.tempStats.DEF = 0;
+                            Variables.tempStats.VIT = 0;
+                            Variables.tempStats.AGI = 0;
+                            Variables.tempStats.MAG = 0;
                         }
                     }
                 }
@@ -845,7 +845,7 @@ public class AndroidInputData {
             if (worldCoordinates.y >= 77 && worldCoordinates.y <= 100) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(1);
+                        Gen.tempStats(1);
                     }
                 }
             }
@@ -855,7 +855,7 @@ public class AndroidInputData {
             if (worldCoordinates.y >= 108 && worldCoordinates.y <= 129) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(2);
+                        Gen.tempStats(2);
                     }
                 }
             }
@@ -865,7 +865,7 @@ public class AndroidInputData {
             if (worldCoordinates.y >= 138 && worldCoordinates.y <= 159) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(3);
+                        Gen.tempStats(3);
                     }
                 }
             }
@@ -875,7 +875,7 @@ public class AndroidInputData {
             if (worldCoordinates.y >= 167 && worldCoordinates.y <= 189) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(4);
+                        Gen.tempStats(4);
                     }
                 }
             }
@@ -885,7 +885,7 @@ public class AndroidInputData {
             if (worldCoordinates.y >= 198 && worldCoordinates.y <= 218) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(5);
+                        Gen.tempStats(5);
                     }
                 }
             }
@@ -900,6 +900,13 @@ public class AndroidInputData {
                     Variables.selectedInvSlot = 0;
                     Variables.inMenu = true;
                 }
+            }
+        }
+
+        // Confirm
+        if (worldCoordinates.x >= 347 && worldCoordinates.x <= 450) {
+            if (worldCoordinates.y >= 427 && worldCoordinates.y <= 450) {
+                SendClientData.SendUsePoint();
             }
         }
     }

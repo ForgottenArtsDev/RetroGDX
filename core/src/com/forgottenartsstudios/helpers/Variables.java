@@ -10,6 +10,7 @@ import com.forgottenartsstudios.data.Message;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
 import com.forgottenartsstudios.data.SystemMsg_Struct;
+import com.forgottenartsstudios.data.TempStats;
 import com.forgottenartsstudios.data.TileLayer_Struct;
 import com.forgottenartsstudios.data.mapData;
 
@@ -130,6 +131,7 @@ public class Variables {
     public static final int ITEM_TYPE_POTION = 6;
 
     public static AccountData MyAccount;
+    public static TempStats tempStats = new TempStats();
     public static mapData[] mapRender = new mapData[MaxMaps + 1];
     public static Player[] players = new Player[MaxPlayers + 1];
     public static MapNPC[] MapNPCs = new MapNPC[MaxMapNPCs + 1];

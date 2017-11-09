@@ -203,14 +203,22 @@ public class SendClientData {
 
         client.sendTCP(sendPickUpItem);
     }
-    public static void SendUsePoint(int statNum) {
+    public static void SendUsePoint() {
         SendUsePoint sendUsePoint = new SendUsePoint();
 
         sendUsePoint.index = Variables.MyIndex;
-        sendUsePoint.statNum = statNum;
+        sendUsePoint.STR = Variables.tempStats.STR;
+        sendUsePoint.DEF = Variables.tempStats.DEF;
+        sendUsePoint.VIT = Variables.tempStats.VIT;
+        sendUsePoint.AGI = Variables.tempStats.AGI;
+        sendUsePoint.MAG = Variables.tempStats.MAG;
+
+        sendUsePoint.Points = Variables.tempStats.Points;
 
         Variables.usePoint = true;
         Variables.usePointTimer = 1;
+
+        Variables.tempStats = new TempStats();
 
         client.sendTCP(sendUsePoint);
     }

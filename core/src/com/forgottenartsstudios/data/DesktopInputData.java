@@ -251,6 +251,14 @@ public class DesktopInputData {
             if (worldCoordinates.y >= 420 && worldCoordinates.y <= 460) {
                 if (!Variables.inStatus) {
                     Variables.inStatus = true;
+
+                    Variables.tempStats.Points = Variables.players[Variables.MyIndex].getPoints();
+                    Variables.tempStats.STR = 0;
+                    Variables.tempStats.DEF = 0;
+                    Variables.tempStats.VIT = 0;
+                    Variables.tempStats.AGI = 0;
+                    Variables.tempStats.MAG = 0;
+
                     Variables.inInventory = false;
                     Variables.inShop = false;
                 } else {
@@ -623,13 +631,13 @@ public class DesktopInputData {
         }
     }
     public static void handleStatus(Vector3 worldCoordinates) {
-// Add Points
+        // Add Points
         // STR
         if (worldCoordinates.x >= 35 && worldCoordinates.x <= 118) {
             if (worldCoordinates.y >= 68 && worldCoordinates.y <= 92) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(1);
+                        Gen.tempStats(1);
                     }
                 }
             }
@@ -639,7 +647,7 @@ public class DesktopInputData {
             if (worldCoordinates.y >= 100 && worldCoordinates.y <= 121) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(2);
+                        Gen.tempStats(2);
                     }
                 }
             }
@@ -649,7 +657,7 @@ public class DesktopInputData {
             if (worldCoordinates.y >= 130 && worldCoordinates.y <= 151) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(3);
+                        Gen.tempStats(3);
                     }
                 }
             }
@@ -659,7 +667,7 @@ public class DesktopInputData {
             if (worldCoordinates.y >= 159 && worldCoordinates.y <= 181) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(4);
+                        Gen.tempStats(4);
                     }
                 }
             }
@@ -669,7 +677,7 @@ public class DesktopInputData {
             if (worldCoordinates.y >= 190 && worldCoordinates.y <= 210) {
                 if (Variables.players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
-                        SendClientData.SendUsePoint(5);
+                        Gen.tempStats(5);
                     }
                 }
             }
@@ -678,12 +686,17 @@ public class DesktopInputData {
         // Back
         if (worldCoordinates.x >= 16 && worldCoordinates.x <= 66) {
             if (worldCoordinates.y >= 430 && worldCoordinates.y <= 460) {
-                if (!Variables.inMenu) {
-                    Variables.inInventory = false;
-                    Variables.inStatus = false;
-                    Variables.selectedInvSlot = 0;
-                    Variables.inMenu = false;
-                }
+                Variables.inInventory = false;
+                Variables.inStatus = false;
+                Variables.selectedInvSlot = 0;
+                Variables.inMenu = false;
+            }
+        }
+
+        // Confirm
+        if (worldCoordinates.x >= 347 && worldCoordinates.x <= 450) {
+            if (worldCoordinates.y >= 427 && worldCoordinates.y <= 450) {
+                SendClientData.SendUsePoint();
             }
         }
     }

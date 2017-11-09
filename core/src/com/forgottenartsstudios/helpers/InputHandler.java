@@ -152,8 +152,10 @@ public class InputHandler implements InputProcessor {
                     AndroidInputData.inputCharCreate(screenX, screenY);
                     break;
                 case Variables.Game_State_InGame:
-                    Variables.touchDown = true;
-                    AndroidInputData.inputInGame(screenX, screenY);
+                    if (Variables.touchDown) {
+                        AndroidInputData.inputInGame(screenX, screenY);
+                        Variables.touchDown = true;
+                    }
                     break;
             }
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {

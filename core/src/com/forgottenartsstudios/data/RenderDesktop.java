@@ -1185,7 +1185,12 @@ public class RenderDesktop {
 
         nameX = 67;
         nameY = 72;
-        drawText("STR: " + Variables.players[Variables.MyIndex].getSTR(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.STR > 0) {
+            int STR = Variables.players[Variables.MyIndex].getSTR() + Variables.tempStats.STR;
+            drawText("STR: " + STR, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("STR: " + Variables.players[Variables.MyIndex].getSTR(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1196,7 +1201,12 @@ public class RenderDesktop {
         }
         nameX = 67;
         nameY = 102;
-        drawText("DEF: " + Variables.players[Variables.MyIndex].getDEF(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.DEF > 0) {
+            int DEF = Variables.players[Variables.MyIndex].getDEF() + Variables.tempStats.DEF;
+            drawText("DEF: " + DEF, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("DEF: " + Variables.players[Variables.MyIndex].getDEF(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1207,7 +1217,12 @@ public class RenderDesktop {
         }
         nameX = 67;
         nameY = 132;
-        drawText("VIT: " + Variables.players[Variables.MyIndex].getVIT(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.VIT > 0) {
+            int VIT = Variables.players[Variables.MyIndex].getVIT() + Variables.tempStats.VIT;
+            drawText("VIT: " + VIT, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("VIT: " + Variables.players[Variables.MyIndex].getVIT(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1218,7 +1233,12 @@ public class RenderDesktop {
         }
         nameX = 69;
         nameY = 162;
-        drawText("AGI: " + Variables.players[Variables.MyIndex].getAGI(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.AGI > 0) {
+            int AGI = Variables.players[Variables.MyIndex].getAGI() + Variables.tempStats.AGI;
+            drawText("AGI: " + AGI, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("AGI: " + Variables.players[Variables.MyIndex].getAGI(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1229,7 +1249,12 @@ public class RenderDesktop {
         }
         nameX = 69;
         nameY = 192;
-        drawText("MAG: " + Variables.players[Variables.MyIndex].getMAG(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.MAG > 0) {
+            int MAG = Variables.players[Variables.MyIndex].getMAG() + Variables.tempStats.MAG;
+            drawText("MAG: " + MAG, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("MAG: " + Variables.players[Variables.MyIndex].getMAG(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1244,6 +1269,11 @@ public class RenderDesktop {
             drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), nameX, nameY, Color.YELLOW);
         } else {
             drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), nameX, nameY, Color.WHITE);
+        }
+
+        // Confirm Button
+        if (Variables.tempStats.Points < Variables.players[Variables.MyIndex].getPoints()) {
+            drawText("Confirm", 349, 429, Color.WHITE);
         }
 
         // Back Button

@@ -408,6 +408,12 @@ public class RenderAndroid {
             if (Variables.pauseMovement) {
                 Variables.pauseMovement = false;
             }
+            if (Variables.usePoint) {
+                if (Variables.usePointTimer == 0) {
+                    Variables.usePoint = false;
+                }
+                Variables.usePointTimer--;
+            }
             LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
         }
 
@@ -1018,7 +1024,12 @@ public class RenderAndroid {
 
         nameX = 75;
         nameY = 80;
-        drawText("STR: " + Variables.players[Variables.MyIndex].getSTR(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.STR > 0) {
+            int STR = Variables.players[Variables.MyIndex].getSTR() + Variables.tempStats.STR;
+            drawText("STR: " + STR, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("STR: " + Variables.players[Variables.MyIndex].getSTR(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1029,7 +1040,12 @@ public class RenderAndroid {
         }
         nameX = 75;
         nameY = 110;
-        drawText("DEF: " + Variables.players[Variables.MyIndex].getDEF(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.DEF > 0) {
+            int DEF = Variables.players[Variables.MyIndex].getDEF() + Variables.tempStats.DEF;
+            drawText("DEF: " + DEF, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("DEF: " + Variables.players[Variables.MyIndex].getDEF(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1040,7 +1056,12 @@ public class RenderAndroid {
         }
         nameX = 75;
         nameY = 140;
-        drawText("VIT: " + Variables.players[Variables.MyIndex].getVIT(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.VIT > 0) {
+            int VIT = Variables.players[Variables.MyIndex].getVIT() + Variables.tempStats.VIT;
+            drawText("VIT: " + VIT, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("VIT: " + Variables.players[Variables.MyIndex].getVIT(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1051,7 +1072,12 @@ public class RenderAndroid {
         }
         nameX = 75;
         nameY = 170;
-        drawText("AGI: " + Variables.players[Variables.MyIndex].getAGI(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.AGI > 0) {
+            int MAG = Variables.players[Variables.MyIndex].getAGI() + Variables.tempStats.AGI;
+            drawText("AGI: " + MAG, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("AGI: " + Variables.players[Variables.MyIndex].getAGI(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1062,7 +1088,12 @@ public class RenderAndroid {
         }
         nameX = 75;
         nameY = 200;
-        drawText("MAG: " + Variables.players[Variables.MyIndex].getMAG(), nameX, nameY, Color.WHITE);
+        if (Variables.tempStats.MAG > 0) {
+            int MAG = Variables.players[Variables.MyIndex].getMAG() + Variables.tempStats.MAG;
+            drawText("MAG: " + MAG, nameX, nameY, Color.YELLOW);
+        } else {
+            drawText("MAG: " + Variables.players[Variables.MyIndex].getMAG(), nameX, nameY, Color.WHITE);
+        }
         if (Variables.players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
@@ -1077,6 +1108,11 @@ public class RenderAndroid {
             drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), nameX, nameY, Color.YELLOW);
         } else {
             drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), nameX, nameY, Color.WHITE);
+        }
+
+        // Confirm Button
+        if (Variables.tempStats.Points < Variables.players[Variables.MyIndex].getPoints()) {
+            drawText("Confirm", 349, 429, Color.WHITE);
         }
 
         // Back Button
@@ -1547,12 +1583,6 @@ public class RenderAndroid {
                     }
                     Variables.longPressTimer++;
                 }
-            }
-            if (Variables.usePoint) {
-                if (Variables.usePointTimer == 0) {
-                    Variables.usePoint = false;
-                }
-                Variables.usePointTimer--;
             }
             LastUpdateTime_LongPress = tickCount + UpdateTime_LongPress;
         }

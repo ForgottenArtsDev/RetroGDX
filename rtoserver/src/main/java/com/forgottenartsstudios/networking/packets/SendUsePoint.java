@@ -6,5 +6,10 @@ package com.forgottenartsstudios.networking.packets;
 
 public class SendUsePoint extends Packet {
     public int index;
-    public int statNum;
+    public int STR;
+    public int DEF;
+    public int VIT;
+    public int AGI;
+    public int MAG;
+    public int Points;
 }

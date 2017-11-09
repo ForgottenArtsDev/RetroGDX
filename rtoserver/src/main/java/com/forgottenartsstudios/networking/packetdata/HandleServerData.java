@@ -1008,31 +1008,20 @@ public class HandleServerData {
         SendUsePoint sendUsePoint = (SendUsePoint) object;
 
         int index = sendUsePoint.index;
-        int statNum = sendUsePoint.statNum;
+        int STR = sendUsePoint.STR;
+        int DEF = sendUsePoint.DEF;
+        int VIT = sendUsePoint.VIT;
+        int AGI = sendUsePoint.AGI;
+        int MAG = sendUsePoint.MAG;
 
         if (ServerVars.Players[index].getPoints() > 0) {
-            switch (statNum) {
-                case 1: // STR
-                    ServerVars.Players[index].setSTR(ServerVars.Players[index].getSTR() + 1);
-                    ServerVars.Players[index].setPoints(ServerVars.Players[index].getPoints() - 1);
-                    break;
-                case 2: // DEF
-                    ServerVars.Players[index].setDEF(ServerVars.Players[index].getDEF() + 1);
-                    ServerVars.Players[index].setPoints(ServerVars.Players[index].getPoints() - 1);
-                    break;
-                case 3: // VIT
-                    ServerVars.Players[index].setVIT(ServerVars.Players[index].getVIT() + 1);
-                    ServerVars.Players[index].setPoints(ServerVars.Players[index].getPoints() - 1);
-                    break;
-                case 4: // AGI
-                    ServerVars.Players[index].setAGI(ServerVars.Players[index].getAGI() + 1);
-                    ServerVars.Players[index].setPoints(ServerVars.Players[index].getPoints() - 1);
-                    break;
-                case 5: // MAG
-                    ServerVars.Players[index].setMAG(ServerVars.Players[index].getMAG() + 1);
-                    ServerVars.Players[index].setPoints(ServerVars.Players[index].getPoints() - 1);
-                    break;
-            }
+            ServerVars.Players[index].setSTR(ServerVars.Players[index].getSTR() + STR);
+            ServerVars.Players[index].setDEF(ServerVars.Players[index].getDEF() + DEF);
+            ServerVars.Players[index].setVIT(ServerVars.Players[index].getVIT() + VIT);
+            ServerVars.Players[index].setAGI(ServerVars.Players[index].getAGI() + AGI);
+            ServerVars.Players[index].setMAG(ServerVars.Players[index].getMAG() + MAG);
+
+            ServerVars.Players[index].setPoints(sendUsePoint.Points);
         }
 
         int pSTR = ServerVars.Players[index].getSTR();
