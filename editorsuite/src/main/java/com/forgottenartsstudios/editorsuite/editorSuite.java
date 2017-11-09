@@ -169,12 +169,10 @@ public class editorSuite extends Game {
             }
         });
 
-        btnUndo.setText("Undo");
         btnUndo.setBounds(215, 465, 80, 25);
         btnUndo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("currentUndo: " + editorVars.currentUndo);
                 if (editorVars.currentUndo == 1) {
                     editorVars.mapRender = editorVars.undoMapRender[1];
                     editorVars.currentUndo = 0;

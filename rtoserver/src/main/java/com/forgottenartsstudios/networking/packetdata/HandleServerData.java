@@ -681,42 +681,48 @@ public class HandleServerData {
         switch (dir) {
             case ServerVars.DIR_UP:
                 for (int i = 1; i <= ServerVars.MaxMapNPCs; i++) {
-                    if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y - 1) {
-                        if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
-                            if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
-                                // Damage Algorithm
-                                double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
-                                if (diff < 0) diff = 0;
+                    if (ServerVars.MapNPCs == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum] == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum].Npc == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
+                    if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y - 1) {
+                            if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
+                                if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                                    // Damage Algorithm
+                                    double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
+                                    if (diff < 0) diff = 0;
 
-                                // Increase up to 10% for minimum damage
-                                double minDam = diff - Math.round(diff * 0.1);
-                                double maxDam = diff + Math.round(diff * 0.1);
-                                if (maxDam < minDam) minDam = maxDam;
-                                int Damage = ServerVars.Rnd.nextInt((int)maxDam - (int)minDam + 1) + (int)minDam;
+                                    // Increase up to 10% for minimum damage
+                                    double minDam = diff - Math.round(diff * 0.1);
+                                    double maxDam = diff + Math.round(diff * 0.1);
+                                    if (maxDam < minDam) minDam = maxDam;
+                                    int Damage = ServerVars.Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
 
-                                if (Damage > 0) {
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setTarget(index);
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
-                                    SendServerData.SendNPCDmg(index, i, Damage);
-                                    if (ServerVars.MapNPCs[mapNum].Npc[i].getHP() <= 0) {
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setHP(0);
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setDead(true);
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].SpawnSecs);
+                                    if (Damage > 0) {
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setTarget(index);
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+                                        SendServerData.SendNPCDmg(index, i, Damage);
+                                        if (ServerVars.MapNPCs[mapNum].Npc[i].getHP() <= 0) {
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setHP(0);
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setDead(true);
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].SpawnSecs);
 
-                                        SendServerData.SendKillNPC(index, i, true);
-                                        for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
-                                            if (a != index) {
-                                                if (ServerVars.Players[a] != null) {
-                                                    if (mapNum == ServerVars.Players[a].getMap()) {
-                                                        SendServerData.SendKillNPC(a, i, false);
+                                            SendServerData.SendKillNPC(index, i, true);
+                                            for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                                if (a != index) {
+                                                    if (ServerVars.Players[a] != null) {
+                                                        if (mapNum == ServerVars.Players[a].getMap()) {
+                                                            SendServerData.SendKillNPC(a, i, false);
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+                                    } else {
+                                        SendServerData.SendNPCDmg(index, i, 0);
                                     }
-                                } else {
-                                    SendServerData.SendNPCDmg(index, i, 0);
                                 }
                             }
                         }
@@ -725,42 +731,48 @@ public class HandleServerData {
                 break;
             case ServerVars.DIR_DOWN:
                 for (int i = 1; i <= ServerVars.MaxMapNPCs; i++) {
-                    if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y + 1) {
-                        if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
-                            if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
-                                // Damage Algorithm
-                                double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
-                                if (diff < 0) diff = 0;
+                    if (ServerVars.MapNPCs == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum] == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum].Npc == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
+                    if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y + 1) {
+                            if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
+                                if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                                    // Damage Algorithm
+                                    double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
+                                    if (diff < 0) diff = 0;
 
-                                // Increase up to 10% for minimum damage
-                                double minDam = diff - Math.round(diff * 0.1);
-                                double maxDam = diff + Math.round(diff * 0.1);
-                                if (maxDam < minDam) minDam = maxDam;
-                                int Damage = ServerVars.Rnd.nextInt((int)maxDam - (int)minDam + 1) + (int)minDam;
+                                    // Increase up to 10% for minimum damage
+                                    double minDam = diff - Math.round(diff * 0.1);
+                                    double maxDam = diff + Math.round(diff * 0.1);
+                                    if (maxDam < minDam) minDam = maxDam;
+                                    int Damage = ServerVars.Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
 
-                                if (Damage > 0) {
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setTarget(index);
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
-                                    SendServerData.SendNPCDmg(index, i, Damage);
-                                    if (ServerVars.MapNPCs[mapNum].Npc[i].getHP() <= 0) {
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setHP(0);
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setDead(true);
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].SpawnSecs);
+                                    if (Damage > 0) {
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setTarget(index);
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+                                        SendServerData.SendNPCDmg(index, i, Damage);
+                                        if (ServerVars.MapNPCs[mapNum].Npc[i].getHP() <= 0) {
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setHP(0);
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setDead(true);
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].SpawnSecs);
 
-                                        SendServerData.SendKillNPC(index, i, true);
-                                        for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
-                                            if (a != index) {
-                                                if (ServerVars.Players[a] != null) {
-                                                    if (mapNum == ServerVars.Players[a].getMap()) {
-                                                        SendServerData.SendKillNPC(a, i, false);
+                                            SendServerData.SendKillNPC(index, i, true);
+                                            for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                                if (a != index) {
+                                                    if (ServerVars.Players[a] != null) {
+                                                        if (mapNum == ServerVars.Players[a].getMap()) {
+                                                            SendServerData.SendKillNPC(a, i, false);
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+                                    } else {
+                                        SendServerData.SendNPCDmg(index, i, 0);
                                     }
-                                } else {
-                                    SendServerData.SendNPCDmg(index, i, 0);
                                 }
                             }
                         }
@@ -769,42 +781,48 @@ public class HandleServerData {
                 break;
             case ServerVars.DIR_LEFT:
                 for (int i = 1; i <= ServerVars.MaxMapNPCs; i++) {
-                    if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x - 1 && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y) {
-                        if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
-                            if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
-                                // Damage Algorithm
-                                double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
-                                if (diff < 0) diff = 0;
+                    if (ServerVars.MapNPCs == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum] == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum].Npc == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
+                    if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x - 1 && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y) {
+                            if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
+                                if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                                    // Damage Algorithm
+                                    double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
+                                    if (diff < 0) diff = 0;
 
-                                // Increase up to 10% for minimum damage
-                                double minDam = diff - Math.round(diff * 0.1);
-                                double maxDam = diff + Math.round(diff * 0.1);
-                                if (maxDam < minDam) minDam = maxDam;
-                                int Damage = ServerVars.Rnd.nextInt((int)maxDam - (int)minDam + 1) + (int)minDam;
+                                    // Increase up to 10% for minimum damage
+                                    double minDam = diff - Math.round(diff * 0.1);
+                                    double maxDam = diff + Math.round(diff * 0.1);
+                                    if (maxDam < minDam) minDam = maxDam;
+                                    int Damage = ServerVars.Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
 
-                                if (Damage > 0) {
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setTarget(index);
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
-                                    SendServerData.SendNPCDmg(index, i, Damage);
-                                    if (ServerVars.MapNPCs[mapNum].Npc[i].getHP() <= 0) {
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setHP(0);
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setDead(true);
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].SpawnSecs);
+                                    if (Damage > 0) {
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setTarget(index);
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+                                        SendServerData.SendNPCDmg(index, i, Damage);
+                                        if (ServerVars.MapNPCs[mapNum].Npc[i].getHP() <= 0) {
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setHP(0);
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setDead(true);
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].SpawnSecs);
 
-                                        SendServerData.SendKillNPC(index, i, true);
-                                        for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
-                                            if (a != index) {
-                                                if (ServerVars.Players[a] != null) {
-                                                    if (mapNum == ServerVars.Players[a].getMap()) {
-                                                        SendServerData.SendKillNPC(a, i, false);
+                                            SendServerData.SendKillNPC(index, i, true);
+                                            for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                                if (a != index) {
+                                                    if (ServerVars.Players[a] != null) {
+                                                        if (mapNum == ServerVars.Players[a].getMap()) {
+                                                            SendServerData.SendKillNPC(a, i, false);
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+                                    } else {
+                                        SendServerData.SendNPCDmg(index, i, 0);
                                     }
-                                } else {
-                                    SendServerData.SendNPCDmg(index, i, 0);
                                 }
                             }
                         }
@@ -813,42 +831,48 @@ public class HandleServerData {
                 break;
             case ServerVars.DIR_RIGHT:
                 for (int i = 1; i <= ServerVars.MaxMapNPCs; i++) {
-                    if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x + 1 && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y) {
-                        if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
-                            if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
-                                // Damage Algorithm
-                                double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
-                                if (diff < 0) diff = 0;
+                    if (ServerVars.MapNPCs == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum] == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum].Npc == null) { return; }
+                    if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
+                    if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x + 1 && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y) {
+                            if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
+                                if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                                    // Damage Algorithm
+                                    double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
+                                    if (diff < 0) diff = 0;
 
-                                // Increase up to 10% for minimum damage
-                                double minDam = diff - Math.round(diff * 0.1);
-                                double maxDam = diff + Math.round(diff * 0.1);
-                                if (maxDam < minDam) minDam = maxDam;
-                                int Damage = ServerVars.Rnd.nextInt((int)maxDam - (int)minDam + 1) + (int)minDam;
+                                    // Increase up to 10% for minimum damage
+                                    double minDam = diff - Math.round(diff * 0.1);
+                                    double maxDam = diff + Math.round(diff * 0.1);
+                                    if (maxDam < minDam) minDam = maxDam;
+                                    int Damage = ServerVars.Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
 
-                                if (Damage > 0) {
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setTarget(index);
-                                    ServerVars.MapNPCs[mapNum].Npc[i].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
-                                    SendServerData.SendNPCDmg(index, i, Damage);
-                                    if (ServerVars.MapNPCs[mapNum].Npc[i].getHP() <= 0) {
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setHP(0);
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setDead(true);
-                                        ServerVars.MapNPCs[mapNum].Npc[i].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].SpawnSecs);
+                                    if (Damage > 0) {
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setTarget(index);
+                                        ServerVars.MapNPCs[mapNum].Npc[i].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+                                        SendServerData.SendNPCDmg(index, i, Damage);
+                                        if (ServerVars.MapNPCs[mapNum].Npc[i].getHP() <= 0) {
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setHP(0);
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setDead(true);
+                                            ServerVars.MapNPCs[mapNum].Npc[i].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].SpawnSecs);
 
-                                        SendServerData.SendKillNPC(index, i, true);
-                                        for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
-                                            if (a != index) {
-                                                if (ServerVars.Players[a] != null) {
-                                                    if (mapNum == ServerVars.Players[a].getMap()) {
-                                                        SendServerData.SendKillNPC(a, i, false);
+                                            SendServerData.SendKillNPC(index, i, true);
+                                            for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                                if (a != index) {
+                                                    if (ServerVars.Players[a] != null) {
+                                                        if (mapNum == ServerVars.Players[a].getMap()) {
+                                                            SendServerData.SendKillNPC(a, i, false);
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+                                    } else {
+                                        SendServerData.SendNPCDmg(index, i, 0);
                                     }
-                                } else {
-                                    SendServerData.SendNPCDmg(index, i, 0);
                                 }
                             }
                         }
@@ -1101,7 +1125,6 @@ public class HandleServerData {
                 String[] whisper = msg.split(" ");
                 for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                     if (ServerVars.Players[i] != null) {
-                        System.out.println(whisper[0]);
                         if (ServerVars.Players[i].getName() != null && !ServerVars.Players[i].getName().isEmpty()) {
                             if (ServerVars.Players[i].getName().equals(whisper[0])) {
                                 String whisp = msg.substring(msg.indexOf(" ") + 1);
