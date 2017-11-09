@@ -623,13 +623,10 @@ public class SendServerData {
                     ServerVars.Players[index].setMaxHP((pVIT * 2) * (pSTR / 2));
                     ServerVars.Players[index].setMaxMP((pMAG * 2) * (pDEF / 2));
 
-                    SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Level Up!", Color.GREEN);
                     for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                         if (ServerVars.Players[i] != null) {
-                            if (i != index) {
-                                if (ServerVars.Players[i].getMap() == ServerVars.Players[index].getMap()) {
-                                    SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Level Up!", Color.GREEN);
-                                }
+                            if (ServerVars.Players[i].getMap() == ServerVars.Players[index].getMap()) {
+                                SendServerData.SendSystemMessage(index, i, "Level Up!", Color.GREEN);
                             }
                         }
                     }
@@ -809,14 +806,13 @@ public class SendServerData {
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sendMessage);
     }
-    public static void SendSystemMessage(int index, int type, String msg, Color color) {
+    public static void SendSystemMessage(int index, int toIndex, String msg, Color color) {
         SendSystemMessage sendSystemMessage = new SendSystemMessage();
 
         sendSystemMessage.index = index;
-        sendSystemMessage.type = type;
         sendSystemMessage.msg = msg;
         sendSystemMessage.color = color;
 
-        server.sendToTCP(ServerVars.Accounts[index].getCID(), sendSystemMessage);
+        server.sendToTCP(ServerVars.Accounts[toIndex].getCID(), sendSystemMessage);
     }
 }
