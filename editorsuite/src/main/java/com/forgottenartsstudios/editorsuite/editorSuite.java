@@ -283,6 +283,11 @@ public class editorSuite extends Game {
                     editorVars.selectedData1 = 0;
                     editorVars.selectedData2 = 0;
                     editorVars.selectedData3 = 0;
+                } else if (combo.getSelectedIndex() == editorVars.TILE_TYPE_HEAL) {
+                    editorVars.selectedTileType = editorVars.TILE_TYPE_HEAL;
+                    editorVars.selectedData1 = 0;
+                    editorVars.selectedData2 = 0;
+                    editorVars.selectedData3 = 0;
                 }
             }
         });

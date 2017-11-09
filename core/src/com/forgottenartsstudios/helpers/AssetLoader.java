@@ -43,7 +43,7 @@ public class AssetLoader {
     public static void load() {
         if (Variables.Client_Mode == Variables.Client_Mode_Desktop)
         {
-            clientDir = "";//"android/assets/";
+            clientDir = "android/assets/";
         } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             clientDir = "";
         }
@@ -376,17 +376,19 @@ public class AssetLoader {
         Variables.loadingMap = false;
     }
     public static void checkMaps() {
-        for (int i = 1; i <= Variables.MaxMaps; i++) {
-            int mapNum = i;
-            FileHandle mapFile = Gdx.files.internal("data/maps/" + mapNum + ".dat");
+        //if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            for (int i = 1; i <= Variables.MaxMaps; i++) {
+                int mapNum = i;
+                FileHandle mapFile = Gdx.files.internal("data/maps/" + mapNum + ".dat");
 
-            if (mapFile.exists()) {
-                FileHandle newMapFile = Gdx.files.local("data/maps/" + mapNum + ".dat");
-                //if (!newMapFile.exists()) {
+                if (mapFile.exists()) {
+                    FileHandle newMapFile = Gdx.files.local("data/maps/" + mapNum + ".dat");
+                    //if (!newMapFile.exists()) {
                     mapFile.copyTo(newMapFile);
-                //}
+                    //}
+                }
             }
-        }
+        //}
     }
     public static void clearMap(int mapNum) {
         Variables.mapRender[mapNum] = new mapData();
@@ -442,7 +444,7 @@ public class AssetLoader {
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-            prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
+            prefFile = Gdx.files.internal(clientDir + "data/preferences.dat");
         }
 
         ObjectOutputStream  outputStream = null;
@@ -476,7 +478,7 @@ public class AssetLoader {
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-            prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
+            prefFile = Gdx.files.internal(clientDir + "data/preferences.dat");
         }
 
         if(!prefFile.exists() && !prefFile.isDirectory()) {

@@ -189,6 +189,9 @@ public class editorRenderer {
                                 case editorVars.TILE_TYPE_WARP:
                                     drawText("W", (X * 32) + 10, (Y * 32) + 10, Color.ROYAL);
                                     break;
+                                case editorVars.TILE_TYPE_HEAL:
+                                    drawText("H", (X * 32) + 10, (Y * 32) + 10, Color.GREEN);
+                                    break;
                             }
                             //}
                         }

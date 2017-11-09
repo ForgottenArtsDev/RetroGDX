@@ -187,13 +187,48 @@ public class RTOServer extends ApplicationAdapter {
                         for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                             if (ServerVars.Players[i] != null) {
                                 if (ServerVars.Players[i].getHP() < ServerVars.Players[i].getMaxHP() || ServerVars.Players[i].getMP() < ServerVars.Players[i].getMaxMP()) {
+                                    float percent;
+                                    boolean boost = false;
+                                    for (int x = 0; x <= ServerVars.mapData[ServerVars.Players[i].getMap()].MaxX - 1; x++) {
+                                        for (int y = 0; y <= ServerVars.mapData[ServerVars.Players[i].getMap()].MaxY - 1; y++) {
+                                            if (ServerVars.mapData[ServerVars.Players[i].getMap()].Tile[x][y].Type == ServerVars.TILE_TYPE_HEAL) {
+                                                int DistanceX = x - ServerVars.Players[i].getX();
+                                                int DistanceY = y - ServerVars.Players[i].getY();
+
+                                                // Make sure we get a positive value
+                                                if (DistanceX < 0) {
+                                                    DistanceX = DistanceX * -1;
+                                                }
+                                                if (DistanceY < 0) {
+                                                    DistanceY = DistanceY * -1;
+                                                }
+
+                                                // Are they in range?  if so GET'M!
+                                                if ((DistanceX <= 3) && (DistanceY <= 3)) {
+                                                    boost = true;
+                                                }
+                                            }
+                                        }
+                                    }
                                     // HP //
-                                    ServerVars.Players[i].setHP(ServerVars.Players[i].getHP() + 10);
+                                    if (boost) {
+                                        percent = 10.0f;
+                                    } else {
+                                        percent = 5.0f;
+                                    }
+                                    int HP = (int)(ServerVars.Players[i].getMaxHP() * (percent / 100.0f));
+                                    ServerVars.Players[i].setHP(ServerVars.Players[i].getHP() + HP);
                                     if (ServerVars.Players[i].getHP() > ServerVars.Players[i].getMaxHP()) {
                                         ServerVars.Players[i].setHP(ServerVars.Players[i].getMaxHP());
                                     }
                                     // MP //
-                                    ServerVars.Players[i].setMP(ServerVars.Players[i].getMP() + 5);
+                                    if (boost) {
+                                        percent = 6.0f;
+                                    } else {
+                                        percent = 3.0f;
+                                    }
+                                    int MP = (int)(ServerVars.Players[i].getMaxMP() * (percent / 100.0f));
+                                    ServerVars.Players[i].setMP(ServerVars.Players[i].getMP() + MP);
                                     if (ServerVars.Players[i].getMP() > ServerVars.Players[i].getMaxMP()) {
                                         ServerVars.Players[i].setMP(ServerVars.Players[i].getMaxMP());
                                     }
