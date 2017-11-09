@@ -434,6 +434,7 @@ public class AndroidInputData {
             if (Variables.inStatus) { handleStatus(worldCoordinates); }
             if (Variables.inChat) { handleChat(worldCoordinates); }
         }
+        Variables.touchDown = false;
     }
 
     public static void checkAttack(long tickCount) {

@@ -14,7 +14,9 @@ import com.forgottenartsstudios.networking.packetdata.SendServerData;
  */
 
 public class InputHandler implements InputProcessor {
+
     private GameWorld myWorld;
+
     public InputHandler(GameWorld myWorld) {
         this.myWorld = myWorld;
     }

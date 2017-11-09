@@ -595,14 +595,14 @@ public class RTOServer extends ApplicationAdapter {
 
         // We could not move so player must be behind something, walk randomly.
         if (keepMoving) {
-            Random rnd = new Random(2);
-            if (rnd.nextInt() == 1) {
+            //Random rnd = new Random(1 + 1);
+            //if (rnd.nextInt() == 1) {
                 int Dir = (byte) (ServerVars.Rnd.nextInt(4 + 1));
                 if (CanNpcMove(mapNum, mapNpcNum, Dir)) {
                     NpcMove(mapNum, mapNpcNum, Dir);
                 }
             }
-        }
+        //}
     }
     private static void NpcDir(int mapNum, int mapNpcNum, int Dir) {
         // Checks //

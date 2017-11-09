@@ -57,11 +57,11 @@ public class GameRenderer {
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
 
-        screenBatcher = new SpriteBatch();
-        screenBatcher.setProjectionMatrix(screenCam.combined);
+        //screenBatcher = new SpriteBatch();
+        //screenBatcher.setProjectionMatrix(screenCam.combined);
 
         cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
-        screenCam.position.set(screenCam.viewportWidth / 2, screenCam.viewportHeight / 2, 0);
+        //screenCam.position.set(screenCam.viewportWidth / 2, screenCam.viewportHeight / 2, 0);
     }
     public void render(float runTime) {
         // We will move these outside of the loop for performance later.

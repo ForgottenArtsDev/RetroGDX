@@ -1365,7 +1365,7 @@ public class RenderAndroid {
             for (int i = 1; i <= Variables.MaxMapNPCs; i++) {
                 if (Variables.MapNPCs[i].getNum() > 0) {
                     if (Variables.MapNPCs[i].getY() == LoopY) {
-                        int MovementSpeed = 8;
+                        int MovementSpeed = 2;
 
                         switch (Variables.MapNPCs[i].getDir()) {
                             case Variables.DIR_UP:
@@ -1645,5 +1645,4 @@ public class RenderAndroid {
             Variables.MapNPCs[index].setLastStep(0);
         }
     }
-    //
 }

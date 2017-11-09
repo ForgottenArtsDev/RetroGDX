@@ -22,7 +22,7 @@ public class ServerVars {
     public static boolean ServerRunning = true;
 
     public static final int MaxPlayers = 100;
-    public static final int MaxMaps = 165;
+    public static final int MaxMaps = 200;
     public static final int MaxNPCs = 200;
     public static final int MaxItems = 200;
     public static final int MaxShops = 200;
@@ -103,6 +103,12 @@ public class ServerVars {
     public static final int NPC_BEHAVIOUR_QUEST_ROAMING = 8;
     public static final int NPC_BEHAVIOUR_QUEST_STANDING = 9;
     public static final int NPC_BEHAVIOUR_ONATTACK_ROAMING = 10;
+
+    // NPC Speeds //
+    public static int NPC_SPEED;
+    public static final int NPC_TOWN = 1;
+    public static final int NPC_ENEMY = 2;
+    public static final int NPC_AGGRESSIVE = 4;
 
     // Target Type constants //
     public static final int TARGET_TYPE_NONE = 0;
