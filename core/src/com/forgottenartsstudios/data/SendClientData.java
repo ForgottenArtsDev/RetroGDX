@@ -199,8 +199,6 @@ public class SendClientData {
 
         sendPickUpItem.index = Variables.MyIndex;
 
-        System.out.println("sendPickUpItem");
-
         client.sendTCP(sendPickUpItem);
     }
     public static void SendUsePoint() {

@@ -1650,6 +1650,14 @@ public class RenderDesktop {
                     }
 
                     for (int a = 1; a <= 20; a++) {
+                        if (Variables.DrawHP[a].getTimer() > 0) {
+                            if (Variables.DrawHP[a].getMapNpcNum() == Variables.MyIndex) {
+                                drawName(Variables.DrawHP[a].getDamage() + "", Variables.DrawHP[a].getX(), Variables.DrawHP[a].getY(), Color.GREEN);
+                            }
+                        }
+                    }
+
+                    for (int a = 1; a <= 20; a++) {
                         if (Variables.DrawSystemMessage[a].getTimer() > 0) {
                             drawName(Variables.DrawSystemMessage[a].getMsg(), Variables.DrawSystemMessage[a].getX(), Variables.DrawSystemMessage[a].getY(), Variables.DrawSystemMessage[a].getColor());
                         }
@@ -1882,6 +1890,15 @@ public class RenderDesktop {
                     Variables.DrawXP[i].setTimer(Variables.DrawXP[i].getTimer() - 1);
                     if (Variables.DrawXP[i].getTimer() <= 0) {
                         Variables.DrawXP[i] = new Damage_Struct();
+                    }
+                }
+            }
+            for (int i = 1; i <= 20; i++) {
+                if (Variables.DrawHP[i].getTimer() > 0) {
+                    Variables.DrawHP[i].setY(Variables.DrawHP[i].getY() - 2);
+                    Variables.DrawHP[i].setTimer(Variables.DrawHP[i].getTimer() - 1);
+                    if (Variables.DrawHP[i].getTimer() <= 0) {
+                        Variables.DrawHP[i] = new Damage_Struct();
                     }
                 }
             }

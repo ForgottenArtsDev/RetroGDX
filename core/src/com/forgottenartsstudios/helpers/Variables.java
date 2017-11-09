@@ -141,6 +141,7 @@ public class Variables {
     public static Damage_Struct[] DrawNPCDamage = new Damage_Struct[20 + 1];
     public static Damage_Struct[] DrawXP = new Damage_Struct[20 + 1];
     public static Damage_Struct[] DrawPlayerDamage = new Damage_Struct[20 + 1];
+    public static Damage_Struct[] DrawHP = new Damage_Struct[20 + 1];
     public static SystemMsg_Struct[] DrawSystemMessage = new SystemMsg_Struct[20 + 1];
     public static SystemMsg_Struct[] DrawLevelUp = new SystemMsg_Struct[20 + 1];
     public static int CharIndex;

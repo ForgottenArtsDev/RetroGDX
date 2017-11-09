@@ -815,4 +815,12 @@ public class SendServerData {
 
         server.sendToTCP(ServerVars.Accounts[toIndex].getCID(), sendSystemMessage);
     }
+    public static void SendHPRegen(int index, int hp) {
+        SendHPRegen sendHPRegen = new SendHPRegen();
+
+        sendHPRegen.index = index;
+        sendHPRegen.hp = hp;
+
+        server.sendToTCP(ServerVars.Accounts[index].getCID(), sendHPRegen);
+    }
 }

@@ -9,6 +9,7 @@ import com.forgottenartsstudios.networking.packets.DisconnectPlayer;
 import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
 import com.forgottenartsstudios.networking.packets.MovePlayer;
 import com.forgottenartsstudios.networking.packets.PlayerData;
+import com.forgottenartsstudios.networking.packets.SendHPRegen;
 import com.forgottenartsstudios.networking.packets.SendInventory;
 import com.forgottenartsstudios.networking.packets.SendItems;
 import com.forgottenartsstudios.networking.packets.SendKillNPC;
@@ -549,8 +550,6 @@ public class HandleClientData {
         String msg = sendMessage.msg;
         double msgLength = msg.length();
 
-        System.out.println(msg.length());
-
         if (msgLength > 110) {
             String[] multiLine = msg.split("(?<=\\G.{110})");
             double lines = Array.getLength(multiLine);
@@ -606,6 +605,29 @@ public class HandleClientData {
                         break;
                     }
                 }
+            }
+        }
+    }
+    public static void HandleHPRegen(Object object) {
+        SendHPRegen sendHPRegen = (SendHPRegen) object;
+        for (int i = 1; i <= 20; i++) {
+            if (Variables.DrawHP[i].getTimer() == 0) {
+                Variables.DrawHP[i].setDamage(sendHPRegen.hp);
+
+                layout.setText(AssetLoader.nameFont, Variables.DrawHP[i].getDamage() + "");
+                float width = layout.width;// contains the width of the current set text
+
+                float PlayerX = ((Variables.players[Variables.MyIndex].getX() * Variables.MoveSize) + Variables.players[Variables.MyIndex].getOffsetX());
+                float PlayerY = ((Variables.players[Variables.MyIndex].getY() * Variables.MoveSize) + Variables.players[Variables.MyIndex].getOffsetY());
+
+                float nameX = PlayerX - ((int)width / 2) + 24;
+                float nameY = PlayerY - 28;
+
+                Variables.DrawHP[i].setMapNpcNum(Variables.MyIndex);
+                Variables.DrawHP[i].setX((int)nameX);
+                Variables.DrawHP[i].setY((int)nameY);
+                Variables.DrawHP[i].setTimer(20);
+                break;
             }
         }
     }

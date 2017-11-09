@@ -67,12 +67,14 @@ public class RTOnline extends Game {
         Variables.DrawXP = new Damage_Struct[20 + 1];
         Variables.DrawSystemMessage = new SystemMsg_Struct[20 + 1];
         Variables.DrawLevelUp = new SystemMsg_Struct[20 + 1];
+        Variables.DrawHP = new Damage_Struct[20 + 1];
         for (int i = 1; i <= 20; i++) {
             Variables.DrawNPCDamage[i] = new Damage_Struct();
             Variables.DrawPlayerDamage[i] = new Damage_Struct();
             Variables.DrawXP[i] = new Damage_Struct();
             Variables.DrawSystemMessage[i] = new SystemMsg_Struct();
             Variables.DrawLevelUp[i] = new SystemMsg_Struct();
+            Variables.DrawHP[i] = new Damage_Struct();
         }
 
         Variables.MapNPCs = new MapNPC[Variables.MaxMapNPCs + 1];
@@ -168,6 +170,7 @@ public class RTOnline extends Game {
         client.getKryo().register(SendMessage.class);
         client.getKryo().register(SendSystemMessage.class);
         client.getKryo().register(Color.class);
+        client.getKryo().register(SendHPRegen.class);
     }
     public static void checkPackets(Object object, Connection connection) {
         if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }
@@ -197,5 +200,6 @@ public class RTOnline extends Game {
         if (object instanceof SendPlayerDmg) { HandleClientData.HandlePlayerDmg(object); }
         if (object instanceof SendMessage) { HandleClientData.HandleSendMessage(object); }
         if (object instanceof SendSystemMessage) { HandleClientData.HandleSendSystemMessage(object); }
+        if (object instanceof SendHPRegen) { HandleClientData.HandleHPRegen(object); }
     }
 }

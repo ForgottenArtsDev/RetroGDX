@@ -220,6 +220,8 @@ public class RTOServer extends ApplicationAdapter {
                                     ServerVars.Players[i].setHP(ServerVars.Players[i].getHP() + HP);
                                     if (ServerVars.Players[i].getHP() > ServerVars.Players[i].getMaxHP()) {
                                         ServerVars.Players[i].setHP(ServerVars.Players[i].getMaxHP());
+                                    } else {
+                                        SendServerData.SendHPRegen(i, HP);
                                     }
                                     // MP //
                                     if (boost) {
@@ -379,6 +381,7 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(SendMessage.class);
         server.getKryo().register(SendSystemMessage.class);
         server.getKryo().register(Color.class);
+        server.getKryo().register(SendHPRegen.class);
     }
     private static void checkPackets(Object object, Connection connection) {
         if (object instanceof Connect) { HandleServerData.HandleConnect(object); }
