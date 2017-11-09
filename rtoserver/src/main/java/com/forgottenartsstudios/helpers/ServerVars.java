@@ -74,6 +74,7 @@ public class ServerVars {
     public static final int MESSAGE_TYPE_MAP = 1;
     public static final int MESSAGE_TYPE_GLOBAL = 2;
     public static final int MESSAGE_TYPE_WHISPER = 3;
+    public static final int MESSAGE_TYPE_SYSTEM = 4;
 
     // Search types
     public static final int SEARCH_TYPE_NONE = 0;

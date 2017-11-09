@@ -15,7 +15,6 @@ import com.forgottenartsstudios.networking.packets.SendSearch;
 import com.forgottenartsstudios.networking.packets.SendTryAttack;
 import com.forgottenartsstudios.networking.packets.SendUseItem;
 import com.forgottenartsstudios.networking.packets.SendUsePoint;
-import com.forgottenartsstudios.networking.packets.WarpCheck;
 
 import static com.forgottenartsstudios.rtonline.RTOnline.client;
 
@@ -183,12 +182,17 @@ public class SendClientData {
     public static void SendDropItem(int invSlot) {
         SendDropItem sendDropItem = new SendDropItem();
 
-        sendDropItem.index = Variables.MyIndex;
-        sendDropItem.invSlot = invSlot;
-        sendDropItem.x = Variables.players[Variables.MyIndex].getX();
-        sendDropItem.y = Variables.players[Variables.MyIndex].getY();
-
-        client.sendTCP(sendDropItem);
+        if (Variables.inInventory) {
+            if (invSlot > 0) {
+                if (Variables.players[Variables.MyIndex].inventory[invSlot].getItemNum() > 0) {
+                    sendDropItem.index = Variables.MyIndex;
+                    sendDropItem.invSlot = invSlot;
+                    sendDropItem.x = Variables.players[Variables.MyIndex].getX();
+                    sendDropItem.y = Variables.players[Variables.MyIndex].getY();
+                    client.sendTCP(sendDropItem);
+                }
+            }
+        }
     }
     public static void SendPickUpItem() {
         SendPickUpItem sendPickUpItem = new SendPickUpItem();
@@ -224,6 +228,9 @@ public class SendClientData {
         sendMessage.msg = Variables.chatInput;
 
         Variables.chatInput = "";
+        if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+            Variables.inChat = false;
+        }
 
         client.sendTCP(sendMessage);
     }

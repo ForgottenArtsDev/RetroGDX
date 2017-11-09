@@ -1,12 +1,10 @@
 package com.forgottenartsstudios.rtonline;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.reflectasm.shaded.org.objectweb.asm.Handle;
 import com.forgottenartsstudios.data.AccountData;
 import com.forgottenartsstudios.data.Damage_Struct;
 import com.forgottenartsstudios.data.HandleClientData;
@@ -17,48 +15,10 @@ import com.forgottenartsstudios.data.MapNPC;
 import com.forgottenartsstudios.data.Message;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
+import com.forgottenartsstudios.data.SystemMsg_Struct;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
-import com.forgottenartsstudios.networking.packets.AccountNotFound;
-import com.forgottenartsstudios.networking.packets.AccountRegistered;
-import com.forgottenartsstudios.networking.packets.ChooseChar;
-import com.forgottenartsstudios.networking.packets.Connect;
-import com.forgottenartsstudios.networking.packets.CreateChar;
-import com.forgottenartsstudios.networking.packets.DisconnectPlayer;
-import com.forgottenartsstudios.networking.packets.ItemBoughtMsg;
-import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
-import com.forgottenartsstudios.networking.packets.Login;
-import com.forgottenartsstudios.networking.packets.MovePlayer;
-import com.forgottenartsstudios.networking.packets.NewAccount;
-import com.forgottenartsstudios.networking.packets.NotEnoughGoldMsg;
-import com.forgottenartsstudios.networking.packets.Packet;
-import com.forgottenartsstudios.networking.packets.PlayerData;
-import com.forgottenartsstudios.networking.packets.SendBuyItem;
-import com.forgottenartsstudios.networking.packets.SendDropItem;
-import com.forgottenartsstudios.networking.packets.SendInventory;
-import com.forgottenartsstudios.networking.packets.SendItems;
-import com.forgottenartsstudios.networking.packets.SendKillNPC;
-import com.forgottenartsstudios.networking.packets.SendLogin;
-import com.forgottenartsstudios.networking.packets.SendMapItems;
-import com.forgottenartsstudios.networking.packets.SendMapNPCs;
-import com.forgottenartsstudios.networking.packets.SendMessage;
-import com.forgottenartsstudios.networking.packets.SendNPCDead;
-import com.forgottenartsstudios.networking.packets.SendNPCDir;
-import com.forgottenartsstudios.networking.packets.SendNPCDmg;
-import com.forgottenartsstudios.networking.packets.SendNPCMove;
-import com.forgottenartsstudios.networking.packets.SendNPCSpawn;
-import com.forgottenartsstudios.networking.packets.SendNPCXP;
-import com.forgottenartsstudios.networking.packets.SendPickUpItem;
-import com.forgottenartsstudios.networking.packets.SendPlayerDmg;
-import com.forgottenartsstudios.networking.packets.SendPlayerWarp;
-import com.forgottenartsstudios.networking.packets.SendRespawnNPC;
-import com.forgottenartsstudios.networking.packets.SendSearch;
-import com.forgottenartsstudios.networking.packets.SendShop;
-import com.forgottenartsstudios.networking.packets.SendTryAttack;
-import com.forgottenartsstudios.networking.packets.SendUseItem;
-import com.forgottenartsstudios.networking.packets.SendUsePoint;
-import com.forgottenartsstudios.networking.packets.SendVital;
-import com.forgottenartsstudios.networking.packets.WarpCheck;
+import com.forgottenartsstudios.networking.packets.*;
 import com.forgottenartsstudios.screens.GameScreen;
 
 import java.io.IOException;
@@ -105,10 +65,14 @@ public class RTOnline extends Game {
         Variables.DrawNPCDamage = new Damage_Struct[20 + 1];
         Variables.DrawPlayerDamage = new Damage_Struct[20 + 1];
         Variables.DrawXP = new Damage_Struct[20 + 1];
+        Variables.DrawSystemMessage = new SystemMsg_Struct[20 + 1];
+        Variables.DrawLevelUp = new SystemMsg_Struct[20 + 1];
         for (int i = 1; i <= 20; i++) {
             Variables.DrawNPCDamage[i] = new Damage_Struct();
             Variables.DrawPlayerDamage[i] = new Damage_Struct();
             Variables.DrawXP[i] = new Damage_Struct();
+            Variables.DrawSystemMessage[i] = new SystemMsg_Struct();
+            Variables.DrawLevelUp[i] = new SystemMsg_Struct();
         }
 
         Variables.MapNPCs = new MapNPC[Variables.MaxMapNPCs + 1];
@@ -202,6 +166,8 @@ public class RTOnline extends Game {
         client.getKryo().register(SendUsePoint.class);
         client.getKryo().register(SendPlayerDmg.class);
         client.getKryo().register(SendMessage.class);
+        client.getKryo().register(SendSystemMessage.class);
+        client.getKryo().register(Color.class);
     }
     public static void checkPackets(Object object, Connection connection) {
         if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }
@@ -230,5 +196,6 @@ public class RTOnline extends Game {
         if (object instanceof NotEnoughGoldMsg) { HandleClientData.HandleNotEnoughGoldMsg(); }
         if (object instanceof SendPlayerDmg) { HandleClientData.HandlePlayerDmg(object); }
         if (object instanceof SendMessage) { HandleClientData.HandleSendMessage(object); }
+        if (object instanceof SendSystemMessage) { HandleClientData.HandleSendSystemMessage(object); }
     }
 }

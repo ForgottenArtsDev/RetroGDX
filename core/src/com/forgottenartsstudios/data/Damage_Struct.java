@@ -1,5 +1,7 @@
 package com.forgottenartsstudios.data;
 
+import com.badlogic.gdx.graphics.Color;
+
 /**
  * Created by forgo on 10/15/2017.
  */

@@ -23,6 +23,8 @@ public class InputHandler implements InputProcessor {
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             if (!Variables.inChat) {
                 Variables.inChat = true;
+            } else {
+                Variables.inChat = false;
             }
         }
         return false;

@@ -275,9 +275,9 @@ public class npcEditor {
 
                 switch (type) {
                     case editorVars.MONSTER_TYPE_NORMAL:
-                        points = 25 + (level * 5);
+                        points = 25 + ((level - 1) * 5);
                         for (int i = 1; i <= points; i++) {
-                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            int stat = findStat();
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
                                     if (useStat[1].isSelected()) {
@@ -318,7 +318,7 @@ public class npcEditor {
                         }
                         break;
                     case editorVars.MONSTER_TYPE_WEAK:
-                        points = 15 + (level * 3);
+                        points = 15 + ((level - 1) * 3);
                         for (int i = 1; i <= points; i++) {
                             int stat = (editorVars.Rnd.nextInt(5 + 1));
                             switch (stat) {
@@ -361,7 +361,7 @@ public class npcEditor {
                         }
                         break;
                     case editorVars.MONSTER_TYPE_STRONG:
-                        points = 35 + (level * 7);
+                        points = 35 + ((level - 1) * 7);
                         for (int i = 1; i <= points; i++) {
                             int stat = (editorVars.Rnd.nextInt(5 + 1));
                             switch (stat) {
@@ -404,7 +404,7 @@ public class npcEditor {
                         }
                         break;
                     case editorVars.MONSTER_TYPE_MINION:
-                        points = 45 + (level * 10);
+                        points = 45 + ((level - 1) * 10);
                         for (int i = 1; i <= points; i++) {
                             int stat = (editorVars.Rnd.nextInt(5 + 1));
                             switch (stat) {
@@ -447,7 +447,7 @@ public class npcEditor {
                         }
                         break;
                     case editorVars.MONSTER_TYPE_BOSS:
-                        points = 65 + (level * 20);
+                        points = 65 + ((level - 1) * 20);
                         for (int i = 1; i <= points; i++) {
                             int stat = (editorVars.Rnd.nextInt(5 + 1));
                             switch (stat) {
@@ -508,5 +508,39 @@ public class npcEditor {
         editorVars.npcEditor.add(btnLoad);
         editorVars.npcEditor.add(btnSave);
         editorVars.npcEditor.add(btnCancel);
+    }
+
+    public static int findStat() {
+        int stat;
+        stat = (editorVars.Rnd.nextInt(5 + 1));
+
+        switch (stat) {
+            case editorVars.STAT_TYPE_STR:
+                if (useStat[1].isSelected()) {
+                    return stat;
+                }
+                break;
+            case editorVars.STAT_TYPE_DEF:
+                if (useStat[2].isSelected()) {
+                    return stat;
+                }
+            case editorVars.STAT_TYPE_VIT:
+                if (useStat[3].isSelected()) {
+                    return stat;
+                }
+                break;
+            case editorVars.STAT_TYPE_AGI:
+                if (useStat[4].isSelected()) {
+                    return stat;
+                }
+                break;
+            case editorVars.STAT_TYPE_MAG:
+                if (useStat[5].isSelected()) {
+                    return stat;
+                }
+                break;
+        }
+
+        return findStat();
     }
 }

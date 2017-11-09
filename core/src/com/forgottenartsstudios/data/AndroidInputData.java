@@ -653,9 +653,14 @@ public class AndroidInputData {
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedInvSlot != i) {
-                                    Variables.selectedInvSlot = i;
+                                if (Variables.inputTimer == 0) {
+                                    if (Variables.selectedInvSlot != i) {
+                                        Variables.selectedInvSlot = i;
+                                    } else {
+                                        SendClientData.SendUseItem();
+                                    }
                                 }
+                                Variables.inputTimer = 1;
                             }
                         }
                     }
@@ -682,6 +687,8 @@ public class AndroidInputData {
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
+                                } else {
+                                    SendClientData.SendUseItem();
                                 }
                             }
                         }
@@ -709,6 +716,8 @@ public class AndroidInputData {
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
+                                } else {
+                                    SendClientData.SendUseItem();
                                 }
                             }
                         }
@@ -736,6 +745,8 @@ public class AndroidInputData {
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
+                                } else {
+                                    SendClientData.SendUseItem();
                                 }
                             }
                         }
@@ -763,6 +774,8 @@ public class AndroidInputData {
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
+                                } else {
+                                    SendClientData.SendUseItem();
                                 }
                             }
                         }
@@ -778,7 +791,9 @@ public class AndroidInputData {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
                                     } else {
-                                        SendClientData.SendUseItem();
+                                        if (!Variables.useItem) {
+                                            SendClientData.SendUseItem();
+                                        }
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
@@ -788,6 +803,10 @@ public class AndroidInputData {
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
+                                } else {
+                                    if (!Variables.useItem) {
+                                        SendClientData.SendUseItem();
+                                    }
                                 }
                             }
                         }
@@ -819,7 +838,7 @@ public class AndroidInputData {
         }
     }
     public static void handleStatus(Vector3 worldCoordinates) {
-// Add Points
+        // Add Points
         // STR
         if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
             if (worldCoordinates.y >= 77 && worldCoordinates.y <= 100) {

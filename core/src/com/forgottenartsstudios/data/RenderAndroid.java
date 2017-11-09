@@ -391,6 +391,11 @@ public class RenderAndroid {
         longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
+        // Temp fix for playerdata getting cleared and crashing the game (Hopefully)
+        //if (Variables.players[Variables.MyIndex] == null) {
+        //    SendClientData.SendNeedPlayerData();
+        //}
+
         if (Variables.players[Variables.MyIndex].getMoving() == 0) {
             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
                 AndroidInputData.handleInput();
@@ -1313,7 +1318,7 @@ public class RenderAndroid {
                 }
             }
         }
-        // RenderAndroid Player Names
+        // Render Player Names
         for (int i = 1; i <= Variables.MaxPlayers; i++) {
             if (Variables.players[i] != null) {
                 if (Variables.players[i].getMap() == Variables.players[Variables.MyIndex].getMap()) {
@@ -1343,6 +1348,12 @@ public class RenderAndroid {
                             if (Variables.DrawXP[a].getMapNpcNum() == Variables.MyIndex) {
                                 drawName(Variables.DrawXP[a].getDamage() + "", Variables.DrawXP[a].getX(), Variables.DrawXP[a].getY(), Color.YELLOW);
                             }
+                        }
+                    }
+
+                    for (int a = 1; a <= 20; a++) {
+                        if (Variables.DrawSystemMessage[a].getTimer() > 0) {
+                            drawName(Variables.DrawSystemMessage[a].getMsg(), Variables.DrawSystemMessage[a].getX(), Variables.DrawSystemMessage[a].getY(), Variables.DrawSystemMessage[a].getColor());
                         }
                     }
                 }
@@ -1518,6 +1529,9 @@ public class RenderAndroid {
             if (Variables.NotEnoughGoldMsgTimer > 0) {
                 Variables.NotEnoughGoldMsgTimer--;
             }
+            if (Variables.inputTimer > 0) {
+                Variables.inputTimer--;
+            }
             LastUpdateTime_BuyMsg = tickCount + UpdateTime_BuyMsg;
         }
     }
@@ -1525,21 +1539,20 @@ public class RenderAndroid {
         if (LastUpdateTime_LongPress < tickCount) {
             if (Variables.touchDown) {
                 if (Variables.longPressTimer < 1) {
-                    Variables.longPressTimer++;
                     if (Variables.longPressTimer == 1) {
                         // Long Press
                         SendClientData.SendDropItem(Variables.selectedInvSlot);
                         Variables.longPressTimer = 0;
                         Variables.touchDown = false;
                     }
+                    Variables.longPressTimer++;
                 }
             }
             if (Variables.usePoint) {
-                if (Variables.usePointTimer > 0) {
-                    Variables.usePointTimer--;
-                } else {
+                if (Variables.usePointTimer == 0) {
                     Variables.usePoint = false;
                 }
+                Variables.usePointTimer--;
             }
             LastUpdateTime_LongPress = tickCount + UpdateTime_LongPress;
         }
@@ -1571,6 +1584,15 @@ public class RenderAndroid {
                     Variables.DrawXP[i].setTimer(Variables.DrawXP[i].getTimer() - 1);
                     if (Variables.DrawXP[i].getTimer() <= 0) {
                         Variables.DrawXP[i] = new Damage_Struct();
+                    }
+                }
+            }
+            for (int i = 1; i <= 20; i++) {
+                if (Variables.DrawSystemMessage[i].getTimer() > 0) {
+                    Variables.DrawSystemMessage[i].setY(Variables.DrawSystemMessage[i].getY() - 2);
+                    Variables.DrawSystemMessage[i].setTimer(Variables.DrawSystemMessage[i].getTimer() - 1);
+                    if (Variables.DrawSystemMessage[i].getTimer() <= 0) {
+                        Variables.DrawSystemMessage[i] = new SystemMsg_Struct();
                     }
                 }
             }

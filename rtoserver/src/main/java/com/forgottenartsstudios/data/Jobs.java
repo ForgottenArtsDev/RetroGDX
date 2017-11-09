@@ -13,10 +13,10 @@ public class Jobs {
         static int MaleSprite = 1;
         static int FemaleSprite = 2;
         static int STR = 8;
-        static int DEF = 5;
+        static int DEF = 6;
         static int VIT = 6;
         static int AGI = 4;
-        static int MAG = 2;
+        static int MAG = 1;
 
         public static int getMaleSprite() { return MaleSprite; }
         public static int getFemaleSprite() { return FemaleSprite; }

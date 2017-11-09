@@ -1,40 +1,14 @@
 package com.forgottenartsstudios.networking.packetdata;
 
+import com.badlogic.gdx.graphics.Color;
 import com.esotericsoftware.kryonet.Connection;
 import com.forgottenartsstudios.data.AccountData;
 import com.forgottenartsstudios.data.General;
 import com.forgottenartsstudios.data.Inventory_Struct;
 import com.forgottenartsstudios.data.MapItem;
-import com.forgottenartsstudios.data.MapNPC;
 import com.forgottenartsstudios.data.Player;
-import com.forgottenartsstudios.data.mapData_Struct;
 import com.forgottenartsstudios.helpers.ServerVars;
-import com.forgottenartsstudios.networking.packets.AccountRegistered;
-import com.forgottenartsstudios.networking.packets.DisconnectPlayer;
-import com.forgottenartsstudios.networking.packets.ItemBoughtMsg;
-import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
-import com.forgottenartsstudios.networking.packets.MovePlayer;
-import com.forgottenartsstudios.networking.packets.NotEnoughGoldMsg;
-import com.forgottenartsstudios.networking.packets.PlayerData;
-import com.forgottenartsstudios.networking.packets.SendInventory;
-import com.forgottenartsstudios.networking.packets.SendItems;
-import com.forgottenartsstudios.networking.packets.SendKillNPC;
-import com.forgottenartsstudios.networking.packets.SendLogin;
-import com.forgottenartsstudios.networking.packets.SendMapItems;
-import com.forgottenartsstudios.networking.packets.SendMapNPCs;
-import com.forgottenartsstudios.networking.packets.SendMessage;
-import com.forgottenartsstudios.networking.packets.SendNPCDead;
-import com.forgottenartsstudios.networking.packets.SendNPCDir;
-import com.forgottenartsstudios.networking.packets.SendNPCDmg;
-import com.forgottenartsstudios.networking.packets.SendNPCMove;
-import com.forgottenartsstudios.networking.packets.SendNPCSpawn;
-import com.forgottenartsstudios.networking.packets.SendNPCXP;
-import com.forgottenartsstudios.networking.packets.SendPlayerDmg;
-import com.forgottenartsstudios.networking.packets.SendPlayerWarp;
-import com.forgottenartsstudios.networking.packets.SendRespawnNPC;
-import com.forgottenartsstudios.networking.packets.SendShop;
-import com.forgottenartsstudios.networking.packets.SendVital;
-import com.sun.org.apache.xpath.internal.operations.Variable;
+import com.forgottenartsstudios.networking.packets.*;
 
 import static com.forgottenartsstudios.server.RTOServer.server;
 
@@ -648,6 +622,17 @@ public class SendServerData {
 
                     ServerVars.Players[index].setMaxHP((pVIT * 2) * (pSTR / 2));
                     ServerVars.Players[index].setMaxMP((pMAG * 2) * (pDEF / 2));
+
+                    SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Level Up!", Color.GREEN);
+                    for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                        if (ServerVars.Players[i] != null) {
+                            if (i != index) {
+                                if (ServerVars.Players[i].getMap() == ServerVars.Players[index].getMap()) {
+                                    SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Level Up!", Color.GREEN);
+                                }
+                            }
+                        }
+                    }
                 }
                 SendServerData.SendVital(index);
             }
@@ -823,5 +808,15 @@ public class SendServerData {
         sendMessage.msg = msg;
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sendMessage);
+    }
+    public static void SendSystemMessage(int index, int type, String msg, Color color) {
+        SendSystemMessage sendSystemMessage = new SendSystemMessage();
+
+        sendSystemMessage.index = index;
+        sendSystemMessage.type = type;
+        sendSystemMessage.msg = msg;
+        sendSystemMessage.color = color;
+
+        server.sendToTCP(ServerVars.Accounts[index].getCID(), sendSystemMessage);
     }
 }

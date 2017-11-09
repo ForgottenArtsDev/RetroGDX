@@ -2,6 +2,7 @@ package com.forgottenartsstudios.server;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -12,7 +13,6 @@ import com.forgottenartsstudios.data.Inventory_Struct;
 import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
-import com.forgottenartsstudios.data.NPC_Struct;
 import com.forgottenartsstudios.data.SaveData;
 import com.forgottenartsstudios.data.Shop_Struct;
 import com.forgottenartsstudios.data.mapData_Struct;
@@ -21,47 +21,7 @@ import com.forgottenartsstudios.data.LoadData;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packetdata.SendServerData;
-import com.forgottenartsstudios.networking.packets.AccountNotFound;
-import com.forgottenartsstudios.networking.packets.AccountRegistered;
-import com.forgottenartsstudios.networking.packets.ChooseChar;
-import com.forgottenartsstudios.networking.packets.Connect;
-import com.forgottenartsstudios.networking.packets.CreateChar;
-import com.forgottenartsstudios.networking.packets.DisconnectPlayer;
-import com.forgottenartsstudios.networking.packets.ItemBoughtMsg;
-import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
-import com.forgottenartsstudios.networking.packets.Login;
-import com.forgottenartsstudios.networking.packets.MovePlayer;
-import com.forgottenartsstudios.networking.packets.NewAccount;
-import com.forgottenartsstudios.networking.packets.NotEnoughGoldMsg;
-import com.forgottenartsstudios.networking.packets.Packet;
-import com.forgottenartsstudios.networking.packets.PlayerData;
-import com.forgottenartsstudios.networking.packets.SendBuyItem;
-import com.forgottenartsstudios.networking.packets.SendDropItem;
-import com.forgottenartsstudios.networking.packets.SendInventory;
-import com.forgottenartsstudios.networking.packets.SendItems;
-import com.forgottenartsstudios.networking.packets.SendKillNPC;
-import com.forgottenartsstudios.networking.packets.SendLogin;
-import com.forgottenartsstudios.networking.packets.SendMapItems;
-import com.forgottenartsstudios.networking.packets.SendMapNPCs;
-import com.forgottenartsstudios.networking.packets.SendMessage;
-import com.forgottenartsstudios.networking.packets.SendNPCDead;
-import com.forgottenartsstudios.networking.packets.SendNPCDir;
-import com.forgottenartsstudios.networking.packets.SendNPCDmg;
-import com.forgottenartsstudios.networking.packets.SendNPCMove;
-import com.forgottenartsstudios.networking.packets.SendNPCSpawn;
-import com.forgottenartsstudios.networking.packets.SendNPCXP;
-import com.forgottenartsstudios.networking.packets.SendPickUpItem;
-import com.forgottenartsstudios.networking.packets.SendPlayerDmg;
-import com.forgottenartsstudios.networking.packets.SendPlayerWarp;
-import com.forgottenartsstudios.networking.packets.SendRespawnNPC;
-import com.forgottenartsstudios.networking.packets.SendSearch;
-import com.forgottenartsstudios.networking.packets.SendShop;
-import com.forgottenartsstudios.networking.packets.SendTryAttack;
-import com.forgottenartsstudios.networking.packets.SendUseItem;
-import com.forgottenartsstudios.networking.packets.SendUsePoint;
-import com.forgottenartsstudios.networking.packets.SendVital;
-import com.forgottenartsstudios.networking.packets.WarpCheck;
-import com.sun.org.apache.xpath.internal.operations.Variable;
+import com.forgottenartsstudios.networking.packets.*;
 
 import java.util.Random;
 
@@ -382,6 +342,8 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(SendUsePoint.class);
         server.getKryo().register(SendPlayerDmg.class);
         server.getKryo().register(SendMessage.class);
+        server.getKryo().register(SendSystemMessage.class);
+        server.getKryo().register(Color.class);
     }
     private static void checkPackets(Object object, Connection connection) {
         if (object instanceof Connect) { HandleServerData.HandleConnect(object); }
@@ -991,12 +953,13 @@ public class RTOServer extends ApplicationAdapter {
             double maxDam = diff + Math.round(diff * 0.1);
             if (maxDam < minDam) minDam = maxDam;
             int Damage = ServerVars.Rnd.nextInt((int)maxDam - (int)minDam + 1) + (int)minDam;
-            if (Damage > 0)
-            {
+            if (Damage > 0) {
                 NpcDamagePlayer(Attacker, Victim, Damage);
                 //ServerTCP.SendPlayerMsg(Victim, "You got hit for " + Damage + " points of damage");
                 SendServerData.SendPlayerDmg(Victim, Damage);
                 SendServerData.SendPlayerData(Victim, Victim);
+            } else {
+                SendServerData.SendPlayerDmg(Victim, 0);
             }
         }
     }

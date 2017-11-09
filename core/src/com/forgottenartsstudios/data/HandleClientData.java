@@ -1,5 +1,6 @@
 package com.forgottenartsstudios.data;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
@@ -25,6 +26,7 @@ import com.forgottenartsstudios.networking.packets.SendPlayerDmg;
 import com.forgottenartsstudios.networking.packets.SendPlayerWarp;
 import com.forgottenartsstudios.networking.packets.SendRespawnNPC;
 import com.forgottenartsstudios.networking.packets.SendShop;
+import com.forgottenartsstudios.networking.packets.SendSystemMessage;
 import com.forgottenartsstudios.networking.packets.SendVital;
 
 import java.lang.reflect.Array;
@@ -36,17 +38,20 @@ import java.lang.reflect.Array;
 public class HandleClientData {
     public static void HandleSendLogin(Object object) {
         Variables.MyAccount = new AccountData();
-        //Variables.MyAccount.chars = new Player[3 + 1];
-        //sndLogin.chars = new Player[3 + 1];
         for (int i = 1; i <= 3; i++) {
             Variables.MyAccount.chars[i] = new Player();
-            //sndLogin.chars[i] = new Player();
         }
+
         SendLogin sndLogin = (SendLogin) object;
         Variables.MyIndex = sndLogin.Index;
         Variables.MyAccount.setID(sndLogin.accountData.getID());
         Variables.MyAccount.setPW(sndLogin.accountData.getPW());
         Variables.MyAccount.setCID(sndLogin.accountData.getCID());
+
+        Variables.players[Variables.MyIndex].inventory = new Inventory_Struct[60 + 1];
+        for (int i = 1; i <= 60; i++) {
+            Variables.players[Variables.MyIndex].inventory[i] = new Inventory_Struct();
+        }
 
         // 1
         Variables.MyAccount.chars[1].setName(sndLogin.char1.getName());
@@ -178,7 +183,7 @@ public class HandleClientData {
         PlayerData plData = (PlayerData) object;
         int index = plData.index;
         if (plData.playerData.getMap() == 0) { return; }
-        Variables.players[index] = plData.playerData;
+        //Variables.players[index] = plData.playerData;
         Variables.players[index].setName(plData.playerData.getName());
 
         Variables.players[index].setJob(plData.playerData.getJob());
@@ -405,10 +410,6 @@ public class HandleClientData {
     public static void HandleSendInventory(Object object) {
         SendInventory sInv = (SendInventory) object;
 
-        Variables.players[Variables.MyIndex].inventory = new Inventory_Struct[60 + 1];
-        for (int i = 1; i <= 60; i++) {
-            Variables.players[Variables.MyIndex].inventory[i] = new Inventory_Struct();
-        }
         for (int i = 1; i <= 60; i++) {
             Variables.players[Variables.MyIndex].inventory[i].setItemNum(sInv.invData[i].getItemNum());
             Variables.players[Variables.MyIndex].inventory[i].setItemVal(sInv.invData[i].getItemVal());
@@ -570,6 +571,40 @@ public class HandleClientData {
                     Variables.chatMessages[i].setMsg(msg);
                     Variables.chatMessageIndex = i;
                     break;
+                }
+            }
+        }
+    }
+    public static void HandleSendSystemMessage(Object object) {
+        SendSystemMessage sendSystemMessage = (SendSystemMessage) object;
+
+        int index = sendSystemMessage.index;
+        int type = sendSystemMessage.type;
+        String msg = sendSystemMessage.msg;
+        Color color = sendSystemMessage.color;
+
+        if (index == Variables.MyIndex) {
+            if (type == Variables.MESSAGE_TYPE_SYSTEM) {
+                for (int i = 1; i <= 20; i++) {
+                    if (Variables.DrawSystemMessage[i].getTimer() == 0) {
+                        Variables.DrawSystemMessage[i].setMsg(msg);
+
+                        layout.setText(AssetLoader.nameFont, Variables.DrawSystemMessage[i].getMsg());
+                        float width = layout.width;// contains the width of the current set text
+
+                        float PlayerX = ((Variables.players[index].getX() * Variables.MoveSize) + Variables.players[index].getOffsetX());
+                        float PlayerY = ((Variables.players[index].getY() * Variables.MoveSize) + Variables.players[index].getOffsetY());
+
+                        float nameX = PlayerX - ((int)width / 2) + 24;
+                        float nameY = PlayerY - 28;
+
+                        Variables.DrawSystemMessage[i].setIndex(index);
+                        Variables.DrawSystemMessage[i].setX((int) nameX);
+                        Variables.DrawSystemMessage[i].setY((int) nameY);
+                        Variables.DrawSystemMessage[i].setColor(color);
+                        Variables.DrawSystemMessage[i].setTimer(20);
+                        break;
+                    }
                 }
             }
         }

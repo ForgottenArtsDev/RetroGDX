@@ -1,5 +1,6 @@
 package com.forgottenartsstudios.networking.packetdata;
 
+import com.badlogic.gdx.graphics.Color;
 import com.esotericsoftware.kryonet.Connection;
 import com.forgottenartsstudios.data.AccountData;
 import com.forgottenartsstudios.data.General;
@@ -9,29 +10,9 @@ import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.SaveData;
 import com.forgottenartsstudios.helpers.ServerVars;
-import com.forgottenartsstudios.networking.packets.ChooseChar;
-import com.forgottenartsstudios.networking.packets.Connect;
-import com.forgottenartsstudios.networking.packets.CreateChar;
-import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
-import com.forgottenartsstudios.networking.packets.Login;
-import com.forgottenartsstudios.networking.packets.MovePlayer;
-import com.forgottenartsstudios.networking.packets.NewAccount;
-import com.forgottenartsstudios.networking.packets.PlayerData;
-import com.forgottenartsstudios.networking.packets.SendBuyItem;
-import com.forgottenartsstudios.networking.packets.SendDropItem;
-import com.forgottenartsstudios.networking.packets.SendMapItems;
-import com.forgottenartsstudios.networking.packets.SendMessage;
-import com.forgottenartsstudios.networking.packets.SendPickUpItem;
-import com.forgottenartsstudios.networking.packets.SendSearch;
-import com.forgottenartsstudios.networking.packets.SendTryAttack;
-import com.forgottenartsstudios.networking.packets.SendUseItem;
-import com.forgottenartsstudios.networking.packets.SendUsePoint;
-import com.forgottenartsstudios.networking.packets.WarpCheck;
+import com.forgottenartsstudios.networking.packets.*;
 import com.forgottenartsstudios.server.RTOServer;
 import com.forgottenartsstudios.server.serverWindow;
-import com.sun.org.apache.xpath.internal.operations.Variable;
-
-import static com.forgottenartsstudios.server.RTOServer.server;
 
 /**
  * Created by forgo on 10/8/2017.
@@ -930,8 +911,6 @@ public class HandleServerData {
     public static void HandlePickUpItem(Object object) {
         SendPickUpItem sendPickUpItem = (SendPickUpItem) object;
 
-        System.out.println("HandlePickUpItem");
-
         int index = sendPickUpItem.index;
 
         for (int i = 1; i <= ServerVars.MaxMapItems; i++) {
@@ -946,16 +925,18 @@ public class HandleServerData {
             int pY = ServerVars.Players[index].getY();
             boolean itemPlaced = false;
             if (x == pX && y == pY) {
-                System.out.println("Standing on item");
                 if (ServerVars.Items[ServerVars.MapItems[mapNum].Item[i].itemNum].isStackable == 1) {
                     for (int a = 1; a <= 60; a++) {
                         if (ServerVars.Players[index].inventory[a].getItemNum() == ServerVars.MapItems[mapNum].Item[i].itemNum) {
                             ServerVars.Players[index].inventory[a].setItemVal(ServerVars.Players[index].inventory[a].getItemVal() + ServerVars.MapItems[mapNum].Item[i].itemVal);
 
+                            int value = ServerVars.MapItems[mapNum].Item[i].itemVal;
+
                             ServerVars.MapItems[mapNum].Item[i] = new MapItem();
 
                             SendServerData.SendMapItems(mapNum);
                             SendServerData.SendPlayerData(index, index);
+                            SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Picked up " + value + " " + ServerVars.Items[ServerVars.Players[index].inventory[a].getItemNum()].Name, Color.YELLOW);
                             itemPlaced = true;
                             break;
                         }
@@ -966,10 +947,13 @@ public class HandleServerData {
                                 ServerVars.Players[index].inventory[a].setItemNum(ServerVars.MapItems[mapNum].Item[i].itemNum);
                                 ServerVars.Players[index].inventory[a].setItemVal(ServerVars.MapItems[mapNum].Item[i].itemVal);
 
+                                int value = ServerVars.MapItems[mapNum].Item[i].itemVal;
+
                                 ServerVars.MapItems[mapNum].Item[i] = new MapItem();
 
                                 SendServerData.SendMapItems(mapNum);
                                 SendServerData.SendPlayerData(index, index);
+                                SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Picked up " + value + " " + ServerVars.Items[ServerVars.Players[index].inventory[a].getItemNum()].Name, Color.YELLOW);
                                 break;
                             }
                         }
@@ -984,6 +968,7 @@ public class HandleServerData {
 
                             SendServerData.SendMapItems(mapNum);
                             SendServerData.SendPlayerData(index, index);
+                            SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Picked up " + ServerVars.Items[ServerVars.Players[index].inventory[a].getItemNum()].Name, Color.YELLOW);
                             break;
                         }
                     }

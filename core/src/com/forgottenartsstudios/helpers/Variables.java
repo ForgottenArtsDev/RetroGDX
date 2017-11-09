@@ -9,6 +9,7 @@ import com.forgottenartsstudios.data.MapTiles;
 import com.forgottenartsstudios.data.Message;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
+import com.forgottenartsstudios.data.SystemMsg_Struct;
 import com.forgottenartsstudios.data.TileLayer_Struct;
 import com.forgottenartsstudios.data.mapData;
 
@@ -68,9 +69,11 @@ public class Variables {
 
     public static final int MoveSize = 32;
 
+    public static int inputTimer;
+
     public static final int MaxPlayers = 100;
     public static final int MaxMaps = 165;
-    public static final int MaxSprites = 22;
+    public static final int MaxSprites = 32;
     public static final int MaxIcons = 1695;
     public static final int MaxTiles = 1;
     public static final int MaxMapNPCs = 5;
@@ -109,6 +112,7 @@ public class Variables {
     public static final int MESSAGE_TYPE_MAP = 1;
     public static final int MESSAGE_TYPE_GLOBAL = 2;
     public static final int MESSAGE_TYPE_WHISPER = 3;
+    public static final int MESSAGE_TYPE_SYSTEM = 4;
 
     // Search types
     public static final int SEARCH_TYPE_NONE = 0;
@@ -135,6 +139,8 @@ public class Variables {
     public static Damage_Struct[] DrawNPCDamage = new Damage_Struct[20 + 1];
     public static Damage_Struct[] DrawXP = new Damage_Struct[20 + 1];
     public static Damage_Struct[] DrawPlayerDamage = new Damage_Struct[20 + 1];
+    public static SystemMsg_Struct[] DrawSystemMessage = new SystemMsg_Struct[20 + 1];
+    public static SystemMsg_Struct[] DrawLevelUp = new SystemMsg_Struct[20 + 1];
     public static int CharIndex;
 
     public static int BoughtMsgTimer, NotEnoughGoldMsgTimer;
