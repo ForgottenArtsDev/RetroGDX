@@ -43,7 +43,7 @@ public class AssetLoader {
     public static void load() {
         if (Variables.Client_Mode == Variables.Client_Mode_Desktop)
         {
-            clientDir = "android/assets/";
+            clientDir = "";//"android/assets/";
         } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             clientDir = "";
         }
@@ -442,7 +442,7 @@ public class AssetLoader {
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-            prefFile = Gdx.files.internal(clientDir + "data/preferences.dat");
+            prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
         }
 
         ObjectOutputStream  outputStream = null;
@@ -476,7 +476,7 @@ public class AssetLoader {
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-            prefFile = Gdx.files.internal(clientDir + "data/preferences.dat");
+            prefFile = Gdx.files.local(clientDir + "data/preferences.dat");
         }
 
         if(!prefFile.exists() && !prefFile.isDirectory()) {

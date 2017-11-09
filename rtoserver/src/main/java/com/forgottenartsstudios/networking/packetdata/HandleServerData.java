@@ -964,7 +964,7 @@ public class HandleServerData {
 
                             SendServerData.SendMapItems(mapNum);
                             SendServerData.SendPlayerData(index, index);
-                            SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Picked up " + value + " " + ServerVars.Items[ServerVars.Players[index].inventory[a].getItemNum()].Name, Color.YELLOW);
+                            SendServerData.SendSystemMessage(index, index, "Picked up " + value + " " + ServerVars.Items[ServerVars.Players[index].inventory[a].getItemNum()].Name, Color.YELLOW);
                             itemPlaced = true;
                             break;
                         }
@@ -981,7 +981,7 @@ public class HandleServerData {
 
                                 SendServerData.SendMapItems(mapNum);
                                 SendServerData.SendPlayerData(index, index);
-                                SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Picked up " + value + " " + ServerVars.Items[ServerVars.Players[index].inventory[a].getItemNum()].Name, Color.YELLOW);
+                                SendServerData.SendSystemMessage(index, index, "Picked up " + value + " " + ServerVars.Items[ServerVars.Players[index].inventory[a].getItemNum()].Name, Color.YELLOW);
                                 break;
                             }
                         }
@@ -996,7 +996,7 @@ public class HandleServerData {
 
                             SendServerData.SendMapItems(mapNum);
                             SendServerData.SendPlayerData(index, index);
-                            SendServerData.SendSystemMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Picked up " + ServerVars.Items[ServerVars.Players[index].inventory[a].getItemNum()].Name, Color.YELLOW);
+                            SendServerData.SendSystemMessage(index, index, "Picked up " + ServerVars.Items[ServerVars.Players[index].inventory[a].getItemNum()].Name, Color.YELLOW);
                             break;
                         }
                     }
