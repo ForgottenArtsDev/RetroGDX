@@ -32,7 +32,7 @@ public class AssetLoader {
     public static Texture warriorEmbT, wizardEmbT, clericEmbT, rangerEmbT, rogueEmbT;
     public static Texture male, female;
     public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH;
-    public static Texture chatBar, levelUp;
+    public static Texture chatBar;
     public static Texture[] sprites, tiles, items;
     public static TextureRegion[] spritesUp1, spritesUp2, spritesUp3;
     public static TextureRegion[] spritesDown1, spritesDown2, spritesDown3;
@@ -92,8 +92,6 @@ public class AssetLoader {
 
         chatBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/chat_bar.png"));
         chatBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        levelUp = new Texture(Gdx.files.internal(clientDir + "data/ui/android/level_up.png"));
-        levelUp.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         male = new Texture(Gdx.files.internal(clientDir + "data/ui/android/male.png"));
         male.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -213,8 +211,6 @@ public class AssetLoader {
 
         chatBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/chat_bar.png"));
         chatBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        levelUp = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/level_up.png"));
-        levelUp.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         male = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/male.png"));
         male.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
