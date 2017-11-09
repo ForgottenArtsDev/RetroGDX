@@ -280,6 +280,7 @@ public class HandleServerData {
 
         switch (Dir) {
             case ServerVars.DIR_UP:
+                System.out.println("Map:" + Map);
                 if (Y <= 0 || (Y - 1) < 0) {
                     if (ServerVars.mapData[Map].Up > 0) {
                         int newMap = ServerVars.mapData[Map].Up;
@@ -310,6 +311,7 @@ public class HandleServerData {
                 }
                 break;
             case ServerVars.DIR_DOWN:
+                System.out.println("Map:" + Map);
                 if (Y >= ServerVars.mapData[Map].MaxY - 1 || (Y + 1) > ServerVars.mapData[Map].MaxY - 1) {
                     if (ServerVars.mapData[Map].Down > 0) {
                         int newMap = ServerVars.mapData[Map].Down;
@@ -340,6 +342,7 @@ public class HandleServerData {
                 }
                 break;
             case ServerVars.DIR_LEFT:
+                System.out.println("Map:" + Map);
                 if (X <= 0 || (X - 1) < 0) {
                     if (ServerVars.mapData[Map].Left > 0) {
                         int newMap = ServerVars.mapData[Map].Left;
@@ -370,6 +373,7 @@ public class HandleServerData {
                 }
                 break;
             case ServerVars.DIR_RIGHT:
+                System.out.println("Map:" + Map);
                 if (X >= ServerVars.mapData[Map].MaxX - 1 || (X + 1) > ServerVars.mapData[Map].MaxX - 1) {
                     if (ServerVars.mapData[Map].Right > 0) {
                         int newMap = ServerVars.mapData[Map].Right;

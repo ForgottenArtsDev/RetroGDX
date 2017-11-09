@@ -348,12 +348,15 @@ public class editorAssetLoader {
     public static void saveMap() {
         int mapNum = editorVars.Player.getMap();
         String absoPath = new File("").getAbsolutePath();
-        String fileName = absoPath + "\\rtoserver\\data\\maps\\" + mapNum + ".dat";
+        String serverMap = absoPath + "\\rtoserver\\data\\maps\\" + mapNum + ".dat";
+        String clientMap = absoPath + "\\android\\assets\\data\\maps\\" + mapNum + ".dat";
 
         ObjectOutputStream outputStream = null;
+        ObjectOutputStream outputStream2 = null;
 
         try{
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+            outputStream = new ObjectOutputStream(new FileOutputStream(serverMap));
+            outputStream2 = new ObjectOutputStream(new FileOutputStream(clientMap));
         }catch(IOException e){
             System.out.println("Could not open the file." + e);
             System.exit(0);
@@ -361,8 +364,10 @@ public class editorAssetLoader {
 
         try{
             outputStream.writeObject(editorVars.mapRender);
+            outputStream2.writeObject(editorVars.mapRender);
 
             outputStream.close();
+            outputStream2.close();
 
         }catch(IOException e){
             System.out.println("Writing error: " + e);
