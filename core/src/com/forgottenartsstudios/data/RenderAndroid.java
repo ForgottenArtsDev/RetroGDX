@@ -25,6 +25,7 @@ public class RenderAndroid {
     // Routine Timers //
     ////////////////////
     private static final long UpdateTime_InputTimer = 500;
+    private static final long UpdateTime_TouchDownTimer = 1000;
     private static final long UpdateTime_TapAnimTimer = 50;
     private static final long UpdateTime_BuyMsg = 1000;
     private static final long UpdateTime_Damage = 50;
@@ -35,6 +36,7 @@ public class RenderAndroid {
     // Update Routines Checks //
     ////////////////////////////
     private static long LastUpdateTime_InputTimer;
+    private static long LastUpdateTime_TouchDown;
     private static long LastUpdateTime_TapAnim;
     private static long LastUpdateTime_BuyMsg;
     private static long LastUpdateTime_Damage;
@@ -391,11 +393,6 @@ public class RenderAndroid {
         longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
-        // Temp fix for playerdata getting cleared and crashing the game (Hopefully)
-        //if (Variables.players[Variables.MyIndex] == null) {
-        //    SendClientData.SendNeedPlayerData();
-        //}
-
         if (Variables.players[Variables.MyIndex].getMoving() == 0) {
             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
                 AndroidInputData.handleInput();
@@ -417,6 +414,18 @@ public class RenderAndroid {
             LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
         }
 
+        /*if (LastUpdateTime_TouchDown < tickCount) {
+            if (Variables.inInventory) {
+                if (Variables.touchDown) {
+                    if (Variables.touchDownTimer == 0) {
+                        Variables.touchDown = false;
+                    }
+                    Variables.touchDownTimer--;
+                }
+            }
+            LastUpdateTime_TouchDown = tickCount + UpdateTime_TouchDownTimer;
+        }*/
+
         for (int i = 1; i <= Variables.MaxPlayers; i++) {
             processMovement(i);
         }
@@ -424,9 +433,11 @@ public class RenderAndroid {
             processNPCMovement(i);
         }
 
-        AndroidInputData.checkMovement();
-        AndroidInputData.checkAttack(tickCount);
-        AndroidInputData.checkPickUp();
+        if (!Variables.inMenu && !Variables.inInventory && !Variables.inChat && !Variables.inStatus && !Variables.inShop) {
+            AndroidInputData.checkMovement();
+            AndroidInputData.checkAttack(tickCount);
+            AndroidInputData.checkPickUp();
+        }
 
         batcher.draw(AssetLoader.inGameBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
         renderMap_Lower();
@@ -1251,9 +1262,21 @@ public class RenderAndroid {
 
         batcher.draw(AssetLoader.sepBarV, 320, 13, 9, 454);
 
-        drawText("Items", 365, 31, Color.WHITE);
-        drawText("Spells", 364, 71, Color.WHITE);
-        drawText("Status", 358, 111, Color.WHITE);
+        if (Variables.menuIndex == 1) {
+            drawText("Items", 365, 31, Color.YELLOW);
+        } else {
+            drawText("Items", 365, 31, Color.WHITE);
+        }
+        if (Variables.menuIndex == 2) {
+            drawText("Spells", 364, 71, Color.YELLOW);
+        } else {
+            drawText("Spells", 364, 71, Color.WHITE);
+        }
+        if (Variables.menuIndex == 3) {
+            drawText("Status", 358, 111, Color.YELLOW);
+        } else {
+            drawText("Status", 358, 111, Color.WHITE);
+        }
         int goldTotal = 0;
         for (int i = 1; i <= 60; i++) {
             if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
@@ -1320,6 +1343,9 @@ public class RenderAndroid {
                     }
                 }
             }
+        }
+        if (Variables.target > 0) {
+            batcher.draw(AssetLoader.playerMenu, 116, 66, 200, 300, 0, 0, 200, 300, false, true);
         }
     }
     public static void drawNames() {
@@ -1552,6 +1578,18 @@ public class RenderAndroid {
                         //}
                     }
                 }
+                for (int i = 1; i <= Variables.MaxPlayers; i++) {
+                    int PlayerX = ((Variables.players[i].getX() * Variables.MoveSize) + Variables.players[i].getOffsetX());
+                    int PlayerY = ((Variables.players[i].getY() * Variables.MoveSize) + Variables.players[i].getOffsetY());
+                    if (Variables.CurX == PlayerX && Variables.CurY == PlayerY) {
+                        //if (lastClicked == 1) {
+                        SendClientData.SendSearch(PlayerX, PlayerY, Variables.SEARCH_TYPE_PLAYER, i);
+                        Variables.CurX = 0;
+                        Variables.CurY = 0;
+                        break;
+                        //}
+                    }
+                }
             }
         }
     }
@@ -1577,9 +1615,8 @@ public class RenderAndroid {
                 if (Variables.longPressTimer < 1) {
                     if (Variables.longPressTimer == 1) {
                         // Long Press
-                        SendClientData.SendDropItem(Variables.selectedInvSlot);
+                        //SendClientData.SendDropItem(Variables.selectedInvSlot);
                         Variables.longPressTimer = 0;
-                        Variables.touchDown = false;
                     }
                     Variables.longPressTimer++;
                 }

@@ -61,6 +61,7 @@ public class Variables {
     public static int usePointTimer;
     public static boolean longPress, touchDown;
     public static boolean inputID, inputPW, inputName;
+    public static int menuIndex, target;
 
     public static int MyIndex;
     public static int ShopNum;
@@ -107,7 +108,10 @@ public class Variables {
     public static final int TILE_TYPE_BANK = 11;
     public static final int TILE_TYPE_HEAL = 12;
     public static final int TILE_TYPE_TRAP = 13;
-    public static final int TILE_TYPE_CHAT = 14;
+    public static final int TILE_TYPE_SIGN = 14;
+
+    public static final int MORAL_TYPE_UNSAFE = 0;
+    public static final int MORAL_TYPE_SAFE = 1;
 
     // Message types
     public static final int MESSAGE_TYPE_MAP = 1;

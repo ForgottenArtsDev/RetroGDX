@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
+import com.forgottenartsstudios.networking.packetdata.SendServerData;
+
+import org.lwjgl.opengl.APPLEVertexArrayObject;
 
 /**
  * Created by forgo on 10/6/2017.
@@ -264,8 +267,6 @@ public class AndroidInputData {
 
                         Variables.aBtn = false;
                         Variables.bBtn = false;
-
-                        Variables.inMenu = false;
                     }
                 }
             }
@@ -280,8 +281,6 @@ public class AndroidInputData {
 
                         Variables.aBtn = false;
                         Variables.bBtn = false;
-
-                        Variables.inMenu = false;
                     }
                 }
             }
@@ -296,8 +295,6 @@ public class AndroidInputData {
 
                         Variables.aBtn = false;
                         Variables.bBtn = false;
-
-                        Variables.inMenu = false;
                     }
                 }
             }
@@ -312,33 +309,37 @@ public class AndroidInputData {
 
                         Variables.aBtn = false;
                         Variables.bBtn = false;
-
-                        Variables.inMenu = false;
                     }
                 }
             }
             // MENU
             if (worldCoordinates.x >= 189 && worldCoordinates.x <= 252) {
                 if (worldCoordinates.y >= 749 && worldCoordinates.y <= 772) {
-                    if (!Variables.inMenu) {
-                        Variables.dPad_Up = false;
-                        Variables.dPad_Down = false;
-                        Variables.dPad_Left = false;
-                        Variables.dPad_Right = false;
-
-                        Variables.aBtn = false;
-                        Variables.bBtn = false;
-
-                        if (!Variables.inMenu) {
+                    if (!Variables.touchDown) {
+                        Variables.touchDown = true;
+                        if (Variables.inInventory) {
+                            Variables.inInventory = false;
                             Variables.inMenu = true;
-                            Variables.inShop = false;
-                            Variables.inInventory = false;
-                        } else {
-                            Variables.inMenu = false;
-                            Variables.inShop = false;
-                            Variables.inInventory = false;
+                            Variables.menuIndex = 1;
+                            Variables.selectedInvSlot = 0;
                         }
-                        Variables.selectedInvSlot = 0;
+                        if (Variables.inMenu) {
+                            Variables.inMenu = false;
+                        } else if (!Variables.inInventory && !Variables.inShop && !Variables.inStatus && !Variables.inChat) {
+                            Variables.inMenu = true;
+                            Variables.menuIndex = 1;
+                        }
+                        if (Variables.inStatus) {
+                            Variables.inStatus = false;
+                            Variables.inMenu = true;
+                            Variables.menuIndex = 1;
+                        }
+                        if (Variables.inShop) {
+                            Variables.inShop = false;
+                            Variables.inMenu = true;
+                            Variables.menuIndex = 1;
+                            Variables.selectedShopSlot = 0;
+                        }
                     }
                 }
             }
@@ -353,21 +354,6 @@ public class AndroidInputData {
 
                         Variables.aBtn = true;
                         Variables.bBtn = false;
-
-                        if (Variables.inMenu) {
-                            Variables.inMenu = false;
-                        }
-                        if (Variables.inInventory) {
-                            Variables.inInventory = false;
-                            Variables.inMenu = true;
-                        }
-                        if (Variables.inShop) {
-                            Variables.inShop = false;
-                        }
-                        if (Variables.inStatus) {
-                            Variables.inStatus = false;
-                            Variables.inMenu = true;
-                        }
                     }
                 }
             }
@@ -389,8 +375,11 @@ public class AndroidInputData {
                 if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
                     if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
                         if (!Variables.inMenu || !Variables.inShop) {
-                            Variables.inMenu = false;
-                            Variables.inShop = false;
+                            if (!Variables.touchDown) {
+                                Variables.touchDown = true;
+                                Variables.inMenu = false;
+                                Variables.inShop = false;
+                            }
                         }
                     }
                 }
@@ -434,7 +423,6 @@ public class AndroidInputData {
             if (Variables.inStatus) { handleStatus(worldCoordinates); }
             if (Variables.inChat) { handleChat(worldCoordinates); }
         }
-        Variables.touchDown = false;
     }
 
     public static void checkAttack(long tickCount) {
@@ -543,6 +531,20 @@ public class AndroidInputData {
     public static void handleAndroidInput() {
         if (!Variables.inChat && !Variables.reloadingMap) {
             if (Variables.dPad_Up) {
+                if (!Variables.touchDown) {
+                    Variables.touchDown = true;
+                    if (Variables.inInventory) {
+                        if (Variables.selectedInvSlot > 10) {
+                            Variables.selectedInvSlot = Variables.selectedInvSlot - 10;
+                        }
+                    }
+                    if (Variables.inMenu) {
+                        Variables.menuIndex--;
+                        if (Variables.menuIndex == 0) {
+                            Variables.menuIndex = 3;
+                        }
+                    }
+                }
                 Variables.pressUp = true;
                 Variables.pressLeft = false;
                 Variables.pressDown = false;
@@ -550,6 +552,20 @@ public class AndroidInputData {
                 Variables.pressAttack = false;
                 Variables.pickUpItem = false;
             } else if (Variables.dPad_Down) {
+                if (!Variables.touchDown) {
+                    Variables.touchDown = true;
+                    if (Variables.inInventory) {
+                        if (Variables.selectedInvSlot < 51) {
+                            Variables.selectedInvSlot = Variables.selectedInvSlot + 10;
+                        }
+                    }
+                    if (Variables.inMenu) {
+                        Variables.menuIndex++;
+                        if (Variables.menuIndex == 4) {
+                            Variables.menuIndex = 1;
+                        }
+                    }
+                }
                 Variables.pressUp = false;
                 Variables.pressLeft = false;
                 Variables.pressDown = true;
@@ -557,6 +573,14 @@ public class AndroidInputData {
                 Variables.pressAttack = false;
                 Variables.pickUpItem = false;
             } else if (Variables.dPad_Left) {
+                if (!Variables.touchDown) {
+                    Variables.touchDown = true;
+                    if (Variables.inInventory) {
+                        if (Variables.selectedInvSlot > 1) {
+                            Variables.selectedInvSlot = Variables.selectedInvSlot - 1;
+                        }
+                    }
+                }
                 Variables.pressUp = false;
                 Variables.pressLeft = true;
                 Variables.pressDown = false;
@@ -564,6 +588,14 @@ public class AndroidInputData {
                 Variables.pressAttack = false;
                 Variables.pickUpItem = false;
             } else if (Variables.dPad_Right) {
+                if (!Variables.touchDown) {
+                    Variables.touchDown = true;
+                    if (Variables.inInventory) {
+                        if (Variables.selectedInvSlot < 60) {
+                            Variables.selectedInvSlot = Variables.selectedInvSlot + 1;
+                        }
+                    }
+                }
                 Variables.pressUp = false;
                 Variables.pressLeft = false;
                 Variables.pressDown = false;
@@ -575,7 +607,24 @@ public class AndroidInputData {
                 Variables.pressLeft = false;
                 Variables.pressDown = false;
                 Variables.pressRight = false;
-                Variables.pressAttack = true;
+                if (!Variables.touchDown) {
+                    Variables.touchDown = true;
+                    if (Variables.inInventory) {
+                        SendClientData.SendUseItem();
+                    } else if (Variables.inMenu) {
+                        if (Variables.menuIndex == 1) {
+                            Variables.inInventory = true;
+                            Variables.inMenu = false;
+                        } else if (Variables.menuIndex == 2) {
+                            // Skills
+                        } else if (Variables.menuIndex == 3) {
+                            Variables.inStatus = true;
+                            Variables.inMenu = false;
+                        }
+                    } else {
+                        Variables.pressAttack = true;
+                    }
+                }
                 Variables.pickUpItem = false;
             } else if (Variables.aBtn) {
                 Variables.pressUp = false;
@@ -583,7 +632,16 @@ public class AndroidInputData {
                 Variables.pressDown = false;
                 Variables.pressRight = false;
                 Variables.pressAttack = false;
-                Variables.pickUpItem = true;
+                if (!Variables.touchDown) {
+                    Variables.touchDown = true;
+                    if (Variables.inInventory) {
+                        SendClientData.SendDropItem(Variables.selectedInvSlot);
+                    } else if (Variables.inMenu) {
+                        Variables.inMenu = false;
+                    } else {
+                        Variables.pickUpItem = true;
+                    }
+                }
             } else {
                 Variables.pressUp = false;
                 Variables.pressLeft = false;
@@ -646,11 +704,14 @@ public class AndroidInputData {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
                                     } else {
-                                        SendClientData.SendUseItem();
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            SendClientData.SendUseItem();
+                                        }
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
@@ -658,7 +719,10 @@ public class AndroidInputData {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
                                     } else {
-                                        SendClientData.SendUseItem();
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            SendClientData.SendUseItem();
+                                        }
                                     }
                                 }
                                 Variables.inputTimer = 1;
@@ -678,18 +742,24 @@ public class AndroidInputData {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
                                     } else {
-                                        SendClientData.SendUseItem();
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            SendClientData.SendUseItem();
+                                        }
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
                                 } else {
-                                    SendClientData.SendUseItem();
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
+                                        SendClientData.SendUseItem();
+                                    }
                                 }
                             }
                         }
@@ -707,18 +777,24 @@ public class AndroidInputData {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
                                     } else {
-                                        SendClientData.SendUseItem();
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            SendClientData.SendUseItem();
+                                        }
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
                                 } else {
-                                    SendClientData.SendUseItem();
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
+                                        SendClientData.SendUseItem();
+                                    }
                                 }
                             }
                         }
@@ -736,18 +812,24 @@ public class AndroidInputData {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
                                     } else {
-                                        SendClientData.SendUseItem();
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            SendClientData.SendUseItem();
+                                        }
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
                                 } else {
-                                    SendClientData.SendUseItem();
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
+                                        SendClientData.SendUseItem();
+                                    }
                                 }
                             }
                         }
@@ -765,18 +847,24 @@ public class AndroidInputData {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
                                     } else {
-                                        SendClientData.SendUseItem();
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            SendClientData.SendUseItem();
+                                        }
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
                                 } else {
-                                    SendClientData.SendUseItem();
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
+                                        SendClientData.SendUseItem();
+                                    }
                                 }
                             }
                         }
@@ -792,20 +880,22 @@ public class AndroidInputData {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
                                     } else {
-                                        if (!Variables.useItem) {
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
                                             SendClientData.SendUseItem();
                                         }
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                 if (Variables.selectedInvSlot != i) {
                                     Variables.selectedInvSlot = i;
                                 } else {
-                                    if (!Variables.useItem) {
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
                                         SendClientData.SendUseItem();
                                     }
                                 }
@@ -820,7 +910,8 @@ public class AndroidInputData {
         if (worldCoordinates.x >= 413 && worldCoordinates.x <= 460) {
             if (worldCoordinates.y >= 434 && worldCoordinates.y <= 456) {
                 if (Variables.selectedInvSlot > 0) {
-                    if (!Variables.useItem) {
+                    if (!Variables.touchDown) {
+                        Variables.touchDown = true;
                         SendClientData.SendUseItem();
                     }
                 }
@@ -829,11 +920,12 @@ public class AndroidInputData {
 
         if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
             if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
-                if (!Variables.inMenu) {
+                if (!Variables.touchDown) {
+                    Variables.touchDown = true;
                     Variables.inInventory = false;
-                    Variables.inStatus = false;
                     Variables.selectedInvSlot = 0;
                     Variables.inMenu = true;
+                    Variables.menuIndex = 1;
                 }
             }
         }
@@ -894,11 +986,15 @@ public class AndroidInputData {
         // Back
         if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
             if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
-                if (!Variables.inMenu) {
-                    Variables.inInventory = false;
-                    Variables.inStatus = false;
-                    Variables.selectedInvSlot = 0;
-                    Variables.inMenu = true;
+                if (!Variables.touchDown) {
+                    Variables.touchDown = true;
+                    if (!Variables.inMenu) {
+                        Variables.inInventory = false;
+                        Variables.inStatus = false;
+                        Variables.selectedInvSlot = 0;
+                        Variables.inMenu = true;
+                        Variables.menuIndex = 1;
+                    }
                 }
             }
         }

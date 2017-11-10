@@ -13,6 +13,7 @@ import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packets.*;
 import com.forgottenartsstudios.server.RTOServer;
 import com.forgottenartsstudios.server.serverWindow;
+import com.sun.org.apache.xpath.internal.operations.Variable;
 
 /**
  * Created by forgo on 10/8/2017.
@@ -472,13 +473,19 @@ public class HandleServerData {
         SendSearch sndSearch = (SendSearch) object;
 
         int index = sndSearch.index;
-        int i = sndSearch.npcIndex;
+        int i = sndSearch.targetIndex;
         int searchType = sndSearch.searchType;
         int x = sndSearch.x;
         int y = sndSearch.y;
         int mapNum = sndSearch.mapNum;
 
         switch (searchType) {
+            case ServerVars.SEARCH_TYPE_PLAYER:
+                if (i <= 0) { return; }
+                if (ServerVars.Players[i] != null) {
+                    SendServerData.SendOpenPlayerMenu(index, i);
+                }
+                break;
             case ServerVars.SEARCH_TYPE_NPC:
             if (i <= 0) { return; }
             if (ServerVars.MapNPCs[mapNum] == null) { return; }

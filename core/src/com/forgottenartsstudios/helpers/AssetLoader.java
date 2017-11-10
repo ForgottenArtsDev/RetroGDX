@@ -32,7 +32,7 @@ public class AssetLoader {
     public static Texture warriorEmbT, wizardEmbT, clericEmbT, rangerEmbT, rogueEmbT;
     public static Texture male, female;
     public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH;
-    public static Texture chatBar;
+    public static Texture chatBar, playerMenu;
     public static Texture[] sprites, tiles, items;
     public static TextureRegion[] spritesUp1, spritesUp2, spritesUp3;
     public static TextureRegion[] spritesDown1, spritesDown2, spritesDown3;
@@ -76,6 +76,9 @@ public class AssetLoader {
         eqBGs.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         loadBG = new Texture(Gdx.files.internal(clientDir + "data/ui/android/loading_bg.png"));
         loadBG.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        playerMenu = new Texture(Gdx.files.internal(clientDir + "data/ui/android/player_menu.png"));
+        playerMenu.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         hpBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/hp_bar.png"));
         hpBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -199,6 +202,9 @@ public class AssetLoader {
         eqBGs.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         loadBG = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/loading_bg.png"));
         loadBG.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        playerMenu = new Texture(Gdx.files.internal(clientDir + "data/ui/android/player_menu.png"));
+        playerMenu.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         hpBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/hp_bar.png"));
         hpBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

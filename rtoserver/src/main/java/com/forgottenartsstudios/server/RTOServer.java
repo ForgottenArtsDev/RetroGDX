@@ -382,6 +382,7 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(SendSystemMessage.class);
         server.getKryo().register(Color.class);
         server.getKryo().register(SendHPRegen.class);
+        server.getKryo().register(SendOpenPlayerMenu.class);
     }
     private static void checkPackets(Object object, Connection connection) {
         if (object instanceof Connect) { HandleServerData.HandleConnect(object); }

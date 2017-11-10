@@ -23,6 +23,7 @@ import com.forgottenartsstudios.networking.packets.SendNPCDmg;
 import com.forgottenartsstudios.networking.packets.SendNPCMove;
 import com.forgottenartsstudios.networking.packets.SendNPCSpawn;
 import com.forgottenartsstudios.networking.packets.SendNPCXP;
+import com.forgottenartsstudios.networking.packets.SendOpenPlayerMenu;
 import com.forgottenartsstudios.networking.packets.SendPlayerDmg;
 import com.forgottenartsstudios.networking.packets.SendPlayerWarp;
 import com.forgottenartsstudios.networking.packets.SendRespawnNPC;
@@ -630,5 +631,13 @@ public class HandleClientData {
                 break;
             }
         }
+    }
+    public static void HandleOpenPlayerMenu(Object object) {
+        SendOpenPlayerMenu sendOpenPlayerMenu = (SendOpenPlayerMenu) object;
+
+        int index = sendOpenPlayerMenu.index;
+        int targetIndex = sendOpenPlayerMenu.targetIndex;
+
+        Variables.target = targetIndex;
     }
 }

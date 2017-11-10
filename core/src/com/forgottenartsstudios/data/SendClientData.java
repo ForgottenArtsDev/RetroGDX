@@ -142,11 +142,11 @@ public class SendClientData {
 
         client.sendTCP(keepAliveCheck);
     }
-    public static void SendSearch(int X, int Y, int Type, int npcNum) {
+    public static void SendSearch(int X, int Y, int Type, int targetNum) {
         SendSearch sndSearch = new SendSearch();
         sndSearch.searchType = Type;
         sndSearch.index = Variables.MyIndex;
-        sndSearch.npcIndex = npcNum;
+        sndSearch.targetIndex = targetNum;
         sndSearch.x = X;
         sndSearch.y = Y;
         sndSearch.mapNum = Variables.players[Variables.MyIndex].getMap();

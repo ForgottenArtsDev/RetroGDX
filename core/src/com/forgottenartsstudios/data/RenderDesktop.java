@@ -574,6 +574,13 @@ public class RenderDesktop {
                     DesktopInputData.handleAndroidInput();
                 }
             }
+
+            if (Variables.usePoint) {
+                if (Variables.usePointTimer == 0) {
+                    Variables.usePoint = false;
+                }
+                Variables.usePointTimer--;
+            }
             LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
         }
 
@@ -1583,6 +1590,10 @@ public class RenderDesktop {
             }
         }
         drawName("Gold: " + goldTotal, 465, 441, Color.YELLOW);
+
+        if (Variables.target > 0) {
+            batcher.draw(AssetLoader.playerMenu, 116, 66, 200, 300, 0, 0, 200, 300, false, true);
+        }
     }
     public static void drawNames() {
         // RenderAndroid NPC Names
@@ -1824,6 +1835,18 @@ public class RenderDesktop {
                         //}
                     }
                 }
+                for (int i = 1; i <= Variables.MaxPlayers; i++) {
+                    int PlayerX = ((Variables.players[i].getX() * Variables.MoveSize) + Variables.players[i].getOffsetX());
+                    int PlayerY = ((Variables.players[i].getY() * Variables.MoveSize) + Variables.players[i].getOffsetY());
+                    if (Variables.CurX == PlayerX && Variables.CurY == PlayerY) {
+                        //if (lastClicked == 1) {
+                        SendClientData.SendSearch(PlayerX, PlayerY, Variables.SEARCH_TYPE_PLAYER, i);
+                        Variables.CurX = 0;
+                        Variables.CurY = 0;
+                        break;
+                        //}
+                    }
+                }
             }
         }
     }
@@ -1847,17 +1870,10 @@ public class RenderDesktop {
                     Variables.longPressTimer++;
                     if (Variables.longPressTimer == 1) {
                         // Long Press
-                        SendClientData.SendDropItem(Variables.selectedInvSlot);
+                        //SendClientData.SendDropItem(Variables.selectedInvSlot);
                         Variables.longPressTimer = 0;
                         Variables.touchDown = false;
                     }
-                }
-            }
-            if (Variables.usePoint) {
-                if (Variables.usePointTimer > 0) {
-                    Variables.usePointTimer--;
-                } else {
-                    Variables.usePoint = false;
                 }
             }
             LastUpdateTime_LongPress = tickCount + UpdateTime_LongPress;

@@ -108,6 +108,7 @@ public class editorSuite extends Game {
         rbAttributes = new JRadioButton();
         final JComboBox<String> tileTypes = new JComboBox<>();
         final JComboBox<String> attributeTypes = new JComboBox<>();
+        final JComboBox<String> moralTypes = new JComboBox<>();
         JButton btnUndo = new JButton();
 
         // Warp Stuff For Moving Between mapData Easily
@@ -240,6 +241,9 @@ public class editorSuite extends Game {
             }
         });
 
+        moralTypes.addItem("Unsafe");
+        moralTypes.addItem("Safe");
+
         tileTypes.addItem("Normal");
         tileTypes.addItem("Autotile");
         tileTypes.addItem("Fake");
@@ -261,7 +265,7 @@ public class editorSuite extends Game {
         attributeTypes.addItem("Bank");
         attributeTypes.addItem("Heal");
         attributeTypes.addItem("Trap");
-        attributeTypes.addItem("Chat");
+        attributeTypes.addItem("Sign");
 
         attributeTypes.addActionListener(new ActionListener() {
             @Override
@@ -292,6 +296,7 @@ public class editorSuite extends Game {
             }
         });
 
+        moralTypes.setBounds(129, 570, 140, 30);
         tileTypes.setBounds(5, 524, 100, 20);
 
         tileTypes.addActionListener(new ActionListener() {
@@ -398,6 +403,15 @@ public class editorSuite extends Game {
         btnSaveMap.setBounds(5, 700 - 74, 80, 30);
         btnSaveMap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                editorVars.mapRender.Moral = moralTypes.getSelectedIndex();
+                editorVars.mapRender.Up = Integer.parseInt(txtUp.getText());
+                editorVars.mapRender.Down = Integer.parseInt(txtDown.getText());
+                editorVars.mapRender.Left = Integer.parseInt(txtLeft.getText());
+                editorVars.mapRender.Right = Integer.parseInt(txtRight.getText());
+
+                editorVars.mapRender.MaxX = Integer.parseInt(txtX.getText());
+                editorVars.mapRender.MaxY = Integer.parseInt(txtY.getText());
+
                 editorAssetLoader.saveMap();
             }
         } );
@@ -581,6 +595,7 @@ public class editorSuite extends Game {
         toolBox.add(rbAttributes);
         toolBox.add(tileTypes);
         toolBox.add(attributeTypes);
+        toolBox.add(moralTypes);
 
         toolBox.add(lblWarp);
         toolBox.add(txtWarp);
@@ -609,7 +624,7 @@ public class editorSuite extends Game {
         toolBox.add(txtX);
         toolBox.add(txtY);
 
-        toolBox.add(btnSaveProperties);
+        //toolBox.add(btnSaveProperties);
 
         //toolBox.add(btnMapWorld); //FAILED ATTEMPT AT LAZY WAY OUT OF MAPPING THE WORLD MAP. IGNORE. LEFT HERE AS A REMINDER NOT TO BE LAZY. IT WASTES A LOT OF TIME.
 
@@ -622,13 +637,13 @@ public class editorSuite extends Game {
         editorVars.MinY = 0;
         editorVars.MaxX = 14;//editorVars.MAX_MAPX - 1;
         editorVars.MaxY = 14;//editorVars.MAX_MAPY - 1;
-        //editorRenderer.initFrame();
         txtUp.setText(Integer.toString(editorVars.mapRender.Up));
         txtDown.setText(Integer.toString(editorVars.mapRender.Down));
         txtLeft.setText(Integer.toString(editorVars.mapRender.Left));
         txtRight.setText(Integer.toString(editorVars.mapRender.Right));
         txtX.setText(Integer.toString(editorVars.mapRender.MaxX));
         txtY.setText(Integer.toString(editorVars.mapRender.MaxY));
+        moralTypes.setSelectedIndex(editorVars.mapRender.Moral);
         setScreen(new editorGameScreen());
     }
 

@@ -823,4 +823,12 @@ public class SendServerData {
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sendHPRegen);
     }
+    public static void SendOpenPlayerMenu(int index, int targetIndex) {
+        SendOpenPlayerMenu sendOpenPlayerMenu = new SendOpenPlayerMenu();
+
+        sendOpenPlayerMenu.index = index;
+        sendOpenPlayerMenu.targetIndex = targetIndex;
+
+        server.sendToTCP(ServerVars.Accounts[index].getCID(), sendOpenPlayerMenu);
+    }
 }

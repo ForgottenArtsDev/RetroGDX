@@ -171,6 +171,7 @@ public class RTOnline extends Game {
         client.getKryo().register(SendSystemMessage.class);
         client.getKryo().register(Color.class);
         client.getKryo().register(SendHPRegen.class);
+        client.getKryo().register(SendOpenPlayerMenu.class);
     }
     public static void checkPackets(Object object, Connection connection) {
         if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }
@@ -201,5 +202,6 @@ public class RTOnline extends Game {
         if (object instanceof SendMessage) { HandleClientData.HandleSendMessage(object); }
         if (object instanceof SendSystemMessage) { HandleClientData.HandleSendSystemMessage(object); }
         if (object instanceof SendHPRegen) { HandleClientData.HandleHPRegen(object); }
+        if (object instanceof SendOpenPlayerMenu) { HandleClientData.HandleOpenPlayerMenu(object); }
     }
 }

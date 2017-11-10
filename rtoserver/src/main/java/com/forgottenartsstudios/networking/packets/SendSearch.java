@@ -7,7 +7,7 @@ package com.forgottenartsstudios.networking.packets;
 public class SendSearch extends Packet {
     public int searchType;
     public int index;
-    public int npcIndex;
+    public int targetIndex;
     public int x;
     public int y;
     public int mapNum;

@@ -153,7 +153,7 @@ public class editorVars {
     public static final int TILE_TYPE_BANK = 11;
     public static final int TILE_TYPE_HEAL = 12;
     public static final int TILE_TYPE_TRAP = 13;
-    public static final int TILE_TYPE_CHAT = 14;
+    public static final int TILE_TYPE_SIGN = 14;
 
     // Item Types //
     public static final int ITEM_TYPE_NONE = 0;

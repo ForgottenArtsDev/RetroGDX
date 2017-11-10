@@ -463,7 +463,7 @@ public class DesktopInputData {
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
@@ -490,7 +490,7 @@ public class DesktopInputData {
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
@@ -517,7 +517,7 @@ public class DesktopInputData {
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
@@ -544,7 +544,7 @@ public class DesktopInputData {
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
@@ -571,7 +571,7 @@ public class DesktopInputData {
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
@@ -596,7 +596,7 @@ public class DesktopInputData {
                                     }
                                 } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                     if (Variables.selectedInvSlot == i) {
-                                        SendClientData.SendDropItem(i);
+                                        //SendClientData.SendDropItem(i);
                                     }
                                 }
                             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {

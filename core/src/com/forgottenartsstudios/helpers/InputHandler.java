@@ -152,9 +152,8 @@ public class InputHandler implements InputProcessor {
                     AndroidInputData.inputCharCreate(screenX, screenY);
                     break;
                 case Variables.Game_State_InGame:
-                    if (Variables.touchDown) {
+                    if (!Variables.touchDown) {
                         AndroidInputData.inputInGame(screenX, screenY);
-                        Variables.touchDown = true;
                     }
                     break;
             }
@@ -173,7 +172,7 @@ public class InputHandler implements InputProcessor {
                     DesktopInputData.inputCharCreate(screenX, screenY);
                     break;
                 case Variables.Game_State_InGame:
-                    Variables.touchDown = true;
+                    //Variables.touchDown = true;
                     DesktopInputData.inputInGame(screenX, screenY);
                     break;
             }
@@ -198,8 +197,9 @@ public class InputHandler implements InputProcessor {
                 Variables.pressAttack = false;
                 Variables.pickUpItem = false;
                 Variables.longPress = false;
-                Variables.touchDown = false;
                 Variables.longPressTimer = 0;
+
+                Variables.touchDown = false;
                 break;
         }
         return false;
@@ -209,7 +209,6 @@ public class InputHandler implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         switch (Variables.Game_State) {
             case Variables.Game_State_InGame:
-                Variables.touchDown = true;
                 AndroidInputData.inputInGame(screenX, screenY);
                 break;
         }
