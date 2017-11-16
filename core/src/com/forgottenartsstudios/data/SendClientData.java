@@ -7,9 +7,11 @@ import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
 import com.forgottenartsstudios.networking.packets.Login;
 import com.forgottenartsstudios.networking.packets.MovePlayer;
 import com.forgottenartsstudios.networking.packets.NewAccount;
+import com.forgottenartsstudios.networking.packets.PartyDecision;
 import com.forgottenartsstudios.networking.packets.SendBuyItem;
 import com.forgottenartsstudios.networking.packets.SendDropItem;
 import com.forgottenartsstudios.networking.packets.SendMessage;
+import com.forgottenartsstudios.networking.packets.SendPartyInvite;
 import com.forgottenartsstudios.networking.packets.SendPickUpItem;
 import com.forgottenartsstudios.networking.packets.SendSearch;
 import com.forgottenartsstudios.networking.packets.SendTryAttack;
@@ -239,6 +241,23 @@ public class SendClientData {
         }
 
         client.sendTCP(sendMessage);
+    }
+    public static void SendPartyInvite() {
+        SendPartyInvite sendPartyInvite = new SendPartyInvite();
+
+        sendPartyInvite.index = Variables.MyIndex;
+        sendPartyInvite.target = Variables.target;
+
+        client.sendTCP(sendPartyInvite);
+    }
+    public static void SendPartyDecision(boolean decision) {
+        PartyDecision partyDecision = new PartyDecision();
+
+        partyDecision.index = Variables.PartyLeader;
+        partyDecision.target = Variables.MyIndex;
+        partyDecision.decision = decision;
+
+        client.sendTCP(partyDecision);
     }
 
     public static boolean TileIsOpen(int mapNum, int X, int Y) {

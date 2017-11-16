@@ -7,6 +7,7 @@ import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
 import com.forgottenartsstudios.data.MapTiles;
 import com.forgottenartsstudios.data.Message;
+import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
 import com.forgottenartsstudios.data.SystemMsg_Struct;
@@ -40,6 +41,10 @@ public class Variables {
     public static Message[] chatMessages = new Message[100 + 1];
     public static int chatMessageIndex;
 
+    public static Party MyParty;
+    public static int PartyLeader;
+    public static boolean PartyInvite;
+
     // MOUSE INFO
     public static int CurX;
     public static int CurY;
@@ -49,7 +54,7 @@ public class Variables {
     public static boolean saveLogin;
     public static String Login_ID = "", Login_PW = "";
 
-    public static String Server_IP =  "24.127.44.48"; //"24.127.44.48"; //"162.198.233.237";
+    public static String Server_IP =  "68.56.251.225"; //"68.56.251.225"; //"162.198.233.237";
     public static int Server_Port = 4001;
     public static boolean serverOnline = false;
 

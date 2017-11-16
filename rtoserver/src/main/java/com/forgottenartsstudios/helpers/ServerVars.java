@@ -4,6 +4,7 @@ import com.forgottenartsstudios.data.AccountData;
 import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapNPC;
 import com.forgottenartsstudios.data.NPC_Struct;
+import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
 import com.forgottenartsstudios.data.mapData;
@@ -28,6 +29,7 @@ public class ServerVars {
     public static final int MaxShops = 200;
     public static final int MaxMapNPCs = 5;
     public static final int MaxMapItems = 20;
+    public static final int MaxParties = 100;
 
     public static AccountData[] Accounts = new AccountData[MaxPlayers + 1];
     public static Player[] Players = new Player[MaxPlayers + 1];
@@ -37,6 +39,7 @@ public class ServerVars {
     public static Item_Struct[] Items = new Item_Struct[MaxItems + 1];
     public static Shop_Struct[] Shops = new Shop_Struct[MaxShops + 1];
     public static mapData_Struct[] MapItems = new mapData_Struct[MaxMapItems + 1];
+    public static Party[] Parties = new Party[MaxParties + 1];
     public static Random Rnd = new Random();
 
     public static final int vitalHP = 0;

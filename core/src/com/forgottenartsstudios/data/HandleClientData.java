@@ -8,6 +8,8 @@ import com.forgottenartsstudios.networking.packetdata.*;
 import com.forgottenartsstudios.networking.packets.DisconnectPlayer;
 import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
 import com.forgottenartsstudios.networking.packets.MovePlayer;
+import com.forgottenartsstudios.networking.packets.PartyDecision;
+import com.forgottenartsstudios.networking.packets.PartyInfo;
 import com.forgottenartsstudios.networking.packets.PlayerData;
 import com.forgottenartsstudios.networking.packets.SendHPRegen;
 import com.forgottenartsstudios.networking.packets.SendInventory;
@@ -24,6 +26,7 @@ import com.forgottenartsstudios.networking.packets.SendNPCMove;
 import com.forgottenartsstudios.networking.packets.SendNPCSpawn;
 import com.forgottenartsstudios.networking.packets.SendNPCXP;
 import com.forgottenartsstudios.networking.packets.SendOpenPlayerMenu;
+import com.forgottenartsstudios.networking.packets.SendPartyInvite;
 import com.forgottenartsstudios.networking.packets.SendPlayerDmg;
 import com.forgottenartsstudios.networking.packets.SendPlayerWarp;
 import com.forgottenartsstudios.networking.packets.SendRespawnNPC;
@@ -583,29 +586,27 @@ public class HandleClientData {
         String msg = sendSystemMessage.msg;
         Color color = sendSystemMessage.color;
 
-        if (index == Variables.MyIndex) {
-            if (type == Variables.MESSAGE_TYPE_SYSTEM) {
-                for (int i = 1; i <= 20; i++) {
-                    if (Variables.DrawSystemMessage[i].getTimer() == 0) {
-                        Variables.DrawSystemMessage[i].setMsg(msg);
+        System.out.println(msg);
 
-                        layout.setText(AssetLoader.nameFont, Variables.DrawSystemMessage[i].getMsg());
-                        float width = layout.width;// contains the width of the current set text
+        for (int i = 1; i <= 20; i++) {
+            if (Variables.DrawSystemMessage[i].getTimer() == 0) {
+                Variables.DrawSystemMessage[i].setMsg(msg);
 
-                        float PlayerX = ((Variables.players[index].getX() * Variables.MoveSize) + Variables.players[index].getOffsetX());
-                        float PlayerY = ((Variables.players[index].getY() * Variables.MoveSize) + Variables.players[index].getOffsetY());
+                layout.setText(AssetLoader.nameFont, Variables.DrawSystemMessage[i].getMsg());
+                float width = layout.width;// contains the width of the current set text
 
-                        float nameX = PlayerX - ((int)width / 2) + 24;
-                        float nameY = PlayerY - 28;
+                float PlayerX = ((Variables.players[index].getX() * Variables.MoveSize) + Variables.players[index].getOffsetX());
+                float PlayerY = ((Variables.players[index].getY() * Variables.MoveSize) + Variables.players[index].getOffsetY());
 
-                        Variables.DrawSystemMessage[i].setIndex(index);
-                        Variables.DrawSystemMessage[i].setX((int) nameX);
-                        Variables.DrawSystemMessage[i].setY((int) nameY);
-                        Variables.DrawSystemMessage[i].setColor(color);
-                        Variables.DrawSystemMessage[i].setTimer(20);
-                        break;
-                    }
-                }
+                float nameX = PlayerX - ((int)width / 2) + 24;
+                float nameY = PlayerY - 28;
+
+                Variables.DrawSystemMessage[i].setIndex(index);
+                Variables.DrawSystemMessage[i].setX((int) nameX);
+                Variables.DrawSystemMessage[i].setY((int) nameY);
+                Variables.DrawSystemMessage[i].setColor(color);
+                Variables.DrawSystemMessage[i].setTimer(20);
+                break;
             }
         }
     }
@@ -639,5 +640,21 @@ public class HandleClientData {
         int targetIndex = sendOpenPlayerMenu.targetIndex;
 
         Variables.target = targetIndex;
+    }
+    public static void HandlePartyInvite(Object object) {
+        SendPartyInvite sendPartyInvite = (SendPartyInvite) object;
+
+        int target = sendPartyInvite.target;
+        int index = sendPartyInvite.index;
+
+        if (target == Variables.MyIndex) {
+            Variables.PartyLeader = index;
+            Variables.PartyInvite = true;
+        }
+    }
+    public static void HandlePartyInfo(Object object) {
+        PartyInfo partyInfo = (PartyInfo) object;
+
+        Variables.MyParty = partyInfo.party;
     }
 }

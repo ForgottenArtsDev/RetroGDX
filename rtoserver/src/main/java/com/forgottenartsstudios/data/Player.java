@@ -14,6 +14,7 @@ public class Player implements Serializable {
     private int Map, X, Y, Dir;
     private int STR, DEF, VIT, AGI, MAG;
     private int Weapon, Offhand, Armor, Helmet, Acc1, Acc2;
+    private int Party;
 
     // Temp stuff
     private int OffsetX;
@@ -59,6 +60,7 @@ public class Player implements Serializable {
     public int getOffsetY() { return OffsetY; }
     public int getAttacking() { return Attacking; }
     public long getAttackTimer() { return AttackTimer; }
+    public int getParty() { return Party; }
 
     public void setName(String name) { Name = name; }
     public void setJob(int job) { Job = job; }
@@ -93,4 +95,5 @@ public class Player implements Serializable {
     public void setOffsetY(int offsetY) { OffsetY = offsetY; }
     public void setAttacking(int attacking) { Attacking = attacking; }
     public void setAttackTimer(long attackTimer) { AttackTimer = attackTimer; }
+    public void setParty(int party) { Party = party; }
 }

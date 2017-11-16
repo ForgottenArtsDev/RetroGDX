@@ -13,6 +13,7 @@ import com.forgottenartsstudios.data.Inventory_Struct;
 import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
+import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.SaveData;
 import com.forgottenartsstudios.data.Shop_Struct;
 import com.forgottenartsstudios.data.mapData_Struct;
@@ -55,6 +56,13 @@ public class RTOServer extends ApplicationAdapter {
                 ServerVars.MapNPCs[i].Npc[a] = new MapNPC();
                 ServerVars.MapItems[i].Item[a] = new MapItem();
             }
+        }
+        ServerVars.Parties = new Party[ServerVars.MaxParties + 1];
+        for (int i = 1; i <= ServerVars.MaxParties; i++) {
+            ServerVars.Parties[i] = new Party();
+            ServerVars.Parties[i].members = new int[3 + 1];
+            ServerVars.Parties[i].hp = new int[3 + 1];
+            ServerVars.Parties[i].maxHP = new int[3 + 1];
         }
 
         serverWindow.svrMonitor.append("Loading maps.." + "\n");
@@ -383,6 +391,10 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(Color.class);
         server.getKryo().register(SendHPRegen.class);
         server.getKryo().register(SendOpenPlayerMenu.class);
+        server.getKryo().register(SendPartyInvite.class);
+        server.getKryo().register(PartyInfo.class);
+        server.getKryo().register(PartyDecision.class);
+        server.getKryo().register(Party.class);
     }
     private static void checkPackets(Object object, Connection connection) {
         if (object instanceof Connect) { HandleServerData.HandleConnect(object); }
@@ -401,6 +413,8 @@ public class RTOServer extends ApplicationAdapter {
         if (object instanceof SendPickUpItem) { HandleServerData.HandlePickUpItem(object); }
         if (object instanceof SendUsePoint) { HandleServerData.HandleUsePoint(object); }
         if (object instanceof SendMessage) { HandleServerData.HandleSendMessage(object); }
+        if (object instanceof SendPartyInvite) { HandleServerData.HandlePartyInvite(object); }
+        if (object instanceof PartyDecision) { HandleServerData.HandlePartyDecision(object); }
     }
 
     private static void UpdateNpcAI(long tickCount) {

@@ -9,6 +9,7 @@ import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packets.*;
+import com.sun.org.apache.xpath.internal.operations.Variable;
 
 import static com.forgottenartsstudios.server.RTOServer.server;
 
@@ -65,6 +66,8 @@ public class SendServerData {
         }
     }
     public static void SendPlayerData(int index, int indexTo) {
+        if (ServerVars.Players[index] == null) { return; }
+        if (ServerVars.Players[indexTo] == null) { return; }
         PlayerData plData = new PlayerData();
         plData.playerData = new Player();
         plData.playerData.inventory = new Inventory_Struct[60 + 1];
@@ -830,5 +833,24 @@ public class SendServerData {
         sendOpenPlayerMenu.targetIndex = targetIndex;
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sendOpenPlayerMenu);
+    }
+    public static void SendPartyInvite(int target, int index) {
+        SendPartyInvite sendPartyInvite = new SendPartyInvite();
+
+        sendPartyInvite.target = target;
+        sendPartyInvite.index = index;
+
+        server.sendToTCP(ServerVars.Accounts[target].getCID(), sendPartyInvite);
+    }
+    public static void SendPartyInfo(int partyNum) {
+        PartyInfo partyInfo = new PartyInfo();
+
+        partyInfo.party = ServerVars.Parties[partyNum];
+
+        for (int i = 1; i <= 3; i++) {
+            if (ServerVars.Parties[partyNum].members[i] > 0) {
+                server.sendToTCP(ServerVars.Accounts[ServerVars.Parties[partyNum].members[i]].getCID(), partyInfo);
+            }
+        }
     }
 }

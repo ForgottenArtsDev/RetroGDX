@@ -31,8 +31,8 @@ public class AssetLoader {
     public static Texture warriorEmb, wizardEmb, clericEmb, rangerEmb, rogueEmb;
     public static Texture warriorEmbT, wizardEmbT, clericEmbT, rangerEmbT, rogueEmbT;
     public static Texture male, female;
-    public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH;
-    public static Texture chatBar, playerMenu;
+    public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, emptyMapBar;
+    public static Texture chatBar, playerMenu, partyInvite;
     public static Texture[] sprites, tiles, items;
     public static TextureRegion[] spritesUp1, spritesUp2, spritesUp3;
     public static TextureRegion[] spritesDown1, spritesDown2, spritesDown3;
@@ -79,6 +79,8 @@ public class AssetLoader {
 
         playerMenu = new Texture(Gdx.files.internal(clientDir + "data/ui/android/player_menu.png"));
         playerMenu.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        partyInvite = new Texture(Gdx.files.internal(clientDir + "data/ui/android/party_invite.png"));
+        partyInvite.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         hpBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/hp_bar.png"));
         hpBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -92,6 +94,11 @@ public class AssetLoader {
         sepBarV.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         sepBarH = new Texture(Gdx.files.internal(clientDir + "data/ui/android/separate_bar_h.png"));
         sepBarH.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        hpMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/hp_map_bar.png"));
+        hpMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        emptyMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/empty_map_bar.png"));
+        emptyMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         chatBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/chat_bar.png"));
         chatBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -203,8 +210,10 @@ public class AssetLoader {
         loadBG = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/loading_bg.png"));
         loadBG.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-        playerMenu = new Texture(Gdx.files.internal(clientDir + "data/ui/android/player_menu.png"));
+        playerMenu = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/player_menu.png"));
         playerMenu.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        partyInvite = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/party_invite.png"));
+        partyInvite.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         hpBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/hp_bar.png"));
         hpBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -214,6 +223,11 @@ public class AssetLoader {
         xpBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         emptyBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/empty_bar.png"));
         emptyBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        hpMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/hp_map_bar.png"));
+        hpMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        emptyMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/empty_map_bar.png"));
+        emptyMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         chatBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/chat_bar.png"));
         chatBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -307,6 +321,7 @@ public class AssetLoader {
         nameFont = new BitmapFont(Gdx.files.internal(clientDir + "data/fonts/nameFont.fnt"));
         nameFont.getData().setScale(1f, -1f);
     }
+
     public static void cacheTiles(int mapNum) {
         byte Layer;
         int X;

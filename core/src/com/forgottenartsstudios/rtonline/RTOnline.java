@@ -13,6 +13,7 @@ import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
 import com.forgottenartsstudios.data.Message;
+import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
 import com.forgottenartsstudios.data.SystemMsg_Struct;
@@ -172,6 +173,10 @@ public class RTOnline extends Game {
         client.getKryo().register(Color.class);
         client.getKryo().register(SendHPRegen.class);
         client.getKryo().register(SendOpenPlayerMenu.class);
+        client.getKryo().register(SendPartyInvite.class);
+        client.getKryo().register(PartyInfo.class);
+        client.getKryo().register(PartyDecision.class);
+        client.getKryo().register(Party.class);
     }
     public static void checkPackets(Object object, Connection connection) {
         if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }
@@ -203,5 +208,7 @@ public class RTOnline extends Game {
         if (object instanceof SendSystemMessage) { HandleClientData.HandleSendSystemMessage(object); }
         if (object instanceof SendHPRegen) { HandleClientData.HandleHPRegen(object); }
         if (object instanceof SendOpenPlayerMenu) { HandleClientData.HandleOpenPlayerMenu(object); }
+        if (object instanceof SendPartyInvite) { HandleClientData.HandlePartyInvite(object); }
+        if (object instanceof PartyInfo) { HandleClientData.HandlePartyInfo(object); }
     }
 }

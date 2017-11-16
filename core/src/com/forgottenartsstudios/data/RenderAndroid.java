@@ -395,9 +395,9 @@ public class RenderAndroid {
 
         if (Variables.players[Variables.MyIndex].getMoving() == 0) {
             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                AndroidInputData.handleInput();
+                InputAndroid.handleInput();
             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                AndroidInputData.handleAndroidInput();
+                InputAndroid.handleAndroidInput();
             }
         }
 
@@ -434,9 +434,9 @@ public class RenderAndroid {
         }
 
         if (!Variables.inMenu && !Variables.inInventory && !Variables.inChat && !Variables.inStatus && !Variables.inShop) {
-            AndroidInputData.checkMovement();
-            AndroidInputData.checkAttack(tickCount);
-            AndroidInputData.checkPickUp();
+            InputAndroid.checkMovement();
+            InputAndroid.checkAttack(tickCount);
+            InputAndroid.checkPickUp();
         }
 
         batcher.draw(AssetLoader.inGameBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
@@ -560,6 +560,28 @@ public class RenderAndroid {
                             break;
                     }
                     return;
+            }
+            GameRenderer.batcher.draw(AssetLoader.emptyMapBar, x, y + 34, 32, 4);
+
+            double maxWidth = ((((double) Variables.players[Variables.MyIndex].getHP()) / 192) / ((double) Variables.players[Variables.MyIndex].getMaxHP() / 192) * 192);
+            batcher.draw(AssetLoader.hpBar, 532, 150, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
+            GameRenderer.batcher.draw(AssetLoader.hpMapBar, x, y + 34, (int)maxWidth, 4);
+
+            if (Variables.players[Variables.MyIndex].getParty() > 0) {
+                for (int a = 1; a <= 3; a++) {
+                    if (Variables.MyParty.members[a] > 0) {
+                        if (Variables.players[Variables.MyParty.members[a]].getMap() == Variables.players[Variables.MyIndex].getMap()) {
+                            GameRenderer.batcher.draw(AssetLoader.emptyMapBar, x, y + 34, 32, 4);
+
+                            maxWidth = ((((double) Variables.MyParty.hp[a] / 32) / ((double) Variables.MyParty.maxHP[a] / 32) * 32));
+                            batcher.draw(AssetLoader.hpBar, 532, 150, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
+
+                            x = ((Variables.players[Variables.MyParty.members[a]].getX() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetX());
+                            y = ((Variables.players[Variables.MyParty.members[a]].getY() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetY());
+                            GameRenderer.batcher.draw(AssetLoader.hpMapBar, x, y + 34, (int)maxWidth, 4);
+                        }
+                    }
+                }
             }
         }
     }
@@ -1345,7 +1367,13 @@ public class RenderAndroid {
             }
         }
         if (Variables.target > 0) {
-            batcher.draw(AssetLoader.playerMenu, 116, 66, 200, 300, 0, 0, 200, 300, false, true);
+            if (Variables.target != Variables.MyIndex) {
+                batcher.draw(AssetLoader.playerMenu, 136, 91, 200, 300, 0, 0, 200, 300, false, true);
+            }
+        }
+        if (Variables.PartyInvite) {
+            batcher.draw(AssetLoader.partyInvite, 136, 191, 200, 100, 0, 0, 200, 100, false, true);
+            drawName(Variables.players[Variables.PartyLeader].getName(), 213, 240, Color.GREEN);
         }
     }
     public static void drawNames() {
@@ -1581,6 +1609,8 @@ public class RenderAndroid {
                 for (int i = 1; i <= Variables.MaxPlayers; i++) {
                     int PlayerX = ((Variables.players[i].getX() * Variables.MoveSize) + Variables.players[i].getOffsetX());
                     int PlayerY = ((Variables.players[i].getY() * Variables.MoveSize) + Variables.players[i].getOffsetY());
+                    PlayerX = PlayerX / Variables.MoveSize;
+                    PlayerY = PlayerY / Variables.MoveSize;
                     if (Variables.CurX == PlayerX && Variables.CurY == PlayerY) {
                         //if (lastClicked == 1) {
                         SendClientData.SendSearch(PlayerX, PlayerY, Variables.SEARCH_TYPE_PLAYER, i);

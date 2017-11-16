@@ -487,11 +487,11 @@ public class HandleServerData {
                 }
                 break;
             case ServerVars.SEARCH_TYPE_NPC:
-            if (i <= 0) { return; }
-            if (ServerVars.MapNPCs[mapNum] == null) { return; }
-            if (ServerVars.MapNPCs[mapNum].Npc == null) { return; }
-            if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
-            if (ServerVars.MapNPCs[mapNum].Npc[i].getNum() <= 0) { return; }
+                if (i <= 0) { return; }
+                if (ServerVars.MapNPCs[mapNum] == null) { return; }
+                if (ServerVars.MapNPCs[mapNum].Npc == null) { return; }
+                if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
+                if (ServerVars.MapNPCs[mapNum].Npc[i].getNum() <= 0) { return; }
                 if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_SELLER_STANDING) {
                     SendServerData.SendOpenShop(index, ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].shopNum);
                 }
@@ -1132,6 +1132,85 @@ public class HandleServerData {
                     }
                 }
                 break;
+        }
+    }
+    public static void HandlePartyInvite(Object object) {
+        SendPartyInvite sendPartyInvite = (SendPartyInvite) object;
+        int index = sendPartyInvite.index;
+        int target = sendPartyInvite.target;
+
+        if (index != target) {
+            if (ServerVars.Players[index] != null) {
+                if (ServerVars.Players[target] != null) {
+                    if (ServerVars.Players[target].getParty() == 0) {
+                        if (ServerVars.Players[index].getParty() > 0) {
+                            for (int i = 1; i <= 3; i++) {
+                                if (ServerVars.Parties[ServerVars.Players[index].getParty()].members[i] == 0) {
+                                    SendServerData.SendPartyInvite(target, index);
+                                    break;
+                                }
+                            }
+                        } else {
+                            SendServerData.SendPartyInvite(target, index);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public static void HandlePartyDecision(Object object) {
+        PartyDecision partyDecision = (PartyDecision) object;
+
+        int index = partyDecision.index;
+        int target = partyDecision.target;
+        boolean decision = partyDecision.decision;
+
+        System.out.println("HandlePartyDecision");
+        if (decision) { System.out.println("true"); }
+        if (!decision) { System.out.println("false"); }
+
+        if (decision) {
+            SendServerData.SendSystemMessage(target, index, "Party Invite Accepted", Color.YELLOW);
+            System.out.println("Should've sent a system message, index: " + index + ", target: " + target);
+            if (ServerVars.Players[index].getParty() > 0) {
+                for (int i = 1; i <= 3; i++) {
+                    if (ServerVars.Parties[ServerVars.Players[index].getParty()].members[i] == 0) {
+                        ServerVars.Parties[ServerVars.Players[index].getParty()].members[i] = target;
+                        ServerVars.Players[target].setParty(ServerVars.Players[index].getParty());
+
+                        SendServerData.SendSystemMessage(target, index, "Party Joined", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, target, "Party Joined", Color.GREEN);
+                        SendServerData.SendPartyInfo(ServerVars.Players[index].getParty());
+                        break;
+                    } else {
+                        if (i == 3) {
+                            SendServerData.SendSystemMessage(target, index, "Party Full", Color.RED);
+                            SendServerData.SendSystemMessage(target, target, "Party Full", Color.RED);
+                        }
+                    }
+                }
+            } else {
+                for (int i = 1; i <= ServerVars.MaxParties; i++) {
+                    if (ServerVars.Parties[i].leader == 0) {
+                        ServerVars.Parties[i].leader = index;
+
+                        ServerVars.Parties[i].members[1] = index;
+                        ServerVars.Parties[i].members[2] = target;
+
+                        ServerVars.Parties[i].hp[1] = ServerVars.Players[index].getHP();
+                        ServerVars.Parties[i].maxHP[1] = ServerVars.Players[index].getMaxHP();
+                        ServerVars.Parties[i].hp[2] = ServerVars.Players[target].getHP();
+                        ServerVars.Parties[i].maxHP[2] = ServerVars.Players[target].getMaxHP();
+
+                        SendServerData.SendSystemMessage(index, index, "Party Joined", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, target, "Party Joined", Color.GREEN);
+                        SendServerData.SendPartyInfo(i);
+                        break;
+                    }
+                }
+            }
+        } else {
+            SendServerData.SendSystemMessage(target, index, "Party Invite Declined", Color.RED);
         }
     }
 }

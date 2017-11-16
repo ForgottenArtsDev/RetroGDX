@@ -3,8 +3,8 @@ package com.forgottenartsstudios.helpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.forgottenartsstudios.data.AndroidInputData;
-import com.forgottenartsstudios.data.DesktopInputData;
+import com.forgottenartsstudios.data.InputAndroid;
+import com.forgottenartsstudios.data.InputDesktop;
 import com.forgottenartsstudios.data.SendClientData;
 import com.forgottenartsstudios.gameworld.GameWorld;
 import com.forgottenartsstudios.networking.packetdata.SendServerData;
@@ -140,40 +140,40 @@ public class InputHandler implements InputProcessor {
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             switch (Variables.Game_State) {
                 case Variables.Game_State_TitleScreen:
-                    AndroidInputData.inputTileScreen();
+                    InputAndroid.inputTileScreen();
                     break;
                 case Variables.Game_State_Login:
-                    AndroidInputData.inputLogin(screenX, screenY);
+                    InputAndroid.inputLogin(screenX, screenY);
                     break;
                 case Variables.Game_State_CharSelect:
-                    AndroidInputData.inputCharSelect(screenX, screenY);
+                    InputAndroid.inputCharSelect(screenX, screenY);
                     break;
                 case Variables.Game_State_CharCreate:
-                    AndroidInputData.inputCharCreate(screenX, screenY);
+                    InputAndroid.inputCharCreate(screenX, screenY);
                     break;
                 case Variables.Game_State_InGame:
                     if (!Variables.touchDown) {
-                        AndroidInputData.inputInGame(screenX, screenY);
+                        InputAndroid.inputInGame(screenX, screenY);
                     }
                     break;
             }
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
             switch (Variables.Game_State) {
                 case Variables.Game_State_TitleScreen:
-                    DesktopInputData.inputTileScreen();
+                    InputDesktop.inputTileScreen();
                     break;
                 case Variables.Game_State_Login:
-                    DesktopInputData.inputLogin(screenX, screenY);
+                    InputDesktop.inputLogin(screenX, screenY);
                     break;
                 case Variables.Game_State_CharSelect:
-                    DesktopInputData.inputCharSelect(screenX, screenY);
+                    InputDesktop.inputCharSelect(screenX, screenY);
                     break;
                 case Variables.Game_State_CharCreate:
-                    DesktopInputData.inputCharCreate(screenX, screenY);
+                    InputDesktop.inputCharCreate(screenX, screenY);
                     break;
                 case Variables.Game_State_InGame:
                     //Variables.touchDown = true;
-                    DesktopInputData.inputInGame(screenX, screenY);
+                    InputDesktop.inputInGame(screenX, screenY);
                     break;
             }
         }
@@ -209,7 +209,7 @@ public class InputHandler implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         switch (Variables.Game_State) {
             case Variables.Game_State_InGame:
-                AndroidInputData.inputInGame(screenX, screenY);
+                InputAndroid.inputInGame(screenX, screenY);
                 break;
         }
         return false;

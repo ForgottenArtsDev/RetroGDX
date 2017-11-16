@@ -569,9 +569,9 @@ public class RenderDesktop {
         if (LastUpdateTime_InputTimer < tickCount) {
             if (Variables.players[Variables.MyIndex].getMoving() == 0) {
                 if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                    DesktopInputData.handleInput();
+                    InputDesktop.handleInput();
                 } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                    DesktopInputData.handleAndroidInput();
+                    InputDesktop.handleAndroidInput();
                 }
             }
 
@@ -591,9 +591,9 @@ public class RenderDesktop {
             processNPCMovement(i);
         }
 
-        DesktopInputData.checkMovement();
-        DesktopInputData.checkAttack(tickCount);
-        DesktopInputData.checkPickUp();
+        InputDesktop.checkMovement();
+        InputDesktop.checkAttack(tickCount);
+        InputDesktop.checkPickUp();
 
         batcher.draw(AssetLoader.inGameBG, 0, 0, 800, 600, 0, 0, 800, 600, false, true);
         renderMap_Lower();
@@ -1592,7 +1592,13 @@ public class RenderDesktop {
         drawName("Gold: " + goldTotal, 465, 441, Color.YELLOW);
 
         if (Variables.target > 0) {
-            batcher.draw(AssetLoader.playerMenu, 116, 66, 200, 300, 0, 0, 200, 300, false, true);
+            if (Variables.target != Variables.MyIndex) {
+                batcher.draw(AssetLoader.playerMenu, 128, 83, 200, 300, 0, 0, 200, 300, false, true);
+            }
+        }
+        if (Variables.PartyInvite) {
+            batcher.draw(AssetLoader.partyInvite, 128, 183, 200, 100, 0, 0, 200, 100, false, true);
+            drawName(Variables.players[Variables.PartyLeader].getName(), 205, 232, Color.GREEN);
         }
     }
     public static void drawNames() {
@@ -1641,6 +1647,31 @@ public class RenderDesktop {
                     float nameX = PlayerX - ((int)width / 2) + 24;
                     float nameY = PlayerY - 16;
                     drawName(Variables.players[i].getName(), nameX, nameY, Color.WHITE);
+
+                    if (i == Variables.MyIndex) {
+                        GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 8, PlayerY + 40, 32, 4);
+
+                        double maxWidth = ((((double) Variables.players[Variables.MyIndex].getHP()) / 32) / ((double) Variables.players[Variables.MyIndex].getMaxHP() / 32) * 32);
+                        batcher.draw(AssetLoader.hpBar, 532, 150, (int) maxWidth, 12, 0, 0, (int) maxWidth, 12, false, true);
+                        GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 8, PlayerY + 40, (int) maxWidth, 4);
+                    }
+
+                    if (Variables.players[Variables.MyIndex].getParty() > 0) {
+                        for (int a = 1; a <= 3; a++) {
+                            if (Variables.MyParty.members[a] > 0) {
+                                if (Variables.players[Variables.MyParty.members[a]].getMap() == Variables.players[Variables.MyIndex].getMap()) {
+                                    GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 8, PlayerY + 40, 32, 4);
+
+                                    double maxWidth = ((((double) Variables.MyParty.hp[a] / 32) / ((double) Variables.MyParty.maxHP[a] / 32) * 32));
+                                    batcher.draw(AssetLoader.hpBar, 532, 150, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
+
+                                    PlayerX = ((Variables.players[Variables.MyParty.members[a]].getX() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetX());
+                                    PlayerY = ((Variables.players[Variables.MyParty.members[a]].getY() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetY());
+                                    GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 8, PlayerY + 40, (int)maxWidth, 4);
+                                }
+                            }
+                        }
+                    }
 
                     for (int a = 1; a <= 20; a++) {
                         if (Variables.DrawPlayerDamage[a].getTimer() > 0) {
@@ -1838,6 +1869,8 @@ public class RenderDesktop {
                 for (int i = 1; i <= Variables.MaxPlayers; i++) {
                     int PlayerX = ((Variables.players[i].getX() * Variables.MoveSize) + Variables.players[i].getOffsetX());
                     int PlayerY = ((Variables.players[i].getY() * Variables.MoveSize) + Variables.players[i].getOffsetY());
+                    PlayerX = PlayerX / Variables.MoveSize;
+                    PlayerY = PlayerY / Variables.MoveSize;
                     if (Variables.CurX == PlayerX && Variables.CurY == PlayerY) {
                         //if (lastClicked == 1) {
                         SendClientData.SendSearch(PlayerX, PlayerY, Variables.SEARCH_TYPE_PLAYER, i);
