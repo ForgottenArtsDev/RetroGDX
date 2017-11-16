@@ -187,8 +187,7 @@ public class HandleClientData {
     public static void HandlePlayerData(Object object) {
         PlayerData plData = (PlayerData) object;
         int index = plData.index;
-        if (plData.playerData.getMap() == 0) { return; }
-        //Variables.players[index] = plData.playerData;
+        if (plData.playerData.getMap() <= 0 || plData.playerData.getMap() > Variables.MaxMaps) { return; }
         Variables.players[index].setName(plData.playerData.getName());
 
         Variables.players[index].setJob(plData.playerData.getJob());
@@ -247,6 +246,7 @@ public class HandleClientData {
                 Variables.players[Index].setX(X);
                 Variables.players[Index].setY(Y);
                 Variables.players[Index].setDir(Dir);
+                Variables.players[Index].setMoving(1);
 
                 switch (Dir) {
                     case Variables.DIR_UP:
@@ -390,6 +390,9 @@ public class HandleClientData {
     }
     public static void HandleItems(Object object) {
         SendItems sItems = (SendItems) object;
+
+        if (sItems.index != Variables.MyIndex) { return; }
+
         int itemNum = sItems.itemNum;
         Variables.Items[itemNum] = sItems.item;
     }
@@ -655,6 +658,13 @@ public class HandleClientData {
     public static void HandlePartyInfo(Object object) {
         PartyInfo partyInfo = (PartyInfo) object;
 
-        Variables.MyParty = partyInfo.party;
+        Variables.players[partyInfo.index].setParty(partyInfo.partyNum);
+        Variables.MyParty.leader = partyInfo.party.leader;
+
+        for (int i = 1; i <= 3; i++) {
+            Variables.MyParty.members[i] = partyInfo.party.members[i];
+            Variables.MyParty.hp[i] = partyInfo.party.hp[i];
+            Variables.MyParty.maxHP[i] = partyInfo.party.maxHP[i];
+        }
     }
 }

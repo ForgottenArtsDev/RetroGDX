@@ -2,6 +2,7 @@ package com.forgottenartsstudios.networking.packetdata;
 
 import com.badlogic.gdx.graphics.Color;
 import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Server;
 import com.forgottenartsstudios.data.AccountData;
 import com.forgottenartsstudios.data.General;
 import com.forgottenartsstudios.data.Inventory_Struct;
@@ -70,10 +71,6 @@ public class SendServerData {
         if (ServerVars.Players[indexTo] == null) { return; }
         PlayerData plData = new PlayerData();
         plData.playerData = new Player();
-        plData.playerData.inventory = new Inventory_Struct[60 + 1];
-        for (int i = 1; i <= 60; i++) {
-            plData.playerData.inventory[i] = new Inventory_Struct();
-        }
         plData.index = index;
         plData.playerData.setName(ServerVars.Players[index].getName());
 
@@ -496,6 +493,9 @@ public class SendServerData {
     public static void SendItems(int index, int itemNum) {
         SendItems sItems = new SendItems();
 
+        if (itemNum <= 0) { return; }
+        if (index <= 0) { return; }
+
         sItems.index = index;
         sItems.itemNum = itemNum;
         sItems.item = ServerVars.Items[itemNum];
@@ -845,11 +845,23 @@ public class SendServerData {
     public static void SendPartyInfo(int partyNum) {
         PartyInfo partyInfo = new PartyInfo();
 
-        partyInfo.party = ServerVars.Parties[partyNum];
+        if (partyNum <= 0 || partyNum > ServerVars.MaxParties) { return; }
+        if (ServerVars.Parties == null) { return; }
+        if (ServerVars.Parties[partyNum] == null) { return; }
+
+        partyInfo.partyNum = partyNum;
+        partyInfo.party.leader = ServerVars.Parties[partyNum].leader;
+
+        for (int i = 1; i <=3; i++) {
+            partyInfo.party.members[i] = ServerVars.Parties[partyNum].members[i];
+            partyInfo.party.hp[i] = ServerVars.Parties[partyNum].hp[i];
+            partyInfo.party.maxHP[i] = ServerVars.Parties[partyNum].maxHP[i];
+        }
 
         for (int i = 1; i <= 3; i++) {
-            if (ServerVars.Parties[partyNum].members[i] > 0) {
-                server.sendToTCP(ServerVars.Accounts[ServerVars.Parties[partyNum].members[i]].getCID(), partyInfo);
+            if (partyInfo.party.members[i] > 0) {
+                partyInfo.index = partyInfo.party.members[i];
+                server.sendToTCP(ServerVars.Accounts[partyInfo.party.members[i]].getCID(), partyInfo);
             }
         }
     }

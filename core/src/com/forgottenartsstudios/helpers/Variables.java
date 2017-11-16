@@ -54,7 +54,8 @@ public class Variables {
     public static boolean saveLogin;
     public static String Login_ID = "", Login_PW = "";
 
-    public static String Server_IP =  "68.56.251.225"; //"68.56.251.225"; //"162.198.233.237";
+    //public static String Server_IP =  "68.56.251.225"; //"68.56.251.225"; //"162.198.233.237";
+    public static String Server_IP =  "162.198.233.237";
     public static int Server_Port = 4001;
     public static boolean serverOnline = false;
 

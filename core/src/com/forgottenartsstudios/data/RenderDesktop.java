@@ -87,11 +87,14 @@ public class RenderDesktop {
         batcher.draw(AssetLoader.loginMenuBG, 0, 0, 800, 600, 0, 0, 800, 600, false, true);
 
         if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
-            String id = Variables.Login_ID;
             if (Variables.inputID) {
                 drawText(Variables.Login_ID + "|", 225, 340, Color.WHITE);
             } else {
                 drawText(Variables.Login_ID, 225, 340, Color.WHITE);
+            }
+        } else {
+            if (Variables.inputID) {
+                drawText("|", 225, 340, Color.WHITE);
             }
         }
         if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
@@ -100,9 +103,13 @@ public class RenderDesktop {
                 starPW = starPW + "*";
             }
             if (Variables.inputPW) {
-                drawText(starPW + "|", 225, 408, Color.WHITE);
+                drawText(starPW + "|", 225, 410, Color.WHITE);
             } else {
-                drawText(starPW, 225, 408, Color.WHITE);
+                drawText(starPW, 225, 410, Color.WHITE);
+            }
+        } else {
+            if (Variables.inputPW) {
+                drawText("|", 225, 410, Color.WHITE);
             }
         }
         if (Variables.saveLogin) {
@@ -1468,28 +1475,36 @@ public class RenderDesktop {
         if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
             int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
             if (itemNum > 0) {
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 592 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                if (Variables.Items[itemNum] != null) {
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 592 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
         }
         batcher.draw(AssetLoader.eqBG, 576, 259, 36, 36);
         if (Variables.players[Variables.MyIndex].getArmor() > 0) {
             int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
             if (itemNum > 0) {
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 576 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                if (Variables.Items[itemNum] != null) {
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 576 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
         }
         batcher.draw(AssetLoader.eqBG, 629, 222, 36, 36);
         if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
             int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
             if (itemNum > 0) {
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 629 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                if (Variables.Items[itemNum] != null) {
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 629 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
         }
         batcher.draw(AssetLoader.eqBG, 648, 259, 36, 36);
         if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
             int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
             if (itemNum > 0) {
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 648 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                if (Variables.Items[itemNum] != null) {
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 648 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
         }
         batcher.draw(AssetLoader.eqBG, 592, 296, 36, 36);
@@ -1657,9 +1672,12 @@ public class RenderDesktop {
                     }
 
                     if (Variables.players[Variables.MyIndex].getParty() > 0) {
+                        System.out.println("You are in a party.");
                         for (int a = 1; a <= 3; a++) {
                             if (Variables.MyParty.members[a] > 0) {
+                                System.out.println("There is a member here. a: " + a);
                                 if (Variables.players[Variables.MyParty.members[a]].getMap() == Variables.players[Variables.MyIndex].getMap()) {
+                                    System.out.println("On the same map. a: " + a);
                                     GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 8, PlayerY + 40, 32, 4);
 
                                     double maxWidth = ((((double) Variables.MyParty.hp[a] / 32) / ((double) Variables.MyParty.maxHP[a] / 32) * 32));
