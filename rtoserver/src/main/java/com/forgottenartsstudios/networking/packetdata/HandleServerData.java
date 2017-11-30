@@ -967,7 +967,7 @@ public class HandleServerData {
                         ServerVars.Parties[pNum].dropIndex = 3;
                     } else if (dropIndex == 3) {
                         ServerVars.Parties[pNum].dropIndex = 1;
-                    }
+                    } 
                 }
             }
         }
