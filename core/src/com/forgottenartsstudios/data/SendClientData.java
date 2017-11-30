@@ -1,9 +1,13 @@
 package com.forgottenartsstudios.data;
 
 import com.forgottenartsstudios.helpers.Variables;
+import com.forgottenartsstudios.networking.packets.AppointPartyLeader;
 import com.forgottenartsstudios.networking.packets.ChooseChar;
 import com.forgottenartsstudios.networking.packets.CreateChar;
+import com.forgottenartsstudios.networking.packets.DisbandParty;
 import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
+import com.forgottenartsstudios.networking.packets.KickPartyMember;
+import com.forgottenartsstudios.networking.packets.LeaveParty;
 import com.forgottenartsstudios.networking.packets.Login;
 import com.forgottenartsstudios.networking.packets.MovePlayer;
 import com.forgottenartsstudios.networking.packets.NewAccount;
@@ -17,6 +21,7 @@ import com.forgottenartsstudios.networking.packets.SendSearch;
 import com.forgottenartsstudios.networking.packets.SendTryAttack;
 import com.forgottenartsstudios.networking.packets.SendUseItem;
 import com.forgottenartsstudios.networking.packets.SendUsePoint;
+import com.forgottenartsstudios.networking.packets.UpdatePartyDropType;
 
 import static com.forgottenartsstudios.rtonline.RTOnline.client;
 
@@ -230,6 +235,8 @@ public class SendClientData {
             sendMessage.type = Variables.MESSAGE_TYPE_GLOBAL;
         } else if (Variables.chatInput.substring(0, 1).equals("@")) {
             sendMessage.type = Variables.MESSAGE_TYPE_WHISPER;
+        } else if (Variables.chatInput.substring(0, 1).equals("\"")) {
+            sendMessage.type = Variables.MESSAGE_TYPE_PARTY;
         } else {
             sendMessage.type = Variables.MESSAGE_TYPE_MAP;
         }
@@ -258,6 +265,44 @@ public class SendClientData {
         partyDecision.decision = decision;
 
         client.sendTCP(partyDecision);
+    }
+    public static void SendDisbandParty() {
+        DisbandParty dParty = new DisbandParty();
+
+        dParty.index = Variables.MyIndex;
+
+        client.sendTCP(dParty);
+    }
+    public static void SendLeaveParty() {
+        LeaveParty lParty = new LeaveParty();
+
+        lParty.index = Variables.MyIndex;
+
+        client.sendTCP(lParty);
+    }
+    public static void SendAppointLeader(int newLeader) {
+        AppointPartyLeader aPL = new AppointPartyLeader();
+
+        aPL.index = Variables.MyIndex;
+        aPL.newLeader = newLeader;
+
+        client.sendTCP(aPL);
+    }
+    public static void SendKickMember(int kickMem) {
+        KickPartyMember kPM = new KickPartyMember();
+
+        kPM.index = Variables.MyIndex;
+        kPM.kickedMember = kickMem;
+
+        client.sendTCP(kPM);
+    }
+    public static void SendUpdateDropType(int dropType) {
+        UpdatePartyDropType uPDT = new UpdatePartyDropType();
+
+        uPDT.index = Variables.MyIndex;
+        uPDT.dropType = dropType;
+
+        client.sendTCP(uPDT);
     }
 
     public static boolean TileIsOpen(int mapNum, int X, int Y) {

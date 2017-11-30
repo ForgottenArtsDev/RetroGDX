@@ -177,6 +177,11 @@ public class RTOnline extends Game {
         client.getKryo().register(PartyInfo.class);
         client.getKryo().register(PartyDecision.class);
         client.getKryo().register(Party.class);
+        client.getKryo().register(DisbandParty.class);
+        client.getKryo().register(LeaveParty.class);
+        client.getKryo().register(AppointPartyLeader.class);
+        client.getKryo().register(KickPartyMember.class);
+        client.getKryo().register(UpdatePartyDropType.class);
     }
     public static void checkPackets(Object object, Connection connection) {
         if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }

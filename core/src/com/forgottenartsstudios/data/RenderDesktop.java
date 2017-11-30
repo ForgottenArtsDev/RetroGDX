@@ -566,6 +566,11 @@ public class RenderDesktop {
         longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
+        // Check if it's null and fix that shit - Side note: Why this shit null anyway?
+        if (Variables.players[Variables.MyIndex] == null) {
+            Variables.players[Variables.MyIndex] = Variables.MyAccount.chars[Variables.MyAccount.getActiveChar()];
+        }
+
         if (LastUpdateTime_InputTimer < tickCount) {
             if (Variables.players[Variables.MyIndex].getMoving() == 0) {
                 if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -1287,159 +1292,329 @@ public class RenderDesktop {
         drawText("Back", 16, 429, Color.WHITE);
     }
     public static void drawMenu() {
-        batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
+        batcher.draw(AssetLoader.menuBG, 8, 8, 448, 448, 0, 0, 448, 448, false, true);
 
-        // Player Sprite
-        batcher.draw(AssetLoader.spritesDown2[Variables.players[Variables.MyIndex].getSprite()], 63, 59, 32, 36);
-        // Player Equipment
-        batcher.draw(AssetLoader.eqBG, 39, 21, 36, 36);
-        if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
-            if (itemNum > 0) {
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 39 + 5, 21 + 5, 24, 24, 0, 0, 24, 24, false, true);
+        if (Variables.players[Variables.MyIndex].getParty() > 0) {
+            for (int i = 1; i <= 3; i++) {
+                if (Variables.MyParty.members[i] > 0) {
+                    if (Variables.MyIndex == Variables.MyParty.leader) {
+                        // Disband/Leave
+                        drawText("Disband", 350, 55, Color.YELLOW);
+                        drawText("Leave", 350, 75, Color.YELLOW);
+
+                        // Appoint/Kick
+                        if (Variables.MyParty.members[2] > 0) {
+                            drawText("Appoint", 350, 175, Color.YELLOW);
+                            drawText("Kick", 350, 195, Color.YELLOW);
+                        }
+                        if (Variables.MyParty.members[3] > 0) {
+                            drawText("Appoint", 350, 295, Color.YELLOW);
+                            drawText("Kick", 350, 315, Color.YELLOW);
+                        }
+
+                        drawName("Drop Sorting:", 355, 401, Color.YELLOW);
+                        if (Variables.MyParty.dropType == Variables.DROP_SORT_ROUNDROBIN) {
+                            drawName("Round Robin", 355, 421, Color.GREEN);
+                        } else {
+                            drawName("Round Robin", 355, 421, Color.WHITE);
+                        }
+                        if (Variables.MyParty.dropType == Variables.DROP_SORT_FREEFORALL) {
+                            drawName("Free For All", 355, 441, Color.GREEN);
+                        } else {
+                            drawName("Free For All", 355, 441, Color.WHITE);
+                        }
+                    } else {
+                        if (Variables.MyParty.members[2] == Variables.MyIndex) {
+                            drawText("Leave", 350, 185, Color.YELLOW);
+                        } else if (Variables.MyParty.members[3] == Variables.MyIndex) {
+                            drawText("Leave", 350, 305, Color.YELLOW);
+                        }
+                    }
+                    // Player Sprite
+                    batcher.draw(AssetLoader.spritesDown2[Variables.players[Variables.MyParty.members[i]].getSprite()], 55, 51 + ((i - 1) * 125), 32, 36);
+                    // Player Equipment
+                    batcher.draw(AssetLoader.eqBG, 31, 13 + ((i - 1) * 125), 36, 36);
+                    if (Variables.players[Variables.MyParty.members[i]].getWeapon() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getWeapon()].getItemNum();
+                        if (itemNum > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 31 + 5, 13 + 5 + ((i - 1) * 125), 24, 24, 0, 0, 24, 24, false, true);
+                        }
+                    }
+                    batcher.draw(AssetLoader.eqBG, 13, 50 + ((i - 1) * 125), 36, 36);
+                    if (Variables.players[Variables.MyParty.members[i]].getArmor() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getArmor()].getItemNum();
+                        if (itemNum > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 13 + 5, 50 + 5 + ((i - 1) * 125), 24, 24, 0, 0, 24, 24, false, true);
+                        }
+                    }
+                    batcher.draw(AssetLoader.eqBG, 68, 13 + ((i - 1) * 125), 36, 36);
+                    if (Variables.players[Variables.MyParty.members[i]].getOffhand() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getOffhand()].getItemNum();
+                        if (itemNum > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 68 + 5, 13 + 5 + ((i - 1) * 125), 24, 24, 0, 0, 24, 24, false, true);
+                        }
+                    }
+                    batcher.draw(AssetLoader.eqBG, 92, 50 + ((i - 1) * 125), 36, 36);
+                    if (Variables.players[Variables.MyParty.members[i]].getHelmet() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getHelmet()].getItemNum();
+                        if (itemNum > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 92 + 5, 50 + 5 + ((i - 1) * 125), 24, 24, 0, 0, 24, 24, false, true);
+                        }
+                    }
+                    batcher.draw(AssetLoader.eqBG, 31, 87 + ((i - 1) * 125), 36, 36);
+                    batcher.draw(AssetLoader.eqBG, 68, 87 + ((i - 1) * 125), 36, 36);
+
+                    // Player Info
+                    drawName("Name: " + Variables.players[Variables.MyParty.members[i]].getName(), 148, 13 + ((i - 1) * 125), Color.WHITE);
+                    drawName("Lvl: " + Variables.players[Variables.MyParty.members[i]].getLevel(), 148, 28 + ((i - 1) * 125), Color.WHITE);
+                    drawName("HP: " + Variables.players[Variables.MyParty.members[i]].getHP() + "/" + Variables.players[Variables.MyParty.members[i]].getMaxHP(), 148, 43 + ((i - 1) * 125), Color.WHITE);
+                    drawName("MP: " + Variables.players[Variables.MyParty.members[i]].getMP() + "/" + Variables.players[Variables.MyParty.members[i]].getMaxMP(), 148, 58 + ((i - 1) * 125), Color.WHITE);
+                    drawName("EXP: " + Variables.players[Variables.MyParty.members[i]].getEXP() + "/" + Variables.players[Variables.MyParty.members[i]].getNextLVL(), 148, 73 + ((i - 1) * 125), Color.WHITE);
+
+                    int pSTR = Variables.players[Variables.MyParty.members[i]].getSTR();
+                    int pDEF = Variables.players[Variables.MyParty.members[i]].getDEF();
+                    int pVIT = Variables.players[Variables.MyParty.members[i]].getVIT();
+                    int pAGI = Variables.players[Variables.MyParty.members[i]].getAGI();
+                    int pMAG = Variables.players[Variables.MyParty.members[i]].getMAG();
+                    if (Variables.players[Variables.MyParty.members[i]].getWeapon() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getWeapon()].getItemNum();
+                        if (itemNum <= 0) {
+                            return;
+                        }
+                        pSTR = pSTR + Variables.Items[itemNum].STR;
+                        pDEF = pDEF + Variables.Items[itemNum].DEF;
+                        pVIT = pVIT + Variables.Items[itemNum].VIT;
+                        pAGI = pAGI + Variables.Items[itemNum].AGI;
+                        pMAG = pMAG + Variables.Items[itemNum].MAG;
+                    }
+                    if (Variables.players[Variables.MyParty.members[i]].getOffhand() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getOffhand()].getItemNum();
+                        if (itemNum <= 0) {
+                            return;
+                        }
+                        pSTR = pSTR + Variables.Items[itemNum].STR;
+                        pDEF = pDEF + Variables.Items[itemNum].DEF;
+                        pVIT = pVIT + Variables.Items[itemNum].VIT;
+                        pAGI = pAGI + Variables.Items[itemNum].AGI;
+                        pMAG = pMAG + Variables.Items[itemNum].MAG;
+                    }
+                    if (Variables.players[Variables.MyParty.members[i]].getArmor() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getArmor()].getItemNum();
+                        if (itemNum <= 0) {
+                            return;
+                        }
+                        pSTR = pSTR + Variables.Items[itemNum].STR;
+                        pDEF = pDEF + Variables.Items[itemNum].DEF;
+                        pVIT = pVIT + Variables.Items[itemNum].VIT;
+                        pAGI = pAGI + Variables.Items[itemNum].AGI;
+                        pMAG = pMAG + Variables.Items[itemNum].MAG;
+                    }
+                    if (Variables.players[Variables.MyParty.members[i]].getHelmet() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getHelmet()].getItemNum();
+                        if (itemNum <= 0) {
+                            return;
+                        }
+                        pSTR = pSTR + Variables.Items[itemNum].STR;
+                        pDEF = pDEF + Variables.Items[itemNum].DEF;
+                        pVIT = pVIT + Variables.Items[itemNum].VIT;
+                        pAGI = pAGI + Variables.Items[itemNum].AGI;
+                        pMAG = pMAG + Variables.Items[itemNum].MAG;
+                    }
+                    if (Variables.players[Variables.MyParty.members[i]].getAcc1() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getAcc1()].getItemNum();
+                        if (itemNum <= 0) {
+                            return;
+                        }
+                        pSTR = pSTR + Variables.Items[itemNum].STR;
+                        pDEF = pDEF + Variables.Items[itemNum].DEF;
+                        pVIT = pVIT + Variables.Items[itemNum].VIT;
+                        pAGI = pAGI + Variables.Items[itemNum].AGI;
+                        pMAG = pMAG + Variables.Items[itemNum].MAG;
+                    }
+                    if (Variables.players[Variables.MyParty.members[i]].getAcc2() > 0) {
+                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getAcc2()].getItemNum();
+                        if (itemNum <= 0) {
+                            return;
+                        }
+                        pSTR = pSTR + Variables.Items[itemNum].STR;
+                        pDEF = pDEF + Variables.Items[itemNum].DEF;
+                        pVIT = pVIT + Variables.Items[itemNum].VIT;
+                        pAGI = pAGI + Variables.Items[itemNum].AGI;
+                        pMAG = pMAG + Variables.Items[itemNum].MAG;
+                    }
+
+                    if (pSTR > Variables.players[Variables.MyParty.members[i]].getSTR()) {
+                        drawName("STR: " + pSTR, 148, 88 + ((i - 1) * 125), Color.GREEN);
+                    } else {
+                        drawName("STR: " + pSTR, 148, 88 + ((i - 1) * 125), Color.WHITE);
+                    }
+                    if (pDEF > Variables.players[Variables.MyParty.members[i]].getDEF()) {
+                        drawName("DEF: " + pDEF, 148, 103 + ((i - 1) * 125), Color.GREEN);
+                    } else {
+                        drawName("DEF: " + pDEF, 148, 103 + ((i - 1) * 125), Color.WHITE);
+                    }
+                    if (pVIT > Variables.players[Variables.MyParty.members[i]].getVIT()) {
+                        drawName("VIT: " + pVIT, 148, 118 + ((i - 1) * 125), Color.GREEN);
+                    } else {
+                        drawName("VIT: " + pVIT, 148, 118 + ((i - 1) * 125), Color.WHITE);
+                    }
+                    if (pAGI > Variables.players[Variables.MyParty.members[i]].getAGI()) {
+                        drawName("AGI: " + pAGI, 218, 88 + ((i - 1) * 125), Color.GREEN);
+                    } else {
+                        drawName("AGI: " + pAGI, 218, 88 + ((i - 1) * 125), Color.WHITE);
+                    }
+                    if (pMAG > Variables.players[Variables.MyParty.members[i]].getMAG()) {
+                        drawName("MAG: " + pMAG, 218, 103 + ((i - 1) * 125), Color.GREEN);
+                    } else {
+                        drawName("MAG: " + pMAG, 218, 103 + ((i - 1) * 125), Color.WHITE);
+                    }
+                    drawName("Points: " + Variables.players[Variables.MyParty.members[i]].getPoints(), 218, 118 + ((i - 1) * 125), Color.WHITE);
+                }
             }
-        }
-        batcher.draw(AssetLoader.eqBG, 21, 58, 36, 36);
-        if (Variables.players[Variables.MyIndex].getArmor() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
-            if (itemNum > 0) {
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 21 + 5, 58 + 5, 24, 24, 0, 0, 24, 24, false, true);
+        } else {
+            // Player Sprite
+            batcher.draw(AssetLoader.spritesDown2[Variables.players[Variables.MyIndex].getSprite()], 55, 51, 32, 36);
+            // Player Equipment
+            batcher.draw(AssetLoader.eqBG, 31, 13, 36, 36);
+            if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
+                if (itemNum > 0) {
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 31 + 5, 13 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
-        }
-        batcher.draw(AssetLoader.eqBG, 76, 21, 36, 36);
-        if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
-            if (itemNum > 0) {
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 76 + 5, 21 + 5, 24, 24, 0, 0, 24, 24, false, true);
+            batcher.draw(AssetLoader.eqBG, 13, 50, 36, 36);
+            if (Variables.players[Variables.MyIndex].getArmor() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
+                if (itemNum > 0) {
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 13 + 5, 50 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
-        }
-        batcher.draw(AssetLoader.eqBG, 100, 58, 36, 36);
-        if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
-            if (itemNum > 0) {
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 100 + 5, 58 + 5, 24, 24, 0, 0, 24, 24, false, true);
+            batcher.draw(AssetLoader.eqBG, 68, 13, 36, 36);
+            if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
+                if (itemNum > 0) {
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 68 + 5, 13 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
-        }
-        batcher.draw(AssetLoader.eqBG, 39, 95, 36, 36);
-        batcher.draw(AssetLoader.eqBG, 76, 95, 36, 36);
-
-        // Player Info
-        drawName("Name: " + Variables.players[Variables.MyIndex].getName(), 156, 21, Color.WHITE);
-        drawName("Lvl: " + Variables.players[Variables.MyIndex].getLevel(), 156, 36, Color.WHITE);
-        drawName("HP: " + Variables.players[Variables.MyIndex].getHP() + "/" + Variables.players[Variables.MyIndex].getMaxHP(), 156, 51, Color.WHITE);
-        drawName("MP: " + Variables.players[Variables.MyIndex].getMP() + "/" + Variables.players[Variables.MyIndex].getMaxMP(), 156, 66, Color.WHITE);
-        drawName("EXP: " + Variables.players[Variables.MyIndex].getEXP() + "/" + Variables.players[Variables.MyIndex].getNextLVL(), 156, 81, Color.WHITE);
-
-        int pSTR = Variables.players[Variables.MyIndex].getSTR();
-        int pDEF = Variables.players[Variables.MyIndex].getDEF();
-        int pVIT = Variables.players[Variables.MyIndex].getVIT();
-        int pAGI = Variables.players[Variables.MyIndex].getAGI();
-        int pMAG = Variables.players[Variables.MyIndex].getMAG();
-        if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
-            if (itemNum <= 0) { return; }
-            pSTR = pSTR + Variables.Items[itemNum].STR;
-            pDEF = pDEF + Variables.Items[itemNum].DEF;
-            pVIT = pVIT + Variables.Items[itemNum].VIT;
-            pAGI = pAGI + Variables.Items[itemNum].AGI;
-            pMAG = pMAG + Variables.Items[itemNum].MAG;
-        }
-        if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
-            if (itemNum <= 0) { return; }
-            pSTR = pSTR + Variables.Items[itemNum].STR;
-            pDEF = pDEF + Variables.Items[itemNum].DEF;
-            pVIT = pVIT + Variables.Items[itemNum].VIT;
-            pAGI = pAGI + Variables.Items[itemNum].AGI;
-            pMAG = pMAG + Variables.Items[itemNum].MAG;
-        }
-        if (Variables.players[Variables.MyIndex].getArmor() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
-            if (itemNum <= 0) { return; }
-            pSTR = pSTR + Variables.Items[itemNum].STR;
-            pDEF = pDEF + Variables.Items[itemNum].DEF;
-            pVIT = pVIT + Variables.Items[itemNum].VIT;
-            pAGI = pAGI + Variables.Items[itemNum].AGI;
-            pMAG = pMAG + Variables.Items[itemNum].MAG;
-        }
-        if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
-            if (itemNum <= 0) { return; }
-            pSTR = pSTR + Variables.Items[itemNum].STR;
-            pDEF = pDEF + Variables.Items[itemNum].DEF;
-            pVIT = pVIT + Variables.Items[itemNum].VIT;
-            pAGI = pAGI + Variables.Items[itemNum].AGI;
-            pMAG = pMAG + Variables.Items[itemNum].MAG;
-        }
-        if (Variables.players[Variables.MyIndex].getAcc1() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc1()].getItemNum();
-            if (itemNum <= 0) { return; }
-            pSTR = pSTR + Variables.Items[itemNum].STR;
-            pDEF = pDEF + Variables.Items[itemNum].DEF;
-            pVIT = pVIT + Variables.Items[itemNum].VIT;
-            pAGI = pAGI + Variables.Items[itemNum].AGI;
-            pMAG = pMAG + Variables.Items[itemNum].MAG;
-        }
-        if (Variables.players[Variables.MyIndex].getAcc2() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc2()].getItemNum();
-            if (itemNum <= 0) { return; }
-            pSTR = pSTR + Variables.Items[itemNum].STR;
-            pDEF = pDEF + Variables.Items[itemNum].DEF;
-            pVIT = pVIT + Variables.Items[itemNum].VIT;
-            pAGI = pAGI + Variables.Items[itemNum].AGI;
-            pMAG = pMAG + Variables.Items[itemNum].MAG;
-        }
-
-        if (pSTR > Variables.players[Variables.MyIndex].getSTR()) {
-            drawName("STR: " + pSTR, 156, 96, Color.GREEN);
-        } else {
-            drawName("STR: " + pSTR, 156, 96, Color.WHITE);
-        }
-        if (pDEF > Variables.players[Variables.MyIndex].getDEF()) {
-            drawName("DEF: " + pDEF, 156, 111, Color.GREEN);
-        } else {
-            drawName("DEF: " + pDEF, 156, 111, Color.WHITE);
-        }
-        if (pVIT > Variables.players[Variables.MyIndex].getVIT()) {
-            drawName("VIT: " + pVIT, 156, 126, Color.GREEN);
-        } else {
-            drawName("VIT: " + pVIT, 156, 126, Color.WHITE);
-        }
-        if (pAGI > Variables.players[Variables.MyIndex].getAGI()) {
-            drawName("AGI: " + pAGI, 226, 96, Color.GREEN);
-        } else {
-            drawName("AGI: " + pAGI, 226, 96, Color.WHITE);
-        }
-        if (pMAG > Variables.players[Variables.MyIndex].getMAG()) {
-            drawName("MAG: " + pMAG, 226, 111, Color.GREEN);
-        } else {
-            drawName("MAG: " + pMAG, 226, 111, Color.WHITE);
-        }
-        drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), 226, 126, Color.WHITE);
-
-        batcher.draw(AssetLoader.sepBarV, 320, 8, 9, 464);
-
-        drawText("Items", 365, 31, Color.WHITE);
-        drawText("Spells", 364, 71, Color.WHITE);
-        drawText("Status", 358, 111, Color.WHITE);
-        int goldTotal = 0;
-        for (int i = 1; i <= 60; i++) {
-            if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
-                goldTotal += Variables.players[Variables.MyIndex].inventory[i].getItemVal();
+            batcher.draw(AssetLoader.eqBG, 92, 50, 36, 36);
+            if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
+                if (itemNum > 0) {
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 92 + 5, 50 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
+            batcher.draw(AssetLoader.eqBG, 31, 87, 36, 36);
+            batcher.draw(AssetLoader.eqBG, 68, 87, 36, 36);
+
+            // Player Info
+            drawName("Name: " + Variables.players[Variables.MyIndex].getName(), 148, 13, Color.WHITE);
+            drawName("Lvl: " + Variables.players[Variables.MyIndex].getLevel(), 148, 28, Color.WHITE);
+            drawName("HP: " + Variables.players[Variables.MyIndex].getHP() + "/" + Variables.players[Variables.MyIndex].getMaxHP(), 148, 43, Color.WHITE);
+            drawName("MP: " + Variables.players[Variables.MyIndex].getMP() + "/" + Variables.players[Variables.MyIndex].getMaxMP(), 148, 58, Color.WHITE);
+            drawName("EXP: " + Variables.players[Variables.MyIndex].getEXP() + "/" + Variables.players[Variables.MyIndex].getNextLVL(), 148, 73, Color.WHITE);
+
+            int pSTR = Variables.players[Variables.MyIndex].getSTR();
+            int pDEF = Variables.players[Variables.MyIndex].getDEF();
+            int pVIT = Variables.players[Variables.MyIndex].getVIT();
+            int pAGI = Variables.players[Variables.MyIndex].getAGI();
+            int pMAG = Variables.players[Variables.MyIndex].getMAG();
+            if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
+                if (itemNum <= 0) {
+                    return;
+                }
+                pSTR = pSTR + Variables.Items[itemNum].STR;
+                pDEF = pDEF + Variables.Items[itemNum].DEF;
+                pVIT = pVIT + Variables.Items[itemNum].VIT;
+                pAGI = pAGI + Variables.Items[itemNum].AGI;
+                pMAG = pMAG + Variables.Items[itemNum].MAG;
+            }
+            if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
+                if (itemNum <= 0) {
+                    return;
+                }
+                pSTR = pSTR + Variables.Items[itemNum].STR;
+                pDEF = pDEF + Variables.Items[itemNum].DEF;
+                pVIT = pVIT + Variables.Items[itemNum].VIT;
+                pAGI = pAGI + Variables.Items[itemNum].AGI;
+                pMAG = pMAG + Variables.Items[itemNum].MAG;
+            }
+            if (Variables.players[Variables.MyIndex].getArmor() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
+                if (itemNum <= 0) {
+                    return;
+                }
+                pSTR = pSTR + Variables.Items[itemNum].STR;
+                pDEF = pDEF + Variables.Items[itemNum].DEF;
+                pVIT = pVIT + Variables.Items[itemNum].VIT;
+                pAGI = pAGI + Variables.Items[itemNum].AGI;
+                pMAG = pMAG + Variables.Items[itemNum].MAG;
+            }
+            if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
+                if (itemNum <= 0) {
+                    return;
+                }
+                pSTR = pSTR + Variables.Items[itemNum].STR;
+                pDEF = pDEF + Variables.Items[itemNum].DEF;
+                pVIT = pVIT + Variables.Items[itemNum].VIT;
+                pAGI = pAGI + Variables.Items[itemNum].AGI;
+                pMAG = pMAG + Variables.Items[itemNum].MAG;
+            }
+            if (Variables.players[Variables.MyIndex].getAcc1() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc1()].getItemNum();
+                if (itemNum <= 0) {
+                    return;
+                }
+                pSTR = pSTR + Variables.Items[itemNum].STR;
+                pDEF = pDEF + Variables.Items[itemNum].DEF;
+                pVIT = pVIT + Variables.Items[itemNum].VIT;
+                pAGI = pAGI + Variables.Items[itemNum].AGI;
+                pMAG = pMAG + Variables.Items[itemNum].MAG;
+            }
+            if (Variables.players[Variables.MyIndex].getAcc2() > 0) {
+                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc2()].getItemNum();
+                if (itemNum <= 0) {
+                    return;
+                }
+                pSTR = pSTR + Variables.Items[itemNum].STR;
+                pDEF = pDEF + Variables.Items[itemNum].DEF;
+                pVIT = pVIT + Variables.Items[itemNum].VIT;
+                pAGI = pAGI + Variables.Items[itemNum].AGI;
+                pMAG = pMAG + Variables.Items[itemNum].MAG;
+            }
+
+            if (pSTR > Variables.players[Variables.MyIndex].getSTR()) {
+                drawName("STR: " + pSTR, 148, 88, Color.GREEN);
+            } else {
+                drawName("STR: " + pSTR, 148, 88, Color.WHITE);
+            }
+            if (pDEF > Variables.players[Variables.MyIndex].getDEF()) {
+                drawName("DEF: " + pDEF, 148, 103, Color.GREEN);
+            } else {
+                drawName("DEF: " + pDEF, 148, 103, Color.WHITE);
+            }
+            if (pVIT > Variables.players[Variables.MyIndex].getVIT()) {
+                drawName("VIT: " + pVIT, 148, 118, Color.GREEN);
+            } else {
+                drawName("VIT: " + pVIT, 148, 118, Color.WHITE);
+            }
+            if (pAGI > Variables.players[Variables.MyIndex].getAGI()) {
+                drawName("AGI: " + pAGI, 218, 88, Color.GREEN);
+            } else {
+                drawName("AGI: " + pAGI, 218, 88, Color.WHITE);
+            }
+            if (pMAG > Variables.players[Variables.MyIndex].getMAG()) {
+                drawName("MAG: " + pMAG, 218, 103, Color.GREEN);
+            } else {
+                drawName("MAG: " + pMAG, 218, 103, Color.WHITE);
+            }
+            drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), 218, 118, Color.WHITE);
         }
-
-        layout.setText(AssetLoader.nameFont, "Gold: " + goldTotal);
-        float width = layout.width;// contains the width of the current set text
-
-        float nameX = 460 - (int)width;
-        float nameY = 447;
-        drawName("Gold: " + goldTotal, nameX, nameY, Color.YELLOW);
-
-        batcher.draw(AssetLoader.sepBarH, 320, 370, 152, 9);
 
         // Back Button
-        drawText("Back", 24, 437, Color.WHITE);
+        drawText("Back", 16, 429, Color.WHITE);
     }
     public static void drawUI() {
         // Empty Bar
@@ -1646,7 +1821,15 @@ public class RenderDesktop {
 
                     float nameX = PlayerX - ((int)width / 2) + 24;
                     float nameY = PlayerY - 16;
-                    drawName(Variables.players[i].getName(), nameX, nameY, Color.WHITE);
+                    if (Variables.players[i].getParty() > 0) {
+                        if (Variables.players[i].getParty() == Variables.players[Variables.MyIndex].getParty()) {
+                            drawName(Variables.players[i].getName(), nameX, nameY, toRGB(0, 162, 232));
+                        } else {
+                            drawName(Variables.players[i].getName(), nameX, nameY, Color.WHITE);
+                        }
+                    } else {
+                        drawName(Variables.players[i].getName(), nameX, nameY, Color.WHITE);
+                    }
 
                     if (i == Variables.MyIndex) {
                         GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 8, PlayerY + 40, 32, 4);
@@ -1656,18 +1839,32 @@ public class RenderDesktop {
                         GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 8, PlayerY + 40, (int) maxWidth, 4);
                     }
 
+                    // Render Party Stuff
                     if (Variables.players[Variables.MyIndex].getParty() > 0) {
-                        for (int a = 1; a <= 3; a++) {
-                            if (Variables.MyParty.members[a] > 0) {
-                                if (Variables.players[Variables.MyParty.members[a]].getMap() == Variables.players[Variables.MyIndex].getMap()) {
-                                    GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 8, PlayerY + 40, 32, 4);
+                        batcher.draw(AssetLoader.inPartyBtn, 0, 0, 800, 600, 0, 0, 800, 600, false, true);
+                        if (Variables.players[i].getParty() > 0) {
+                            if (Variables.players[i].getParty() == Variables.players[Variables.MyIndex].getParty()) {
+                                for (int a = 1; a <= 3; a++) {
+                                    if (Variables.MyParty.members[a] > 0) {
+                                        if (Variables.players[Variables.MyParty.members[a]].getMap() == Variables.players[Variables.MyIndex].getMap()) {
+                                            PlayerX = ((Variables.players[Variables.MyParty.members[a]].getX() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetX());
+                                            PlayerY = ((Variables.players[Variables.MyParty.members[a]].getY() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetY());
+                                            GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 8, PlayerY + 40, 32, 4);
 
-                                    double maxWidth = ((((double) Variables.MyParty.hp[a] / 32) / ((double) Variables.MyParty.maxHP[a] / 32) * 32));
-                                    batcher.draw(AssetLoader.hpBar, 532, 150, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
+                                            double maxWidth = ((((double) Variables.players[Variables.MyParty.members[a]].getHP() / 32) / ((double) Variables.players[Variables.MyParty.members[a]].getMaxHP() / 32) * 32));
+                                            GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 8, PlayerY + 40, (int) maxWidth, 4);
 
-                                    PlayerX = ((Variables.players[Variables.MyParty.members[a]].getX() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetX());
-                                    PlayerY = ((Variables.players[Variables.MyParty.members[a]].getY() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetY());
-                                    GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 8, PlayerY + 40, (int)maxWidth, 4);
+                                            if (Variables.MyParty.members[a] == Variables.MyParty.leader) {
+                                                layout.setText(AssetLoader.nameFont, Variables.players[Variables.MyParty.leader].getName());
+                                                width = layout.width;// contains the width of the current set text
+                                                PlayerX = ((Variables.players[Variables.MyParty.leader].getX() * Variables.MoveSize) + Variables.players[Variables.MyParty.leader].getOffsetX());
+                                                PlayerY = ((Variables.players[Variables.MyParty.leader].getY() * Variables.MoveSize) + Variables.players[Variables.MyParty.leader].getOffsetY());
+                                                nameX = PlayerX - ((int) width / 2) + 24;
+                                                nameY = PlayerY - 16;
+                                                batcher.draw(AssetLoader.crown, nameX - 11, nameY - 10, 16, 16, 0, 0, 16, 16, false, true);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1832,6 +2029,10 @@ public class RenderDesktop {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.ORANGE);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_WHISPER) {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.PINK);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_PARTY) {
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.SKY);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_SYSTEM) {
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.LIGHT_GRAY);
                 }
             }
         } else {
@@ -1843,6 +2044,10 @@ public class RenderDesktop {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.ORANGE);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_WHISPER) {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.PINK);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_PARTY) {
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.SKY);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_SYSTEM) {
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.LIGHT_GRAY);
                 }
                 line++;
             }
@@ -1882,6 +2087,12 @@ public class RenderDesktop {
                 }
             }
         }
+    }
+    public static Color toRGB(int r, int g, int b) {
+        float RED = r / 255.0f;
+        float GREEN = g / 255.0f;
+        float BLUE = b / 255.0f;
+        return new Color(RED, GREEN, BLUE, 1);
     }
 
     public static void buyMsgTimer(long tickCount) {

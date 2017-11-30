@@ -61,8 +61,6 @@ public class RTOServer extends ApplicationAdapter {
         for (int i = 1; i <= ServerVars.MaxParties; i++) {
             ServerVars.Parties[i] = new Party();
             ServerVars.Parties[i].members = new int[3 + 1];
-            ServerVars.Parties[i].hp = new int[3 + 1];
-            ServerVars.Parties[i].maxHP = new int[3 + 1];
         }
 
         serverWindow.svrMonitor.append("Loading maps.." + "\n");
@@ -395,6 +393,11 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(PartyInfo.class);
         server.getKryo().register(PartyDecision.class);
         server.getKryo().register(Party.class);
+        server.getKryo().register(DisbandParty.class);
+        server.getKryo().register(LeaveParty.class);
+        server.getKryo().register(AppointPartyLeader.class);
+        server.getKryo().register(KickPartyMember.class);
+        server.getKryo().register(UpdatePartyDropType.class);
     }
     private static void checkPackets(Object object, Connection connection) {
         if (object instanceof Connect) { HandleServerData.HandleConnect(object); }
@@ -415,6 +418,11 @@ public class RTOServer extends ApplicationAdapter {
         if (object instanceof SendMessage) { HandleServerData.HandleSendMessage(object); }
         if (object instanceof SendPartyInvite) { HandleServerData.HandlePartyInvite(object); }
         if (object instanceof PartyDecision) { HandleServerData.HandlePartyDecision(object); }
+        if (object instanceof DisbandParty) { HandleServerData.HandleDisbandParty(object); }
+        if (object instanceof LeaveParty) { HandleServerData.HandleLeaveParty(object); }
+        if (object instanceof AppointPartyLeader) { HandleServerData.HandleAppointPartyLeader(object); }
+        if (object instanceof KickPartyMember) { HandleServerData.HandleKickPartyMember(object); }
+        if (object instanceof UpdatePartyDropType) { HandleServerData.HandleUpdateDropType(object); }
     }
 
     private static void UpdateNpcAI(long tickCount) {

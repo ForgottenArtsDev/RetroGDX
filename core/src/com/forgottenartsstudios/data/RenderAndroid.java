@@ -573,7 +573,7 @@ public class RenderAndroid {
                         if (Variables.players[Variables.MyParty.members[a]].getMap() == Variables.players[Variables.MyIndex].getMap()) {
                             GameRenderer.batcher.draw(AssetLoader.emptyMapBar, x, y + 34, 32, 4);
 
-                            maxWidth = ((((double) Variables.MyParty.hp[a] / 32) / ((double) Variables.MyParty.maxHP[a] / 32) * 32));
+                            maxWidth = ((((double) Variables.players[Variables.MyParty.members[a]].getHP() / 32) / ((double) Variables.players[Variables.MyParty.members[a]].getMaxHP() / 32) * 32));
                             batcher.draw(AssetLoader.hpBar, 532, 150, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
 
                             x = ((Variables.players[Variables.MyParty.members[a]].getX() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetX());

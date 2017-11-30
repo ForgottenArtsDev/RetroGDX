@@ -188,8 +188,15 @@ public class HandleClientData {
         PlayerData plData = (PlayerData) object;
         int index = plData.index;
         if (plData.playerData.getMap() == 0) { return; }
-        //Variables.players[index] = plData.playerData;
+
         Variables.players[index].setName(plData.playerData.getName());
+
+        for (int i = 1; i <= 3; i++) {
+            if (Variables.players[index].getName().equals(Variables.MyAccount.chars[i].getName())) {
+                Variables.MyAccount.setActiveChar(i);
+                break;
+            }
+        }
 
         Variables.players[index].setJob(plData.playerData.getJob());
         Variables.players[index].setLevel(plData.playerData.getLevel());
@@ -221,6 +228,8 @@ public class HandleClientData {
         Variables.players[index].setHelmet(plData.playerData.getHelmet());
         Variables.players[index].setAcc1(plData.playerData.getAcc1());
         Variables.players[index].setAcc2(plData.playerData.getAcc2());
+
+        Variables.players[index].setParty(plData.playerData.getParty());
 
         if (index == Variables.MyIndex) {
             Variables.MinX = 0;
@@ -415,9 +424,16 @@ public class HandleClientData {
     public static void HandleSendInventory(Object object) {
         SendInventory sInv = (SendInventory) object;
 
+        int index = sInv.index;
+
+        Variables.players[index].inventory = new Inventory_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
-            Variables.players[Variables.MyIndex].inventory[i].setItemNum(sInv.invData[i].getItemNum());
-            Variables.players[Variables.MyIndex].inventory[i].setItemVal(sInv.invData[i].getItemVal());
+            Variables.players[index].inventory[i] = new Inventory_Struct();
+        }
+
+        for (int i = 1; i <= 60; i++) {
+            Variables.players[index].inventory[i].setItemNum(sInv.invData[i].getItemNum());
+            Variables.players[index].inventory[i].setItemVal(sInv.invData[i].getItemVal());
         }
     }
     public static void HandleBoughtItemMsg() {
@@ -639,6 +655,8 @@ public class HandleClientData {
         int index = sendOpenPlayerMenu.index;
         int targetIndex = sendOpenPlayerMenu.targetIndex;
 
+        if (index == targetIndex) { return; }
+
         Variables.target = targetIndex;
     }
     public static void HandlePartyInvite(Object object) {
@@ -655,6 +673,14 @@ public class HandleClientData {
     public static void HandlePartyInfo(Object object) {
         PartyInfo partyInfo = (PartyInfo) object;
 
+        int index = partyInfo.index;
+        Variables.players[index].setParty(partyInfo.partyNum);
         Variables.MyParty = partyInfo.party;
+
+        if (partyInfo.partyNum == 0) {
+            if (Variables.inMenu) {
+                Variables.inMenu = false;
+            }
+        }
     }
 }

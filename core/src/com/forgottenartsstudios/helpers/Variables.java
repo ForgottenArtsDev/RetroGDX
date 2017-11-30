@@ -123,6 +123,11 @@ public class Variables {
     public static final int MESSAGE_TYPE_GLOBAL = 2;
     public static final int MESSAGE_TYPE_WHISPER = 3;
     public static final int MESSAGE_TYPE_SYSTEM = 4;
+    public static final int MESSAGE_TYPE_PARTY = 5;
+
+    // Party - Drop Sort Methods
+    public static final int DROP_SORT_ROUNDROBIN = 1;
+    public static final int DROP_SORT_FREEFORALL = 2;
 
     // Search types
     public static final int SEARCH_TYPE_NONE = 0;

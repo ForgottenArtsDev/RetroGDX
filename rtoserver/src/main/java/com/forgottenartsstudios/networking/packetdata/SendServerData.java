@@ -6,10 +6,13 @@ import com.forgottenartsstudios.data.AccountData;
 import com.forgottenartsstudios.data.General;
 import com.forgottenartsstudios.data.Inventory_Struct;
 import com.forgottenartsstudios.data.MapItem;
+import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packets.*;
 import com.sun.org.apache.xpath.internal.operations.Variable;
+
+import java.util.Locale;
 
 import static com.forgottenartsstudios.server.RTOServer.server;
 
@@ -66,14 +69,19 @@ public class SendServerData {
         }
     }
     public static void SendPlayerData(int index, int indexTo) {
-        if (ServerVars.Players[index] == null) { return; }
-        if (ServerVars.Players[indexTo] == null) { return; }
+        if (ServerVars.Players[index] == null) {
+            if (ServerVars.Accounts[index] != null) {
+                ServerVars.Players[index] = ServerVars.Accounts[index].chars[ServerVars.Accounts[index].getActiveChar()];
+            }
+        }
+        if (ServerVars.Players[indexTo] == null) {
+            if (ServerVars.Accounts[indexTo] != null) {
+                ServerVars.Players[indexTo] = ServerVars.Accounts[indexTo].chars[ServerVars.Accounts[indexTo].getActiveChar()];
+            }
+        }
         PlayerData plData = new PlayerData();
         plData.playerData = new Player();
-        plData.playerData.inventory = new Inventory_Struct[60 + 1];
-        for (int i = 1; i <= 60; i++) {
-            plData.playerData.inventory[i] = new Inventory_Struct();
-        }
+
         plData.index = index;
         plData.playerData.setName(ServerVars.Players[index].getName());
 
@@ -108,9 +116,19 @@ public class SendServerData {
         plData.playerData.setAcc1(ServerVars.Players[index].getAcc1());
         plData.playerData.setAcc2(ServerVars.Players[index].getAcc2());
 
+        plData.playerData.setParty(ServerVars.Players[index].getParty());
+
         server.sendToTCP(ServerVars.Accounts[indexTo].getCID(), plData);
 
-        SendInvData(index);
+        SendInvData(index, index);
+        if (ServerVars.Players[index].getParty() > 0) {
+            int pNum = ServerVars.Players[index].getParty();
+            for (int i = 1; i <= 3; i++) {
+                if (ServerVars.Parties[pNum].members[i] > 0) {
+                    SendInvData(index, ServerVars.Parties[pNum].members[i]);
+                }
+            }
+        }
     }
     public static void SendAccountRegistered(Connection connection) {
         AccountRegistered ar = new AccountRegistered();
@@ -517,14 +535,16 @@ public class SendServerData {
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sndShop);
     }
-    public static void SendInvData(int Index) {
+    public static void SendInvData(int Index, int toIndex) {
         SendInventory sInv = new SendInventory();
+
+        sInv.index = Index;
 
         for (int i = 1; i <= 60; i++) {
             sInv.invData[i] = ServerVars.Players[Index].inventory[i];
         }
 
-        server.sendToTCP(ServerVars.Accounts[Index].getCID(), sInv);
+        server.sendToTCP(ServerVars.Accounts[toIndex].getCID(), sInv);
     }
     public static void SendBoughtItemMsg(int Index) {
         ItemBoughtMsg sBoughtMsg = new ItemBoughtMsg();
@@ -535,106 +555,239 @@ public class SendServerData {
         // Add the XP and check if they leveled up
         if (giveXP) {
             int mapNum = ServerVars.Players[index].getMap();
-            int XP = ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].Exp;
-            SendServerData.SendNPCXP(index, XP);
+            int pNum = ServerVars.Players[index].getParty();
+            double XP = 0;
+            double EXP = 0;
+            if (pNum > 0) {
+                int split = 0;
+                for (int i = 1; i <= 3; i++) {
+                    if (ServerVars.Parties[ServerVars.Players[index].getParty()].members[i] > 0) {
+                        split = split + 1;
+                    }
+                }
+                if (split == 2) {
+                    EXP = (double)ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].Exp;
+                    EXP = EXP * 1.2;
+                    XP = EXP / 2;
+                } else if (split == 3) {
+                    EXP = (double)ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].Exp;
+                    EXP = EXP * 1.5;
+                    XP = EXP / 3;
+                }
+            } else {
+                XP = ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].Exp;
+            }
+            if (pNum > 0) {
+                for (int i = 1; i <= 3; i++) {
+                    if (ServerVars.Parties[pNum].members[i] > 0) {
+                        SendServerData.SendNPCXP(ServerVars.Parties[pNum].members[i], (int) XP);
+                    }
+                }
+            } else {
+                SendServerData.SendNPCXP(index, (int) XP);
+            }
             if (XP > 0) {
-                ServerVars.Players[index].setEXP(ServerVars.Players[index].getEXP() + XP);
-                if (ServerVars.Players[index].getEXP() >= ServerVars.Players[index].getNextLVL()) {
-                    int newXP = ServerVars.Players[index].getEXP() - ServerVars.Players[index].getNextLVL();
-                    ServerVars.Players[index].setEXP(newXP);
-                    ServerVars.Players[index].setLevel(ServerVars.Players[index].getLevel() + 1);
-                    ServerVars.Players[index].setNextLVL(General.getNextLevel(index));
-                    switch (ServerVars.Players[index].getJob()) {
-                        case ServerVars.JOB_WARRIOR:
-                            ServerVars.Players[index].setSTR(ServerVars.Players[index].getSTR() + 2);
-                            ServerVars.Players[index].setVIT(ServerVars.Players[index].getVIT() + 1);
-                            break;
-                        case ServerVars.JOB_MAGE:
-                            ServerVars.Players[index].setMAG(ServerVars.Players[index].getMAG() + 2);
-                            ServerVars.Players[index].setSTR(ServerVars.Players[index].getSTR() + 1);
-                            break;
-                        case ServerVars.JOB_CLERIC:
-                            ServerVars.Players[index].setMAG(ServerVars.Players[index].getMAG() + 2);
-                            ServerVars.Players[index].setVIT(ServerVars.Players[index].getVIT() + 1);
-                            break;
-                        case ServerVars.JOB_RANGER:
-                            ServerVars.Players[index].setAGI(ServerVars.Players[index].getAGI() + 2);
-                            ServerVars.Players[index].setSTR(ServerVars.Players[index].getSTR() + 1);
-                            break;
-                        case ServerVars.JOB_ROGUE:
-                            ServerVars.Players[index].setAGI(ServerVars.Players[index].getAGI() + 2);
-                            ServerVars.Players[index].setVIT(ServerVars.Players[index].getVIT() + 1);
-                            break;
-                    }
-                    ServerVars.Players[index].setPoints(ServerVars.Players[index].getPoints() + 2);
-                    int pSTR = ServerVars.Players[index].getSTR();
-                    int pDEF = ServerVars.Players[index].getDEF();
-                    int pVIT = ServerVars.Players[index].getVIT();
-                    int pAGI = ServerVars.Players[index].getAGI();
-                    int pMAG = ServerVars.Players[index].getMAG();
+                if (pNum > 0) {
+                    for (int i = 1; i <= 3; i++) {
+                        if (ServerVars.Parties[pNum].members[i] > 0) {
+                            ServerVars.Players[ServerVars.Parties[pNum].members[i]].setEXP(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getEXP() + (int) XP);
+                            if (ServerVars.Players[ServerVars.Parties[pNum].members[i]].getEXP() >= ServerVars.Players[ServerVars.Parties[pNum].members[i]].getNextLVL()) {
+                                int newXP = ServerVars.Players[ServerVars.Parties[pNum].members[i]].getEXP() - ServerVars.Players[ServerVars.Parties[pNum].members[i]].getNextLVL();
+                                ServerVars.Players[ServerVars.Parties[pNum].members[i]].setEXP(newXP);
+                                ServerVars.Players[ServerVars.Parties[pNum].members[i]].setLevel(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getLevel() + 1);
+                                ServerVars.Players[ServerVars.Parties[pNum].members[i]].setNextLVL(General.getNextLevel(ServerVars.Parties[pNum].members[i]));
+                                switch (ServerVars.Players[ServerVars.Parties[pNum].members[i]].getJob()) {
+                                    case ServerVars.JOB_WARRIOR:
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setSTR(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getSTR() + 2);
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setVIT(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getVIT() + 1);
+                                        break;
+                                    case ServerVars.JOB_MAGE:
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setMAG(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getMAG() + 2);
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setSTR(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getSTR() + 1);
+                                        break;
+                                    case ServerVars.JOB_CLERIC:
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setMAG(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getMAG() + 2);
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setVIT(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getVIT() + 1);
+                                        break;
+                                    case ServerVars.JOB_RANGER:
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setAGI(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getAGI() + 2);
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setSTR(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getSTR() + 1);
+                                        break;
+                                    case ServerVars.JOB_ROGUE:
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setAGI(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getAGI() + 2);
+                                        ServerVars.Players[ServerVars.Parties[pNum].members[i]].setVIT(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getVIT() + 1);
+                                        break;
+                                }
+                                ServerVars.Players[ServerVars.Parties[pNum].members[i]].setPoints(ServerVars.Players[ServerVars.Parties[pNum].members[i]].getPoints() + 2);
+                                int pSTR = ServerVars.Players[ServerVars.Parties[pNum].members[i]].getSTR();
+                                int pDEF = ServerVars.Players[ServerVars.Parties[pNum].members[i]].getDEF();
+                                int pVIT = ServerVars.Players[ServerVars.Parties[pNum].members[i]].getVIT();
+                                int pAGI = ServerVars.Players[ServerVars.Parties[pNum].members[i]].getAGI();
+                                int pMAG = ServerVars.Players[ServerVars.Parties[pNum].members[i]].getMAG();
 
-                    int itemNum;
-                    if (ServerVars.Players[index].getWeapon() > 0) {
-                        itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getWeapon()].getItemNum();
-                        pSTR = pSTR + ServerVars.Items[itemNum].STR;
-                        pDEF = pDEF + ServerVars.Items[itemNum].DEF;
-                        pVIT = pVIT + ServerVars.Items[itemNum].VIT;
-                        pAGI = pAGI + ServerVars.Items[itemNum].AGI;
-                        pMAG = pMAG + ServerVars.Items[itemNum].MAG;
-                    }
-                    if (ServerVars.Players[index].getOffhand() > 0) {
-                        itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getOffhand()].getItemNum();
-                        pSTR = pSTR + ServerVars.Items[itemNum].STR;
-                        pDEF = pDEF + ServerVars.Items[itemNum].DEF;
-                        pVIT = pVIT + ServerVars.Items[itemNum].VIT;
-                        pAGI = pAGI + ServerVars.Items[itemNum].AGI;
-                        pMAG = pMAG + ServerVars.Items[itemNum].MAG;
-                    }
-                    if (ServerVars.Players[index].getArmor() > 0) {
-                        itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getArmor()].getItemNum();
-                        pSTR = pSTR + ServerVars.Items[itemNum].STR;
-                        pDEF = pDEF + ServerVars.Items[itemNum].DEF;
-                        pVIT = pVIT + ServerVars.Items[itemNum].VIT;
-                        pAGI = pAGI + ServerVars.Items[itemNum].AGI;
-                        pMAG = pMAG + ServerVars.Items[itemNum].MAG;
-                    }
-                    if (ServerVars.Players[index].getHelmet() > 0) {
-                        itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getHelmet()].getItemNum();
-                        pSTR = pSTR + ServerVars.Items[itemNum].STR;
-                        pDEF = pDEF + ServerVars.Items[itemNum].DEF;
-                        pVIT = pVIT + ServerVars.Items[itemNum].VIT;
-                        pAGI = pAGI + ServerVars.Items[itemNum].AGI;
-                        pMAG = pMAG + ServerVars.Items[itemNum].MAG;
-                    }
-                    if (ServerVars.Players[index].getAcc1() > 0) {
-                        itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getAcc1()].getItemNum();
-                        pSTR = pSTR + ServerVars.Items[itemNum].STR;
-                        pDEF = pDEF + ServerVars.Items[itemNum].DEF;
-                        pVIT = pVIT + ServerVars.Items[itemNum].VIT;
-                        pAGI = pAGI + ServerVars.Items[itemNum].AGI;
-                        pMAG = pMAG + ServerVars.Items[itemNum].MAG;
-                    }
-                    if (ServerVars.Players[index].getAcc2() > 0) {
-                        itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getAcc2()].getItemNum();
-                        pSTR = pSTR + ServerVars.Items[itemNum].STR;
-                        pDEF = pDEF + ServerVars.Items[itemNum].DEF;
-                        pVIT = pVIT + ServerVars.Items[itemNum].VIT;
-                        pAGI = pAGI + ServerVars.Items[itemNum].AGI;
-                        pMAG = pMAG + ServerVars.Items[itemNum].MAG;
-                    }
+                                int itemNum;
+                                if (ServerVars.Players[ServerVars.Parties[pNum].members[i]].getWeapon() > 0) {
+                                    itemNum = ServerVars.Players[ServerVars.Parties[pNum].members[i]].inventory[ServerVars.Players[ServerVars.Parties[pNum].members[i]].getWeapon()].getItemNum();
+                                    pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                                    pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                                    pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                                    pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                                    pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                                }
+                                if (ServerVars.Players[ServerVars.Parties[pNum].members[i]].getOffhand() > 0) {
+                                    itemNum = ServerVars.Players[ServerVars.Parties[pNum].members[i]].inventory[ServerVars.Players[ServerVars.Parties[pNum].members[i]].getOffhand()].getItemNum();
+                                    pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                                    pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                                    pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                                    pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                                    pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                                }
+                                if (ServerVars.Players[ServerVars.Parties[pNum].members[i]].getArmor() > 0) {
+                                    itemNum = ServerVars.Players[ServerVars.Parties[pNum].members[i]].inventory[ServerVars.Players[ServerVars.Parties[pNum].members[i]].getArmor()].getItemNum();
+                                    pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                                    pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                                    pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                                    pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                                    pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                                }
+                                if (ServerVars.Players[ServerVars.Parties[pNum].members[i]].getHelmet() > 0) {
+                                    itemNum = ServerVars.Players[ServerVars.Parties[pNum].members[i]].inventory[ServerVars.Players[ServerVars.Parties[pNum].members[i]].getHelmet()].getItemNum();
+                                    pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                                    pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                                    pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                                    pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                                    pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                                }
+                                if (ServerVars.Players[index].getAcc1() > 0) {
+                                    itemNum = ServerVars.Players[ServerVars.Parties[pNum].members[i]].inventory[ServerVars.Players[ServerVars.Parties[pNum].members[i]].getAcc1()].getItemNum();
+                                    pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                                    pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                                    pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                                    pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                                    pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                                }
+                                if (ServerVars.Players[index].getAcc2() > 0) {
+                                    itemNum = ServerVars.Players[ServerVars.Parties[pNum].members[i]].inventory[ServerVars.Players[ServerVars.Parties[pNum].members[i]].getAcc2()].getItemNum();
+                                    pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                                    pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                                    pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                                    pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                                    pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                                }
 
-                    ServerVars.Players[index].setMaxHP((pVIT * 2) * (pSTR / 2));
-                    ServerVars.Players[index].setMaxMP((pMAG * 2) * (pDEF / 2));
+                                ServerVars.Players[ServerVars.Parties[pNum].members[i]].setMaxHP((pVIT * 2) * (pSTR / 2));
+                                ServerVars.Players[ServerVars.Parties[pNum].members[i]].setMaxMP((pMAG * 2) * (pDEF / 2));
 
-                    for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
-                        if (ServerVars.Players[i] != null) {
-                            if (ServerVars.Players[i].getMap() == ServerVars.Players[index].getMap()) {
-                                SendServerData.SendSystemMessage(index, i, "Level Up!", Color.GREEN);
+                                for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                    if (ServerVars.Players[a] != null) {
+                                        if (ServerVars.Players[a].getMap() == ServerVars.Players[ServerVars.Parties[pNum].members[i]].getMap()) {
+                                            SendServerData.SendSystemMessage(ServerVars.Parties[pNum].members[i], a, "Level Up!", Color.GREEN);
+                                        }
+                                    }
+                                }
+                            }
+                            SendServerData.SendVital(ServerVars.Parties[pNum].members[i]);
+                        }
+                    }
+                } else {
+                    ServerVars.Players[index].setEXP(ServerVars.Players[index].getEXP() + (int) XP);
+                    if (ServerVars.Players[index].getEXP() >= ServerVars.Players[index].getNextLVL()) {
+                        int newXP = ServerVars.Players[index].getEXP() - ServerVars.Players[index].getNextLVL();
+                        ServerVars.Players[index].setEXP(newXP);
+                        ServerVars.Players[index].setLevel(ServerVars.Players[index].getLevel() + 1);
+                        ServerVars.Players[index].setNextLVL(General.getNextLevel(index));
+                        switch (ServerVars.Players[index].getJob()) {
+                            case ServerVars.JOB_WARRIOR:
+                                ServerVars.Players[index].setSTR(ServerVars.Players[index].getSTR() + 2);
+                                ServerVars.Players[index].setVIT(ServerVars.Players[index].getVIT() + 1);
+                                break;
+                            case ServerVars.JOB_MAGE:
+                                ServerVars.Players[index].setMAG(ServerVars.Players[index].getMAG() + 2);
+                                ServerVars.Players[index].setSTR(ServerVars.Players[index].getSTR() + 1);
+                                break;
+                            case ServerVars.JOB_CLERIC:
+                                ServerVars.Players[index].setMAG(ServerVars.Players[index].getMAG() + 2);
+                                ServerVars.Players[index].setVIT(ServerVars.Players[index].getVIT() + 1);
+                                break;
+                            case ServerVars.JOB_RANGER:
+                                ServerVars.Players[index].setAGI(ServerVars.Players[index].getAGI() + 2);
+                                ServerVars.Players[index].setSTR(ServerVars.Players[index].getSTR() + 1);
+                                break;
+                            case ServerVars.JOB_ROGUE:
+                                ServerVars.Players[index].setAGI(ServerVars.Players[index].getAGI() + 2);
+                                ServerVars.Players[index].setVIT(ServerVars.Players[index].getVIT() + 1);
+                                break;
+                        }
+                        ServerVars.Players[index].setPoints(ServerVars.Players[index].getPoints() + 2);
+                        int pSTR = ServerVars.Players[index].getSTR();
+                        int pDEF = ServerVars.Players[index].getDEF();
+                        int pVIT = ServerVars.Players[index].getVIT();
+                        int pAGI = ServerVars.Players[index].getAGI();
+                        int pMAG = ServerVars.Players[index].getMAG();
+
+                        int itemNum;
+                        if (ServerVars.Players[index].getWeapon() > 0) {
+                            itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getWeapon()].getItemNum();
+                            pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                            pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                            pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                            pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                            pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                        }
+                        if (ServerVars.Players[index].getOffhand() > 0) {
+                            itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getOffhand()].getItemNum();
+                            pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                            pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                            pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                            pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                            pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                        }
+                        if (ServerVars.Players[index].getArmor() > 0) {
+                            itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getArmor()].getItemNum();
+                            pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                            pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                            pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                            pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                            pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                        }
+                        if (ServerVars.Players[index].getHelmet() > 0) {
+                            itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getHelmet()].getItemNum();
+                            pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                            pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                            pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                            pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                            pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                        }
+                        if (ServerVars.Players[index].getAcc1() > 0) {
+                            itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getAcc1()].getItemNum();
+                            pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                            pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                            pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                            pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                            pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                        }
+                        if (ServerVars.Players[index].getAcc2() > 0) {
+                            itemNum = ServerVars.Players[index].inventory[ServerVars.Players[index].getAcc2()].getItemNum();
+                            pSTR = pSTR + ServerVars.Items[itemNum].STR;
+                            pDEF = pDEF + ServerVars.Items[itemNum].DEF;
+                            pVIT = pVIT + ServerVars.Items[itemNum].VIT;
+                            pAGI = pAGI + ServerVars.Items[itemNum].AGI;
+                            pMAG = pMAG + ServerVars.Items[itemNum].MAG;
+                        }
+
+                        ServerVars.Players[index].setMaxHP((pVIT * 2) * (pSTR / 2));
+                        ServerVars.Players[index].setMaxMP((pMAG * 2) * (pDEF / 2));
+
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] != null) {
+                                if (ServerVars.Players[i].getMap() == ServerVars.Players[index].getMap()) {
+                                    SendServerData.SendSystemMessage(index, i, "Level Up!", Color.GREEN);
+                                }
                             }
                         }
                     }
+                    SendServerData.SendVital(index);
                 }
-                SendServerData.SendVital(index);
             }
             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].drop1 > 0) {
                 int percent = ServerVars.Rnd.nextInt(100 + 1);
@@ -842,15 +995,49 @@ public class SendServerData {
 
         server.sendToTCP(ServerVars.Accounts[target].getCID(), sendPartyInvite);
     }
-    public static void SendPartyInfo(int partyNum) {
+    public static void SendPartyInfo(int index, int partyNum) {
         PartyInfo partyInfo = new PartyInfo();
 
-        partyInfo.party = ServerVars.Parties[partyNum];
-
-        for (int i = 1; i <= 3; i++) {
-            if (ServerVars.Parties[partyNum].members[i] > 0) {
-                server.sendToTCP(ServerVars.Accounts[ServerVars.Parties[partyNum].members[i]].getCID(), partyInfo);
-            }
+        partyInfo.partyNum = partyNum;
+        partyInfo.index = index;
+        if (partyNum > 0) {
+            partyInfo.party = ServerVars.Parties[partyNum];
+        } else {
+            partyInfo.party = new Party();
         }
+
+        if (partyNum > 0) {
+            for (int i = 1; i <= 3; i++) {
+                if (ServerVars.Parties[partyNum].members[i] > 0) {
+                    server.sendToTCP(ServerVars.Accounts[ServerVars.Parties[partyNum].members[i]].getCID(), partyInfo);
+                    SendServerData.SendInvData(index, ServerVars.Parties[partyNum].members[i]);
+                    SendServerData.SendPlayerData(index, ServerVars.Parties[partyNum].members[i]);
+                }
+            }
+        } else {
+            server.sendToTCP(ServerVars.Accounts[index].getCID(), partyInfo);
+            SendServerData.SendInvData(index, index);
+            SendServerData.SendPlayerData(index, index);
+        }
+    }
+
+    private static double multiplication(double d1, double d2) {
+
+        double divDiff1 = 1, divDiff2 = 1;
+
+        while (d1 != Math.floor(d1)) {
+            d1 = Double.valueOf(String.format(Locale.US, "%.6f", d1 / 0.1));
+            divDiff1 = divDiff1 / 0.1;
+        }
+        while (d2 != Math.floor(d2)) {
+            d2 = Double.valueOf(String.format(Locale.US, "%.6f", d2 / 0.1));
+            divDiff2 = divDiff2 /0.1;
+        }
+
+        double mul = 0;
+        for (int i = 1; i <= d1; i++)
+            mul = mul + d2;
+
+        return mul / divDiff2 / divDiff1;
     }
 }

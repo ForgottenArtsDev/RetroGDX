@@ -7,5 +7,7 @@ import com.forgottenartsstudios.data.Party;
  */
 
 public class PartyInfo extends Packet {
+    public int index;
+    public int partyNum;
     public Party party;
 }

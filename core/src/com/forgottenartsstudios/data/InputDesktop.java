@@ -304,6 +304,92 @@ public class InputDesktop {
             }
         }
 
+        if (Variables.players[Variables.MyIndex].getParty() > 0) {
+            if (worldCoordinates.x >= 546 && worldCoordinates.x <= 633) {
+                if (worldCoordinates.y >= 420 && worldCoordinates.y <= 456) {
+                    if (!Variables.inMenu) {
+                        Variables.inMenu = true;
+                    } else {
+                        Variables.inMenu = false;
+                    }
+                }
+            }
+
+            if (Variables.MyParty.leader == Variables.MyIndex) {
+                // Disband
+                if (worldCoordinates.x >= 350 && worldCoordinates.x <= 444) {
+                    if (worldCoordinates.y >= 50 && worldCoordinates.y <= 75) {
+                        SendClientData.SendDisbandParty();
+                    }
+                }
+                // Leave
+                if (worldCoordinates.x >= 350 && worldCoordinates.x <= 425) {
+                    if (worldCoordinates.y >= 75 && worldCoordinates.y <= 94) {
+                        SendClientData.SendLeaveParty();
+                    }
+                }
+                if (Variables.MyParty.members[2] > 0) {
+                    // Appoint
+                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 438) {
+                        if (worldCoordinates.y >= 175 && worldCoordinates.y <= 195) {
+                            SendClientData.SendAppointLeader(2);
+                        }
+                    }
+                    // Kick
+                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 399) {
+                        if (worldCoordinates.y >= 195 && worldCoordinates.y <= 215) {
+                            SendClientData.SendKickMember(2);
+                        }
+                    }
+                }
+                if (Variables.MyParty.members[3] > 0) {
+                    // Appoint
+                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 438) {
+                        if (worldCoordinates.y >= 295 && worldCoordinates.y <= 315) {
+                            SendClientData.SendAppointLeader(3);
+                        }
+                    }
+                    // Kick
+                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 399) {
+                        if (worldCoordinates.y >= 315 && worldCoordinates.y <= 335) {
+                            SendClientData.SendKickMember(3);
+                        }
+                    }
+                }
+                // Drop Sort Method
+                // Round Robin
+                if (worldCoordinates.x >= 353 && worldCoordinates.x <= 444) {
+                    if (worldCoordinates.y >= 419 && worldCoordinates.y <= 433) {
+                        Variables.MyParty.dropType = Variables.DROP_SORT_ROUNDROBIN;
+                        SendClientData.SendUpdateDropType(Variables.DROP_SORT_ROUNDROBIN);
+                    }
+                }
+                // Free For All
+                if (worldCoordinates.x >= 353 && worldCoordinates.x <= 434) {
+                    if (worldCoordinates.y >= 439 && worldCoordinates.y <= 453) {
+                        Variables.MyParty.dropType = Variables.DROP_SORT_FREEFORALL;
+                        SendClientData.SendUpdateDropType(Variables.DROP_SORT_FREEFORALL);
+                    }
+                }
+            } else {
+                if (Variables.MyParty.members[2] == Variables.MyIndex) {
+                    // Leave
+                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 425) {
+                        if (worldCoordinates.y >= 185 && worldCoordinates.y <= 205) {
+                            SendClientData.SendLeaveParty();
+                        }
+                    }
+                } else if (Variables.MyParty.members[3] == Variables.MyIndex) {
+                    // Leave
+                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 425) {
+                        if (worldCoordinates.y >= 305 && worldCoordinates.y <= 225) {
+                            SendClientData.SendLeaveParty();
+                        }
+                    }
+                }
+            }
+        }
+
         if (!Variables.reloadingMap) {
             if (Variables.inShop) { handleShop(worldCoordinates); }
             if (Variables.inInventory) { handleInventory(worldCoordinates); }

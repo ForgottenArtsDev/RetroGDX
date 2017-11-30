@@ -31,8 +31,8 @@ public class AssetLoader {
     public static Texture warriorEmb, wizardEmb, clericEmb, rangerEmb, rogueEmb;
     public static Texture warriorEmbT, wizardEmbT, clericEmbT, rangerEmbT, rogueEmbT;
     public static Texture male, female;
-    public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, emptyMapBar;
-    public static Texture chatBar, playerMenu, partyInvite;
+    public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, emptyMapBar, crown;
+    public static Texture chatBar, playerMenu, partyInvite, inPartyBtn;
     public static Texture[] sprites, tiles, items;
     public static TextureRegion[] spritesUp1, spritesUp2, spritesUp3;
     public static TextureRegion[] spritesDown1, spritesDown2, spritesDown3;
@@ -94,6 +94,8 @@ public class AssetLoader {
         sepBarV.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         sepBarH = new Texture(Gdx.files.internal(clientDir + "data/ui/android/separate_bar_h.png"));
         sepBarH.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        crown = new Texture(Gdx.files.internal(clientDir + "data/ui/crown.png"));
+        crown.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         hpMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/hp_map_bar.png"));
         hpMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -223,6 +225,10 @@ public class AssetLoader {
         xpBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         emptyBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/empty_bar.png"));
         emptyBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        crown = new Texture(Gdx.files.internal(clientDir + "data/ui/crown.png"));
+        crown.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        inPartyBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/in_party_button.png"));
+        inPartyBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         hpMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/hp_map_bar.png"));
         hpMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
