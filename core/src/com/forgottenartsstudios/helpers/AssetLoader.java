@@ -33,6 +33,7 @@ public class AssetLoader {
     public static Texture male, female;
     public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, emptyMapBar, crown;
     public static Texture chatBar, playerMenu, partyInvite, inPartyBtn;
+    public static Texture disbandBtn, kickBtn, leaveBtn, appointBtn;
     public static Texture[] sprites, tiles, items;
     public static TextureRegion[] spritesUp1, spritesUp2, spritesUp3;
     public static TextureRegion[] spritesDown1, spritesDown2, spritesDown3;
@@ -130,6 +131,15 @@ public class AssetLoader {
         rogueEmb.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         rogueEmbT = new Texture(Gdx.files.internal(clientDir + "data/ui/android/rogue_emblem_tran.png"));
         rogueEmbT.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        disbandBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/disband_btn.png"));
+        disbandBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        kickBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/kick_btn.png"));
+        kickBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        leaveBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/leave_btn.png"));
+        leaveBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        appointBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/appoint_btn.png"));
+        appointBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         sprites = new Texture[Variables.MaxSprites + 1];
 
@@ -263,6 +273,15 @@ public class AssetLoader {
         rogueEmb.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         rogueEmbT = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/rogue_emblem_tran.png"));
         rogueEmbT.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        disbandBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/disband_btn.png"));
+        disbandBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        kickBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/kick_btn.png"));
+        kickBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        leaveBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/leave_btn.png"));
+        leaveBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        appointBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/appoint_btn.png"));
+        appointBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         sprites = new Texture[Variables.MaxSprites + 1];
 

@@ -317,41 +317,41 @@ public class InputDesktop {
 
             if (Variables.MyParty.leader == Variables.MyIndex) {
                 // Disband
-                if (worldCoordinates.x >= 350 && worldCoordinates.x <= 444) {
-                    if (worldCoordinates.y >= 50 && worldCoordinates.y <= 75) {
+                if (worldCoordinates.x >= 330 && worldCoordinates.x <= 362) {
+                    if (worldCoordinates.y >= 35 && worldCoordinates.y <= 67) {
                         SendClientData.SendDisbandParty();
                     }
                 }
                 // Leave
-                if (worldCoordinates.x >= 350 && worldCoordinates.x <= 425) {
-                    if (worldCoordinates.y >= 75 && worldCoordinates.y <= 94) {
+                if (worldCoordinates.x >= 330 && worldCoordinates.x <= 362) {
+                    if (worldCoordinates.y >= 70 && worldCoordinates.y <= 102) {
                         SendClientData.SendLeaveParty();
                     }
                 }
                 if (Variables.MyParty.members[2] > 0) {
                     // Appoint
-                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 438) {
-                        if (worldCoordinates.y >= 175 && worldCoordinates.y <= 195) {
+                    if (worldCoordinates.x >= 330 && worldCoordinates.x <= 362) {
+                        if (worldCoordinates.y >= 155 && worldCoordinates.y <= 187) {
                             SendClientData.SendAppointLeader(2);
                         }
                     }
                     // Kick
-                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 399) {
-                        if (worldCoordinates.y >= 195 && worldCoordinates.y <= 215) {
+                    if (worldCoordinates.x >= 330 && worldCoordinates.x <= 362) {
+                        if (worldCoordinates.y >= 190 && worldCoordinates.y <= 222) {
                             SendClientData.SendKickMember(2);
                         }
                     }
                 }
                 if (Variables.MyParty.members[3] > 0) {
                     // Appoint
-                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 438) {
-                        if (worldCoordinates.y >= 295 && worldCoordinates.y <= 315) {
+                    if (worldCoordinates.x >= 330 && worldCoordinates.x <= 362) {
+                        if (worldCoordinates.y >= 275 && worldCoordinates.y <= 307) {
                             SendClientData.SendAppointLeader(3);
                         }
                     }
                     // Kick
-                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 399) {
-                        if (worldCoordinates.y >= 315 && worldCoordinates.y <= 335) {
+                    if (worldCoordinates.x >= 330 && worldCoordinates.x <= 362) {
+                        if (worldCoordinates.y >= 310 && worldCoordinates.y <= 342) {
                             SendClientData.SendKickMember(3);
                         }
                     }
@@ -374,15 +374,15 @@ public class InputDesktop {
             } else {
                 if (Variables.MyParty.members[2] == Variables.MyIndex) {
                     // Leave
-                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 425) {
-                        if (worldCoordinates.y >= 185 && worldCoordinates.y <= 205) {
+                    if (worldCoordinates.x >= 330 && worldCoordinates.x <= 362) {
+                        if (worldCoordinates.y >= 175 && worldCoordinates.y <= 207) {
                             SendClientData.SendLeaveParty();
                         }
                     }
                 } else if (Variables.MyParty.members[3] == Variables.MyIndex) {
                     // Leave
-                    if (worldCoordinates.x >= 350 && worldCoordinates.x <= 425) {
-                        if (worldCoordinates.y >= 305 && worldCoordinates.y <= 225) {
+                    if (worldCoordinates.x >= 330 && worldCoordinates.x <= 362) {
+                        if (worldCoordinates.y >= 305 && worldCoordinates.y <= 337) {
                             SendClientData.SendLeaveParty();
                         }
                     }
@@ -412,6 +412,7 @@ public class InputDesktop {
     public static void checkPickUp() {
         if (Variables.pickUpItem) {
             SendClientData.SendPickUpItem();
+            Variables.pickUpItem = false;
         }
     }
     public static void checkMovement() {

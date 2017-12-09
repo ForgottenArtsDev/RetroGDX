@@ -421,19 +421,124 @@ public class InputAndroid {
             if (worldCoordinates.x >= 136 && worldCoordinates.x <= 336) {
                 if (worldCoordinates.y >= 91 && worldCoordinates.y <= 391) {
                     // Party
-                    if (worldCoordinates.x >= 150 && worldCoordinates.x <= 301) {
-                        if (worldCoordinates.y >= 107 && worldCoordinates.y <= 135) {
+                    if (worldCoordinates.x >= 166 && worldCoordinates.x <= 317) {
+                        if (worldCoordinates.y >= 123 && worldCoordinates.y <= 151) {
                             SendClientData.SendPartyInvite();
+                            Variables.target = 0;
                         }
                     }
                     // Trade
-                    if (worldCoordinates.x >= 185 && worldCoordinates.x <= 265) {
-                        if (worldCoordinates.y >= 180 && worldCoordinates.y <= 210) {
+                    if (worldCoordinates.x >= 201 && worldCoordinates.x <= 281) {
+                        if (worldCoordinates.y >= 196 && worldCoordinates.y <= 226) {
 
                         }
                     }
                 } else { Variables.target = 0; }
             } else { Variables.target = 0; }
+
+            if (Variables.PartyInvite) {
+                if (worldCoordinates.x >= 146 && worldCoordinates.x <= 198) {
+                    if (worldCoordinates.y >= 267 && worldCoordinates.y <= 284) {
+                        SendClientData.SendPartyDecision(true);
+                        Variables.PartyInvite = false;
+                        Variables.PartyLeader = 0;
+                    }
+                }
+                if (worldCoordinates.x >= 272 && worldCoordinates.x <= 327) {
+                    if (worldCoordinates.y >= 267 && worldCoordinates.y <= 284) {
+                        SendClientData.SendPartyDecision(false);
+                        Variables.PartyInvite = false;
+                        Variables.PartyLeader = 0;
+                    }
+                }
+            }
+
+            if (Variables.players[Variables.MyIndex].getParty() > 0) {
+                if (worldCoordinates.x >= 554 && worldCoordinates.x <= 643) {
+                    if (worldCoordinates.y >= 420 && worldCoordinates.y <= 464) {
+                        if (!Variables.inMenu) {
+                            Variables.inMenu = true;
+                        } else {
+                            Variables.inMenu = false;
+                        }
+                    }
+                }
+
+                if (Variables.MyParty.leader == Variables.MyIndex) {
+                    // Disband
+                    if (worldCoordinates.x >= 280 && worldCoordinates.x <= 312) {
+                        if (worldCoordinates.y >= 43 && worldCoordinates.y <= 75) {
+                            SendClientData.SendDisbandParty();
+                        }
+                    }
+                    // Leave
+                    if (worldCoordinates.x >= 280 && worldCoordinates.x <= 312) {
+                        if (worldCoordinates.y >= 78 && worldCoordinates.y <= 110) {
+                            SendClientData.SendLeaveParty();
+                        }
+                    }
+                    if (Variables.MyParty.members[2] > 0) {
+                        // Appoint
+                        if (worldCoordinates.x >= 280 && worldCoordinates.x <= 312) {
+                            if (worldCoordinates.y >= 163 && worldCoordinates.y <= 195) {
+                                SendClientData.SendAppointLeader(2);
+                            }
+                        }
+                        // Kick
+                        if (worldCoordinates.x >= 280 && worldCoordinates.x <= 312) {
+                            if (worldCoordinates.y >= 198 && worldCoordinates.y <= 230) {
+                                SendClientData.SendKickMember(2);
+                            }
+                        }
+                    }
+                    if (Variables.MyParty.members[3] > 0) {
+                        // Appoint
+                        if (worldCoordinates.x >= 280 && worldCoordinates.x <= 312) {
+                            if (worldCoordinates.y >= 283 && worldCoordinates.y <= 315) {
+                                SendClientData.SendAppointLeader(3);
+                            }
+                        }
+                        // Kick
+                        if (worldCoordinates.x >= 280 && worldCoordinates.x <= 312) {
+                            if (worldCoordinates.y >= 318 && worldCoordinates.y <= 350) {
+                                SendClientData.SendKickMember(3);
+                            }
+                        }
+                    }
+                    // Drop Sort Method
+                    // Round Robin
+                    if (worldCoordinates.x >= 363 && worldCoordinates.x <= 452) {
+                        if (worldCoordinates.y >= 427 && worldCoordinates.y <= 441) {
+                            Variables.MyParty.dropType = Variables.DROP_SORT_ROUNDROBIN;
+                            SendClientData.SendUpdateDropType(Variables.DROP_SORT_ROUNDROBIN);
+                        }
+                    }
+                    // Free For All
+                    if (worldCoordinates.x >= 363 && worldCoordinates.x <= 442) {
+                        if (worldCoordinates.y >= 447 && worldCoordinates.y <= 461) {
+                            Variables.MyParty.dropType = Variables.DROP_SORT_FREEFORALL;
+                            SendClientData.SendUpdateDropType(Variables.DROP_SORT_FREEFORALL);
+                        }
+                    }
+                } else {
+                    if (Variables.MyParty.members[2] == Variables.MyIndex) {
+                        // Leave
+                        if (worldCoordinates.x >= 280 && worldCoordinates.x <= 312) {
+                            if (worldCoordinates.y >= 191 && worldCoordinates.y <= 223) {
+                                SendClientData.SendLeaveParty();
+                            }
+                        }
+                    } else if (Variables.MyParty.members[3] == Variables.MyIndex) {
+                        // Leave
+                        if (worldCoordinates.x >= 280 && worldCoordinates.x <= 312) {
+                            if (worldCoordinates.y >= 321 && worldCoordinates.y <= 353) {
+                                SendClientData.SendLeaveParty();
+                            }
+                        }
+                    }
+                }
+            }
+
             if (Variables.inShop) { handleShop(worldCoordinates); }
             if (Variables.inInventory) { handleInventory(worldCoordinates); }
             if (Variables.inStatus) { handleStatus(worldCoordinates); }
@@ -455,6 +560,7 @@ public class InputAndroid {
     public static void checkPickUp() {
         if (Variables.pickUpItem) {
             SendClientData.SendPickUpItem();
+            Variables.pickUpItem = false;
         }
     }
     public static void checkMovement() {

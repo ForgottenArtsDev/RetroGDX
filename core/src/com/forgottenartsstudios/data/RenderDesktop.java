@@ -1299,17 +1299,17 @@ public class RenderDesktop {
                 if (Variables.MyParty.members[i] > 0) {
                     if (Variables.MyIndex == Variables.MyParty.leader) {
                         // Disband/Leave
-                        drawText("Disband", 350, 55, Color.YELLOW);
-                        drawText("Leave", 350, 75, Color.YELLOW);
+                        batcher.draw(AssetLoader.disbandBtn, 330, 35, 32, 32, 0, 0, 32, 32, false, true);
+                        batcher.draw(AssetLoader.leaveBtn, 330, 70, 32, 32, 0, 0, 32, 32, false, true);
 
                         // Appoint/Kick
                         if (Variables.MyParty.members[2] > 0) {
-                            drawText("Appoint", 350, 175, Color.YELLOW);
-                            drawText("Kick", 350, 195, Color.YELLOW);
+                            batcher.draw(AssetLoader.appointBtn, 330, 155, 32, 32, 0, 0, 32, 32, false, true);
+                            batcher.draw(AssetLoader.kickBtn, 330, 190, 32, 32, 0, 0, 32, 32, false, true);
                         }
                         if (Variables.MyParty.members[3] > 0) {
-                            drawText("Appoint", 350, 295, Color.YELLOW);
-                            drawText("Kick", 350, 315, Color.YELLOW);
+                            batcher.draw(AssetLoader.appointBtn, 330, 275, 32, 32, 0, 0, 32, 32, false, true);
+                            batcher.draw(AssetLoader.kickBtn, 330, 310, 32, 32, 0, 0, 32, 32, false, true);
                         }
 
                         drawName("Drop Sorting:", 355, 401, Color.YELLOW);
@@ -1325,9 +1325,9 @@ public class RenderDesktop {
                         }
                     } else {
                         if (Variables.MyParty.members[2] == Variables.MyIndex) {
-                            drawText("Leave", 350, 185, Color.YELLOW);
+                            batcher.draw(AssetLoader.leaveBtn, 330, 175, 32, 32, 0, 0, 32, 32, false, true);
                         } else if (Variables.MyParty.members[3] == Variables.MyIndex) {
-                            drawText("Leave", 350, 305, Color.YELLOW);
+                            batcher.draw(AssetLoader.leaveBtn, 330, 305, 32, 32, 0, 0, 32, 32, false, true);
                         }
                     }
                     // Player Sprite
@@ -1835,7 +1835,7 @@ public class RenderDesktop {
                         GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 8, PlayerY + 40, 32, 4);
 
                         double maxWidth = ((((double) Variables.players[Variables.MyIndex].getHP()) / 32) / ((double) Variables.players[Variables.MyIndex].getMaxHP() / 32) * 32);
-                        batcher.draw(AssetLoader.hpBar, 532, 150, (int) maxWidth, 12, 0, 0, (int) maxWidth, 12, false, true);
+                        //batcher.draw(AssetLoader.hpBar, 532, 150, (int) maxWidth, 12, 0, 0, (int) maxWidth, 12, false, true);
                         GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 8, PlayerY + 40, (int) maxWidth, 4);
                     }
 
@@ -2032,7 +2032,7 @@ public class RenderDesktop {
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_PARTY) {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.SKY);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_SYSTEM) {
-                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.LIGHT_GRAY);
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.GOLD);
                 }
             }
         } else {
@@ -2047,7 +2047,7 @@ public class RenderDesktop {
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_PARTY) {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.SKY);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_SYSTEM) {
-                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.LIGHT_GRAY);
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.GOLD);
                 }
                 line++;
             }

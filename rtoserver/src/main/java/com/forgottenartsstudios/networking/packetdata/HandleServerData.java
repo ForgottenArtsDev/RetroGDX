@@ -261,6 +261,20 @@ public class HandleServerData {
             SendServerData.SendItems(index, i);
         }
 
+        SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Welcome to Retro Tales Online! This is an alpha build. Please bear with us.");
+        SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Type /help to get help with chat commands.");
+
+        int totalOnline = 0;
+        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+            if (ServerVars.Players[i] != null) {
+                if (ServerVars.Players[i].getName() != null && !ServerVars.Players[i].getName().isEmpty()) {
+                    totalOnline++;
+                }
+            }
+        }
+
+        SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Total Online Players: " + totalOnline);
+
         SendServerData.SendMapItems(ServerVars.Players[index].getMap());
     }
     public static void HandleMovePlayer(Object object) {
@@ -955,22 +969,9 @@ public class HandleServerData {
 
         int index = sendPickUpItem.index;
         int pNum = ServerVars.Players[index].getParty();
+        int dropIndex = 0;
 
-        if (pNum > 0) {
-            if (ServerVars.Parties[pNum].dropType == ServerVars.DROP_SORT_ROUNDROBIN) {
-                int dropIndex = ServerVars.Parties[pNum].dropIndex;
-                if (ServerVars.Parties[pNum].members[dropIndex] > 0) {
-                    index = ServerVars.Parties[pNum].members[dropIndex];
-                    if (dropIndex == 1) {
-                        ServerVars.Parties[pNum].dropIndex = 2;
-                    } else if (dropIndex == 2) {
-                        ServerVars.Parties[pNum].dropIndex = 3;
-                    } else if (dropIndex == 3) {
-                        ServerVars.Parties[pNum].dropIndex = 1;
-                    } 
-                }
-            }
-        }
+        System.out.println("pNum: " + pNum);
 
         for (int i = 1; i <= ServerVars.MaxMapItems; i++) {
             int mapNum = ServerVars.Players[index].getMap();
@@ -984,6 +985,47 @@ public class HandleServerData {
             int pY = ServerVars.Players[index].getY();
             boolean itemPlaced = false;
             if (x == pX && y == pY) {
+                if (pNum > 0) {
+                    if (ServerVars.Parties[pNum].dropType == ServerVars.DROP_SORT_ROUNDROBIN) {
+                        dropIndex = ServerVars.Parties[pNum].dropIndex;
+                        if (ServerVars.Parties[pNum].members[dropIndex] > 0) {
+                            if (dropIndex == 1) {
+                                if (ServerVars.Parties[pNum].members[2] > 0) {
+                                    ServerVars.Parties[pNum].dropIndex = 2;
+                                } else if (ServerVars.Parties[pNum].members[3] > 0) {
+                                    ServerVars.Parties[pNum].dropIndex = 3;
+                                } else {
+                                    ServerVars.Parties[pNum].dropIndex = 1;
+                                }
+                            } else if (dropIndex == 2) {
+                                if (ServerVars.Parties[pNum].members[3] > 0) {
+                                    ServerVars.Parties[pNum].dropIndex = 3;
+                                } else if (ServerVars.Parties[pNum].members[1] > 0) {
+                                    ServerVars.Parties[pNum].dropIndex = 1;
+                                } else {
+                                    ServerVars.Parties[pNum].dropIndex = 2;
+                                }
+                            } else if (dropIndex == 3) {
+                                if (ServerVars.Parties[pNum].members[1] > 0) {
+                                    ServerVars.Parties[pNum].dropIndex = 1;
+                                } else if (ServerVars.Parties[pNum].members[2] > 0) {
+                                    ServerVars.Parties[pNum].dropIndex = 2;
+                                } else {
+                                    ServerVars.Parties[pNum].dropIndex = 3;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (pNum > 0) {
+                    if (ServerVars.Parties[pNum].dropType == ServerVars.DROP_SORT_ROUNDROBIN) {
+                        if (index != ServerVars.Parties[pNum].members[dropIndex]) {
+                            index = ServerVars.Parties[pNum].members[dropIndex];
+                        }
+                    }
+                }
+
                 if (ServerVars.Items[ServerVars.MapItems[mapNum].Item[i].itemNum].isStackable == 1) {
                     for (int a = 1; a <= 60; a++) {
                         if (ServerVars.Players[index].inventory[a].getItemNum() == ServerVars.MapItems[mapNum].Item[i].itemNum) {
