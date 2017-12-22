@@ -513,7 +513,7 @@ public class LoadData {
             clearSpell(LoopI);
             loadSpell(LoopI);
         }
-    }
+    } 
     public static void loadSpell(int spellNum) {
         String absoPath = new File("").getAbsolutePath();
         String fileName = absoPath + "\\rtoserver\\data\\spells\\" + spellNum + ".dat";
