@@ -1,6 +1,10 @@
 package com.forgottenartsstudios.editorsuite;
 
 import com.badlogic.gdx.Game;
+import com.forgottenartsstudios.data.Item_Struct;
+import com.forgottenartsstudios.data.NPC_Struct;
+import com.forgottenartsstudios.data.Shop_Struct;
+import com.forgottenartsstudios.data.Spell_Struct;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -57,23 +61,29 @@ public class editorSuite extends Game {
         editorVars.Player.setIsMoving(0);
         editorVars.Player.setMap(1);
 
-        editorVars.npcs = new com.forgottenartsstudios.data.NPC_Struct[editorVars.maxNPCs + 1];
+        editorVars.npcs = new NPC_Struct[editorVars.maxNPCs + 1];
         for (int i = 1; i <= editorVars.maxNPCs; i++) {
-            editorVars.npcs[i] = new com.forgottenartsstudios.data.NPC_Struct();
+            editorVars.npcs[i] = new NPC_Struct();
             editorLoadData.clearNPC(i);
             editorAssetLoader.loadNPC(i);
         }
-        editorVars.items = new com.forgottenartsstudios.data.Item_Struct[editorVars.maxItems + 1];
+        editorVars.items = new Item_Struct[editorVars.maxItems + 1];
         for (int i = 1; i <= editorVars.maxItems; i++) {
-            editorVars.items[i] = new com.forgottenartsstudios.data.Item_Struct();
+            editorVars.items[i] = new Item_Struct();
             editorLoadData.clearItem(i);
             editorAssetLoader.loadItem(i);
         }
-        editorVars.shops = new com.forgottenartsstudios.data.Shop_Struct[editorVars.maxShops + 1];
+        editorVars.shops = new Shop_Struct[editorVars.maxShops + 1];
         for (int i = 1; i <= editorVars.maxShops; i++) {
-            editorVars.shops[i] = new com.forgottenartsstudios.data.Shop_Struct();
+            editorVars.shops[i] = new Shop_Struct();
             editorLoadData.clearShop(i);
             editorAssetLoader.loadShop(i);
+        }
+        editorVars.spells = new Spell_Struct[editorVars.maxSpells + 1];
+        for (int i = 1; i <= editorVars.maxSpells; i++) {
+            editorVars.spells[i] = new Spell_Struct();
+            editorLoadData.clearSpell(i);
+            editorAssetLoader.loadSpell(i);
         }
 
         editorVars.toolBox = new JFrame();
@@ -89,6 +99,7 @@ public class editorSuite extends Game {
         itemSpawn.create();
         warpTile.create();
         shopEditor.create();
+        spellEditor.create();
 
         JPanel toolBox = new JPanel();
         editorVars.tileBox = new JLabel();

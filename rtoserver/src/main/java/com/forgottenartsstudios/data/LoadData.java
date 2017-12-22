@@ -474,4 +474,70 @@ public class LoadData {
             System.exit(0);
         }
     }
+    public static void checkSpells() {
+        ServerVars.Spells = new Spell_Struct[ServerVars.MaxSpells + 1];
+        for (int i = 1; i <= ServerVars.MaxSpells; i++) {
+            ServerVars.Spells[i] = new Spell_Struct();
+        }
+        for (int i = 1; i <= ServerVars.MaxSpells; i++) {
+            String absoPath = new File("").getAbsolutePath();
+            String fileName = absoPath + "\\rtoserver\\data\\spells\\" + i + ".dat";
+            File f = new File(fileName);
+            if(!f.exists() && !f.isDirectory()) {
+                clearSpell(i);
+                SaveData.saveSpell(i);
+            }
+        }
+    }
+    public static void clearSpell(int spellNum) {
+        ServerVars.Spells[spellNum].Name = "";
+        ServerVars.Spells[spellNum].Type = 0;
+        ServerVars.Spells[spellNum].Icon = 0;
+
+        ServerVars.Spells[spellNum].LevelReq = 0;
+        ServerVars.Spells[spellNum].ClassReq = 0;
+
+        ServerVars.Spells[spellNum].Animation = 0;
+        ServerVars.Spells[spellNum].AnimSpeed = 0;
+
+        ServerVars.Spells[spellNum].CastTime = 0;
+        ServerVars.Spells[spellNum].CoolDown = 0;
+
+        ServerVars.Spells[spellNum].MPCost = 0;
+        ServerVars.Spells[spellNum].DmgHealAmt = 0;
+    }
+    public static void loadSpells() {
+        checkSpells();
+        for (int LoopI = 1; LoopI <= ServerVars.MaxSpells; LoopI++)
+        {
+            clearSpell(LoopI);
+            loadSpell(LoopI);
+        }
+    }
+    public static void loadSpell(int spellNum) {
+        String absoPath = new File("").getAbsolutePath();
+        String fileName = absoPath + "\\rtoserver\\data\\spells\\" + spellNum + ".dat";
+
+        File f = new File(fileName);
+        if(!f.exists() && !f.isDirectory()) {
+            return;
+        }
+
+        ObjectInputStream inputStream = null;
+        try{
+            inputStream = new ObjectInputStream(new FileInputStream(fileName));
+        }catch(IOException e){
+            System.out.println("There was a problem opening the file: " + e);
+            System.exit(0);
+        }
+
+        try{
+            ServerVars.Spells[spellNum] = (Spell_Struct) inputStream.readObject();
+
+            inputStream.close();
+        }catch(Exception e){
+            System.out.println("There was an issue reading from the file: " + e);
+            System.exit(0);
+        }
+    }
 }

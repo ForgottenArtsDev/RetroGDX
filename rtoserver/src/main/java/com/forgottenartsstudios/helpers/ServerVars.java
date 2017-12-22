@@ -7,6 +7,7 @@ import com.forgottenartsstudios.data.NPC_Struct;
 import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
+import com.forgottenartsstudios.data.Spell_Struct;
 import com.forgottenartsstudios.data.mapData;
 import com.forgottenartsstudios.data.mapData_Struct;
 
@@ -27,6 +28,7 @@ public class ServerVars {
     public static final int MaxNPCs = 200;
     public static final int MaxItems = 200;
     public static final int MaxShops = 200;
+    public static final int MaxSpells = 200;
     public static final int MaxMapNPCs = 5;
     public static final int MaxMapItems = 20;
     public static final int MaxParties = 100;
@@ -38,6 +40,7 @@ public class ServerVars {
     public static NPC_Struct[] npcs = new NPC_Struct[MaxMaps + 1];
     public static Item_Struct[] Items = new Item_Struct[MaxItems + 1];
     public static Shop_Struct[] Shops = new Shop_Struct[MaxShops + 1];
+    public static Spell_Struct[] Spells = new Spell_Struct[MaxSpells + 1];
     public static mapData_Struct[] MapItems = new mapData_Struct[MaxMapItems + 1];
     public static Party[] Parties = new Party[MaxParties + 1];
     public static Random Rnd = new Random();
@@ -72,6 +75,11 @@ public class ServerVars {
     public static final int TILE_TYPE_HEAL = 12;
     public static final int TILE_TYPE_TRAP = 13;
     public static final int TILE_TYPE_SIGN = 14;
+
+    // Spell types
+    public static final int SPELL_TYPE_DAMAGE = 1;
+    public static final int SPELL_TYPE_HEAL = 2;
+    public static final int SPELL_TYPE_REVIVE = 3;
 
     // Message types
     public static final int MESSAGE_TYPE_MAP = 1;

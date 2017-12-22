@@ -71,6 +71,8 @@ public class RTOServer extends ApplicationAdapter {
         LoadData.loadItems();
         serverWindow.svrMonitor.append("Loading shops.." + "\n");
         LoadData.loadShops();
+        serverWindow.svrMonitor.append("Loading spells.." + "\n");
+        LoadData.loadSpells();
         serverWindow.svrMonitor.append("Spawning NPCs.." + "\n");
         ServerVars.MapNPCs = new mapData_Struct[ServerVars.MaxMaps + 1];
         General.SpawnAllNpcs();

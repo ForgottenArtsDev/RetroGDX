@@ -59,6 +59,10 @@ public class editorInputHandler implements InputProcessor {
             if (!editorVars.shopEditor.isVisible()) {
                 editorVars.shopEditor.setVisible(true);
             }
+        } else if (Gdx.input.isKeyPressed(Input.Keys.K)) {
+            if (!editorVars.spellEditor.isVisible()) {
+                editorVars.spellEditor.setVisible(true);
+            }
         }
 
         return false;
