@@ -31,10 +31,10 @@ public class AssetLoader {
     public static Texture warriorEmb, wizardEmb, clericEmb, rangerEmb, rogueEmb;
     public static Texture warriorEmbT, wizardEmbT, clericEmbT, rangerEmbT, rogueEmbT;
     public static Texture male, female;
-    public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, emptyMapBar, crown;
+    public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, ctMapBar, emptyMapBar, crown;
     public static Texture chatBar, playerMenu, partyInvite, inPartyBtn;
     public static Texture disbandBtn, kickBtn, leaveBtn, appointBtn;
-    public static Texture[] sprites, tiles, items;
+    public static Texture[] sprites, tiles, items, icons, anims;
     public static TextureRegion[] spritesUp1, spritesUp2, spritesUp3;
     public static TextureRegion[] spritesDown1, spritesDown2, spritesDown3;
     public static TextureRegion[] spritesLeft1, spritesLeft2, spritesLeft3;
@@ -100,6 +100,8 @@ public class AssetLoader {
 
         hpMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/hp_map_bar.png"));
         hpMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        ctMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/ct_map_bar.png"));
+        ctMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         emptyMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/empty_map_bar.png"));
         emptyMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
@@ -198,6 +200,16 @@ public class AssetLoader {
             items[i] = new Texture(Gdx.files.internal(clientDir + "data/items/" + i + ".png"));
             items[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         }
+        icons = new Texture[Variables.MaxSpellIcons + 1];
+        for (int i = 1; i <= Variables.MaxSpellIcons; i++) {
+            icons[i] = new Texture(Gdx.files.internal(clientDir + "data/icons/" + i + ".png"));
+            icons[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+        anims = new Texture[Variables.MaxAnims + 1];
+        for (int i = 1; i <= Variables.MaxAnims; i++) {
+            anims[i] = new Texture(Gdx.files.internal(clientDir + "data/spells/" + i + ".png"));
+            anims[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
 
         font = new BitmapFont(Gdx.files.internal(clientDir + "data/fonts/font.fnt"));
         font.getData().setScale(1f, -1f);
@@ -242,6 +254,8 @@ public class AssetLoader {
 
         hpMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/hp_map_bar.png"));
         hpMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        ctMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/ct_map_bar.png"));
+        ctMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         emptyMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/empty_map_bar.png"));
         emptyMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
@@ -339,6 +353,16 @@ public class AssetLoader {
         for (int i = 1; i <= Variables.MaxIcons; i++) {
             items[i] = new Texture(Gdx.files.internal(clientDir + "data/items/" + i + ".png"));
             items[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+        icons = new Texture[Variables.MaxSpellIcons + 1];
+        for (int i = 1; i <= Variables.MaxSpellIcons; i++) {
+            icons[i] = new Texture(Gdx.files.internal(clientDir + "data/icons/" + i + ".png"));
+            icons[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+        anims = new Texture[Variables.MaxAnims + 1];
+        for (int i = 1; i <= Variables.MaxAnims; i++) {
+            anims[i] = new Texture(Gdx.files.internal(clientDir + "data/spells/" + i + ".png"));
+            anims[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         }
 
         font = new BitmapFont(Gdx.files.internal(clientDir + "data/fonts/font.fnt"));

@@ -40,6 +40,8 @@ public class InputHandler implements InputProcessor {
         Variables.pressRight = false;
         Variables.pressAttack = false;
         Variables.pickUpItem = false;
+        Variables.hotKeyQ = false;
+        Variables.hotKeyE = false;
         return false;
     }
 

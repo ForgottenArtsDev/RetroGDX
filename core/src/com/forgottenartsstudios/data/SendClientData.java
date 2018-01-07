@@ -13,6 +13,7 @@ import com.forgottenartsstudios.networking.packets.MovePlayer;
 import com.forgottenartsstudios.networking.packets.NewAccount;
 import com.forgottenartsstudios.networking.packets.PartyDecision;
 import com.forgottenartsstudios.networking.packets.SendBuyItem;
+import com.forgottenartsstudios.networking.packets.SendCastSpell;
 import com.forgottenartsstudios.networking.packets.SendDropItem;
 import com.forgottenartsstudios.networking.packets.SendMessage;
 import com.forgottenartsstudios.networking.packets.SendPartyInvite;
@@ -21,6 +22,7 @@ import com.forgottenartsstudios.networking.packets.SendSearch;
 import com.forgottenartsstudios.networking.packets.SendTryAttack;
 import com.forgottenartsstudios.networking.packets.SendUseItem;
 import com.forgottenartsstudios.networking.packets.SendUsePoint;
+import com.forgottenartsstudios.networking.packets.SetHotKey;
 import com.forgottenartsstudios.networking.packets.UpdatePartyDropType;
 
 import static com.forgottenartsstudios.rtonline.RTOnline.client;
@@ -65,15 +67,15 @@ public class SendClientData {
     public static void SendMovePlayer(int dir) {
         MovePlayer mPlayer = new MovePlayer();
         mPlayer.Index = Variables.MyIndex;
-        mPlayer.Map = Variables.players[Variables.MyIndex].getMap();
-        mPlayer.X = Variables.players[Variables.MyIndex].getX();
-        mPlayer.Y = Variables.players[Variables.MyIndex].getY();
+        mPlayer.Map = Variables.Players[Variables.MyIndex].getMap();
+        mPlayer.X = Variables.Players[Variables.MyIndex].getX();
+        mPlayer.Y = Variables.Players[Variables.MyIndex].getY();
         mPlayer.Dir = dir;
         client.sendTCP(mPlayer);
 
         int X = mPlayer.X;
         int Y = mPlayer.Y;
-        int Map = Variables.players[Variables.MyIndex].getMap();
+        int Map = Variables.Players[Variables.MyIndex].getMap();
 
         boolean canMove;
 
@@ -84,12 +86,12 @@ public class SendClientData {
                 } else {
                     canMove = TileIsOpen(Map, X, Y - 1);
                     if (canMove) {
-                        Variables.players[Variables.MyIndex].setY(Y - 1);
-                        Variables.players[Variables.MyIndex].setOffsetY(32);
-                        Variables.players[Variables.MyIndex].setMoving(1);
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setY(Y - 1);
+                        Variables.Players[Variables.MyIndex].setOffsetY(32);
+                        Variables.Players[Variables.MyIndex].setMoving(1);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     } else {
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
@@ -99,12 +101,12 @@ public class SendClientData {
                 } else {
                     canMove = TileIsOpen(Map, X, Y + 1);
                     if (canMove) {
-                        Variables.players[Variables.MyIndex].setY(Y + 1);
-                        Variables.players[Variables.MyIndex].setOffsetY(32 * -1);
-                        Variables.players[Variables.MyIndex].setMoving(1);
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setY(Y + 1);
+                        Variables.Players[Variables.MyIndex].setOffsetY(32 * -1);
+                        Variables.Players[Variables.MyIndex].setMoving(1);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     } else {
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
@@ -115,12 +117,12 @@ public class SendClientData {
                 } else {
                     canMove = TileIsOpen(Map, X - 1, Y);
                     if (canMove) {
-                        Variables.players[Variables.MyIndex].setX(X - 1);
-                        Variables.players[Variables.MyIndex].setOffsetX(32);
-                        Variables.players[Variables.MyIndex].setMoving(1);
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setX(X - 1);
+                        Variables.Players[Variables.MyIndex].setOffsetX(32);
+                        Variables.Players[Variables.MyIndex].setMoving(1);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     } else {
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
@@ -130,12 +132,12 @@ public class SendClientData {
                 } else {
                     canMove = TileIsOpen(Map, X + 1, Y);
                     if (canMove) {
-                        Variables.players[Variables.MyIndex].setX(X + 1);
-                        Variables.players[Variables.MyIndex].setOffsetX(32 * -1);
-                        Variables.players[Variables.MyIndex].setMoving(1);
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setX(X + 1);
+                        Variables.Players[Variables.MyIndex].setOffsetX(32 * -1);
+                        Variables.Players[Variables.MyIndex].setMoving(1);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     } else {
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
@@ -156,7 +158,7 @@ public class SendClientData {
         sndSearch.targetIndex = targetNum;
         sndSearch.x = X;
         sndSearch.y = Y;
-        sndSearch.mapNum = Variables.players[Variables.MyIndex].getMap();
+        sndSearch.mapNum = Variables.Players[Variables.MyIndex].getMap();
 
         client.sendTCP(sndSearch);
     }
@@ -191,11 +193,11 @@ public class SendClientData {
 
         if (Variables.inInventory) {
             if (invSlot > 0) {
-                if (Variables.players[Variables.MyIndex].inventory[invSlot].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[invSlot].getItemNum() > 0) {
                     sendDropItem.index = Variables.MyIndex;
                     sendDropItem.invSlot = invSlot;
-                    sendDropItem.x = Variables.players[Variables.MyIndex].getX();
-                    sendDropItem.y = Variables.players[Variables.MyIndex].getY();
+                    sendDropItem.x = Variables.Players[Variables.MyIndex].getX();
+                    sendDropItem.y = Variables.Players[Variables.MyIndex].getY();
                     client.sendTCP(sendDropItem);
                 }
             }
@@ -304,16 +306,33 @@ public class SendClientData {
 
         client.sendTCP(uPDT);
     }
+    public static void SendUseHotKey(int hotKey) {
+        SendCastSpell sendCastSpell = new SendCastSpell();
+
+        sendCastSpell.index = Variables.MyIndex;
+        sendCastSpell.hotKey = hotKey;
+
+        client.sendTCP(sendCastSpell);
+    }
+    public static void SendSetHotKey(int hotKey, int hotKeyNum) {
+        SetHotKey setHotKey = new SetHotKey();
+
+        setHotKey.index = Variables.MyIndex;
+        setHotKey.hotKey = hotKey;
+        setHotKey.hotKeyVal = hotKeyNum;
+
+        client.sendTCP(setHotKey);
+    }
 
     public static boolean TileIsOpen(int mapNum, int X, int Y) {
         // CHECK FOR PLAYERS ON MAP //
         //if (Static.PlayersOnMap[mapNum])
         //{
         for (int LoopI = 1; LoopI <= Variables.MaxPlayers; LoopI++) {
-            if (Variables.players[LoopI] != null) {
-                if (Variables.players[LoopI].getMap() == mapNum) {
-                    if (Variables.players[LoopI].getX() == X) {
-                        if (Variables.players[LoopI].getY() == Y) {
+            if (Variables.Players[LoopI] != null) {
+                if (Variables.Players[LoopI].getMap() == mapNum) {
+                    if (Variables.Players[LoopI].getX() == X) {
+                        if (Variables.Players[LoopI].getY() == Y) {
                             return false;
                         }
                     }

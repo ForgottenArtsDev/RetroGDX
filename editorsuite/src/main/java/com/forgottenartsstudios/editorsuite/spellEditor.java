@@ -32,9 +32,9 @@ public class spellEditor {
         editorVars.spellEditor.setBounds(0, 0, 800, 700);
         editorVars.spellEditor.setTitle("Spell Editor");
 
-        inputFields = new JTextField[10 + 1];
-        inputLabels = new JLabel[10 + 1];
-        for (int i = 0; i <= 10; i++) {
+        inputFields = new JTextField[11 + 1];
+        inputLabels = new JLabel[11 + 1];
+        for (int i = 0; i <= 11; i++) {
             inputFields[i] = new JTextField();
             inputLabels[i] = new JLabel();
         }
@@ -58,13 +58,14 @@ public class spellEditor {
         inputLabels[3].setText("Level Req:");
         inputLabels[4].setText("Class Req:");
         inputLabels[5].setText("Animation:");
-        inputLabels[6].setText("Animation Speed:");
-        inputLabels[7].setText("Cast Time:");
-        inputLabels[8].setText("Cool Down:");
-        inputLabels[9].setText("MP Cost:");
-        inputLabels[10].setText("Damage/Heal Amount:");
+        inputLabels[6].setText("# of Frames: ");
+        inputLabels[7].setText("Animation Speed:");
+        inputLabels[8].setText("Cast Time:");
+        inputLabels[9].setText("Cool Down:");
+        inputLabels[10].setText("MP Cost:");
+        inputLabels[11].setText("Damage/Heal Amount:");
 
-        for (int i = 0; i <= 10; i++) {
+        for (int i = 0; i <= 11; i++) {
             inputLabels[i].setBounds(220, (i * 25) + 5, 100, 20);
             inputFields[i].setBounds(320, (i * 25) + 5, 200, 20);
             editorVars.spellEditor.add(inputLabels[i]);
@@ -96,13 +97,14 @@ public class spellEditor {
                inputFields[4].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].ClassReq));
 
                inputFields[5].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].Animation));
-               inputFields[6].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].AnimSpeed));
+               inputFields[6].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].AnimFrames));
+               inputFields[7].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].AnimSpeed));
 
-               inputFields[7].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].CastTime));
-               inputFields[8].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].CoolDown));
+               inputFields[8].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].CastTime));
+               inputFields[9].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].CoolDown));
 
-               inputFields[9].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].MPCost));
-               inputFields[10].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].DmgHealAmt));
+               inputFields[10].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].MPCost));
+               inputFields[11].setText(Integer.toString(editorVars.spells[editorVars.spellIndex].DmgHealAmt));
            }
         });
         btnSave.addActionListener(new ActionListener() {
@@ -116,13 +118,14 @@ public class spellEditor {
                 editorVars.spells[editorVars.spellIndex].ClassReq = Integer.parseInt(inputFields[4].getText());
 
                 editorVars.spells[editorVars.spellIndex].Animation = Integer.parseInt(inputFields[5].getText());
-                editorVars.spells[editorVars.spellIndex].AnimSpeed = Integer.parseInt(inputFields[6].getText());
+                editorVars.spells[editorVars.spellIndex].AnimFrames = Integer.parseInt(inputFields[6].getText());
+                editorVars.spells[editorVars.spellIndex].AnimSpeed = Integer.parseInt(inputFields[7].getText());
 
-                editorVars.spells[editorVars.spellIndex].CastTime = Integer.parseInt(inputFields[7].getText());
-                editorVars.spells[editorVars.spellIndex].CoolDown = Integer.parseInt(inputFields[8].getText());
+                editorVars.spells[editorVars.spellIndex].CastTime = Integer.parseInt(inputFields[8].getText());
+                editorVars.spells[editorVars.spellIndex].CoolDown = Integer.parseInt(inputFields[9].getText());
 
-                editorVars.spells[editorVars.spellIndex].MPCost = Integer.parseInt(inputFields[9].getText());
-                editorVars.spells[editorVars.spellIndex].DmgHealAmt = Integer.parseInt(inputFields[10].getText());
+                editorVars.spells[editorVars.spellIndex].MPCost = Integer.parseInt(inputFields[10].getText());
+                editorVars.spells[editorVars.spellIndex].DmgHealAmt = Integer.parseInt(inputFields[11].getText());
 
                 editorAssetLoader.saveSpell(editorVars.spellIndex);
             }

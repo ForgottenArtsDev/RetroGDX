@@ -77,6 +77,7 @@ public class GameRenderer {
         batcher.begin();
 
         long tickCount = System.currentTimeMillis();
+        Variables.tickCount = tickCount;
 
         // Render
         switch (Variables.Game_State) {

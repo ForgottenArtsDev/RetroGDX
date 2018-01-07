@@ -15,6 +15,7 @@ public class Spell_Struct implements Serializable {
     public int ClassReq;
 
     public int Animation;
+    public int AnimFrames;
     public int AnimSpeed;
 
     public int CastTime;
@@ -22,4 +23,5 @@ public class Spell_Struct implements Serializable {
 
     public int MPCost;
     public int DmgHealAmt;
+    public int SoundFx;
 }

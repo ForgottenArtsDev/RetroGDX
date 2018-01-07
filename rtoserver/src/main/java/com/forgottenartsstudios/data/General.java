@@ -1,9 +1,7 @@
 package com.forgottenartsstudios.data;
 
-import com.badlogic.gdx.graphics.Color;
 import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packetdata.SendServerData;
-import com.sun.org.apache.xpath.internal.operations.Variable;
 
 /**
  * Created by forgo on 10/7/2017.
@@ -71,6 +69,12 @@ public class General {
         ServerVars.Accounts[index].chars[charSlot].setDir(ServerVars.DIR_DOWN);
 
         ServerVars.Accounts[index].chars[charSlot].setPoints(0);
+
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setSpellNum(1);
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setCastTime(ServerVars.Spells[1].CastTime);
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setCoolDown(ServerVars.Spells[1].CoolDown);
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setCastTimeTimer(0);
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setCoolDownTimer(0);
     }
     public static void createCleric(int index, int charSlot) {
         ServerVars.Accounts[index].chars[1].setLevel(1);

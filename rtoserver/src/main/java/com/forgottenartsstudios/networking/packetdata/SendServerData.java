@@ -2,17 +2,17 @@ package com.forgottenartsstudios.networking.packetdata;
 
 import com.badlogic.gdx.graphics.Color;
 import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Server;
 import com.forgottenartsstudios.data.AccountData;
 import com.forgottenartsstudios.data.General;
 import com.forgottenartsstudios.data.Inventory_Struct;
 import com.forgottenartsstudios.data.MapItem;
+import com.forgottenartsstudios.data.MapSpell;
 import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
+import com.forgottenartsstudios.data.Spell_Inv_Struct;
 import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packets.*;
-import com.sun.org.apache.xpath.internal.operations.Variable;
-
-import java.util.Locale;
 
 import static com.forgottenartsstudios.server.RTOServer.server;
 
@@ -116,16 +116,24 @@ public class SendServerData {
         plData.playerData.setAcc1(ServerVars.Players[index].getAcc1());
         plData.playerData.setAcc2(ServerVars.Players[index].getAcc2());
 
+        plData.playerData.setHotKeyQ(ServerVars.Players[index].getHotKeyQ());
+        plData.playerData.setHotKeyE(ServerVars.Players[index].getHotKeyE());
+
+        plData.playerData.setTarget(ServerVars.Players[index].getTarget());
+        plData.playerData.setTargetType(ServerVars.Players[index].getTargetType());
+
         plData.playerData.setParty(ServerVars.Players[index].getParty());
 
         server.sendToTCP(ServerVars.Accounts[indexTo].getCID(), plData);
 
         SendInvData(index, index);
+        SendSpellData(index, index);
         if (ServerVars.Players[index].getParty() > 0) {
             int pNum = ServerVars.Players[index].getParty();
             for (int i = 1; i <= 3; i++) {
                 if (ServerVars.Parties[pNum].members[i] > 0) {
                     SendInvData(index, ServerVars.Parties[pNum].members[i]);
+                    SendSpellData(index, ServerVars.Parties[pNum].members[i]);
                 }
             }
         }
@@ -180,10 +188,14 @@ public class SendServerData {
         sndLogin.char1.setAcc2(ServerVars.Accounts[index].chars[1].getAcc2());
 
         sndLogin.char1.inventory = new Inventory_Struct[60 + 1];
+        sndLogin.char1.spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
             sndLogin.char1.inventory[i] = new Inventory_Struct();
             sndLogin.char1.inventory[i].setItemNum(ServerVars.Accounts[index].chars[1].inventory[i].getItemNum());
             sndLogin.char1.inventory[i].setItemVal(ServerVars.Accounts[index].chars[1].inventory[i].getItemVal());
+
+            sndLogin.char1.spells[i] = new Spell_Inv_Struct();
+            sndLogin.char1.spells[i].setSpellNum(ServerVars.Accounts[index].chars[1].spells[i].getSpellNum());
         }
 
         // CHAR 2
@@ -220,10 +232,14 @@ public class SendServerData {
         sndLogin.char2.setAcc2(ServerVars.Accounts[index].chars[2].getAcc2());
 
         sndLogin.char2.inventory = new Inventory_Struct[60 + 1];
+        sndLogin.char2.spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
             sndLogin.char2.inventory[i] = new Inventory_Struct();
             sndLogin.char2.inventory[i].setItemNum(ServerVars.Accounts[index].chars[2].inventory[i].getItemNum());
             sndLogin.char2.inventory[i].setItemVal(ServerVars.Accounts[index].chars[2].inventory[i].getItemVal());
+
+            sndLogin.char2.spells[i] = new Spell_Inv_Struct();
+            sndLogin.char2.spells[i].setSpellNum(ServerVars.Accounts[index].chars[2].spells[i].getSpellNum());
         }
 
         // CHAR 3
@@ -260,10 +276,14 @@ public class SendServerData {
         sndLogin.char3.setAcc2(ServerVars.Accounts[index].chars[3].getAcc2());
 
         sndLogin.char3.inventory = new Inventory_Struct[60 + 1];
+        sndLogin.char3.spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
             sndLogin.char3.inventory[i] = new Inventory_Struct();
             sndLogin.char3.inventory[i].setItemNum(ServerVars.Accounts[index].chars[3].inventory[i].getItemNum());
             sndLogin.char3.inventory[i].setItemVal(ServerVars.Accounts[index].chars[3].inventory[i].getItemVal());
+
+            sndLogin.char3.spells[i] = new Spell_Inv_Struct();
+            sndLogin.char3.spells[i].setSpellNum(ServerVars.Accounts[index].chars[3].spells[i].getSpellNum());
         }
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sndLogin);
@@ -520,6 +540,15 @@ public class SendServerData {
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sItems);
     }
+    public static void SendSpells(int index, int spellNum) {
+        SendSpells sSpells = new SendSpells();
+
+        sSpells.index = index;
+        sSpells.spellNum = spellNum;
+        sSpells.spell = ServerVars.Spells[spellNum];
+
+        server.sendToTCP(ServerVars.Accounts[index].getCID(), sSpells);
+    }
     public static void SendOpenShop(int index, int shopNum) {
         SendShop sndShop = new SendShop();
         sndShop.shopNum = shopNum;
@@ -545,6 +574,17 @@ public class SendServerData {
         }
 
         server.sendToTCP(ServerVars.Accounts[toIndex].getCID(), sInv);
+    }
+    public static void SendSpellData(int Index, int toIndex) {
+        SendSpellInv sSpells = new SendSpellInv();
+
+        sSpells.index = Index;
+
+        for (int i = 1; i <= 60; i++) {
+            sSpells.splData[i] = ServerVars.Players[Index].spells[i];
+        }
+
+        server.sendToTCP(ServerVars.Accounts[toIndex].getCID(), sSpells);
     }
     public static void SendBoughtItemMsg(int Index) {
         ItemBoughtMsg sBoughtMsg = new ItemBoughtMsg();
@@ -1011,33 +1051,43 @@ public class SendServerData {
                 if (ServerVars.Parties[partyNum].members[i] > 0) {
                     server.sendToTCP(ServerVars.Accounts[ServerVars.Parties[partyNum].members[i]].getCID(), partyInfo);
                     SendServerData.SendInvData(index, ServerVars.Parties[partyNum].members[i]);
+                    SendServerData.SendSpellData(index, ServerVars.Parties[partyNum].members[i]);
                     SendServerData.SendPlayerData(index, ServerVars.Parties[partyNum].members[i]);
                 }
             }
         } else {
             server.sendToTCP(ServerVars.Accounts[index].getCID(), partyInfo);
             SendServerData.SendInvData(index, index);
+            SendServerData.SendSpellData(index, index);
             SendServerData.SendPlayerData(index, index);
         }
     }
+    public static void SendMapSpells(int mapNum) {
+        SendMapSpells sendMapSpells = new SendMapSpells();
 
-    private static double multiplication(double d1, double d2) {
+        for (int i = 1; i <= ServerVars.MaxMapSpells; i++) {
+            sendMapSpells.index = i;
+            sendMapSpells.target = ServerVars.MapSpells[mapNum].Spell[i].getIndex();
+            sendMapSpells.spellNum = ServerVars.MapSpells[mapNum].Spell[i].getSpellNum();
+            sendMapSpells.x = ServerVars.MapSpells[mapNum].Spell[i].getX();
+            sendMapSpells.y = ServerVars.MapSpells[mapNum].Spell[i].getY();
+            sendMapSpells.type = ServerVars.MapSpells[mapNum].Spell[i].getType();
 
-        double divDiff1 = 1, divDiff2 = 1;
-
-        while (d1 != Math.floor(d1)) {
-            d1 = Double.valueOf(String.format(Locale.US, "%.6f", d1 / 0.1));
-            divDiff1 = divDiff1 / 0.1;
+            for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                if (ServerVars.Players[a] != null) {
+                    if (ServerVars.Players[a].getMap() == mapNum) {
+                        server.sendToTCP(ServerVars.Accounts[a].getCID(), sendMapSpells);
+                    }
+                }
+            }
         }
-        while (d2 != Math.floor(d2)) {
-            d2 = Double.valueOf(String.format(Locale.US, "%.6f", d2 / 0.1));
-            divDiff2 = divDiff2 /0.1;
-        }
+    }
+    public static void SendCastTime(int index, int spellInvSlot, int castTime) {
+        SendCastTime sendCastTime = new SendCastTime();
 
-        double mul = 0;
-        for (int i = 1; i <= d1; i++)
-            mul = mul + d2;
+        sendCastTime.spellInvSlot = spellInvSlot;
+        sendCastTime.castTime = castTime;
 
-        return mul / divDiff2 / divDiff1;
+        server.sendToTCP(ServerVars.Accounts[index].getCID(), sendCastTime);
     }
 }

@@ -49,8 +49,10 @@ public class LoadData {
         for (int i = 1; i <= 3; i++) {
             account.chars[i] = new Player();
             account.chars[i].inventory = new Inventory_Struct[60 + 1];
+            account.chars[i].spells = new Spell_Inv_Struct[60 + 1];
             for (int a = 1; a <= 60; a++) {
                 account.chars[i].inventory[a] = new Inventory_Struct();
+                account.chars[i].spells[a] = new Spell_Inv_Struct();
             }
         }
 
@@ -59,6 +61,9 @@ public class LoadData {
 
             account.setID((String)inputStream.readObject());
             account.setPW((String)inputStream.readObject());
+
+            account.setSfxOn((Boolean)inputStream.readObject());
+            account.setMusicOn((Boolean)inputStream.readObject());
 
             for (int i = 1; i <= 3; i++) {
                 account.chars[i].setName((String)inputStream.readObject());
@@ -94,9 +99,16 @@ public class LoadData {
                 account.chars[i].setAcc1((Integer)inputStream.readObject());
                 account.chars[i].setAcc2((Integer)inputStream.readObject());
 
+                account.chars[i].setHotKeyQ((Integer)inputStream.readObject());
+                account.chars[i].setHotKeyE((Integer)inputStream.readObject());
+
                 for (int a = 1; a <= 60; a++) {
                     account.chars[i].inventory[a].setItemNum((Integer)inputStream.readObject());
                     account.chars[i].inventory[a].setItemVal((Integer)inputStream.readObject());
+                }
+
+                for (int a = 1; a <= 60; a++) {
+                    account.chars[i].spells[a].setSpellNum((Integer)inputStream.readObject());
                 }
             }
 
@@ -129,6 +141,9 @@ public class LoadData {
                         for (int z = 1; z <= 60; z++) {
                             ServerVars.Accounts[i].chars[a].inventory[z] = account.chars[a].inventory[z];
                         }
+                        for (int z = 1; z <= 60; z++) {
+                            ServerVars.Accounts[i].chars[a].spells[z] = account.chars[a].spells[z];
+                        }
                     }
 
                     sndLogin.Index = i;
@@ -144,6 +159,10 @@ public class LoadData {
                     sndLogin.char1.inventory = ServerVars.Accounts[i].chars[1].inventory;
                     sndLogin.char2.inventory = ServerVars.Accounts[i].chars[2].inventory;
                     sndLogin.char3.inventory = ServerVars.Accounts[i].chars[3].inventory;
+
+                    sndLogin.char1.spells = ServerVars.Accounts[i].chars[1].spells;
+                    sndLogin.char2.spells = ServerVars.Accounts[i].chars[2].spells;
+                    sndLogin.char3.spells = ServerVars.Accounts[i].chars[3].spells;
 
                     break;
                 } else if (i == ServerVars.MaxPlayers) {
@@ -513,7 +532,7 @@ public class LoadData {
             clearSpell(LoopI);
             loadSpell(LoopI);
         }
-    } 
+    }
     public static void loadSpell(int spellNum) {
         String absoPath = new File("").getAbsolutePath();
         String fileName = absoPath + "\\rtoserver\\data\\spells\\" + spellNum + ".dat";

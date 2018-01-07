@@ -12,10 +12,13 @@ import com.forgottenartsstudios.data.Inventory_Struct;
 import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
+import com.forgottenartsstudios.data.MapSpell;
 import com.forgottenartsstudios.data.Message;
 import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
+import com.forgottenartsstudios.data.Spell_Inv_Struct;
+import com.forgottenartsstudios.data.Spell_Struct;
 import com.forgottenartsstudios.data.SystemMsg_Struct;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
@@ -47,12 +50,14 @@ public class RTOnline extends Game {
         cnt.client_mode = Variables.Client_Mode;
         client.sendTCP(cnt);
 
-        Variables.players = new Player[Variables.MaxPlayers + 1];
+        Variables.Players = new Player[Variables.MaxPlayers + 1];
         for (int i = 1; i <= Variables.MaxPlayers; i++) {
-            Variables.players[i] = new Player();
-            Variables.players[i].inventory = new Inventory_Struct[60 + 1];
+            Variables.Players[i] = new Player();
+            Variables.Players[i].inventory = new Inventory_Struct[60 + 1];
+            Variables.Players[i].spells = new Spell_Inv_Struct[60 + 1];
             for (int a = 1; a <= 60; a++) {
-                Variables.players[i].inventory[a] = new Inventory_Struct();
+                Variables.Players[i].inventory[a] = new Inventory_Struct();
+                Variables.Players[i].spells[a] = new Spell_Inv_Struct();
             }
         }
 
@@ -85,6 +90,11 @@ public class RTOnline extends Game {
         Variables.MapItems = new MapItem[Variables.MaxMapItems + 1];
         for (int i = 1; i <= Variables.MaxMapItems; i++) {
             Variables.MapItems[i] = new MapItem();
+        }
+        Variables.MapSpells = new MapSpell[Variables.MaxMapSpells + 1];
+        for (int i = 1; i <= Variables.MaxMapSpells; i++) {
+            Variables.MapSpells[i] = new MapSpell();
+            Variables.MapSpells[i].setFrame(0);
         }
 
         new Thread(client).setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -182,7 +192,19 @@ public class RTOnline extends Game {
         client.getKryo().register(AppointPartyLeader.class);
         client.getKryo().register(KickPartyMember.class);
         client.getKryo().register(UpdatePartyDropType.class);
+        client.getKryo().register(SendSpellInv.class);
+        client.getKryo().register(SendSpells.class);
+        client.getKryo().register(Spell_Inv_Struct.class);
+        client.getKryo().register(Spell_Inv_Struct[].class);
+        client.getKryo().register(Spell_Struct.class);
+        client.getKryo().register(SendCastSpell.class);
+        client.getKryo().register(SetHotKey.class);
+        client.getKryo().register(SendMapSpells.class);
+        client.getKryo().register(MapSpell.class);
+        client.getKryo().register(MapSpell[].class);
+        client.getKryo().register(SendCastTime.class);
     }
+
     public static void checkPackets(Object object, Connection connection) {
         if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }
         if (object instanceof AccountNotFound) { HandleClientData.HandleAccountNotFound(); }
@@ -215,5 +237,9 @@ public class RTOnline extends Game {
         if (object instanceof SendOpenPlayerMenu) { HandleClientData.HandleOpenPlayerMenu(object); }
         if (object instanceof SendPartyInvite) { HandleClientData.HandlePartyInvite(object); }
         if (object instanceof PartyInfo) { HandleClientData.HandlePartyInfo(object); }
+        if (object instanceof SendSpellInv) { HandleClientData.HandleSendSpellInv(object); }
+        if (object instanceof SendSpells) { HandleClientData.HandleSendSpells(object); }
+        if (object instanceof SendMapSpells) { HandleClientData.HandleSendMapSpells(object); }
+        if (object instanceof SendCastTime) { HandleClientData.HandleSendCastTime(object); }
     }
 }

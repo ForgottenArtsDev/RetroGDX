@@ -33,6 +33,9 @@ public class SaveData {
             outputStream.writeObject(account.getID());
             outputStream.writeObject(account.getPW());
 
+            outputStream.writeObject(account.isSfxOn());
+            outputStream.writeObject(account.isMusicOn());
+
             for (int i = 1; i <= 3; i++) {
                 outputStream.writeObject(account.chars[i].getName());
 
@@ -67,9 +70,16 @@ public class SaveData {
                 outputStream.writeObject(account.chars[i].getAcc1());
                 outputStream.writeObject(account.chars[i].getAcc2());
 
+                outputStream.writeObject(account.chars[i].getHotKeyQ());
+                outputStream.writeObject(account.chars[i].getHotKeyE());
+
                 for (int a = 1; a <= 60; a++) {
                     outputStream.writeObject(account.chars[i].inventory[a].getItemNum());
                     outputStream.writeObject(account.chars[i].inventory[a].getItemVal());
+                }
+
+                for (int a = 1; a <= 60; a++) {
+                    outputStream.writeObject(account.chars[i].spells[a].getSpellNum());
                 }
             }
 

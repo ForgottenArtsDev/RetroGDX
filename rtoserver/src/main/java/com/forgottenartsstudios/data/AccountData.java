@@ -18,6 +18,9 @@ public class AccountData implements Serializable {
     private boolean keepAlive;
     private int keepCount;
 
+    private boolean sfxOn;
+    private boolean musicOn;
+
     private int activeChar;
 
     public Player[] chars = new Player[3 + 1];
@@ -28,12 +31,16 @@ public class AccountData implements Serializable {
     public boolean isKeepAlive() { return keepAlive; }
     public int getKeepCount() { return keepCount; }
     public int getActiveChar() { return activeChar; }
+    public boolean isSfxOn() { return sfxOn; }
+    public boolean isMusicOn() { return musicOn; }
 
     public void setID(String id) { ID = id; }
     public void setPW(String pw) { PW = pw; }
     public void setCID(int cid) { CID = cid; }
     public void setKeepAlive(boolean keepAlive) { this.keepAlive = keepAlive; }
     public void setKeepCount(int keepCount) { this.keepCount = keepCount; }
+    public void setSfxOn(boolean sfxOn) { this.sfxOn = sfxOn; }
+    public void setMusicOn(boolean musicOn) { this.musicOn = musicOn; }
 
     public void setActiveChar(int activeChar) { this.activeChar = activeChar; }
 }

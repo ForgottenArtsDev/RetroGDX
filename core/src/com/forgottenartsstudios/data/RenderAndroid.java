@@ -393,7 +393,7 @@ public class RenderAndroid {
         longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
-        if (Variables.players[Variables.MyIndex].getMoving() == 0) {
+        if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
                 InputAndroid.handleInput();
             } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
@@ -489,95 +489,95 @@ public class RenderAndroid {
     }
 
     public static void renderPlayer(int i, float x, float y, long tickCount) {
-        if (Variables.players[i] != null) {
+        if (Variables.Players[i] != null) {
 
             // Check for animation
-            if (Variables.players[i].getAttacking() == 1) {
-                if (Variables.players[i].getAttackTimer() + 500 > tickCount) {
-                    Variables.players[i].setStep(2);
+            if (Variables.Players[i].getAttacking() == 1) {
+                if (Variables.Players[i].getAttackTimer() + 500 > tickCount) {
+                    Variables.Players[i].setStep(2);
                 }
             }
 
-            if (Variables.players[i].getAttackTimer() + 1000 < tickCount) {
-                Variables.players[i].setAttacking(0);
-                Variables.players[i].setAttackTimer(0);
+            if (Variables.Players[i].getAttackTimer() + 1000 < tickCount) {
+                Variables.Players[i].setAttacking(0);
+                Variables.Players[i].setAttackTimer(0);
             }
 
-            if (Variables.players[i].getSprite() <= 0) {
+            if (Variables.Players[i].getSprite() <= 0) {
                 return;
             }
 
-            switch (Variables.players[i].getDir()) {
+            switch (Variables.Players[i].getDir()) {
                 case Variables.DIR_UP:
-                    switch (Variables.players[i].getStep()) {
+                    switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_DOWN:
-                    switch (Variables.players[i].getStep()) {
+                    switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_LEFT:
-                    switch (Variables.players[i].getStep()) {
+                    switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_RIGHT:
-                    switch (Variables.players[i].getStep()) {
+                    switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
             }
             GameRenderer.batcher.draw(AssetLoader.emptyMapBar, x, y + 34, 32, 4);
 
-            double maxWidth = ((((double) Variables.players[Variables.MyIndex].getHP()) / 192) / ((double) Variables.players[Variables.MyIndex].getMaxHP() / 192) * 192);
+            double maxWidth = ((((double) Variables.Players[Variables.MyIndex].getHP()) / 192) / ((double) Variables.Players[Variables.MyIndex].getMaxHP() / 192) * 192);
             batcher.draw(AssetLoader.hpBar, 532, 150, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
             GameRenderer.batcher.draw(AssetLoader.hpMapBar, x, y + 34, (int)maxWidth, 4);
 
-            if (Variables.players[Variables.MyIndex].getParty() > 0) {
+            if (Variables.Players[Variables.MyIndex].getParty() > 0) {
                 for (int a = 1; a <= 3; a++) {
                     if (Variables.MyParty.members[a] > 0) {
-                        if (Variables.players[Variables.MyParty.members[a]].getMap() == Variables.players[Variables.MyIndex].getMap()) {
+                        if (Variables.Players[Variables.MyParty.members[a]].getMap() == Variables.Players[Variables.MyIndex].getMap()) {
                             GameRenderer.batcher.draw(AssetLoader.emptyMapBar, x, y + 34, 32, 4);
 
-                            maxWidth = ((((double) Variables.players[Variables.MyParty.members[a]].getHP() / 32) / ((double) Variables.players[Variables.MyParty.members[a]].getMaxHP() / 32) * 32));
+                            maxWidth = ((((double) Variables.Players[Variables.MyParty.members[a]].getHP() / 32) / ((double) Variables.Players[Variables.MyParty.members[a]].getMaxHP() / 32) * 32));
                             batcher.draw(AssetLoader.hpBar, 532, 150, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
 
-                            x = ((Variables.players[Variables.MyParty.members[a]].getX() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetX());
-                            y = ((Variables.players[Variables.MyParty.members[a]].getY() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetY());
+                            x = ((Variables.Players[Variables.MyParty.members[a]].getX() * Variables.MoveSize) + Variables.Players[Variables.MyParty.members[a]].getOffsetX());
+                            y = ((Variables.Players[Variables.MyParty.members[a]].getY() * Variables.MoveSize) + Variables.Players[Variables.MyParty.members[a]].getOffsetY());
                             GameRenderer.batcher.draw(AssetLoader.hpMapBar, x, y + 34, (int)maxWidth, 4);
                         }
                     }
@@ -663,7 +663,7 @@ public class RenderAndroid {
         if (!Variables.reloadingMap) {
             int Text = 0;
 
-            int mapNum = Variables.players[Variables.MyIndex].getMap();
+            int mapNum = Variables.Players[Variables.MyIndex].getMap();
 
             for (int x = Variables.MinX; x <= Variables.MaxX - 1; x++) {
                 for (int y = Variables.MinY; y <= Variables.MaxY - 1; y++) {
@@ -705,7 +705,7 @@ public class RenderAndroid {
         if (!Variables.reloadingMap) {
             int Text = 0;
 
-            int mapNum = Variables.players[Variables.MyIndex].getMap();
+            int mapNum = Variables.Players[Variables.MyIndex].getMap();
 
             for (int x = Variables.MinX; x <= Variables.MaxX - 1; x++) {
                 for (int y = Variables.MinY; y <= Variables.MaxY - 1; y++) {
@@ -846,8 +846,8 @@ public class RenderAndroid {
         int x = 36;
         int y = 36;
         for (int i = 1; i <= 60; i++) {
-            if (Variables.players[Variables.MyIndex].inventory != null) {
-                if (Variables.players[Variables.MyIndex].inventory[i] != null) {
+            if (Variables.Players[Variables.MyIndex].inventory != null) {
+                if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
                     if (i == 11) {
                         x = 36;
                         y = 77;
@@ -856,10 +856,10 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            batcher.draw(AssetLoader.items[Variables.Items[Variables.players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
+                        if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
-                        if (i == Variables.players[Variables.MyIndex].getWeapon() || i == Variables.players[Variables.MyIndex].getArmor() || i == Variables.players[Variables.MyIndex].getHelmet() || i == Variables.players[Variables.MyIndex].getOffhand()) {
+                        if (i == Variables.Players[Variables.MyIndex].getWeapon() || i == Variables.Players[Variables.MyIndex].getArmor() || i == Variables.Players[Variables.MyIndex].getHelmet() || i == Variables.Players[Variables.MyIndex].getOffhand()) {
                             drawName("E", x + 24, y + 20, Color.WHITE);
                         }
                         x = x + 41;
@@ -871,10 +871,10 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            batcher.draw(AssetLoader.items[Variables.Items[Variables.players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
+                        if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
-                        if (i == Variables.players[Variables.MyIndex].getWeapon() || i == Variables.players[Variables.MyIndex].getArmor() || i == Variables.players[Variables.MyIndex].getHelmet() || i == Variables.players[Variables.MyIndex].getOffhand()) {
+                        if (i == Variables.Players[Variables.MyIndex].getWeapon() || i == Variables.Players[Variables.MyIndex].getArmor() || i == Variables.Players[Variables.MyIndex].getHelmet() || i == Variables.Players[Variables.MyIndex].getOffhand()) {
                             drawName("E", x + 24, y + 20, Color.WHITE);
                         }
                         x = x + 41;
@@ -886,10 +886,10 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            batcher.draw(AssetLoader.items[Variables.Items[Variables.players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
+                        if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
-                        if (i == Variables.players[Variables.MyIndex].getWeapon() || i == Variables.players[Variables.MyIndex].getArmor() || i == Variables.players[Variables.MyIndex].getHelmet() || i == Variables.players[Variables.MyIndex].getOffhand()) {
+                        if (i == Variables.Players[Variables.MyIndex].getWeapon() || i == Variables.Players[Variables.MyIndex].getArmor() || i == Variables.Players[Variables.MyIndex].getHelmet() || i == Variables.Players[Variables.MyIndex].getOffhand()) {
                             drawName("E", x + 24, y + 20, Color.WHITE);
                         }
                         x = x + 41;
@@ -901,10 +901,10 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            batcher.draw(AssetLoader.items[Variables.Items[Variables.players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
+                        if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
-                        if (i == Variables.players[Variables.MyIndex].getWeapon() || i == Variables.players[Variables.MyIndex].getArmor() || i == Variables.players[Variables.MyIndex].getHelmet() || i == Variables.players[Variables.MyIndex].getOffhand()) {
+                        if (i == Variables.Players[Variables.MyIndex].getWeapon() || i == Variables.Players[Variables.MyIndex].getArmor() || i == Variables.Players[Variables.MyIndex].getHelmet() || i == Variables.Players[Variables.MyIndex].getOffhand()) {
                             drawName("E", x + 24, y + 20, Color.WHITE);
                         }
                         x = x + 41;
@@ -916,10 +916,10 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            batcher.draw(AssetLoader.items[Variables.Items[Variables.players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
+                        if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
-                        if (i == Variables.players[Variables.MyIndex].getWeapon() || i == Variables.players[Variables.MyIndex].getArmor() || i == Variables.players[Variables.MyIndex].getHelmet() || i == Variables.players[Variables.MyIndex].getOffhand()) {
+                        if (i == Variables.Players[Variables.MyIndex].getWeapon() || i == Variables.Players[Variables.MyIndex].getArmor() || i == Variables.Players[Variables.MyIndex].getHelmet() || i == Variables.Players[Variables.MyIndex].getOffhand()) {
                             drawName("E", x + 24, y + 20, Color.WHITE);
                         }
                         x = x + 41;
@@ -929,10 +929,10 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
-                        if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                            batcher.draw(AssetLoader.items[Variables.Items[Variables.players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
+                        if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                            batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
-                        if (i == Variables.players[Variables.MyIndex].getWeapon() || i == Variables.players[Variables.MyIndex].getArmor() || i == Variables.players[Variables.MyIndex].getHelmet() || i == Variables.players[Variables.MyIndex].getOffhand()) {
+                        if (i == Variables.Players[Variables.MyIndex].getWeapon() || i == Variables.Players[Variables.MyIndex].getArmor() || i == Variables.Players[Variables.MyIndex].getHelmet() || i == Variables.Players[Variables.MyIndex].getOffhand()) {
                             drawName("E", x + 24, y + 20, Color.WHITE);
                         }
                         x = x + 41;
@@ -940,7 +940,7 @@ public class RenderAndroid {
 
                     // Selected Item Info
                     if (Variables.selectedInvSlot > 0) {
-                        int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum();
+                        int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum();
                         if (itemNum > 0) {
                             layout.setText(AssetLoader.font, Variables.Items[itemNum].Name);
                             float width = layout.width;// contains the width of the current set text
@@ -964,13 +964,13 @@ public class RenderAndroid {
                             drawName("STR: " + Variables.Items[itemNum].STR + "     DEF: " + Variables.Items[itemNum].DEF + "     VIT: " + Variables.Items[itemNum].VIT + "     AGI: " + Variables.Items[itemNum].AGI + "     MAG: " + Variables.Items[itemNum].MAG, nameX, nameY, Color.WHITE);
 
                             if (Variables.Items[itemNum].isStackable == 1) {
-                                layout.setText(AssetLoader.nameFont, "Amount: " + Variables.players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal());
+                                layout.setText(AssetLoader.nameFont, "Amount: " + Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal());
                                 width = layout.width;// contains the width of the current set text
 
                                 nameX = 240 - ((int) width / 2);
                                 nameY = 380;
 
-                                drawName("Amount: " + Variables.players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal(), nameX, nameY, Color.YELLOW);
+                                drawName("Amount: " + Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal(), nameX, nameY, Color.YELLOW);
                             }
                         }
                     }
@@ -987,21 +987,21 @@ public class RenderAndroid {
     public static void drawStatus() {
         batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
 
-        layout.setText(AssetLoader.font, Variables.players[Variables.MyIndex].getName());
+        layout.setText(AssetLoader.font, Variables.Players[Variables.MyIndex].getName());
         float width = layout.width;// contains the width of the current set text
 
         float nameX = 240 - ((int)width / 2);
         float nameY = 50;
 
-        drawText(Variables.players[Variables.MyIndex].getName(), nameX, nameY, Color.WHITE);
+        drawText(Variables.Players[Variables.MyIndex].getName(), nameX, nameY, Color.WHITE);
 
         int pSTR = 0;
         int pDEF = 0;
         int pVIT = 0;
         int pAGI = 0;
         int pMAG = 0;
-        if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
+        if (Variables.Players[Variables.MyIndex].getWeapon() > 0) {
+            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()].getItemNum();
             if (itemNum <= 0) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
@@ -1009,8 +1009,8 @@ public class RenderAndroid {
             pAGI = pAGI + Variables.Items[itemNum].AGI;
             pMAG = pMAG + Variables.Items[itemNum].MAG;
         }
-        if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
+        if (Variables.Players[Variables.MyIndex].getOffhand() > 0) {
+            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()].getItemNum();
             if (itemNum <= 0) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
@@ -1018,8 +1018,8 @@ public class RenderAndroid {
             pAGI = pAGI + Variables.Items[itemNum].AGI;
             pMAG = pMAG + Variables.Items[itemNum].MAG;
         }
-        if (Variables.players[Variables.MyIndex].getArmor() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
+        if (Variables.Players[Variables.MyIndex].getArmor() > 0) {
+            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()].getItemNum();
             if (itemNum <= 0) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
@@ -1027,8 +1027,8 @@ public class RenderAndroid {
             pAGI = pAGI + Variables.Items[itemNum].AGI;
             pMAG = pMAG + Variables.Items[itemNum].MAG;
         }
-        if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
+        if (Variables.Players[Variables.MyIndex].getHelmet() > 0) {
+            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()].getItemNum();
             if (itemNum <= 0) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
@@ -1036,8 +1036,8 @@ public class RenderAndroid {
             pAGI = pAGI + Variables.Items[itemNum].AGI;
             pMAG = pMAG + Variables.Items[itemNum].MAG;
         }
-        if (Variables.players[Variables.MyIndex].getAcc1() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc1()].getItemNum();
+        if (Variables.Players[Variables.MyIndex].getAcc1() > 0) {
+            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getAcc1()].getItemNum();
             if (itemNum <= 0) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
@@ -1045,8 +1045,8 @@ public class RenderAndroid {
             pAGI = pAGI + Variables.Items[itemNum].AGI;
             pMAG = pMAG + Variables.Items[itemNum].MAG;
         }
-        if (Variables.players[Variables.MyIndex].getAcc2() > 0) {
-            int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc2()].getItemNum();
+        if (Variables.Players[Variables.MyIndex].getAcc2() > 0) {
+            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getAcc2()].getItemNum();
             if (itemNum <= 0) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
@@ -1058,93 +1058,93 @@ public class RenderAndroid {
         nameX = 75;
         nameY = 80;
         if (Variables.tempStats.STR > 0) {
-            int STR = Variables.players[Variables.MyIndex].getSTR() + Variables.tempStats.STR;
+            int STR = Variables.Players[Variables.MyIndex].getSTR() + Variables.tempStats.STR;
             drawText("STR: " + STR, nameX, nameY, Color.YELLOW);
         } else {
-            drawText("STR: " + Variables.players[Variables.MyIndex].getSTR(), nameX, nameY, Color.WHITE);
+            drawText("STR: " + Variables.Players[Variables.MyIndex].getSTR(), nameX, nameY, Color.WHITE);
         }
-        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+        if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pSTR > 0) {
-            layout.setText(AssetLoader.font, "STR: " + Variables.players[Variables.MyIndex].getSTR());
+            layout.setText(AssetLoader.font, "STR: " + Variables.Players[Variables.MyIndex].getSTR());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pSTR + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
         nameX = 75;
         nameY = 110;
         if (Variables.tempStats.DEF > 0) {
-            int DEF = Variables.players[Variables.MyIndex].getDEF() + Variables.tempStats.DEF;
+            int DEF = Variables.Players[Variables.MyIndex].getDEF() + Variables.tempStats.DEF;
             drawText("DEF: " + DEF, nameX, nameY, Color.YELLOW);
         } else {
-            drawText("DEF: " + Variables.players[Variables.MyIndex].getDEF(), nameX, nameY, Color.WHITE);
+            drawText("DEF: " + Variables.Players[Variables.MyIndex].getDEF(), nameX, nameY, Color.WHITE);
         }
-        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+        if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pDEF > 0) {
-            layout.setText(AssetLoader.font, "DEF: " + Variables.players[Variables.MyIndex].getDEF());
+            layout.setText(AssetLoader.font, "DEF: " + Variables.Players[Variables.MyIndex].getDEF());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pDEF + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
         nameX = 75;
         nameY = 140;
         if (Variables.tempStats.VIT > 0) {
-            int VIT = Variables.players[Variables.MyIndex].getVIT() + Variables.tempStats.VIT;
+            int VIT = Variables.Players[Variables.MyIndex].getVIT() + Variables.tempStats.VIT;
             drawText("VIT: " + VIT, nameX, nameY, Color.YELLOW);
         } else {
-            drawText("VIT: " + Variables.players[Variables.MyIndex].getVIT(), nameX, nameY, Color.WHITE);
+            drawText("VIT: " + Variables.Players[Variables.MyIndex].getVIT(), nameX, nameY, Color.WHITE);
         }
-        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+        if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pVIT > 0) {
-            layout.setText(AssetLoader.font, "VIT: " + Variables.players[Variables.MyIndex].getVIT());
+            layout.setText(AssetLoader.font, "VIT: " + Variables.Players[Variables.MyIndex].getVIT());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pVIT + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
         nameX = 75;
         nameY = 170;
         if (Variables.tempStats.AGI > 0) {
-            int MAG = Variables.players[Variables.MyIndex].getAGI() + Variables.tempStats.AGI;
+            int MAG = Variables.Players[Variables.MyIndex].getAGI() + Variables.tempStats.AGI;
             drawText("AGI: " + MAG, nameX, nameY, Color.YELLOW);
         } else {
-            drawText("AGI: " + Variables.players[Variables.MyIndex].getAGI(), nameX, nameY, Color.WHITE);
+            drawText("AGI: " + Variables.Players[Variables.MyIndex].getAGI(), nameX, nameY, Color.WHITE);
         }
-        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+        if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pAGI > 0) {
-            layout.setText(AssetLoader.font, "AGI: " + Variables.players[Variables.MyIndex].getAGI());
+            layout.setText(AssetLoader.font, "AGI: " + Variables.Players[Variables.MyIndex].getAGI());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pAGI + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
         nameX = 75;
         nameY = 200;
         if (Variables.tempStats.MAG > 0) {
-            int MAG = Variables.players[Variables.MyIndex].getMAG() + Variables.tempStats.MAG;
+            int MAG = Variables.Players[Variables.MyIndex].getMAG() + Variables.tempStats.MAG;
             drawText("MAG: " + MAG, nameX, nameY, Color.YELLOW);
         } else {
-            drawText("MAG: " + Variables.players[Variables.MyIndex].getMAG(), nameX, nameY, Color.WHITE);
+            drawText("MAG: " + Variables.Players[Variables.MyIndex].getMAG(), nameX, nameY, Color.WHITE);
         }
-        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+        if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pMAG > 0) {
-            layout.setText(AssetLoader.font, "MAG: " + Variables.players[Variables.MyIndex].getMAG());
+            layout.setText(AssetLoader.font, "MAG: " + Variables.Players[Variables.MyIndex].getMAG());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pMAG + ")", nameX + (width + 10), nameY, Color.GREEN);
         }
         nameX = 75;
         nameY = 230;
-        if (Variables.players[Variables.MyIndex].getPoints() > 0) {
-            drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), nameX, nameY, Color.YELLOW);
+        if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
+            drawName("Points: " + Variables.Players[Variables.MyIndex].getPoints(), nameX, nameY, Color.YELLOW);
         } else {
-            drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), nameX, nameY, Color.WHITE);
+            drawName("Points: " + Variables.Players[Variables.MyIndex].getPoints(), nameX, nameY, Color.WHITE);
         }
 
         // Confirm Button
-        if (Variables.tempStats.Points < Variables.players[Variables.MyIndex].getPoints()) {
+        if (Variables.tempStats.Points < Variables.Players[Variables.MyIndex].getPoints()) {
             drawText("Confirm", 349, 429, Color.WHITE);
         }
 
@@ -1154,7 +1154,7 @@ public class RenderAndroid {
     public static void drawMenu() {
         batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
 
-        if (Variables.players[Variables.MyIndex].getParty() > 0) {
+        if (Variables.Players[Variables.MyIndex].getParty() > 0) {
             for (int i = 1; i <= 3; i++) {
                 if (Variables.MyParty.members[i] > 0) {
                     if (Variables.MyIndex == Variables.MyParty.leader) {
@@ -1191,32 +1191,32 @@ public class RenderAndroid {
                         }
                     }
                     // Player Sprite
-                    batcher.draw(AssetLoader.spritesDown2[Variables.players[Variables.MyParty.members[i]].getSprite()], 63, 59 + ((i - 1) * 125), 32, 36);
+                    batcher.draw(AssetLoader.spritesDown2[Variables.Players[Variables.MyParty.members[i]].getSprite()], 63, 59 + ((i - 1) * 125), 32, 36);
                     // Player Equipment
                     batcher.draw(AssetLoader.eqBG, 39, 21 + ((i - 1) * 125), 36, 36);
-                    if (Variables.players[Variables.MyParty.members[i]].getWeapon() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getWeapon()].getItemNum();
+                    if (Variables.Players[Variables.MyParty.members[i]].getWeapon() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getWeapon()].getItemNum();
                         if (itemNum > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 39 + 5, 21 + 5 + ((i - 1) * 125), 24, 24, 0, 0, 24, 24, false, true);
                         }
                     }
                     batcher.draw(AssetLoader.eqBG, 21, 58 + ((i - 1) * 125), 36, 36);
-                    if (Variables.players[Variables.MyParty.members[i]].getArmor() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getArmor()].getItemNum();
+                    if (Variables.Players[Variables.MyParty.members[i]].getArmor() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getArmor()].getItemNum();
                         if (itemNum > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 21 + 5, 58 + 5 + ((i - 1) * 125), 24, 24, 0, 0, 24, 24, false, true);
                         }
                     }
                     batcher.draw(AssetLoader.eqBG, 76, 21 + ((i - 1) * 125), 36, 36);
-                    if (Variables.players[Variables.MyParty.members[i]].getOffhand() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getOffhand()].getItemNum();
+                    if (Variables.Players[Variables.MyParty.members[i]].getOffhand() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getOffhand()].getItemNum();
                         if (itemNum > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 76 + 5, 21 + 5 + ((i - 1) * 125), 24, 24, 0, 0, 24, 24, false, true);
                         }
                     }
                     batcher.draw(AssetLoader.eqBG, 100, 58 + ((i - 1) * 125), 36, 36);
-                    if (Variables.players[Variables.MyParty.members[i]].getHelmet() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getHelmet()].getItemNum();
+                    if (Variables.Players[Variables.MyParty.members[i]].getHelmet() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getHelmet()].getItemNum();
                         if (itemNum > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 100 + 5, 58 + 5 + ((i - 1) * 125), 24, 24, 0, 0, 24, 24, false, true);
                         }
@@ -1225,19 +1225,19 @@ public class RenderAndroid {
                     batcher.draw(AssetLoader.eqBG, 76, 95 + ((i - 1) * 125), 36, 36);
 
                     // Player Info
-                    drawName("Name: " + Variables.players[Variables.MyParty.members[i]].getName(), 156, 21 + ((i - 1) * 125), Color.WHITE);
-                    drawName("Lvl: " + Variables.players[Variables.MyParty.members[i]].getLevel(), 156, 36 + ((i - 1) * 125), Color.WHITE);
-                    drawName("HP: " + Variables.players[Variables.MyParty.members[i]].getHP() + "/" + Variables.players[Variables.MyParty.members[i]].getMaxHP(), 156, 51 + ((i - 1) * 125), Color.WHITE);
-                    drawName("MP: " + Variables.players[Variables.MyParty.members[i]].getMP() + "/" + Variables.players[Variables.MyParty.members[i]].getMaxMP(), 156, 66 + ((i - 1) * 125), Color.WHITE);
-                    drawName("EXP: " + Variables.players[Variables.MyParty.members[i]].getEXP() + "/" + Variables.players[Variables.MyParty.members[i]].getNextLVL(), 156, 81 + ((i - 1) * 125), Color.WHITE);
+                    drawName("Name: " + Variables.Players[Variables.MyParty.members[i]].getName(), 156, 21 + ((i - 1) * 125), Color.WHITE);
+                    drawName("Lvl: " + Variables.Players[Variables.MyParty.members[i]].getLevel(), 156, 36 + ((i - 1) * 125), Color.WHITE);
+                    drawName("HP: " + Variables.Players[Variables.MyParty.members[i]].getHP() + "/" + Variables.Players[Variables.MyParty.members[i]].getMaxHP(), 156, 51 + ((i - 1) * 125), Color.WHITE);
+                    drawName("MP: " + Variables.Players[Variables.MyParty.members[i]].getMP() + "/" + Variables.Players[Variables.MyParty.members[i]].getMaxMP(), 156, 66 + ((i - 1) * 125), Color.WHITE);
+                    drawName("EXP: " + Variables.Players[Variables.MyParty.members[i]].getEXP() + "/" + Variables.Players[Variables.MyParty.members[i]].getNextLVL(), 156, 81 + ((i - 1) * 125), Color.WHITE);
 
-                    int pSTR = Variables.players[Variables.MyParty.members[i]].getSTR();
-                    int pDEF = Variables.players[Variables.MyParty.members[i]].getDEF();
-                    int pVIT = Variables.players[Variables.MyParty.members[i]].getVIT();
-                    int pAGI = Variables.players[Variables.MyParty.members[i]].getAGI();
-                    int pMAG = Variables.players[Variables.MyParty.members[i]].getMAG();
-                    if (Variables.players[Variables.MyParty.members[i]].getWeapon() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getWeapon()].getItemNum();
+                    int pSTR = Variables.Players[Variables.MyParty.members[i]].getSTR();
+                    int pDEF = Variables.Players[Variables.MyParty.members[i]].getDEF();
+                    int pVIT = Variables.Players[Variables.MyParty.members[i]].getVIT();
+                    int pAGI = Variables.Players[Variables.MyParty.members[i]].getAGI();
+                    int pMAG = Variables.Players[Variables.MyParty.members[i]].getMAG();
+                    if (Variables.Players[Variables.MyParty.members[i]].getWeapon() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getWeapon()].getItemNum();
                         if (itemNum <= 0) {
                             return;
                         }
@@ -1247,8 +1247,8 @@ public class RenderAndroid {
                         pAGI = pAGI + Variables.Items[itemNum].AGI;
                         pMAG = pMAG + Variables.Items[itemNum].MAG;
                     }
-                    if (Variables.players[Variables.MyParty.members[i]].getOffhand() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getOffhand()].getItemNum();
+                    if (Variables.Players[Variables.MyParty.members[i]].getOffhand() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getOffhand()].getItemNum();
                         if (itemNum <= 0) {
                             return;
                         }
@@ -1258,8 +1258,8 @@ public class RenderAndroid {
                         pAGI = pAGI + Variables.Items[itemNum].AGI;
                         pMAG = pMAG + Variables.Items[itemNum].MAG;
                     }
-                    if (Variables.players[Variables.MyParty.members[i]].getArmor() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getArmor()].getItemNum();
+                    if (Variables.Players[Variables.MyParty.members[i]].getArmor() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getArmor()].getItemNum();
                         if (itemNum <= 0) {
                             return;
                         }
@@ -1269,8 +1269,8 @@ public class RenderAndroid {
                         pAGI = pAGI + Variables.Items[itemNum].AGI;
                         pMAG = pMAG + Variables.Items[itemNum].MAG;
                     }
-                    if (Variables.players[Variables.MyParty.members[i]].getHelmet() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getHelmet()].getItemNum();
+                    if (Variables.Players[Variables.MyParty.members[i]].getHelmet() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getHelmet()].getItemNum();
                         if (itemNum <= 0) {
                             return;
                         }
@@ -1280,8 +1280,8 @@ public class RenderAndroid {
                         pAGI = pAGI + Variables.Items[itemNum].AGI;
                         pMAG = pMAG + Variables.Items[itemNum].MAG;
                     }
-                    if (Variables.players[Variables.MyParty.members[i]].getAcc1() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getAcc1()].getItemNum();
+                    if (Variables.Players[Variables.MyParty.members[i]].getAcc1() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getAcc1()].getItemNum();
                         if (itemNum <= 0) {
                             return;
                         }
@@ -1291,8 +1291,8 @@ public class RenderAndroid {
                         pAGI = pAGI + Variables.Items[itemNum].AGI;
                         pMAG = pMAG + Variables.Items[itemNum].MAG;
                     }
-                    if (Variables.players[Variables.MyParty.members[i]].getAcc2() > 0) {
-                        int itemNum = Variables.players[Variables.MyParty.members[i]].inventory[Variables.players[Variables.MyParty.members[i]].getAcc2()].getItemNum();
+                    if (Variables.Players[Variables.MyParty.members[i]].getAcc2() > 0) {
+                        int itemNum = Variables.Players[Variables.MyParty.members[i]].inventory[Variables.Players[Variables.MyParty.members[i]].getAcc2()].getItemNum();
                         if (itemNum <= 0) {
                             return;
                         }
@@ -1303,62 +1303,62 @@ public class RenderAndroid {
                         pMAG = pMAG + Variables.Items[itemNum].MAG;
                     }
 
-                    if (pSTR > Variables.players[Variables.MyParty.members[i]].getSTR()) {
+                    if (pSTR > Variables.Players[Variables.MyParty.members[i]].getSTR()) {
                         drawName("STR: " + pSTR, 156, 96 + ((i - 1) * 125), Color.GREEN);
                     } else {
                         drawName("STR: " + pSTR, 156, 96 + ((i - 1) * 125), Color.WHITE);
                     }
-                    if (pDEF > Variables.players[Variables.MyParty.members[i]].getDEF()) {
+                    if (pDEF > Variables.Players[Variables.MyParty.members[i]].getDEF()) {
                         drawName("DEF: " + pDEF, 156, 111 + ((i - 1) * 125), Color.GREEN);
                     } else {
                         drawName("DEF: " + pDEF, 156, 111 + ((i - 1) * 125), Color.WHITE);
                     }
-                    if (pVIT > Variables.players[Variables.MyParty.members[i]].getVIT()) {
+                    if (pVIT > Variables.Players[Variables.MyParty.members[i]].getVIT()) {
                         drawName("VIT: " + pVIT, 156, 126 + ((i - 1) * 125), Color.GREEN);
                     } else {
                         drawName("VIT: " + pVIT, 156, 126 + ((i - 1) * 125), Color.WHITE);
                     }
-                    if (pAGI > Variables.players[Variables.MyParty.members[i]].getAGI()) {
+                    if (pAGI > Variables.Players[Variables.MyParty.members[i]].getAGI()) {
                         drawName("AGI: " + pAGI, 226, 96 + ((i - 1) * 125), Color.GREEN);
                     } else {
                         drawName("AGI: " + pAGI, 226, 96 + ((i - 1) * 125), Color.WHITE);
                     }
-                    if (pMAG > Variables.players[Variables.MyParty.members[i]].getMAG()) {
+                    if (pMAG > Variables.Players[Variables.MyParty.members[i]].getMAG()) {
                         drawName("MAG: " + pMAG, 226, 111 + ((i - 1) * 125), Color.GREEN);
                     } else {
                         drawName("MAG: " + pMAG, 226, 111 + ((i - 1) * 125), Color.WHITE);
                     }
-                    drawName("Points: " + Variables.players[Variables.MyParty.members[i]].getPoints(), 226, 126 + ((i - 1) * 125), Color.WHITE);
+                    drawName("Points: " + Variables.Players[Variables.MyParty.members[i]].getPoints(), 226, 126 + ((i - 1) * 125), Color.WHITE);
                 }
             }
         } else {
             // Player Sprite
-            batcher.draw(AssetLoader.spritesDown2[Variables.players[Variables.MyIndex].getSprite()], 63, 59, 32, 36);
+            batcher.draw(AssetLoader.spritesDown2[Variables.Players[Variables.MyIndex].getSprite()], 63, 59, 32, 36);
             // Player Equipment
             batcher.draw(AssetLoader.eqBG, 39, 21, 36, 36);
-            if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
+            if (Variables.Players[Variables.MyIndex].getWeapon() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()].getItemNum();
                 if (itemNum > 0) {
                     batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 39 + 5, 21 + 5, 24, 24, 0, 0, 24, 24, false, true);
                 }
             }
             batcher.draw(AssetLoader.eqBG, 21, 58, 36, 36);
-            if (Variables.players[Variables.MyIndex].getArmor() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
+            if (Variables.Players[Variables.MyIndex].getArmor() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()].getItemNum();
                 if (itemNum > 0) {
                     batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 21 + 5, 58 + 5, 24, 24, 0, 0, 24, 24, false, true);
                 }
             }
             batcher.draw(AssetLoader.eqBG, 76, 21, 36, 36);
-            if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
+            if (Variables.Players[Variables.MyIndex].getOffhand() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()].getItemNum();
                 if (itemNum > 0) {
                     batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 76 + 5, 21 + 5, 24, 24, 0, 0, 24, 24, false, true);
                 }
             }
             batcher.draw(AssetLoader.eqBG, 100, 58, 36, 36);
-            if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
+            if (Variables.Players[Variables.MyIndex].getHelmet() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()].getItemNum();
                 if (itemNum > 0) {
                     batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 100 + 5, 58 + 5, 24, 24, 0, 0, 24, 24, false, true);
                 }
@@ -1367,19 +1367,19 @@ public class RenderAndroid {
             batcher.draw(AssetLoader.eqBG, 76, 95, 36, 36);
 
             // Player Info
-            drawName("Name: " + Variables.players[Variables.MyIndex].getName(), 156, 21, Color.WHITE);
-            drawName("Lvl: " + Variables.players[Variables.MyIndex].getLevel(), 156, 36, Color.WHITE);
-            drawName("HP: " + Variables.players[Variables.MyIndex].getHP() + "/" + Variables.players[Variables.MyIndex].getMaxHP(), 156, 51, Color.WHITE);
-            drawName("MP: " + Variables.players[Variables.MyIndex].getMP() + "/" + Variables.players[Variables.MyIndex].getMaxMP(), 156, 66, Color.WHITE);
-            drawName("EXP: " + Variables.players[Variables.MyIndex].getEXP() + "/" + Variables.players[Variables.MyIndex].getNextLVL(), 156, 81, Color.WHITE);
+            drawName("Name: " + Variables.Players[Variables.MyIndex].getName(), 156, 21, Color.WHITE);
+            drawName("Lvl: " + Variables.Players[Variables.MyIndex].getLevel(), 156, 36, Color.WHITE);
+            drawName("HP: " + Variables.Players[Variables.MyIndex].getHP() + "/" + Variables.Players[Variables.MyIndex].getMaxHP(), 156, 51, Color.WHITE);
+            drawName("MP: " + Variables.Players[Variables.MyIndex].getMP() + "/" + Variables.Players[Variables.MyIndex].getMaxMP(), 156, 66, Color.WHITE);
+            drawName("EXP: " + Variables.Players[Variables.MyIndex].getEXP() + "/" + Variables.Players[Variables.MyIndex].getNextLVL(), 156, 81, Color.WHITE);
 
-            int pSTR = Variables.players[Variables.MyIndex].getSTR();
-            int pDEF = Variables.players[Variables.MyIndex].getDEF();
-            int pVIT = Variables.players[Variables.MyIndex].getVIT();
-            int pAGI = Variables.players[Variables.MyIndex].getAGI();
-            int pMAG = Variables.players[Variables.MyIndex].getMAG();
-            if (Variables.players[Variables.MyIndex].getWeapon() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getWeapon()].getItemNum();
+            int pSTR = Variables.Players[Variables.MyIndex].getSTR();
+            int pDEF = Variables.Players[Variables.MyIndex].getDEF();
+            int pVIT = Variables.Players[Variables.MyIndex].getVIT();
+            int pAGI = Variables.Players[Variables.MyIndex].getAGI();
+            int pMAG = Variables.Players[Variables.MyIndex].getMAG();
+            if (Variables.Players[Variables.MyIndex].getWeapon() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()].getItemNum();
                 if (itemNum <= 0) {
                     return;
                 }
@@ -1389,8 +1389,8 @@ public class RenderAndroid {
                 pAGI = pAGI + Variables.Items[itemNum].AGI;
                 pMAG = pMAG + Variables.Items[itemNum].MAG;
             }
-            if (Variables.players[Variables.MyIndex].getOffhand() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getOffhand()].getItemNum();
+            if (Variables.Players[Variables.MyIndex].getOffhand() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()].getItemNum();
                 if (itemNum <= 0) {
                     return;
                 }
@@ -1400,8 +1400,8 @@ public class RenderAndroid {
                 pAGI = pAGI + Variables.Items[itemNum].AGI;
                 pMAG = pMAG + Variables.Items[itemNum].MAG;
             }
-            if (Variables.players[Variables.MyIndex].getArmor() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getArmor()].getItemNum();
+            if (Variables.Players[Variables.MyIndex].getArmor() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()].getItemNum();
                 if (itemNum <= 0) {
                     return;
                 }
@@ -1411,8 +1411,8 @@ public class RenderAndroid {
                 pAGI = pAGI + Variables.Items[itemNum].AGI;
                 pMAG = pMAG + Variables.Items[itemNum].MAG;
             }
-            if (Variables.players[Variables.MyIndex].getHelmet() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getHelmet()].getItemNum();
+            if (Variables.Players[Variables.MyIndex].getHelmet() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()].getItemNum();
                 if (itemNum <= 0) {
                     return;
                 }
@@ -1422,8 +1422,8 @@ public class RenderAndroid {
                 pAGI = pAGI + Variables.Items[itemNum].AGI;
                 pMAG = pMAG + Variables.Items[itemNum].MAG;
             }
-            if (Variables.players[Variables.MyIndex].getAcc1() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc1()].getItemNum();
+            if (Variables.Players[Variables.MyIndex].getAcc1() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getAcc1()].getItemNum();
                 if (itemNum <= 0) {
                     return;
                 }
@@ -1433,8 +1433,8 @@ public class RenderAndroid {
                 pAGI = pAGI + Variables.Items[itemNum].AGI;
                 pMAG = pMAG + Variables.Items[itemNum].MAG;
             }
-            if (Variables.players[Variables.MyIndex].getAcc2() > 0) {
-                int itemNum = Variables.players[Variables.MyIndex].inventory[Variables.players[Variables.MyIndex].getAcc2()].getItemNum();
+            if (Variables.Players[Variables.MyIndex].getAcc2() > 0) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getAcc2()].getItemNum();
                 if (itemNum <= 0) {
                     return;
                 }
@@ -1445,32 +1445,32 @@ public class RenderAndroid {
                 pMAG = pMAG + Variables.Items[itemNum].MAG;
             }
 
-            if (pSTR > Variables.players[Variables.MyIndex].getSTR()) {
+            if (pSTR > Variables.Players[Variables.MyIndex].getSTR()) {
                 drawName("STR: " + pSTR, 156, 96, Color.GREEN);
             } else {
                 drawName("STR: " + pSTR, 156, 96, Color.WHITE);
             }
-            if (pDEF > Variables.players[Variables.MyIndex].getDEF()) {
+            if (pDEF > Variables.Players[Variables.MyIndex].getDEF()) {
                 drawName("DEF: " + pDEF, 156, 111, Color.GREEN);
             } else {
                 drawName("DEF: " + pDEF, 156, 111, Color.WHITE);
             }
-            if (pVIT > Variables.players[Variables.MyIndex].getVIT()) {
+            if (pVIT > Variables.Players[Variables.MyIndex].getVIT()) {
                 drawName("VIT: " + pVIT, 156, 126, Color.GREEN);
             } else {
                 drawName("VIT: " + pVIT, 156, 126, Color.WHITE);
             }
-            if (pAGI > Variables.players[Variables.MyIndex].getAGI()) {
+            if (pAGI > Variables.Players[Variables.MyIndex].getAGI()) {
                 drawName("AGI: " + pAGI, 226, 96, Color.GREEN);
             } else {
                 drawName("AGI: " + pAGI, 226, 96, Color.WHITE);
             }
-            if (pMAG > Variables.players[Variables.MyIndex].getMAG()) {
+            if (pMAG > Variables.Players[Variables.MyIndex].getMAG()) {
                 drawName("MAG: " + pMAG, 226, 111, Color.GREEN);
             } else {
                 drawName("MAG: " + pMAG, 226, 111, Color.WHITE);
             }
-            drawName("Points: " + Variables.players[Variables.MyIndex].getPoints(), 226, 126, Color.WHITE);
+            drawName("Points: " + Variables.Players[Variables.MyIndex].getPoints(), 226, 126, Color.WHITE);
         }
 
         batcher.draw(AssetLoader.sepBarV, 320, 13, 9, 454);
@@ -1492,8 +1492,8 @@ public class RenderAndroid {
         }
         int goldTotal = 0;
         for (int i = 1; i <= 60; i++) {
-            if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
-                goldTotal += Variables.players[Variables.MyIndex].inventory[i].getItemVal();
+            if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
+                goldTotal += Variables.Players[Variables.MyIndex].inventory[i].getItemVal();
             }
         }
 
@@ -1515,17 +1515,17 @@ public class RenderAndroid {
         batcher.draw(AssetLoader.emptyBar, 192, 0, 96, 12, 0, 0, 96, 12, false, true);
         batcher.draw(AssetLoader.emptyBar, 298, 0, 96, 12, 0, 0, 96, 12, false, true);
         // HP Bar
-        if (Variables.players[Variables.MyIndex].getHP() > Variables.players[Variables.MyIndex].getMaxHP()) { Variables.players[Variables.MyIndex].setHP(Variables.players[Variables.MyIndex].getMaxHP()); }
-        double maxWidth = ((((double) Variables.players[Variables.MyIndex].getHP()) / 96) / ((double) Variables.players[Variables.MyIndex].getMaxHP() / 96) * 96);
+        if (Variables.Players[Variables.MyIndex].getHP() > Variables.Players[Variables.MyIndex].getMaxHP()) { Variables.Players[Variables.MyIndex].setHP(Variables.Players[Variables.MyIndex].getMaxHP()); }
+        double maxWidth = ((((double) Variables.Players[Variables.MyIndex].getHP()) / 96) / ((double) Variables.Players[Variables.MyIndex].getMaxHP() / 96) * 96);
         batcher.draw(AssetLoader.hpBar, 86, 0, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
         drawName("HP", 87, 1, Color.WHITE);
         // MP Bar
-        if (Variables.players[Variables.MyIndex].getMP() > Variables.players[Variables.MyIndex].getMaxMP()) { Variables.players[Variables.MyIndex].setMP(Variables.players[Variables.MyIndex].getMaxMP()); }
-        maxWidth = ((((double) Variables.players[Variables.MyIndex].getMP()) / 96) / ((double) Variables.players[Variables.MyIndex].getMaxMP() / 96) * 96);
+        if (Variables.Players[Variables.MyIndex].getMP() > Variables.Players[Variables.MyIndex].getMaxMP()) { Variables.Players[Variables.MyIndex].setMP(Variables.Players[Variables.MyIndex].getMaxMP()); }
+        maxWidth = ((((double) Variables.Players[Variables.MyIndex].getMP()) / 96) / ((double) Variables.Players[Variables.MyIndex].getMaxMP() / 96) * 96);
         batcher.draw(AssetLoader.mpBar, 192, 0, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
         drawName("MP", 193, 1, Color.WHITE);
         // MP Bar
-        maxWidth = ((((double) Variables.players[Variables.MyIndex].getEXP()) / 96) / ((double) Variables.players[Variables.MyIndex].getNextLVL() / 96) * 96);
+        maxWidth = ((((double) Variables.Players[Variables.MyIndex].getEXP()) / 96) / ((double) Variables.Players[Variables.MyIndex].getNextLVL() / 96) * 96);
         batcher.draw(AssetLoader.xpBar, 298, 0, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
         drawName("XP", 299, 1, Color.WHITE);
         // Chat Bar
@@ -1564,7 +1564,7 @@ public class RenderAndroid {
         }
         if (Variables.PartyInvite) {
             batcher.draw(AssetLoader.partyInvite, 136, 191, 200, 100, 0, 0, 200, 100, false, true);
-            drawName(Variables.players[Variables.PartyLeader].getName(), 213, 240, Color.GREEN);
+            drawName(Variables.Players[Variables.PartyLeader].getName(), 213, 240, Color.GREEN);
         }
     }
     public static void drawNames() {
@@ -1601,54 +1601,54 @@ public class RenderAndroid {
         }
         // Render Player Names
         for (int i = 1; i <= Variables.MaxPlayers; i++) {
-            if (Variables.players[i] != null) {
-                if (Variables.players[i].getMap() == Variables.players[Variables.MyIndex].getMap()) {
-                    float PlayerX = ((Variables.players[i].getX() * Variables.MoveSize) + Variables.players[i].getOffsetX());
-                    float PlayerY = ((Variables.players[i].getY() * Variables.MoveSize) + Variables.players[i].getOffsetY());
+            if (Variables.Players[i] != null) {
+                if (Variables.Players[i].getMap() == Variables.Players[Variables.MyIndex].getMap()) {
+                    float PlayerX = ((Variables.Players[i].getX() * Variables.MoveSize) + Variables.Players[i].getOffsetX());
+                    float PlayerY = ((Variables.Players[i].getY() * Variables.MoveSize) + Variables.Players[i].getOffsetY());
 
-                    if (Variables.players[i].getName() == null) { return; }
-                    layout.setText(AssetLoader.nameFont, Variables.players[i].getName());
+                    if (Variables.Players[i].getName() == null) { return; }
+                    layout.setText(AssetLoader.nameFont, Variables.Players[i].getName());
                     float width = layout.width;// contains the width of the current set text
 
                     float nameX = PlayerX - ((int)width / 2) + 32;
                     float nameY = PlayerY - 8;
-                    if (Variables.players[i].getParty() > 0) {
-                        if (Variables.players[i].getParty() == Variables.players[Variables.MyIndex].getParty()) {
-                            drawName(Variables.players[i].getName(), nameX, nameY, toRGB(0, 162, 232));
+                    if (Variables.Players[i].getParty() > 0) {
+                        if (Variables.Players[i].getParty() == Variables.Players[Variables.MyIndex].getParty()) {
+                            drawName(Variables.Players[i].getName(), nameX, nameY, toRGB(0, 162, 232));
                         } else {
-                            drawName(Variables.players[i].getName(), nameX, nameY, Color.WHITE);
+                            drawName(Variables.Players[i].getName(), nameX, nameY, Color.WHITE);
                         }
                     } else {
-                        drawName(Variables.players[i].getName(), nameX, nameY, Color.WHITE);
+                        drawName(Variables.Players[i].getName(), nameX, nameY, Color.WHITE);
                     }
 
                     if (i == Variables.MyIndex) {
                         GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 16, PlayerY + 48, 32, 4);
 
-                        double maxWidth = ((((double) Variables.players[Variables.MyIndex].getHP()) / 32) / ((double) Variables.players[Variables.MyIndex].getMaxHP() / 32) * 32);
+                        double maxWidth = ((((double) Variables.Players[Variables.MyIndex].getHP()) / 32) / ((double) Variables.Players[Variables.MyIndex].getMaxHP() / 32) * 32);
                         //batcher.draw(AssetLoader.hpBar, 540, 158, (int) maxWidth, 12, 0, 0, (int) maxWidth, 12, false, true);
                         GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 16, PlayerY + 48, (int) maxWidth, 4);
                     }
 
                     // Render Party Stuff
-                    if (Variables.players[Variables.MyIndex].getParty() > 0) {
-                        if (Variables.players[i].getParty() > 0) {
-                            if (Variables.players[i].getParty() == Variables.players[Variables.MyIndex].getParty()) {
+                    if (Variables.Players[Variables.MyIndex].getParty() > 0) {
+                        if (Variables.Players[i].getParty() > 0) {
+                            if (Variables.Players[i].getParty() == Variables.Players[Variables.MyIndex].getParty()) {
                                 for (int a = 1; a <= 3; a++) {
                                     if (Variables.MyParty.members[a] > 0) {
-                                        if (Variables.players[Variables.MyParty.members[a]].getMap() == Variables.players[Variables.MyIndex].getMap()) {
-                                            PlayerX = ((Variables.players[Variables.MyParty.members[a]].getX() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetX());
-                                            PlayerY = ((Variables.players[Variables.MyParty.members[a]].getY() * Variables.MoveSize) + Variables.players[Variables.MyParty.members[a]].getOffsetY());
+                                        if (Variables.Players[Variables.MyParty.members[a]].getMap() == Variables.Players[Variables.MyIndex].getMap()) {
+                                            PlayerX = ((Variables.Players[Variables.MyParty.members[a]].getX() * Variables.MoveSize) + Variables.Players[Variables.MyParty.members[a]].getOffsetX());
+                                            PlayerY = ((Variables.Players[Variables.MyParty.members[a]].getY() * Variables.MoveSize) + Variables.Players[Variables.MyParty.members[a]].getOffsetY());
                                             GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 16, PlayerY + 48, 32, 4);
 
-                                            double maxWidth = ((((double) Variables.players[Variables.MyParty.members[a]].getHP() / 32) / ((double) Variables.players[Variables.MyParty.members[a]].getMaxHP() / 32) * 32));
+                                            double maxWidth = ((((double) Variables.Players[Variables.MyParty.members[a]].getHP() / 32) / ((double) Variables.Players[Variables.MyParty.members[a]].getMaxHP() / 32) * 32));
                                             GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 16, PlayerY + 48, (int) maxWidth, 4);
 
                                             if (Variables.MyParty.members[a] == Variables.MyParty.leader) {
-                                                layout.setText(AssetLoader.nameFont, Variables.players[Variables.MyParty.leader].getName());
+                                                layout.setText(AssetLoader.nameFont, Variables.Players[Variables.MyParty.leader].getName());
                                                 width = layout.width;// contains the width of the current set text
-                                                PlayerX = ((Variables.players[Variables.MyParty.leader].getX() * Variables.MoveSize) + Variables.players[Variables.MyParty.leader].getOffsetX());
-                                                PlayerY = ((Variables.players[Variables.MyParty.leader].getY() * Variables.MoveSize) + Variables.players[Variables.MyParty.leader].getOffsetY());
+                                                PlayerX = ((Variables.Players[Variables.MyParty.leader].getX() * Variables.MoveSize) + Variables.Players[Variables.MyParty.leader].getOffsetX());
+                                                PlayerY = ((Variables.Players[Variables.MyParty.leader].getY() * Variables.MoveSize) + Variables.Players[Variables.MyParty.leader].getOffsetY());
                                                 nameX = PlayerX - ((int) width / 2) + 24;
                                                 nameY = PlayerY - 16;
                                                 batcher.draw(AssetLoader.crown, nameX - 3, nameY - 2, 16, 16, 0, 0, 16, 16, false, true);
@@ -1731,45 +1731,45 @@ public class RenderAndroid {
                 }
             }
             for (int i = 1; i <= Variables.MaxPlayers; i++) {
-                if (Variables.players[i] != null) {
-                    int mapNum = Variables.players[i].getMap();
-                    if (Variables.players[i].getMap() == Variables.players[Variables.MyIndex].getMap()) {
-                        if (Variables.players[i].getY() == LoopY) {
+                if (Variables.Players[i] != null) {
+                    int mapNum = Variables.Players[i].getMap();
+                    if (Variables.Players[i].getMap() == Variables.Players[Variables.MyIndex].getMap()) {
+                        if (Variables.Players[i].getY() == LoopY) {
 
                             int MovementSpeed = 4;
 
-                            switch (Variables.players[i].getDir()) {
+                            switch (Variables.Players[i].getDir()) {
                                 case Variables.DIR_UP:
-                                    Variables.players[i].setOffsetY(Variables.players[i].getOffsetY() - MovementSpeed);
-                                    if (Variables.players[i].getOffsetY() < 0) {
-                                        Variables.players[i].setOffsetY(0);
-                                        Variables.players[i].setMoving(0);
+                                    Variables.Players[i].setOffsetY(Variables.Players[i].getOffsetY() - MovementSpeed);
+                                    if (Variables.Players[i].getOffsetY() < 0) {
+                                        Variables.Players[i].setOffsetY(0);
+                                        Variables.Players[i].setMoving(0);
                                     }
                                     break;
                                 case Variables.DIR_DOWN:
-                                    Variables.players[i].setOffsetY(Variables.players[i].getOffsetY() + MovementSpeed);
-                                    if (Variables.players[i].getOffsetY() > 0) {
-                                        Variables.players[i].setOffsetY(0);
-                                        Variables.players[i].setMoving(0);
+                                    Variables.Players[i].setOffsetY(Variables.Players[i].getOffsetY() + MovementSpeed);
+                                    if (Variables.Players[i].getOffsetY() > 0) {
+                                        Variables.Players[i].setOffsetY(0);
+                                        Variables.Players[i].setMoving(0);
                                     }
                                     break;
                                 case Variables.DIR_LEFT:
-                                    Variables.players[i].setOffsetX(Variables.players[i].getOffsetX() - MovementSpeed);
-                                    if (Variables.players[i].getOffsetX() < 0) {
-                                        Variables.players[i].setOffsetX(0);
-                                        Variables.players[i].setMoving(0);
+                                    Variables.Players[i].setOffsetX(Variables.Players[i].getOffsetX() - MovementSpeed);
+                                    if (Variables.Players[i].getOffsetX() < 0) {
+                                        Variables.Players[i].setOffsetX(0);
+                                        Variables.Players[i].setMoving(0);
                                     }
                                     break;
                                 case Variables.DIR_RIGHT:
-                                    Variables.players[i].setOffsetX(Variables.players[i].getOffsetX() + MovementSpeed);
-                                    if (Variables.players[i].getOffsetX() > 0) {
-                                        Variables.players[i].setOffsetX(0);
-                                        Variables.players[i].setMoving(0);
+                                    Variables.Players[i].setOffsetX(Variables.Players[i].getOffsetX() + MovementSpeed);
+                                    if (Variables.Players[i].getOffsetX() > 0) {
+                                        Variables.Players[i].setOffsetX(0);
+                                        Variables.Players[i].setMoving(0);
                                     }
                                     break;
                             }
-                            float PlayerX = ((Variables.players[i].getX() * Variables.MoveSize) + Variables.players[i].getOffsetX());
-                            float PlayerY = ((Variables.players[i].getY() * Variables.MoveSize) + Variables.players[i].getOffsetY());
+                            float PlayerX = ((Variables.Players[i].getX() * Variables.MoveSize) + Variables.Players[i].getOffsetX());
+                            float PlayerY = ((Variables.Players[i].getY() * Variables.MoveSize) + Variables.Players[i].getOffsetY());
                             renderPlayer(i, PlayerX, PlayerY, tickCount);
                         }
                     }
@@ -1852,8 +1852,8 @@ public class RenderAndroid {
                     }
                 }
                 for (int i = 1; i <= Variables.MaxPlayers; i++) {
-                    int PlayerX = ((Variables.players[i].getX() * Variables.MoveSize) + Variables.players[i].getOffsetX());
-                    int PlayerY = ((Variables.players[i].getY() * Variables.MoveSize) + Variables.players[i].getOffsetY());
+                    int PlayerX = ((Variables.Players[i].getX() * Variables.MoveSize) + Variables.Players[i].getOffsetX());
+                    int PlayerY = ((Variables.Players[i].getY() * Variables.MoveSize) + Variables.Players[i].getOffsetY());
                     PlayerX = PlayerX / Variables.MoveSize;
                     PlayerY = PlayerY / Variables.MoveSize;
                     if (Variables.CurX == PlayerX && Variables.CurY == PlayerY) {
@@ -1948,26 +1948,26 @@ public class RenderAndroid {
         }
     }
     public static void processMovement(int index) {
-        if (Variables.players[index].getMoving() > 0) {
-            if (Variables.players[index].getOffsetX() == 0 && Variables.players[index].getOffsetY() == 0) {
-                Variables.players[index].setMoving(0);
-                if (Variables.players[index].getStep() == 0) {
-                    Variables.players[index].setStep(1);
-                    Variables.players[index].setLastStep(0);
-                } else if (Variables.players[index].getStep() == 1) {
-                    if (Variables.players[index].getLastStep() == 0) {
-                        Variables.players[index].setStep(2);
-                    } else if (Variables.players[index].getLastStep() == 2) {
-                        Variables.players[index].setStep(0);
+        if (Variables.Players[index].getMoving() > 0) {
+            if (Variables.Players[index].getOffsetX() == 0 && Variables.Players[index].getOffsetY() == 0) {
+                Variables.Players[index].setMoving(0);
+                if (Variables.Players[index].getStep() == 0) {
+                    Variables.Players[index].setStep(1);
+                    Variables.Players[index].setLastStep(0);
+                } else if (Variables.Players[index].getStep() == 1) {
+                    if (Variables.Players[index].getLastStep() == 0) {
+                        Variables.Players[index].setStep(2);
+                    } else if (Variables.Players[index].getLastStep() == 2) {
+                        Variables.Players[index].setStep(0);
                     }
-                } else if (Variables.players[index].getStep() == 2) {
-                    Variables.players[index].setStep(1);
-                    Variables.players[index].setLastStep(2);
+                } else if (Variables.Players[index].getStep() == 2) {
+                    Variables.Players[index].setStep(1);
+                    Variables.Players[index].setLastStep(2);
                 }
             }
         } else {
-            Variables.players[index].setStep(1);
-            Variables.players[index].setLastStep(0);
+            Variables.Players[index].setStep(1);
+            Variables.Players[index].setLastStep(0);
         }
     }
     public static void processNPCMovement(int index) {

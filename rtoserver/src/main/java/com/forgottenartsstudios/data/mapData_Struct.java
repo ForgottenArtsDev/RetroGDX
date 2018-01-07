@@ -6,4 +6,5 @@ package com.forgottenartsstudios.data;
 public class mapData_Struct {
     public MapNPC[] Npc;
     public MapItem[] Item;
+    public MapSpell[] Spell;
 }

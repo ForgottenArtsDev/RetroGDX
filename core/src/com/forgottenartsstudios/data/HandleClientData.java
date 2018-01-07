@@ -4,13 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
-import com.forgottenartsstudios.networking.packetdata.*;
 import com.forgottenartsstudios.networking.packets.DisconnectPlayer;
-import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
 import com.forgottenartsstudios.networking.packets.MovePlayer;
-import com.forgottenartsstudios.networking.packets.PartyDecision;
 import com.forgottenartsstudios.networking.packets.PartyInfo;
 import com.forgottenartsstudios.networking.packets.PlayerData;
+import com.forgottenartsstudios.networking.packets.SendCastTime;
 import com.forgottenartsstudios.networking.packets.SendHPRegen;
 import com.forgottenartsstudios.networking.packets.SendInventory;
 import com.forgottenartsstudios.networking.packets.SendItems;
@@ -18,6 +16,7 @@ import com.forgottenartsstudios.networking.packets.SendKillNPC;
 import com.forgottenartsstudios.networking.packets.SendLogin;
 import com.forgottenartsstudios.networking.packets.SendMapItems;
 import com.forgottenartsstudios.networking.packets.SendMapNPCs;
+import com.forgottenartsstudios.networking.packets.SendMapSpells;
 import com.forgottenartsstudios.networking.packets.SendMessage;
 import com.forgottenartsstudios.networking.packets.SendNPCDead;
 import com.forgottenartsstudios.networking.packets.SendNPCDir;
@@ -31,6 +30,8 @@ import com.forgottenartsstudios.networking.packets.SendPlayerDmg;
 import com.forgottenartsstudios.networking.packets.SendPlayerWarp;
 import com.forgottenartsstudios.networking.packets.SendRespawnNPC;
 import com.forgottenartsstudios.networking.packets.SendShop;
+import com.forgottenartsstudios.networking.packets.SendSpellInv;
+import com.forgottenartsstudios.networking.packets.SendSpells;
 import com.forgottenartsstudios.networking.packets.SendSystemMessage;
 import com.forgottenartsstudios.networking.packets.SendVital;
 
@@ -53,9 +54,11 @@ public class HandleClientData {
         Variables.MyAccount.setPW(sndLogin.accountData.getPW());
         Variables.MyAccount.setCID(sndLogin.accountData.getCID());
 
-        Variables.players[Variables.MyIndex].inventory = new Inventory_Struct[60 + 1];
+        Variables.Players[Variables.MyIndex].inventory = new Inventory_Struct[60 + 1];
+        Variables.Players[Variables.MyIndex].spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
-            Variables.players[Variables.MyIndex].inventory[i] = new Inventory_Struct();
+            Variables.Players[Variables.MyIndex].inventory[i] = new Inventory_Struct();
+            Variables.Players[Variables.MyIndex].spells[i] = new Spell_Inv_Struct();
         }
 
         // 1
@@ -91,10 +94,14 @@ public class HandleClientData {
         Variables.MyAccount.chars[1].setAcc2(sndLogin.char1.getAcc2());
 
         Variables.MyAccount.chars[1].inventory = new Inventory_Struct[60 + 1];
+        Variables.MyAccount.chars[1].spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
             Variables.MyAccount.chars[1].inventory[i] = new Inventory_Struct();
             Variables.MyAccount.chars[1].inventory[i].setItemNum(sndLogin.char1.inventory[i].getItemNum());
             Variables.MyAccount.chars[1].inventory[i].setItemVal(sndLogin.char1.inventory[i].getItemVal());
+
+            Variables.MyAccount.chars[1].spells[i] = new Spell_Inv_Struct();
+            Variables.MyAccount.chars[1].spells[i].setSpellNum(sndLogin.char1.spells[i].getSpellNum());
         }
 
         // CHAR 2
@@ -130,10 +137,14 @@ public class HandleClientData {
         Variables.MyAccount.chars[2].setAcc2(sndLogin.char2.getAcc2());
 
         Variables.MyAccount.chars[2].inventory = new Inventory_Struct[60 + 1];
+        Variables.MyAccount.chars[2].spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
             Variables.MyAccount.chars[2].inventory[i] = new Inventory_Struct();
             Variables.MyAccount.chars[2].inventory[i].setItemNum(sndLogin.char2.inventory[i].getItemNum());
             Variables.MyAccount.chars[2].inventory[i].setItemVal(sndLogin.char2.inventory[i].getItemVal());
+
+            Variables.MyAccount.chars[2].spells[i] = new Spell_Inv_Struct();
+            Variables.MyAccount.chars[2].spells[i].setSpellNum(sndLogin.char2.spells[i].getSpellNum());
         }
 
         // CHAR 3
@@ -169,10 +180,14 @@ public class HandleClientData {
         Variables.MyAccount.chars[3].setAcc2(sndLogin.char3.getAcc2());
 
         Variables.MyAccount.chars[3].inventory = new Inventory_Struct[60 + 1];
+        Variables.MyAccount.chars[3].spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
             Variables.MyAccount.chars[3].inventory[i] = new Inventory_Struct();
             Variables.MyAccount.chars[3].inventory[i].setItemNum(sndLogin.char3.inventory[i].getItemNum());
             Variables.MyAccount.chars[3].inventory[i].setItemVal(sndLogin.char3.inventory[i].getItemVal());
+
+            Variables.MyAccount.chars[3].spells[i] = new Spell_Inv_Struct();
+            Variables.MyAccount.chars[3].spells[i].setSpellNum(sndLogin.char3.spells[i].getSpellNum());
         }
 
         Variables.Game_State = Variables.Game_State_CharSelect;
@@ -189,47 +204,53 @@ public class HandleClientData {
         int index = plData.index;
         if (plData.playerData.getMap() == 0) { return; }
 
-        Variables.players[index].setName(plData.playerData.getName());
+        Variables.Players[index].setName(plData.playerData.getName());
 
         for (int i = 1; i <= 3; i++) {
-            if (Variables.players[index].getName().equals(Variables.MyAccount.chars[i].getName())) {
+            if (Variables.Players[index].getName().equals(Variables.MyAccount.chars[i].getName())) {
                 Variables.MyAccount.setActiveChar(i);
                 break;
             }
         }
 
-        Variables.players[index].setJob(plData.playerData.getJob());
-        Variables.players[index].setLevel(plData.playerData.getLevel());
-        Variables.players[index].setSprite(plData.playerData.getSprite());
-        Variables.players[index].setPoints(plData.playerData.getPoints());
+        Variables.Players[index].setJob(plData.playerData.getJob());
+        Variables.Players[index].setLevel(plData.playerData.getLevel());
+        Variables.Players[index].setSprite(plData.playerData.getSprite());
+        Variables.Players[index].setPoints(plData.playerData.getPoints());
 
-        Variables.players[index].setHP(plData.playerData.getHP());
-        Variables.players[index].setMP(plData.playerData.getMP());
-        Variables.players[index].setMaxHP(plData.playerData.getMaxHP());
-        Variables.players[index].setMaxMP(plData.playerData.getMaxMP());
+        Variables.Players[index].setHP(plData.playerData.getHP());
+        Variables.Players[index].setMP(plData.playerData.getMP());
+        Variables.Players[index].setMaxHP(plData.playerData.getMaxHP());
+        Variables.Players[index].setMaxMP(plData.playerData.getMaxMP());
 
-        Variables.players[index].setEXP(plData.playerData.getEXP());
-        Variables.players[index].setNextLVL(plData.playerData.getNextLVL());
+        Variables.Players[index].setEXP(plData.playerData.getEXP());
+        Variables.Players[index].setNextLVL(plData.playerData.getNextLVL());
 
-        Variables.players[index].setMap(plData.playerData.getMap());
-        Variables.players[index].setX(plData.playerData.getX());
-        Variables.players[index].setY(plData.playerData.getY());
-        Variables.players[index].setDir(plData.playerData.getDir());
+        Variables.Players[index].setMap(plData.playerData.getMap());
+        Variables.Players[index].setX(plData.playerData.getX());
+        Variables.Players[index].setY(plData.playerData.getY());
+        Variables.Players[index].setDir(plData.playerData.getDir());
 
-        Variables.players[index].setSTR(plData.playerData.getSTR());
-        Variables.players[index].setDEF(plData.playerData.getDEF());
-        Variables.players[index].setVIT(plData.playerData.getVIT());
-        Variables.players[index].setAGI(plData.playerData.getAGI());
-        Variables.players[index].setMAG(plData.playerData.getMAG());
+        Variables.Players[index].setSTR(plData.playerData.getSTR());
+        Variables.Players[index].setDEF(plData.playerData.getDEF());
+        Variables.Players[index].setVIT(plData.playerData.getVIT());
+        Variables.Players[index].setAGI(plData.playerData.getAGI());
+        Variables.Players[index].setMAG(plData.playerData.getMAG());
 
-        Variables.players[index].setWeapon(plData.playerData.getWeapon());
-        Variables.players[index].setOffhand(plData.playerData.getOffhand());
-        Variables.players[index].setArmor(plData.playerData.getArmor());
-        Variables.players[index].setHelmet(plData.playerData.getHelmet());
-        Variables.players[index].setAcc1(plData.playerData.getAcc1());
-        Variables.players[index].setAcc2(plData.playerData.getAcc2());
+        Variables.Players[index].setWeapon(plData.playerData.getWeapon());
+        Variables.Players[index].setOffhand(plData.playerData.getOffhand());
+        Variables.Players[index].setArmor(plData.playerData.getArmor());
+        Variables.Players[index].setHelmet(plData.playerData.getHelmet());
+        Variables.Players[index].setAcc1(plData.playerData.getAcc1());
+        Variables.Players[index].setAcc2(plData.playerData.getAcc2());
 
-        Variables.players[index].setParty(plData.playerData.getParty());
+        Variables.Players[index].setHotKeyQ(plData.playerData.getHotKeyQ());
+        Variables.Players[index].setHotKeyE(plData.playerData.getHotKeyE());
+
+        Variables.Players[index].setTarget(plData.playerData.getTarget());
+        Variables.Players[index].setTargetType(plData.playerData.getTargetType());
+
+        Variables.Players[index].setParty(plData.playerData.getParty());
 
         if (index == Variables.MyIndex) {
             Variables.MinX = 0;
@@ -252,27 +273,27 @@ public class HandleClientData {
 
         if (Index != Variables.MyIndex) {
             if (canMove) {
-                Variables.players[Index].setMap(Map);
-                Variables.players[Index].setX(X);
-                Variables.players[Index].setY(Y);
-                Variables.players[Index].setDir(Dir);
+                Variables.Players[Index].setMap(Map);
+                Variables.Players[Index].setX(X);
+                Variables.Players[Index].setY(Y);
+                Variables.Players[Index].setDir(Dir);
 
                 switch (Dir) {
                     case Variables.DIR_UP:
-                        Variables.players[Index].setOffsetY(32);
+                        Variables.Players[Index].setOffsetY(32);
                         break;
                     case Variables.DIR_DOWN:
-                        Variables.players[Index].setOffsetY(32 * -1);
+                        Variables.Players[Index].setOffsetY(32 * -1);
                         break;
                     case Variables.DIR_LEFT:
-                        Variables.players[Index].setOffsetX(32);
+                        Variables.Players[Index].setOffsetX(32);
                         break;
                     case Variables.DIR_RIGHT:
-                        Variables.players[Index].setOffsetX(32 * -1);
+                        Variables.Players[Index].setOffsetX(32 * -1);
                         break;
                 }
             } else {
-                Variables.players[Index].setDir(Dir);
+                Variables.Players[Index].setDir(Dir);
             }
         }
     }
@@ -307,7 +328,7 @@ public class HandleClientData {
 
         int Index = dPlayer.index;
 
-        Variables.players[Index] = new Player();
+        Variables.Players[Index] = new Player();
     }
     public static void HandleNPCDead(Object object) {
         SendNPCDead sndNPCDead = (SendNPCDead) object;
@@ -351,29 +372,29 @@ public class HandleClientData {
     public static void HandleVital(Object object) {
         SendVital sVital = (SendVital) object;
 
-        Variables.players[Variables.MyIndex].setLevel(sVital.lvl);
+        Variables.Players[Variables.MyIndex].setLevel(sVital.lvl);
 
-        Variables.players[Variables.MyIndex].setHP(sVital.hp);
-        Variables.players[Variables.MyIndex].setMaxHP(sVital.maxHP);
-        Variables.players[Variables.MyIndex].setMP(sVital.mp);
-        Variables.players[Variables.MyIndex].setMaxMP(sVital.maxMP);
+        Variables.Players[Variables.MyIndex].setHP(sVital.hp);
+        Variables.Players[Variables.MyIndex].setMaxHP(sVital.maxHP);
+        Variables.Players[Variables.MyIndex].setMP(sVital.mp);
+        Variables.Players[Variables.MyIndex].setMaxMP(sVital.maxMP);
 
-        Variables.players[Variables.MyIndex].setEXP(sVital.exp);
-        Variables.players[Variables.MyIndex].setNextLVL(sVital.nextLvl);
-        Variables.players[Variables.MyIndex].setPoints(sVital.points);
+        Variables.Players[Variables.MyIndex].setEXP(sVital.exp);
+        Variables.Players[Variables.MyIndex].setNextLVL(sVital.nextLvl);
+        Variables.Players[Variables.MyIndex].setPoints(sVital.points);
 
-        Variables.players[Variables.MyIndex].setSTR(sVital.str);
-        Variables.players[Variables.MyIndex].setDEF(sVital.def);
-        Variables.players[Variables.MyIndex].setVIT(sVital.vit);
-        Variables.players[Variables.MyIndex].setAGI(sVital.agi);
-        Variables.players[Variables.MyIndex].setMAG(sVital.mag);
+        Variables.Players[Variables.MyIndex].setSTR(sVital.str);
+        Variables.Players[Variables.MyIndex].setDEF(sVital.def);
+        Variables.Players[Variables.MyIndex].setVIT(sVital.vit);
+        Variables.Players[Variables.MyIndex].setAGI(sVital.agi);
+        Variables.Players[Variables.MyIndex].setMAG(sVital.mag);
 
-        Variables.players[Variables.MyIndex].setWeapon(sVital.weapon);
-        Variables.players[Variables.MyIndex].setOffhand(sVital.offhand);
-        Variables.players[Variables.MyIndex].setArmor(sVital.armor);
-        Variables.players[Variables.MyIndex].setHelmet(sVital.helmet);
-        Variables.players[Variables.MyIndex].setAcc1(sVital.acc1);
-        Variables.players[Variables.MyIndex].setAcc2(sVital.acc2);
+        Variables.Players[Variables.MyIndex].setWeapon(sVital.weapon);
+        Variables.Players[Variables.MyIndex].setOffhand(sVital.offhand);
+        Variables.Players[Variables.MyIndex].setArmor(sVital.armor);
+        Variables.Players[Variables.MyIndex].setHelmet(sVital.helmet);
+        Variables.Players[Variables.MyIndex].setAcc1(sVital.acc1);
+        Variables.Players[Variables.MyIndex].setAcc2(sVital.acc2);
 
         Variables.useItem = false;
         Variables.buyItem = false;
@@ -387,12 +408,12 @@ public class HandleClientData {
         int mapNum = sPWarp.mapNum;
         int x = sPWarp.x;
         int y = sPWarp.y;
-        int oldMapNum = Variables.players[index].getMap();
+        int oldMapNum = Variables.Players[index].getMap();
 
         if (index == Variables.MyIndex) {
-            Variables.players[index].setMap(mapNum);
-            Variables.players[index].setX(x);
-            Variables.players[index].setY(y);
+            Variables.Players[index].setMap(mapNum);
+            Variables.Players[index].setX(x);
+            Variables.Players[index].setY(y);
         }
 
         Variables.reloadingMap = false;
@@ -426,14 +447,14 @@ public class HandleClientData {
 
         int index = sInv.index;
 
-        Variables.players[index].inventory = new Inventory_Struct[60 + 1];
+        Variables.Players[index].inventory = new Inventory_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
-            Variables.players[index].inventory[i] = new Inventory_Struct();
+            Variables.Players[index].inventory[i] = new Inventory_Struct();
         }
 
         for (int i = 1; i <= 60; i++) {
-            Variables.players[index].inventory[i].setItemNum(sInv.invData[i].getItemNum());
-            Variables.players[index].inventory[i].setItemVal(sInv.invData[i].getItemVal());
+            Variables.Players[index].inventory[i].setItemNum(sInv.invData[i].getItemNum());
+            Variables.Players[index].inventory[i].setItemVal(sInv.invData[i].getItemVal());
         }
     }
     public static void HandleBoughtItemMsg() {
@@ -515,8 +536,8 @@ public class HandleClientData {
                 layout.setText(AssetLoader.nameFont, Variables.DrawXP[i].getDamage() + "");
                 float width = layout.width;// contains the width of the current set text
 
-                float PlayerX = ((Variables.players[Variables.MyIndex].getX() * Variables.MoveSize) + Variables.players[Variables.MyIndex].getOffsetX());
-                float PlayerY = ((Variables.players[Variables.MyIndex].getY() * Variables.MoveSize) + Variables.players[Variables.MyIndex].getOffsetY());
+                float PlayerX = ((Variables.Players[Variables.MyIndex].getX() * Variables.MoveSize) + Variables.Players[Variables.MyIndex].getOffsetX());
+                float PlayerY = ((Variables.Players[Variables.MyIndex].getY() * Variables.MoveSize) + Variables.Players[Variables.MyIndex].getOffsetY());
 
                 float nameX = PlayerX - ((int)width / 2) + 24;
                 float nameY = PlayerY - 28;
@@ -550,8 +571,8 @@ public class HandleClientData {
                 layout.setText(AssetLoader.nameFont, Variables.DrawPlayerDamage[i].getDamage() + "");
                 float width = layout.width;// contains the width of the current set text
 
-                float PlayerX = ((Variables.players[sDmg.index].getX() * Variables.MoveSize) + Variables.players[sDmg.index].getOffsetX());
-                float PlayerY = ((Variables.players[sDmg.index].getY() * Variables.MoveSize) + Variables.players[sDmg.index].getOffsetY());
+                float PlayerX = ((Variables.Players[sDmg.index].getX() * Variables.MoveSize) + Variables.Players[sDmg.index].getOffsetX());
+                float PlayerY = ((Variables.Players[sDmg.index].getY() * Variables.MoveSize) + Variables.Players[sDmg.index].getOffsetY());
 
                 float nameX = PlayerX - ((int)width / 2) + 24;
                 float nameY = PlayerY - 28;
@@ -611,8 +632,8 @@ public class HandleClientData {
                 layout.setText(AssetLoader.nameFont, Variables.DrawSystemMessage[i].getMsg());
                 float width = layout.width;// contains the width of the current set text
 
-                float PlayerX = ((Variables.players[index].getX() * Variables.MoveSize) + Variables.players[index].getOffsetX());
-                float PlayerY = ((Variables.players[index].getY() * Variables.MoveSize) + Variables.players[index].getOffsetY());
+                float PlayerX = ((Variables.Players[index].getX() * Variables.MoveSize) + Variables.Players[index].getOffsetX());
+                float PlayerY = ((Variables.Players[index].getY() * Variables.MoveSize) + Variables.Players[index].getOffsetY());
 
                 float nameX = PlayerX - ((int)width / 2) + 24;
                 float nameY = PlayerY - 28;
@@ -635,8 +656,8 @@ public class HandleClientData {
                 layout.setText(AssetLoader.nameFont, Variables.DrawHP[i].getDamage() + "");
                 float width = layout.width;// contains the width of the current set text
 
-                float PlayerX = ((Variables.players[Variables.MyIndex].getX() * Variables.MoveSize) + Variables.players[Variables.MyIndex].getOffsetX());
-                float PlayerY = ((Variables.players[Variables.MyIndex].getY() * Variables.MoveSize) + Variables.players[Variables.MyIndex].getOffsetY());
+                float PlayerX = ((Variables.Players[Variables.MyIndex].getX() * Variables.MoveSize) + Variables.Players[Variables.MyIndex].getOffsetX());
+                float PlayerY = ((Variables.Players[Variables.MyIndex].getY() * Variables.MoveSize) + Variables.Players[Variables.MyIndex].getOffsetY());
 
                 float nameX = PlayerX - ((int)width / 2) + 24;
                 float nameY = PlayerY - 28;
@@ -674,7 +695,7 @@ public class HandleClientData {
         PartyInfo partyInfo = (PartyInfo) object;
 
         int index = partyInfo.index;
-        Variables.players[index].setParty(partyInfo.partyNum);
+        Variables.Players[index].setParty(partyInfo.partyNum);
         Variables.MyParty = partyInfo.party;
 
         if (partyInfo.partyNum == 0) {
@@ -682,5 +703,38 @@ public class HandleClientData {
                 Variables.inMenu = false;
             }
         }
+    }
+    public static void HandleSendSpellInv(Object object) {
+        SendSpellInv sendSpellInv = (SendSpellInv) object;
+
+        int index = sendSpellInv.index;
+
+        Variables.Players[index].spells = sendSpellInv.splData;
+    }
+    public static void HandleSendSpells(Object object) {
+        SendSpells sSpells = (SendSpells) object;
+        int spellNum = sSpells.spellNum;
+        Variables.Spells[spellNum] = sSpells.spell;
+    }
+    public static void HandleSendMapSpells(Object object) {
+        SendMapSpells sendMapSpells = (SendMapSpells) object;
+
+        int i = sendMapSpells.index;
+        Variables.MapSpells[i].setIndex(sendMapSpells.target);
+        Variables.MapSpells[i].setSpellNum(sendMapSpells.spellNum);
+        Variables.MapSpells[i].setX(sendMapSpells.x);
+        Variables.MapSpells[i].setY(sendMapSpells.y);
+        Variables.MapSpells[i].setType(sendMapSpells.type);
+    }
+    public static void HandleSendCastTime(Object object) {
+        SendCastTime sendCastTime = (SendCastTime) object;
+
+        int spellInvSlot = sendCastTime.spellInvSlot;
+        int castTime = sendCastTime.castTime;
+
+        Variables.Players[Variables.MyIndex].spells[spellInvSlot].setCastTime(castTime);
+        Variables.Players[Variables.MyIndex].spells[spellInvSlot].setCastTimeTimer(0);
+
+        System.out.println("Got SendCastTime packet.");
     }
 }

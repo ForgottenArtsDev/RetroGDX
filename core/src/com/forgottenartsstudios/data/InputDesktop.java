@@ -247,12 +247,27 @@ public class InputDesktop {
                 }
             }
         }
-        if (worldCoordinates.x >= 635 && worldCoordinates.x <= 669) {
+        if (worldCoordinates.x >= 715 && worldCoordinates.x <= 760) {
+            if (worldCoordinates.y >= 420 && worldCoordinates.y <= 460) {
+                if (!Variables.inSpells) {
+                    Variables.inInventory = false;
+                    Variables.inStatus = false;
+                    Variables.inShop = false;
+                    Variables.inSpells = true;
+                } else {
+                    Variables.inInventory = false;
+                    Variables.inStatus = false;
+                    Variables.inShop = false;
+                    Variables.inSpells = false;
+                }
+            }
+        }
+        if (worldCoordinates.x >= 635 && worldCoordinates.x <= 671) {
             if (worldCoordinates.y >= 420 && worldCoordinates.y <= 460) {
                 if (!Variables.inStatus) {
                     Variables.inStatus = true;
 
-                    Variables.tempStats.Points = Variables.players[Variables.MyIndex].getPoints();
+                    Variables.tempStats.Points = Variables.Players[Variables.MyIndex].getPoints();
                     Variables.tempStats.STR = 0;
                     Variables.tempStats.DEF = 0;
                     Variables.tempStats.VIT = 0;
@@ -304,7 +319,7 @@ public class InputDesktop {
             }
         }
 
-        if (Variables.players[Variables.MyIndex].getParty() > 0) {
+        if (Variables.Players[Variables.MyIndex].getParty() > 0) {
             if (worldCoordinates.x >= 546 && worldCoordinates.x <= 633) {
                 if (worldCoordinates.y >= 420 && worldCoordinates.y <= 456) {
                     if (!Variables.inMenu) {
@@ -393,6 +408,7 @@ public class InputDesktop {
         if (!Variables.reloadingMap) {
             if (Variables.inShop) { handleShop(worldCoordinates); }
             if (Variables.inInventory) { handleInventory(worldCoordinates); }
+            if (Variables.inSpells) { handleSpells(worldCoordinates); }
             if (Variables.inStatus) { handleStatus(worldCoordinates); }
             handleChat(worldCoordinates);
         }
@@ -400,10 +416,10 @@ public class InputDesktop {
 
     public static void checkAttack(long tickCount) {
         if (Variables.pressAttack) {
-            if (Variables.players[Variables.MyIndex].getAttackTimer() + 500 < tickCount) {
-                if (Variables.players[Variables.MyIndex].getAttacking() == 0) {
-                    Variables.players[Variables.MyIndex].setAttacking(1);
-                    Variables.players[Variables.MyIndex].setAttackTimer(tickCount);
+            if (Variables.Players[Variables.MyIndex].getAttackTimer() + 500 < tickCount) {
+                if (Variables.Players[Variables.MyIndex].getAttacking() == 0) {
+                    Variables.Players[Variables.MyIndex].setAttacking(1);
+                    Variables.Players[Variables.MyIndex].setAttackTimer(tickCount);
                     SendClientData.SendAttack();
                 }
             }
@@ -417,31 +433,31 @@ public class InputDesktop {
     }
     public static void checkMovement() {
         if (Variables.pressUp) {
-            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.players[Variables.MyIndex].getMap();
-                int x = Variables.players[Variables.MyIndex].getX();
-                int y = Variables.players[Variables.MyIndex].getY();
+            if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
+                int mapNum = Variables.Players[Variables.MyIndex].getMap();
+                int x = Variables.Players[Variables.MyIndex].getX();
+                int y = Variables.Players[Variables.MyIndex].getY();
                 SendClientData.SendMovePlayer(Variables.DIR_UP);
             }
         } else if (Variables.pressDown) {
-            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.players[Variables.MyIndex].getMap();
-                int x = Variables.players[Variables.MyIndex].getX();
-                int y = Variables.players[Variables.MyIndex].getY();
+            if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
+                int mapNum = Variables.Players[Variables.MyIndex].getMap();
+                int x = Variables.Players[Variables.MyIndex].getX();
+                int y = Variables.Players[Variables.MyIndex].getY();
                 SendClientData.SendMovePlayer(Variables.DIR_DOWN);
             }
         } else if (Variables.pressLeft) {
-            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.players[Variables.MyIndex].getMap();
-                int x = Variables.players[Variables.MyIndex].getX();
-                int y = Variables.players[Variables.MyIndex].getY();
+            if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
+                int mapNum = Variables.Players[Variables.MyIndex].getMap();
+                int x = Variables.Players[Variables.MyIndex].getX();
+                int y = Variables.Players[Variables.MyIndex].getY();
                 SendClientData.SendMovePlayer(Variables.DIR_LEFT);
             }
         } else if (Variables.pressRight) {
-            if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.players[Variables.MyIndex].getMap();
-                int x = Variables.players[Variables.MyIndex].getX();
-                int y = Variables.players[Variables.MyIndex].getY();
+            if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
+                int mapNum = Variables.Players[Variables.MyIndex].getMap();
+                int x = Variables.Players[Variables.MyIndex].getX();
+                int y = Variables.Players[Variables.MyIndex].getY();
                 SendClientData.SendMovePlayer(Variables.DIR_RIGHT);
             }
         }
@@ -476,6 +492,24 @@ public class InputDesktop {
                 Variables.pressRight = true;
                 Variables.pressAttack = false;
                 Variables.pickUpItem = false;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+                if (!Variables.hotKeyQ) {
+                    if (Variables.Players[Variables.MyIndex].getHotKeyQ() > 0) {
+                        int spellNum = Variables.Players[Variables.MyIndex].getHotKeyQ();
+                        if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
+                            SendClientData.SendUseHotKey(Variables.HOT_KEY_Q);
+                            Variables.hotKeyQ = true;
+                            System.out.println("SendUseHotKey");
+                        }
+                    }
+                }
+            } else if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+                if (Variables.Players[Variables.MyIndex].getHotKeyE() > 0) {
+                    int spellNum = Variables.Players[Variables.MyIndex].getHotKeyE();
+                    if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
+                        SendClientData.SendUseHotKey(Variables.HOT_KEY_E);
+                    }
+                }
             } else if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
                 Variables.pressUp = false;
                 Variables.pressLeft = false;
@@ -574,7 +608,7 @@ public class InputDesktop {
             if (i == 11) {
                 x = 28;
                 y = 69;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -601,7 +635,7 @@ public class InputDesktop {
             } else if (i == 21) {
                 x = 28;
                 y = 110;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -628,7 +662,7 @@ public class InputDesktop {
             } else if (i == 31) {
                 x = 28;
                 y = 151;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -655,7 +689,7 @@ public class InputDesktop {
             } else if (i == 41) {
                 x = 28;
                 y = 192;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -682,7 +716,7 @@ public class InputDesktop {
             } else if (i == 51) {
                 x = 28;
                 y = 233;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -707,7 +741,7 @@ public class InputDesktop {
                 }
                 x = x + 41;
             } else {
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -753,12 +787,208 @@ public class InputDesktop {
             }
         }
     }
+    public static void handleSpells(Vector3 worldCoordinates) {
+        int x = 28;
+        int y = 28;
+        for (int i = 1; i <= 60; i++) {
+            if (i == 11) {
+                x = 28;
+                y = 69;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        //SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 21) {
+                x = 28;
+                y = 110;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        //SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 31) {
+                x = 28;
+                y = 151;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        //SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 41) {
+                x = 28;
+                y = 192;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        //SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 51) {
+                x = 28;
+                y = 233;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        //SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else {
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                       // SendClientData.SendUseItem();
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            }
+        }
+
+        if (Variables.selectedSpellSlot > 0) {
+            // Q Hotkey
+            if (worldCoordinates.x >= 546 && worldCoordinates.x <= 582) {
+                if (worldCoordinates.y >= 212 && worldCoordinates.y <= 248) {
+                    Variables.Players[Variables.MyIndex].setHotKeyQ(Variables.selectedSpellSlot);
+                    SendClientData.SendSetHotKey(Variables.HOT_KEY_Q, Variables.selectedSpellSlot);
+                    Variables.selectedSpellSlot = 0;
+                }
+            }
+            // E Hotkey
+            if (worldCoordinates.x >= 675 && worldCoordinates.x <= 711) {
+                if (worldCoordinates.y >= 212 && worldCoordinates.y <= 248) {
+                    Variables.Players[Variables.MyIndex].setHotKeyE(Variables.selectedSpellSlot);
+                    SendClientData.SendSetHotKey(Variables.HOT_KEY_E, Variables.selectedSpellSlot);
+                    Variables.selectedSpellSlot = 0;
+                }
+            }
+        }
+
+        if (worldCoordinates.x >= 16 && worldCoordinates.x <= 66) {
+            if (worldCoordinates.y >= 430 && worldCoordinates.y <= 460) {
+                Variables.inInventory = false;
+                Variables.inStatus = false;
+                Variables.inSpells = false;
+                Variables.selectedSpellSlot = 0;
+                Variables.inMenu = false;
+            }
+        }
+    }
     public static void handleStatus(Vector3 worldCoordinates) {
         // Add Points
         // STR
         if (worldCoordinates.x >= 35 && worldCoordinates.x <= 118) {
             if (worldCoordinates.y >= 68 && worldCoordinates.y <= 92) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(1);
                     }
@@ -768,7 +998,7 @@ public class InputDesktop {
         // DEF
         if (worldCoordinates.x >= 35 && worldCoordinates.x <= 118) {
             if (worldCoordinates.y >= 100 && worldCoordinates.y <= 121) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(2);
                     }
@@ -778,7 +1008,7 @@ public class InputDesktop {
         // VIT
         if (worldCoordinates.x >= 35 && worldCoordinates.x <= 118) {
             if (worldCoordinates.y >= 130 && worldCoordinates.y <= 151) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(3);
                     }
@@ -788,7 +1018,7 @@ public class InputDesktop {
         // AGI
         if (worldCoordinates.x >= 35 && worldCoordinates.x <= 118) {
             if (worldCoordinates.y >= 159 && worldCoordinates.y <= 181) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(4);
                     }
@@ -798,7 +1028,7 @@ public class InputDesktop {
         // MAG
         if (worldCoordinates.x >= 35 && worldCoordinates.x <= 118) {
             if (worldCoordinates.y >= 190 && worldCoordinates.y <= 210) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(5);
                     }

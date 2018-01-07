@@ -15,6 +15,7 @@ public class Player implements Serializable {
     private int STR, DEF, VIT, AGI, MAG;
     private int Weapon, Offhand, Armor, Helmet, Acc1, Acc2;
     private int Party;
+    private int HotKeyQ, HotKeyE;
 
     // Temp stuff
     private int OffsetX;
@@ -24,8 +25,11 @@ public class Player implements Serializable {
     private int LastStep;
     private int Attacking;
     private long AttackTimer;
+    private int Target;
+    private int TargetType;
 
     public Inventory_Struct[] inventory = new Inventory_Struct[60 + 1];
+    public Spell_Inv_Struct[] spells = new Spell_Inv_Struct[60 + 1];
 
     public String getName() { return Name; }
     public int getJob() { return Job; }
@@ -61,6 +65,10 @@ public class Player implements Serializable {
     public int getAttacking() { return Attacking; }
     public long getAttackTimer() { return AttackTimer; }
     public int getParty() { return Party; }
+    public int getHotKeyQ() { return HotKeyQ; }
+    public int getHotKeyE() { return HotKeyE; }
+    public int getTarget() { return Target; }
+    public int getTargetType() { return TargetType; }
 
     public void setName(String name) { Name = name; }
     public void setJob(int job) { Job = job; }
@@ -96,4 +104,8 @@ public class Player implements Serializable {
     public void setAttacking(int attacking) { Attacking = attacking; }
     public void setAttackTimer(long attackTimer) { AttackTimer = attackTimer; }
     public void setParty(int party) { Party = party; }
+    public void setHotKeyQ(int hotKeyQ) { HotKeyQ = hotKeyQ; }
+    public void setHotKeyE(int hotKeyE) { HotKeyE = hotKeyE; }
+    public void setTarget(int target) { Target = target; }
+    public void setTargetType(int targetType) { TargetType = targetType; }
 }

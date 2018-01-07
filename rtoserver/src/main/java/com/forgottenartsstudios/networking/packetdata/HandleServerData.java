@@ -10,6 +10,7 @@ import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.SaveData;
+import com.forgottenartsstudios.data.Spell_Inv_Struct;
 import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packets.*;
 import com.forgottenartsstudios.server.RTOServer;
@@ -74,10 +75,14 @@ public class HandleServerData {
         player1.setAcc2(0);
 
         player1.inventory = new Inventory_Struct[60 + 1];
+        player1.spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
             player1.inventory[i] = new Inventory_Struct();
             player1.inventory[i].setItemNum(0);
             player1.inventory[i].setItemVal(0);
+
+            player1.spells[i] = new Spell_Inv_Struct();
+            player1.spells[i].setSpellNum(0);
         }
 
         Player player2 = new Player();
@@ -114,10 +119,14 @@ public class HandleServerData {
         player2.setAcc2(0);
 
         player2.inventory = new Inventory_Struct[60 + 1];
+        player2.spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
             player2.inventory[i] = new Inventory_Struct();
             player2.inventory[i].setItemNum(0);
             player2.inventory[i].setItemVal(0);
+
+            player2.spells[i] = new Spell_Inv_Struct();
+            player2.spells[i].setSpellNum(0);
         }
 
         Player player3 = new Player();
@@ -154,10 +163,14 @@ public class HandleServerData {
         player3.setAcc2(0);
 
         player3.inventory = new Inventory_Struct[60 + 1];
+        player3.spells = new Spell_Inv_Struct[60 + 1];
         for (int i = 1; i <= 60; i++) {
             player3.inventory[i] = new Inventory_Struct();
             player3.inventory[i].setItemNum(0);
             player3.inventory[i].setItemVal(0);
+
+            player3.spells[i] = new Spell_Inv_Struct();
+            player3.spells[i].setSpellNum(0);
         }
 
         //accountData.chars = new Player[3 + 1];
@@ -259,6 +272,10 @@ public class HandleServerData {
 
         for (int i = 1; i <= ServerVars.MaxItems; i++) {
             SendServerData.SendItems(index, i);
+        }
+
+        for (int i = 1; i <= ServerVars.MaxSpells; i++) {
+            SendServerData.SendSpells(index, i);
         }
 
         SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Welcome to Retro Tales Online! This is an alpha build. Please bear with us.");
@@ -504,6 +521,11 @@ public class HandleServerData {
                 if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_SELLER_STANDING) {
                     SendServerData.SendOpenShop(index, ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].shopNum);
                 }
+                if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_ATTACK_ROAMING || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_ATTACK_STANDING || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_ONATTACK_ROAMING) {
+                    ServerVars.Players[index].setTarget(i);
+                    ServerVars.Players[index].setTargetType(searchType);
+                    SendServerData.SendPlayerData(index, index);
+                }
                 break;
         }
     }
@@ -568,11 +590,13 @@ public class HandleServerData {
 
         SendServerData.SendVital(index);
         SendServerData.SendInvData(index, index);
+        SendServerData.SendSpellData(index, index);
         if (ServerVars.Players[index].getParty() > 0) {
             int pNum = ServerVars.Players[index].getParty();
             for (int i = 1; i <= 3; i++) {
                 if (ServerVars.Parties[pNum].members[i] > 0) {
                     SendServerData.SendInvData(index, ServerVars.Parties[pNum].members[i]);
+                    SendServerData.SendSpellData(index, ServerVars.Parties[pNum].members[i]);
                 }
             }
         }
@@ -688,11 +712,13 @@ public class HandleServerData {
             if (ServerVars.Players[index].getLevel() >= ServerVars.Items[itemNum].LVL) {
                 SendServerData.SendVital(index);
                 SendServerData.SendInvData(index, index);
+                SendServerData.SendSpellData(index, index);
                 if (ServerVars.Players[index].getParty() > 0) {
                     int pNum = ServerVars.Players[index].getParty();
                     for (int i = 1; i <= 3; i++) {
                         if (ServerVars.Parties[pNum].members[i] > 0) {
                             SendServerData.SendInvData(index, ServerVars.Parties[pNum].members[i]);
+                            SendServerData.SendSpellData(index, ServerVars.Parties[pNum].members[i]);
                         }
                     }
                 }
@@ -1488,6 +1514,65 @@ public class HandleServerData {
                         if (ServerVars.Parties[pNum].members[i] > 0) {
                             System.out.println("Sending Msg: F4A");
                             SendServerData.SendMessage(ServerVars.Parties[pNum].members[i], ServerVars.MESSAGE_TYPE_SYSTEM, "Drop sort system changed to Free For All.");
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public static void HandleSetHotKey(Object object) {
+        SetHotKey setHotKey = (SetHotKey) object;
+
+        int index = setHotKey.index;
+        int hotKey = setHotKey.hotKey;
+        int hotKeyNum = setHotKey.hotKeyVal;
+
+        switch (hotKey) {
+            case ServerVars.HOT_KEY_Q:
+                ServerVars.Players[index].setHotKeyQ(hotKeyNum);
+                break;
+            case ServerVars.HOT_KEY_E:
+                ServerVars.Players[index].setHotKeyE(hotKeyNum);
+                break;
+        }
+    }
+    public static void HandleCastSpell(Object object) {
+        SendCastSpell sendCastSpell = (SendCastSpell) object;
+
+        int index = sendCastSpell.index;
+        int hotKey = sendCastSpell.hotKey;
+        int spellNum = 0;
+
+        if (hotKey >= ServerVars.HOT_KEY_Q && hotKey <= ServerVars.HOT_KEY_E) {
+            switch (hotKey) {
+                case ServerVars.HOT_KEY_Q:
+                    spellNum = ServerVars.Players[index].getHotKeyQ();
+                    break;
+                case ServerVars.HOT_KEY_E:
+                    spellNum = ServerVars.Players[index].getHotKeyE();
+                    break;
+            }
+            if (spellNum > 0) {
+                int spellInvSlot = 0;
+                for (int i = 1; i <= 60; i++) {
+                    if (ServerVars.Players[index].spells[i].getSpellNum() == spellNum) {
+                        spellInvSlot = i;
+                        break;
+                    }
+                }
+                if (ServerVars.Players[index].getTarget() > 0) {
+                    int target = ServerVars.Players[index].getTarget();
+                    if (ServerVars.Players[index].getTargetType() == ServerVars.SEARCH_TYPE_NPC) {
+                        int mapNum = ServerVars.Players[index].getMap();
+                        if (!ServerVars.MapNPCs[mapNum].Npc[target].isDead()) {
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
+                                // Calculate spell damage
+                                if (ServerVars.Spells[spellNum].CastTime > 0) {
+                                    ServerVars.Players[index].spells[spellInvSlot].setCastTime(ServerVars.Spells[spellNum].CastTime);
+                                    ServerVars.Players[index].spells[spellInvSlot].setCastTimeTimer(0);
+                                    SendServerData.SendCastTime(index, spellInvSlot, ServerVars.Spells[spellNum].CastTime);
+                                }
+                            }
                         }
                     }
                 }

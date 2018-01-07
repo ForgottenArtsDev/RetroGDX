@@ -24,4 +24,5 @@ public class Item_Struct implements Serializable {
     public int MAG;
 
     public int Cost;
+    public int SoundFx;
 }

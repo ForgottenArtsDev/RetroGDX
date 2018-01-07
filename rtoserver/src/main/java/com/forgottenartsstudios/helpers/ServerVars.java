@@ -2,7 +2,6 @@ package com.forgottenartsstudios.helpers;
 
 import com.forgottenartsstudios.data.AccountData;
 import com.forgottenartsstudios.data.Item_Struct;
-import com.forgottenartsstudios.data.MapNPC;
 import com.forgottenartsstudios.data.NPC_Struct;
 import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
@@ -31,19 +30,23 @@ public class ServerVars {
     public static final int MaxSpells = 200;
     public static final int MaxMapNPCs = 5;
     public static final int MaxMapItems = 20;
+    public static final int MaxMapSpells = 20;
     public static final int MaxParties = 100;
 
     public static AccountData[] Accounts = new AccountData[MaxPlayers + 1];
     public static Player[] Players = new Player[MaxPlayers + 1];
     public static mapData[] mapData = new mapData[MaxMaps + 1];
     public static mapData_Struct[] MapNPCs = new mapData_Struct[MaxMapNPCs + 1];
+    public static mapData_Struct[] MapItems = new mapData_Struct[MaxMapItems + 1];
+    public static mapData_Struct[] MapSpells = new mapData_Struct[MaxMapSpells + 1];
     public static NPC_Struct[] npcs = new NPC_Struct[MaxMaps + 1];
     public static Item_Struct[] Items = new Item_Struct[MaxItems + 1];
     public static Shop_Struct[] Shops = new Shop_Struct[MaxShops + 1];
     public static Spell_Struct[] Spells = new Spell_Struct[MaxSpells + 1];
-    public static mapData_Struct[] MapItems = new mapData_Struct[MaxMapItems + 1];
     public static Party[] Parties = new Party[MaxParties + 1];
     public static Random Rnd = new Random();
+
+    public static long tickCount;
 
     public static final int vitalHP = 0;
     public static final int vitalMP = 1;
@@ -119,6 +122,10 @@ public class ServerVars {
     public static final int NPC_BEHAVIOUR_QUEST_ROAMING = 8;
     public static final int NPC_BEHAVIOUR_QUEST_STANDING = 9;
     public static final int NPC_BEHAVIOUR_ONATTACK_ROAMING = 10;
+
+    // Hot keys
+    public static final int HOT_KEY_Q = 1;
+    public static final int HOT_KEY_E = 2;
 
     // NPC Speeds //
     public static int NPC_SPEED;

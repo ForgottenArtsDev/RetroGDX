@@ -6,9 +6,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
-import com.forgottenartsstudios.networking.packetdata.SendServerData;
-
-import org.lwjgl.opengl.APPLEVertexArrayObject;
 
 /**
  * Created by forgo on 10/6/2017.
@@ -323,9 +320,15 @@ public class InputAndroid {
                             Variables.menuIndex = 1;
                             Variables.selectedInvSlot = 0;
                         }
+                        if (Variables.inSpells) {
+                            Variables.inSpells = false;
+                            Variables.inMenu = true;
+                            Variables.menuIndex = 2;
+                            Variables.selectedSpellSlot = 0;
+                        }
                         if (Variables.inMenu) {
                             Variables.inMenu = false;
-                        } else if (!Variables.inInventory && !Variables.inShop && !Variables.inStatus && !Variables.inChat) {
+                        } else if (!Variables.inInventory && !Variables.inShop && !Variables.inStatus && !Variables.inChat && !Variables.inSpells) {
                             Variables.inMenu = true;
                             Variables.menuIndex = 1;
                         }
@@ -391,6 +394,17 @@ public class InputAndroid {
                             Variables.inMenu = false;
                             Variables.inStatus = false;
                             Variables.inInventory = true;
+                            Variables.inSpells = false;
+                        }
+                    }
+                }
+                if (worldCoordinates.x >= 360 && worldCoordinates.x <= 432) {
+                    if (worldCoordinates.y >= 68 && worldCoordinates.y <= 91) {
+                        if (!Variables.inInventory) {
+                            Variables.inMenu = false;
+                            Variables.inStatus = false;
+                            Variables.inInventory = false;
+                            Variables.inSpells = true;
                         }
                     }
                 }
@@ -400,8 +414,9 @@ public class InputAndroid {
                             Variables.inMenu = false;
                             Variables.inInventory = false;
                             Variables.inStatus = true;
+                            Variables.inSpells = false;
 
-                            Variables.tempStats.Points = Variables.players[Variables.MyIndex].getPoints();
+                            Variables.tempStats.Points = Variables.Players[Variables.MyIndex].getPoints();
                             Variables.tempStats.STR = 0;
                             Variables.tempStats.DEF = 0;
                             Variables.tempStats.VIT = 0;
@@ -411,7 +426,7 @@ public class InputAndroid {
                     }
                 }
             }
-            if (!Variables.inStatus && !Variables.inInventory && !Variables.inMenu && !Variables.inShop) {
+            if (!Variables.inStatus && !Variables.inInventory && !Variables.inMenu && !Variables.inShop && !Variables.inSpells) {
                 if (worldCoordinates.x >= 16 && worldCoordinates.x <= 463) {
                     if (worldCoordinates.y >= 472 && worldCoordinates.y <= 535) {
                         Variables.inChat = true;
@@ -453,7 +468,7 @@ public class InputAndroid {
                 }
             }
 
-            if (Variables.players[Variables.MyIndex].getParty() > 0) {
+            if (Variables.Players[Variables.MyIndex].getParty() > 0) {
                 if (worldCoordinates.x >= 554 && worldCoordinates.x <= 643) {
                     if (worldCoordinates.y >= 420 && worldCoordinates.y <= 464) {
                         if (!Variables.inMenu) {
@@ -541,6 +556,7 @@ public class InputAndroid {
 
             if (Variables.inShop) { handleShop(worldCoordinates); }
             if (Variables.inInventory) { handleInventory(worldCoordinates); }
+            if (Variables.inSpells) { handleSpells(worldCoordinates); }
             if (Variables.inStatus) { handleStatus(worldCoordinates); }
             if (Variables.inChat) { handleChat(worldCoordinates); }
         }
@@ -548,10 +564,10 @@ public class InputAndroid {
 
     public static void checkAttack(long tickCount) {
         if (Variables.pressAttack) {
-            if (Variables.players[Variables.MyIndex].getAttackTimer() + 500 < tickCount) {
-                if (Variables.players[Variables.MyIndex].getAttacking() == 0) {
-                    Variables.players[Variables.MyIndex].setAttacking(1);
-                    Variables.players[Variables.MyIndex].setAttackTimer(tickCount);
+            if (Variables.Players[Variables.MyIndex].getAttackTimer() + 500 < tickCount) {
+                if (Variables.Players[Variables.MyIndex].getAttacking() == 0) {
+                    Variables.Players[Variables.MyIndex].setAttacking(1);
+                    Variables.Players[Variables.MyIndex].setAttackTimer(tickCount);
                     SendClientData.SendAttack();
                 }
             }
@@ -566,31 +582,31 @@ public class InputAndroid {
     public static void checkMovement() {
         if (!Variables.pauseMovement) {
             if (Variables.pressUp) {
-                if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                    int mapNum = Variables.players[Variables.MyIndex].getMap();
-                    int x = Variables.players[Variables.MyIndex].getX();
-                    int y = Variables.players[Variables.MyIndex].getY();
+                if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
+                    int mapNum = Variables.Players[Variables.MyIndex].getMap();
+                    int x = Variables.Players[Variables.MyIndex].getX();
+                    int y = Variables.Players[Variables.MyIndex].getY();
                     SendClientData.SendMovePlayer(Variables.DIR_UP);
                 }
             } else if (Variables.pressDown) {
-                if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                    int mapNum = Variables.players[Variables.MyIndex].getMap();
-                    int x = Variables.players[Variables.MyIndex].getX();
-                    int y = Variables.players[Variables.MyIndex].getY();
+                if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
+                    int mapNum = Variables.Players[Variables.MyIndex].getMap();
+                    int x = Variables.Players[Variables.MyIndex].getX();
+                    int y = Variables.Players[Variables.MyIndex].getY();
                     SendClientData.SendMovePlayer(Variables.DIR_DOWN);
                 }
             } else if (Variables.pressLeft) {
-                if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                    int mapNum = Variables.players[Variables.MyIndex].getMap();
-                    int x = Variables.players[Variables.MyIndex].getX();
-                    int y = Variables.players[Variables.MyIndex].getY();
+                if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
+                    int mapNum = Variables.Players[Variables.MyIndex].getMap();
+                    int x = Variables.Players[Variables.MyIndex].getX();
+                    int y = Variables.Players[Variables.MyIndex].getY();
                     SendClientData.SendMovePlayer(Variables.DIR_LEFT);
                 }
             } else if (Variables.pressRight) {
-                if (Variables.players[Variables.MyIndex].getMoving() == 0) {
-                    int mapNum = Variables.players[Variables.MyIndex].getMap();
-                    int x = Variables.players[Variables.MyIndex].getX();
-                    int y = Variables.players[Variables.MyIndex].getY();
+                if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
+                    int mapNum = Variables.Players[Variables.MyIndex].getMap();
+                    int x = Variables.Players[Variables.MyIndex].getX();
+                    int y = Variables.Players[Variables.MyIndex].getY();
                     SendClientData.SendMovePlayer(Variables.DIR_RIGHT);
                 }
             }
@@ -660,6 +676,11 @@ public class InputAndroid {
                             Variables.selectedInvSlot = Variables.selectedInvSlot - 10;
                         }
                     }
+                    if (Variables.inSpells) {
+                        if (Variables.selectedSpellSlot > 10) {
+                            Variables.selectedSpellSlot = Variables.selectedSpellSlot - 10;
+                        }
+                    }
                     if (Variables.inMenu) {
                         Variables.menuIndex--;
                         if (Variables.menuIndex == 0) {
@@ -679,6 +700,11 @@ public class InputAndroid {
                     if (Variables.inInventory) {
                         if (Variables.selectedInvSlot < 51) {
                             Variables.selectedInvSlot = Variables.selectedInvSlot + 10;
+                        }
+                    }
+                    if (Variables.inSpells) {
+                        if (Variables.selectedSpellSlot < 51) {
+                            Variables.selectedSpellSlot = Variables.selectedSpellSlot + 10;
                         }
                     }
                     if (Variables.inMenu) {
@@ -702,6 +728,11 @@ public class InputAndroid {
                             Variables.selectedInvSlot = Variables.selectedInvSlot - 1;
                         }
                     }
+                    if (Variables.inSpells) {
+                        if (Variables.selectedSpellSlot > 1) {
+                            Variables.selectedSpellSlot = Variables.selectedSpellSlot - 1;
+                        }
+                    }
                 }
                 Variables.pressUp = false;
                 Variables.pressLeft = true;
@@ -715,6 +746,11 @@ public class InputAndroid {
                     if (Variables.inInventory) {
                         if (Variables.selectedInvSlot < 60) {
                             Variables.selectedInvSlot = Variables.selectedInvSlot + 1;
+                        }
+                    }
+                    if (Variables.inSpells) {
+                        if (Variables.selectedSpellSlot < 60) {
+                            Variables.selectedSpellSlot = Variables.selectedSpellSlot + 1;
                         }
                     }
                 }
@@ -733,12 +769,15 @@ public class InputAndroid {
                     Variables.touchDown = true;
                     if (Variables.inInventory) {
                         SendClientData.SendUseItem();
+                    } else if (Variables.inSpells) {
+
                     } else if (Variables.inMenu) {
                         if (Variables.menuIndex == 1) {
                             Variables.inInventory = true;
                             Variables.inMenu = false;
                         } else if (Variables.menuIndex == 2) {
-                            // Skills
+                            Variables.inSpells = true;
+                            Variables.inMenu = false;
                         } else if (Variables.menuIndex == 3) {
                             Variables.inStatus = true;
                             Variables.inMenu = false;
@@ -758,6 +797,8 @@ public class InputAndroid {
                     Variables.touchDown = true;
                     if (Variables.inInventory) {
                         SendClientData.SendDropItem(Variables.selectedInvSlot);
+                    } else if (Variables.inSpells) {
+
                     } else if (Variables.inMenu) {
                         Variables.inMenu = false;
                     } else {
@@ -818,7 +859,7 @@ public class InputAndroid {
             if (i == 11) {
                 x = 36;
                 y = 77;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -856,7 +897,7 @@ public class InputAndroid {
             } else if (i == 21) {
                 x = 36;
                 y = 118;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -891,7 +932,7 @@ public class InputAndroid {
             } else if (i == 31) {
                 x = 36;
                 y = 159;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -926,7 +967,7 @@ public class InputAndroid {
             } else if (i == 41) {
                 x = 36;
                 y = 200;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -961,7 +1002,7 @@ public class InputAndroid {
             } else if (i == 51) {
                 x = 36;
                 y = 241;
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -994,7 +1035,7 @@ public class InputAndroid {
                 }
                 x = x + 41;
             } else {
-                if (Variables.players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                     if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                         if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
                             if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -1052,12 +1093,253 @@ public class InputAndroid {
             }
         }
     }
+    public static void handleSpells(Vector3 worldCoordinates) {
+        int x = 36;
+        int y = 36;
+        for (int i = 1; i <= 60; i++) {
+            if (i == 11) {
+                x = 36;
+                y = 77;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.inputTimer == 0) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    }
+                                }
+                                Variables.inputTimer = 1;
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 21) {
+                x = 36;
+                y = 118;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                } else {
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
+                                        //SendClientData.SendUseItem();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 31) {
+                x = 36;
+                y = 159;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                } else {
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
+                                        //SendClientData.SendUseItem();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 41) {
+                x = 36;
+                y = 200;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                } else {
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
+                                        //SendClientData.SendUseItem();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else if (i == 51) {
+                x = 36;
+                y = 241;
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                } else {
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
+                                        //SendClientData.SendUseItem();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            } else {
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                    if (Variables.selectedSpellSlot != i) {
+                                        Variables.selectedSpellSlot = i;
+                                    } else {
+                                        if (!Variables.touchDown) {
+                                            Variables.touchDown = true;
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    }
+                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                    if (Variables.selectedSpellSlot == i) {
+                                        //SendClientData.SendDropItem(i);
+                                    }
+                                }
+                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.selectedSpellSlot != i) {
+                                    Variables.selectedSpellSlot = i;
+                                } else {
+                                    if (!Variables.touchDown) {
+                                        Variables.touchDown = true;
+                                        //SendClientData.SendUseItem();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                x = x + 41;
+            }
+        }
+
+        if (worldCoordinates.x >= 413 && worldCoordinates.x <= 460) {
+            if (worldCoordinates.y >= 434 && worldCoordinates.y <= 456) {
+                if (Variables.selectedInvSlot > 0) {
+                    if (!Variables.touchDown) {
+                        Variables.touchDown = true;
+                        SendClientData.SendUseItem();
+                    }
+                }
+            }
+        }
+
+        if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
+            if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
+                if (!Variables.touchDown) {
+                    Variables.touchDown = true;
+                    Variables.inInventory = false;
+                    Variables.selectedInvSlot = 0;
+                    Variables.inMenu = true;
+                    Variables.menuIndex = 1;
+                }
+            }
+        }
+    }
     public static void handleStatus(Vector3 worldCoordinates) {
         // Add Points
         // STR
         if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
             if (worldCoordinates.y >= 77 && worldCoordinates.y <= 100) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(1);
                     }
@@ -1067,7 +1349,7 @@ public class InputAndroid {
         // DEF
         if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
             if (worldCoordinates.y >= 108 && worldCoordinates.y <= 129) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(2);
                     }
@@ -1077,7 +1359,7 @@ public class InputAndroid {
         // VIT
         if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
             if (worldCoordinates.y >= 138 && worldCoordinates.y <= 159) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(3);
                     }
@@ -1087,7 +1369,7 @@ public class InputAndroid {
         // AGI
         if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
             if (worldCoordinates.y >= 167 && worldCoordinates.y <= 189) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(4);
                     }
@@ -1097,7 +1379,7 @@ public class InputAndroid {
         // MAG
         if (worldCoordinates.x >= 43 && worldCoordinates.x <= 126) {
             if (worldCoordinates.y >= 198 && worldCoordinates.y <= 218) {
-                if (Variables.players[Variables.MyIndex].getPoints() > 0) {
+                if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
                     if (!Variables.usePoint) {
                         Gen.tempStats(5);
                     }

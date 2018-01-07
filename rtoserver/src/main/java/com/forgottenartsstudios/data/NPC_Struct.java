@@ -47,4 +47,6 @@ public class NPC_Struct implements Serializable {
     public int dropChance3;
     public int dropChance4;
     public int dropChance5;
+
+    public int SoundFx;
 }
