@@ -1567,10 +1567,12 @@ public class HandleServerData {
                         if (!ServerVars.MapNPCs[mapNum].Npc[target].isDead()) {
                             if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
                                 // Calculate spell damage
-                                if (ServerVars.Spells[spellNum].CastTime > 0) {
-                                    ServerVars.Players[index].spells[spellInvSlot].setCastTime(ServerVars.Spells[spellNum].CastTime);
-                                    ServerVars.Players[index].spells[spellInvSlot].setCastTimeTimer(0);
-                                    SendServerData.SendCastTime(index, spellInvSlot, ServerVars.Spells[spellNum].CastTime);
+                                if (ServerVars.Players[index].spells[spellInvSlot].getCoolDown() == 0) {
+                                    if (ServerVars.Spells[spellNum].CastTime > 0) {
+                                        ServerVars.Players[index].spells[spellInvSlot].setCastTime(ServerVars.Spells[spellNum].CastTime);
+                                        ServerVars.Players[index].spells[spellInvSlot].setCastTimeTimer(0);
+                                        SendServerData.SendCastTime(index, spellInvSlot, ServerVars.Spells[spellNum].CastTime);
+                                    }
                                 }
                             }
                         }

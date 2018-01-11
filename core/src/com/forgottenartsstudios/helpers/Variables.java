@@ -152,6 +152,11 @@ public class Variables {
     public static final int ITEM_TYPE_HELMET = 5;
     public static final int ITEM_TYPE_POTION = 6;
 
+    // Spell types
+    public static final int SPELL_TYPE_DAMAGE = 1;
+    public static final int SPELL_TYPE_HEAL = 2;
+    public static final int SPELL_TYPE_REVIVE = 3;
+
     // Hot Keys
     public static final int HOT_KEY_Q = 1;
     public static final int HOT_KEY_E = 2;

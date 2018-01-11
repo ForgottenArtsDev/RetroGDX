@@ -9,6 +9,7 @@ import com.forgottenartsstudios.networking.packets.MovePlayer;
 import com.forgottenartsstudios.networking.packets.PartyInfo;
 import com.forgottenartsstudios.networking.packets.PlayerData;
 import com.forgottenartsstudios.networking.packets.SendCastTime;
+import com.forgottenartsstudios.networking.packets.SendCoolDown;
 import com.forgottenartsstudios.networking.packets.SendHPRegen;
 import com.forgottenartsstudios.networking.packets.SendInventory;
 import com.forgottenartsstudios.networking.packets.SendItems;
@@ -734,7 +735,14 @@ public class HandleClientData {
 
         Variables.Players[Variables.MyIndex].spells[spellInvSlot].setCastTime(castTime);
         Variables.Players[Variables.MyIndex].spells[spellInvSlot].setCastTimeTimer(0);
+    }
+    public static void HandleSendCoolDown(Object object) {
+        SendCoolDown sendCoolDown = (SendCoolDown) object;
 
-        System.out.println("Got SendCastTime packet.");
+        int spellInvSlot = sendCoolDown.spellSlot;
+        int coolDown = sendCoolDown.coolDown;
+
+        //Variables.Players[Variables.MyIndex].spells[spellInvSlot].setCoolDown(coolDown);
+        //Variables.Players[Variables.MyIndex].spells[spellInvSlot].setCoolDownTimer(0);
     }
 }

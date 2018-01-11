@@ -195,7 +195,19 @@ public class RTOServer extends ApplicationAdapter {
                                                             int spellNum = ServerVars.Players[i].spells[a].getSpellNum();
                                                             ServerVars.Players[i].spells[a].setCastTime(0);
                                                             ServerVars.Players[i].spells[a].setCastTimeTimer(0);
+                                                            ServerVars.Players[i].spells[a].setCoolDown(ServerVars.Spells[spellNum].CoolDown);
+                                                            ServerVars.Players[i].spells[a].setCoolDownTimer(0);
+                                                            SendServerData.SendCoolDown(i, a, ServerVars.Spells[spellNum].CoolDown);
                                                             processCastSpell(i, spellNum);
+                                                        }
+                                                    }
+                                                }
+                                                if (ServerVars.Players[i].spells[a].getCoolDown() > 0) {
+                                                    if (ServerVars.Players[i].spells[a].getCoolDownTimer() <= ServerVars.Players[i].spells[a].getCoolDown()) {
+                                                        ServerVars.Players[i].spells[a].setCoolDownTimer(ServerVars.Players[i].spells[a].getCoolDownTimer() + 1);
+                                                        if (ServerVars.Players[i].spells[a].getCoolDownTimer() > ServerVars.Players[i].spells[a].getCoolDown()) {
+                                                            ServerVars.Players[i].spells[a].setCoolDown(0);
+                                                            ServerVars.Players[i].spells[a].setCoolDownTimer(0);
                                                         }
                                                     }
                                                 }
@@ -477,6 +489,7 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(MapSpell.class);
         server.getKryo().register(MapSpell[].class);
         server.getKryo().register(SendCastTime.class);
+        server.getKryo().register(SendCoolDown.class);
     }
     private static void checkPackets(Object object, Connection connection) {
         if (object instanceof Connect) { HandleServerData.HandleConnect(object); }
@@ -1224,6 +1237,39 @@ public class RTOServer extends ApplicationAdapter {
         GetNpcProtection = Defence + (int)(((Defence) * 1.5) * (nDEF));
         return GetNpcProtection;
     }
+    public static int GetNpcMagProtection(int NpcNum) {
+
+        // ****** Clear Data******
+        int GetNpcMagProtection = 0;
+
+        // ****** Subscript Out Of Range ******
+        if (NpcNum <= 0 || NpcNum > ServerVars.MaxMapNPCs)
+            return 0;
+
+        int Magic = 2;
+
+        int nMAG = ServerVars.npcs[NpcNum].MAG;
+        if (ServerVars.npcs[NpcNum].weapon > 0) {
+            int itemNum = ServerVars.npcs[NpcNum].weapon;
+            nMAG = nMAG + ServerVars.Items[itemNum].MAG;
+        }
+        if (ServerVars.npcs[NpcNum].offhand > 0) {
+            int itemNum = ServerVars.npcs[NpcNum].weapon;
+            nMAG = nMAG + ServerVars.Items[itemNum].MAG;
+        }
+        if (ServerVars.npcs[NpcNum].armor > 0) {
+            int itemNum = ServerVars.npcs[NpcNum].weapon;
+            nMAG = nMAG + ServerVars.Items[itemNum].MAG;
+        }
+        if (ServerVars.npcs[NpcNum].helmet > 0) {
+            int itemNum = ServerVars.npcs[NpcNum].weapon;
+            nMAG = nMAG + ServerVars.Items[itemNum].MAG;
+        }
+
+        // ****** Retrive END ******
+        GetNpcMagProtection = Magic + (int)(((Magic) * 1.5) * (nMAG));
+        return GetNpcMagProtection;
+    }
     public static int GetPlayerDamage(int index) {
         // ****** Clear Data******
         int GetPlayerDamage;
@@ -1319,13 +1365,16 @@ public class RTOServer extends ApplicationAdapter {
         if (targetType == ServerVars.TARGET_TYPE_NPC) {
             int baseSplDmg = ServerVars.Spells[spellNum].DmgHealAmt;
             int casterMAG = ServerVars.Players[index].getMAG();
-            int spellDmg = (baseSplDmg * casterMAG) / 10;
+            int spellDmg = (baseSplDmg * casterMAG) / 5;
 
             if (spellDmg > RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum())) {
-                spellDmg = spellDmg - RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
+                spellDmg = spellDmg - RTOServer.GetNpcMagProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
             } else {
                 spellDmg = 0;
             }
+
+            ServerVars.MapNPCs[mapNum].Npc[target].setTarget(index);
+            ServerVars.MapNPCs[mapNum].Npc[target].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
 
             SendServerData.SendNPCDmg(index, target, spellDmg);
             for (int i = 1; i <= ServerVars.MaxMapSpells; i++) {

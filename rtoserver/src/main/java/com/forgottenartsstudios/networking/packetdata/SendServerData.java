@@ -1090,4 +1090,7 @@ public class SendServerData {
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sendCastTime);
     }
+    public static void SendCoolDown(int index, int spellInvSlot, int coolDown) {
+
+    }
 }

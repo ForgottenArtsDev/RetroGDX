@@ -107,7 +107,7 @@ public class RTOnline extends Game {
         client.addListener(new Listener() {
                                public void received(Connection connection, Object object) {
                                    if (object instanceof Packet) {
-                                       checkPackets(object, connection);
+                                       checkPackets(object);
                                    }
                                }
                            });
@@ -203,9 +203,10 @@ public class RTOnline extends Game {
         client.getKryo().register(MapSpell.class);
         client.getKryo().register(MapSpell[].class);
         client.getKryo().register(SendCastTime.class);
+        client.getKryo().register(SendCoolDown.class);
     }
 
-    public static void checkPackets(Object object, Connection connection) {
+    public static void checkPackets(Object object) {
         if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }
         if (object instanceof AccountNotFound) { HandleClientData.HandleAccountNotFound(); }
         if (object instanceof AccountRegistered) { HandleClientData.HandleAccountRegistered(); }
@@ -241,5 +242,6 @@ public class RTOnline extends Game {
         if (object instanceof SendSpells) { HandleClientData.HandleSendSpells(object); }
         if (object instanceof SendMapSpells) { HandleClientData.HandleSendMapSpells(object); }
         if (object instanceof SendCastTime) { HandleClientData.HandleSendCastTime(object); }
+        if (object instanceof SendCoolDown) { HandleClientData.HandleSendCoolDown(object); }
     }
 }
