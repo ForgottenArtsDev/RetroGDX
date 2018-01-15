@@ -724,26 +724,22 @@ public class RTOServer extends ApplicationAdapter {
         if (ServerVars.MapNPCs[mapNum].Npc == null) { return; }
         if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum] == null) { return; }
         // Check if we can't move and if player is behind something and if we can just switch dirs
-        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() - 1 == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() == ServerVars.Players[Target].getY())
-        {
+        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() - 1 == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() == ServerVars.Players[Target].getY()) {
             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getDir() != ServerVars.DIR_LEFT) NpcDir(mapNum, mapNpcNum, ServerVars.DIR_LEFT);
             keepMoving = false;
         }
 
-        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() + 1 == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() == ServerVars.Players[Target].getY())
-        {
+        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() + 1 == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() == ServerVars.Players[Target].getY()) {
             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getDir() != ServerVars.DIR_RIGHT) NpcDir(mapNum, mapNpcNum, ServerVars.DIR_RIGHT);
             keepMoving = false;
         }
 
-        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() - 1 == ServerVars.Players[Target].getY())
-        {
+        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() - 1 == ServerVars.Players[Target].getY()) {
             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getDir() != ServerVars.DIR_UP) NpcDir(mapNum, mapNpcNum, ServerVars.DIR_UP);
             keepMoving = false;
         }
 
-        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() + 1 == ServerVars.Players[Target].getY())
-        {
+        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() + 1 == ServerVars.Players[Target].getY()) {
             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getDir() != ServerVars.DIR_DOWN) NpcDir(mapNum, mapNpcNum, ServerVars.DIR_DOWN);
             keepMoving = false;
         }
@@ -1363,54 +1359,82 @@ public class RTOServer extends ApplicationAdapter {
         }
 
         if (targetType == ServerVars.TARGET_TYPE_NPC) {
-            int baseSplDmg = ServerVars.Spells[spellNum].DmgHealAmt;
-            int casterMAG = ServerVars.Players[index].getMAG();
-            int spellDmg = (baseSplDmg * casterMAG) / 5;
+            // ****** Set Range ******
+            int N = ServerVars.Spells[spellNum].Range;
 
-            if (spellDmg > RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum())) {
-                spellDmg = spellDmg - RTOServer.GetNpcMagProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
-            } else {
-                spellDmg = 0;
+            int DistanceX = ServerVars.MapNPCs[mapNum].Npc[target].getX() - ServerVars.Players[index].getX();
+            int DistanceY = ServerVars.MapNPCs[mapNum].Npc[target].getY() - ServerVars.Players[index].getY();
+
+            // Make sure we get a positive value
+            if (DistanceX < 0) {
+                DistanceX = DistanceX * -1;
+            }
+            if (DistanceY < 0) {
+                DistanceY = DistanceY * -1;
             }
 
-            ServerVars.MapNPCs[mapNum].Npc[target].setTarget(index);
-            ServerVars.MapNPCs[mapNum].Npc[target].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+            // Are they in range?  if so GET'M!
+            if ((DistanceX <= N) && (DistanceY <= N)) {
+                int baseSplDmg = ServerVars.Spells[spellNum].DmgHealAmt;
+                int casterMAG = ServerVars.Players[index].getMAG();
+                int spellDmg = (baseSplDmg * casterMAG) / 5;
 
-            SendServerData.SendNPCDmg(index, target, spellDmg);
-            for (int i = 1; i <= ServerVars.MaxMapSpells; i++) {
-                if (ServerVars.MapSpells[mapNum].Spell[i].getSpellNum() == 0) {
-                    ServerVars.MapSpells[mapNum].Spell[i].setSpellNum(spellNum);
-                    ServerVars.MapSpells[mapNum].Spell[i].setType(ServerVars.Players[index].getTargetType());
-                    ServerVars.MapSpells[mapNum].Spell[i].setIndex(target);
-                    ServerVars.MapSpells[mapNum].Spell[i].setX(ServerVars.MapNPCs[mapNum].Npc[target].getX());
-                    ServerVars.MapSpells[mapNum].Spell[i].setY(ServerVars.MapNPCs[mapNum].Npc[target].getY());
-                    ServerVars.MapSpells[mapNum].Spell[i].setTimer(ServerVars.tickCount + (ServerVars.Spells[spellNum].AnimSpeed));
-                    break;
+                if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                    if (spellDmg > RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum())) {
+                        spellDmg = spellDmg - RTOServer.GetNpcMagProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
+                    } else {
+                        spellDmg = 0;
+                    }
+
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTarget(index);
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
                 }
-            }
-            SendServerData.SendMapSpells(mapNum);
 
-            if (spellDmg > 0) {
-                if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
-                    ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() - spellDmg);
-                    if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() <= 0) {
-                        ServerVars.MapNPCs[mapNum].Npc[target].setDead(true);
-                        ServerVars.MapNPCs[mapNum].Npc[target].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].SpawnSecs);
+                SendServerData.SendNPCDmg(index, target, spellDmg);
+                for (int i = 1; i <= ServerVars.MaxMapSpells; i++) {
+                    if (ServerVars.MapSpells[mapNum].Spell[i].getSpellNum() == 0) {
+                        ServerVars.MapSpells[mapNum].Spell[i].setSpellNum(spellNum);
+                        ServerVars.MapSpells[mapNum].Spell[i].setType(ServerVars.Players[index].getTargetType());
+                        ServerVars.MapSpells[mapNum].Spell[i].setIndex(target);
+                        ServerVars.MapSpells[mapNum].Spell[i].setX(ServerVars.MapNPCs[mapNum].Npc[target].getX());
+                        ServerVars.MapSpells[mapNum].Spell[i].setY(ServerVars.MapNPCs[mapNum].Npc[target].getY());
+                        ServerVars.MapSpells[mapNum].Spell[i].setTimer(ServerVars.tickCount + (ServerVars.Spells[spellNum].AnimSpeed));
+                        break;
+                    }
+                }
+                SendServerData.SendMapSpells(mapNum);
 
-                        SendServerData.SendKillNPC(index, target, true);
-                        for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
-                            if (a != index) {
-                                if (ServerVars.Players[a] != null) {
-                                    if (mapNum == ServerVars.Players[a].getMap()) {
-                                        SendServerData.SendKillNPC(a, target, false);
+                if (spellDmg > 0) {
+                    if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() - spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() <= 0) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setDead(true);
+                                ServerVars.MapNPCs[mapNum].Npc[target].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].SpawnSecs);
+
+                                SendServerData.SendKillNPC(index, target, true);
+                                for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                    if (a != index) {
+                                        if (ServerVars.Players[a] != null) {
+                                            if (mapNum == ServerVars.Players[a].getMap()) {
+                                                SendServerData.SendKillNPC(a, target, false);
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
+                    } else if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_HEAL) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() < ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() + spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health);
+                            }
+                        }
                     }
+                } else {
+                    SendServerData.SendNPCDmg(index, target, 0);
                 }
-            } else {
-                SendServerData.SendNPCDmg(index, target, 0);
             }
         }
     }

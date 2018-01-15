@@ -13,6 +13,7 @@ public class Spell_Struct implements Serializable {
 
     public int LevelReq;
     public int ClassReq;
+    public int Range;
 
     public int Animation;
     public int AnimFrames;

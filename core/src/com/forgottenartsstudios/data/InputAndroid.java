@@ -841,6 +841,7 @@ public class InputAndroid {
                     int spellNum = Variables.Players[Variables.MyIndex].getHotKeyQ();
                     if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
                         SendClientData.SendUseHotKey(Variables.HOT_KEY_Q);
+                        Variables.hotKeyQ = false;
                     }
                 }
             } else if (Variables.hotKeyE) {
@@ -848,6 +849,7 @@ public class InputAndroid {
                     int spellNum = Variables.Players[Variables.MyIndex].getHotKeyE();
                     if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
                         SendClientData.SendUseHotKey(Variables.HOT_KEY_E);
+                        Variables.hotKeyE = false;
                     }
                 }
             } else {
@@ -857,6 +859,8 @@ public class InputAndroid {
                 Variables.pressRight = false;
                 Variables.pressAttack = false;
                 Variables.pickUpItem = false;
+                Variables.hotKeyQ = false;
+                Variables.hotKeyE = false;
             }
         }
     }

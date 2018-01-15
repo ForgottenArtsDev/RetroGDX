@@ -1739,7 +1739,7 @@ public class RenderAndroid {
                             batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].Icon], 290, 595, 48, 48, 0, 0, 56, 56, false, true);
                             batcher.setColor(Color.WHITE);
                             long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
-                            drawName(timer + "", 282, 617, Color.WHITE);
+                            drawName(timer + "", 292, 607, Color.WHITE);
                         }
                     } else {
                         if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()] != null) {
@@ -1759,7 +1759,7 @@ public class RenderAndroid {
                             batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()].Icon], 378, 684, 48, 48, 0, 0, 56, 56, false, true);
                             batcher.setColor(Color.WHITE);
                             long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
-                            drawName(timer + "", 370, 706, Color.WHITE);
+                            drawName(timer + "", 380, 696, Color.WHITE);
                         }
                     } else {
                         if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {
