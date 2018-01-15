@@ -1840,7 +1840,7 @@ public class RenderDesktop {
                             batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()].Icon], 677, 214, 32, 32, 0, 0, 56, 56, false, true);
                             batcher.setColor(Color.WHITE);
                             long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
-                            drawName(timer + "", 550, 236, Color.WHITE);
+                            drawName(timer + "", 679, 236, Color.WHITE);
                         }
                     } else {
                         if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {

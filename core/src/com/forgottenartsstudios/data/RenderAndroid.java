@@ -25,12 +25,12 @@ public class RenderAndroid {
     // Routine Timers //
     ////////////////////
     private static final long UpdateTime_InputTimer = 500;
-    private static final long UpdateTime_TouchDownTimer = 1000;
     private static final long UpdateTime_TapAnimTimer = 50;
     private static final long UpdateTime_BuyMsg = 1000;
     private static final long UpdateTime_Damage = 50;
     private static final long UpdateTime_LongPress = 1000;
     private static final long UpdateTime_Loading = 500;
+    private static final long UpdateTime_CastTime = 1000;
 
     ////////////////////////////
     // Update Routines Checks //
@@ -42,6 +42,7 @@ public class RenderAndroid {
     private static long LastUpdateTime_Damage;
     private static long LastUpdateTime_LongPress;
     private static long LastUpdateTime_Loading;
+    private static long LastUpdateTime_CastTime;
 
     public static void gsTitleScreen(long tickCount) {
         if (LastUpdateTime_TapAnim < tickCount) {
@@ -401,6 +402,55 @@ public class RenderAndroid {
             }
         }
 
+        if (LastUpdateTime_CastTime < tickCount) {
+            for (int a = 1; a <= 60; a++) {
+                if (Variables.Players[Variables.MyIndex] != null) {
+                    if (Variables.Players[Variables.MyIndex].spells != null) {
+                        if (Variables.Players[Variables.MyIndex].spells[a] != null) {
+                            if (Variables.Spells != null) {
+                                if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()] != null) {
+                                    if (Variables.Players[Variables.MyIndex].spells[a].getSpellNum() > 0) {
+                                        if (Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() < Variables.Players[Variables.MyIndex].spells[a].getCastTime()) {
+                                            Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() + 1);
+                                        } else {
+                                            if (Variables.Players[Variables.MyIndex].spells[a].getCastTime() > 0) {
+                                                Variables.Players[Variables.MyIndex].spells[a].setCoolDown(Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()].CoolDown);
+                                                Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(0);
+                                            }
+                                            Variables.Players[Variables.MyIndex].spells[a].setCastTime(0);
+                                            Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(0);
+                                        }
+                                        if (Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() < Variables.Players[Variables.MyIndex].spells[a].getCoolDown()) {
+                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() + 1);
+                                        } else {
+                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDown(0);
+                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(0);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            LastUpdateTime_CastTime = tickCount + UpdateTime_CastTime;
+        }
+
+        for (int i = 1; i <= Variables.MaxMapSpells; i++) {
+            if (Variables.MapSpells[i] != null) {
+                if (Variables.MapSpells[i].getSpellNum() > 0) {
+                    if (Variables.MapSpells[i].getTimer() < tickCount) {
+                        if (Variables.MapSpells[i].getFrame() < Variables.Spells[Variables.MapSpells[i].getSpellNum()].AnimFrames) {
+                            Variables.MapSpells[i].setFrame(Variables.MapSpells[i].getFrame() + 1);
+                            Variables.MapSpells[i].setTimer(tickCount + Variables.Spells[Variables.MapSpells[i].getSpellNum()].AnimSpeed);
+                        } else {
+                            Variables.MapSpells[i] = new MapSpell();
+                        }
+                    }
+                }
+            }
+        }
+
         if (LastUpdateTime_InputTimer < tickCount) {
             if (Variables.pauseMovement) {
                 Variables.pauseMovement = false;
@@ -455,6 +505,7 @@ public class RenderAndroid {
         if (Variables.inStatus) { drawStatus(); }
         if (Variables.inInventory) { drawInventory(); }
         if (Variables.inChat) { drawChat(); }
+        if (Variables.inSpells) { drawSpellInventory(); }
     }
 
     public static void drawText(String text, float X, float Y, Color color) {
@@ -983,6 +1034,122 @@ public class RenderAndroid {
 
         // Use Button
         drawText("Use", 418, 437, Color.WHITE);
+    }
+    public static void drawSpellInventory() {
+        batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
+
+        int x = 36;
+        int y = 36;
+        for (int i = 1; i <= 60; i++) {
+            if (Variables.Players[Variables.MyIndex].spells != null) {
+                if (Variables.Players[Variables.MyIndex].spells[i] != null) {
+                    if (i == 11) {
+                        x = 36;
+                        y = 77;
+                        if (Variables.selectedSpellSlot == i) {
+                            batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
+                        } else {
+                            batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
+                        }
+                        if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].getSpellNum()].Icon], x + 2, y + 2, 32, 32, 0, 0, 56, 56, false, true);
+                        }
+                        x = x + 41;
+                    } else if (i == 21) {
+                        x = 36;
+                        y = 118;
+                        if (Variables.selectedSpellSlot == i) {
+                            batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
+                        } else {
+                            batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
+                        }
+                        if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].getSpellNum()].Icon], x + 2, y + 2, 32, 32, 0, 0, 56, 56, false, true);
+                        }
+                        x = x + 41;
+                    } else if (i == 31) {
+                        x = 36;
+                        y = 159;
+                        if (Variables.selectedSpellSlot == i) {
+                            batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
+                        } else {
+                            batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
+                        }
+                        if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].getSpellNum()].Icon], x + 2, y + 2, 32, 32, 0, 0, 56, 56, false, true);
+                        }
+                        x = x + 41;
+                    } else if (i == 41) {
+                        x = 36;
+                        y = 200;
+                        if (Variables.selectedSpellSlot == i) {
+                            batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
+                        } else {
+                            batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
+                        }
+                        if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].getSpellNum()].Icon], x + 2, y + 2, 32, 32, 0, 0, 56, 56, false, true);
+                        }
+                        x = x + 41;
+                    } else if (i == 51) {
+                        x = 36;
+                        y = 241;
+                        if (Variables.selectedSpellSlot == i) {
+                            batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
+                        } else {
+                            batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
+                        }
+                        if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].getSpellNum()].Icon], x + 2, y + 2, 32, 32, 0, 0, 56, 56, false, true);
+                        }
+                        x = x + 41;
+                    } else {
+                        if (Variables.selectedSpellSlot == i) {
+                            batcher.draw(AssetLoader.eqBGs, x, y, 36, 36);
+                        } else {
+                            batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
+                        }
+                        if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].getSpellNum()].Icon], x + 2, y + 2, 32, 32, 0, 0, 56, 56, false, true);
+                        }
+                        x = x + 41;
+                    }
+
+                    // Selected Item Info
+                    if (Variables.selectedSpellSlot > 0) {
+                        int spellNum = Variables.Players[Variables.MyIndex].spells[Variables.selectedSpellSlot].getSpellNum();
+                        if (spellNum > 0) {
+                            layout.setText(AssetLoader.font, Variables.Spells[spellNum].Name);
+                            float width = layout.width;// contains the width of the current set text
+
+                            float nameX = 240 - ((int) width / 2);
+                            float nameY = 325;
+                            drawText(Variables.Spells[spellNum].Name, nameX, nameY, Color.WHITE);
+
+                            layout.setText(AssetLoader.nameFont, "Lvl: " + Variables.Spells[spellNum].LevelReq);
+                            width = layout.width;// contains the width of the current set text
+
+                            nameX = 240 - ((int) width / 2);
+                            nameY = 350;
+                            drawName("Lvl: " + Variables.Spells[spellNum].LevelReq, nameX, nameY, Color.WHITE);
+
+                            layout.setText(AssetLoader.nameFont, "Strength: " + Variables.Spells[spellNum].DmgHealAmt + "     Cost: " + Variables.Spells[spellNum].MPCost);
+                            width = layout.width;// contains the width of the current set text
+
+                            nameX = 240 - ((int) width / 2);
+                            nameY = 365;
+                            drawName("Strength: " + Variables.Spells[spellNum].DmgHealAmt + "     Cost: " + Variables.Spells[spellNum].MPCost, nameX, nameY, Color.WHITE);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Back Button
+        drawText("Back", 16, 429, Color.WHITE);
+
+        // Use Button
+        drawText("Use", 410, 429, Color.WHITE);
     }
     public static void drawStatus() {
         batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
@@ -1562,6 +1729,47 @@ public class RenderAndroid {
                 batcher.draw(AssetLoader.playerMenu, 136, 91, 200, 300, 0, 0, 200, 300, false, true);
             }
         }
+        // Hot Keys
+        if (Variables.Players[Variables.MyIndex].getHotKeyQ() > 0) {
+            for (int i = 1; i <= 60; i++) {
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() == Variables.Players[Variables.MyIndex].getHotKeyQ()) {
+                    if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
+                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()] != null) {
+                            batcher.setColor(Color.RED);
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].Icon], 290, 595, 48, 48, 0, 0, 56, 56, false, true);
+                            batcher.setColor(Color.WHITE);
+                            long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                            drawName(timer + "", 282, 617, Color.WHITE);
+                        }
+                    } else {
+                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()] != null) {
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].Icon], 290, 595, 48, 48, 0, 0, 56, 56, false, true);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (Variables.Players[Variables.MyIndex].getHotKeyE() > 0) {
+            for (int i = 1; i <= 60; i++) {
+                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() == Variables.Players[Variables.MyIndex].getHotKeyE()) {
+                    if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
+                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {
+                            batcher.setColor(Color.RED);
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()].Icon], 378, 684, 48, 48, 0, 0, 56, 56, false, true);
+                            batcher.setColor(Color.WHITE);
+                            long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                            drawName(timer + "", 370, 706, Color.WHITE);
+                        }
+                    } else {
+                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {
+                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()].Icon], 378, 684, 48, 48, 0, 0, 56, 56, false, true);
+                        }
+                    }
+                }
+            }
+        }
+
         if (Variables.PartyInvite) {
             batcher.draw(AssetLoader.partyInvite, 136, 191, 200, 100, 0, 0, 200, 100, false, true);
             drawName(Variables.Players[Variables.PartyLeader].getName(), 213, 240, Color.GREEN);
@@ -1577,14 +1785,30 @@ public class RenderAndroid {
                 float PlayerY = ((Variables.MapNPCs[i].getY() * Variables.MoveSize) + Variables.MapNPCs[i].getOffsetY());
 
                 if (Variables.MapNPCs[i].getName() == null) { break; }
-                layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
+                if (Variables.Players[Variables.MyIndex].getTarget() == i) {
+                    if (Variables.Players[Variables.MyIndex].getTargetType() == Variables.SEARCH_TYPE_NPC) {
+                        layout.setText(AssetLoader.nameFont, ">" + Variables.MapNPCs[i].getName() + "<");
+                    } else {
+                        layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
+                    }
+                } else {
+                    layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
+                }
                 float width = layout.width;// contains the width of the current set text
 
                 float nameX = PlayerX - ((int)width / 2) + 32;
                 float nameY = PlayerY - 24;
                 if (Variables.MapNPCs[i].getHP() > 0) {
                     if (Variables.MapNPCs[i].getName() != null) {
-                        drawName(Variables.MapNPCs[i].getName(), nameX, nameY, Color.WHITE);
+                        if (Variables.Players[Variables.MyIndex].getTarget() == i) {
+                            if (Variables.Players[Variables.MyIndex].getTargetType() == Variables.SEARCH_TYPE_NPC) {
+                                drawName(">" + Variables.MapNPCs[i].getName() + "<", nameX, nameY, Color.YELLOW);
+                            } else {
+                                drawName(Variables.MapNPCs[i].getName(), nameX, nameY, Color.WHITE);
+                            }
+                        } else {
+                            drawName(Variables.MapNPCs[i].getName(), nameX, nameY, Color.WHITE);
+                        }
                     }
                 }
 
@@ -1628,6 +1852,19 @@ public class RenderAndroid {
                         double maxWidth = ((((double) Variables.Players[Variables.MyIndex].getHP()) / 32) / ((double) Variables.Players[Variables.MyIndex].getMaxHP() / 32) * 32);
                         //batcher.draw(AssetLoader.hpBar, 540, 158, (int) maxWidth, 12, 0, 0, (int) maxWidth, 12, false, true);
                         GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 16, PlayerY + 48, (int) maxWidth, 4);
+
+                        // Casting bar for when casting spells
+                        for (int a = 1; a <= 60; a++) {
+                            if (Variables.Players[Variables.MyIndex].spells[a].getSpellNum() > 0) {
+                                if (Variables.Players[Variables.MyIndex].spells[a].getCastTime() > 0) {
+                                    GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 16, PlayerY + 52, 32, 4);
+                                    maxWidth = ((((double) Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer()) / 32) / ((double) Variables.Players[Variables.MyIndex].spells[a].getCastTime() / 32) * 32);
+
+                                    GameRenderer.batcher.draw(AssetLoader.ctMapBar, PlayerX + 16, PlayerY + 52, (int) maxWidth, 4);
+                                    break;
+                                }
+                            }
+                        }
                     }
 
                     // Render Party Stuff
@@ -1772,6 +2009,27 @@ public class RenderAndroid {
                             float PlayerY = ((Variables.Players[i].getY() * Variables.MoveSize) + Variables.Players[i].getOffsetY());
                             renderPlayer(i, PlayerX, PlayerY, tickCount);
                         }
+                    }
+                }
+            }
+            for (int i = 1; i <= Variables.MaxMapSpells; i++) {
+                int spellNum = Variables.MapSpells[i].getSpellNum();
+                if (spellNum > 0) {
+                    if (Variables.MapSpells[i].getY() == LoopY) {
+                        int index = Variables.MapSpells[i].getIndex();
+                        int anim = Variables.Spells[spellNum].Animation;
+                        int x = Variables.MapSpells[i].getX();
+                        int y = Variables.MapSpells[i].getY();
+
+                        if (Variables.MapSpells[i].getType() == Variables.SEARCH_TYPE_NPC) {
+                            x = ((Variables.MapNPCs[index].getX() * Variables.MoveSize) + Variables.MapNPCs[index].getOffsetX());
+                            y = ((Variables.MapNPCs[index].getY() * Variables.MoveSize) + Variables.MapNPCs[index].getOffsetY());
+                        } else if (Variables.MapSpells[i].getType() == Variables.SEARCH_TYPE_PLAYER) {
+                            x = ((Variables.Players[index].getX() * Variables.MoveSize) + Variables.Players[index].getOffsetX());
+                            y = ((Variables.Players[index].getY() * Variables.MoveSize) + Variables.Players[index].getOffsetY());
+                        }
+
+                        GameRenderer.batcher.draw(AssetLoader.anims[anim], x + 16, y + 11, 32, 32, Variables.MapSpells[i].getFrame() * 32, 0, 32, 32, false, true);
                     }
                 }
             }

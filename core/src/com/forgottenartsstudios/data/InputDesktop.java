@@ -434,30 +434,18 @@ public class InputDesktop {
     public static void checkMovement() {
         if (Variables.pressUp) {
             if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.Players[Variables.MyIndex].getMap();
-                int x = Variables.Players[Variables.MyIndex].getX();
-                int y = Variables.Players[Variables.MyIndex].getY();
                 SendClientData.SendMovePlayer(Variables.DIR_UP);
             }
         } else if (Variables.pressDown) {
             if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.Players[Variables.MyIndex].getMap();
-                int x = Variables.Players[Variables.MyIndex].getX();
-                int y = Variables.Players[Variables.MyIndex].getY();
                 SendClientData.SendMovePlayer(Variables.DIR_DOWN);
             }
         } else if (Variables.pressLeft) {
             if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.Players[Variables.MyIndex].getMap();
-                int x = Variables.Players[Variables.MyIndex].getX();
-                int y = Variables.Players[Variables.MyIndex].getY();
                 SendClientData.SendMovePlayer(Variables.DIR_LEFT);
             }
         } else if (Variables.pressRight) {
             if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
-                int mapNum = Variables.Players[Variables.MyIndex].getMap();
-                int x = Variables.Players[Variables.MyIndex].getX();
-                int y = Variables.Players[Variables.MyIndex].getY();
                 SendClientData.SendMovePlayer(Variables.DIR_RIGHT);
             }
         }
@@ -499,15 +487,17 @@ public class InputDesktop {
                         if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
                             SendClientData.SendUseHotKey(Variables.HOT_KEY_Q);
                             Variables.hotKeyQ = true;
-                            System.out.println("SendUseHotKey");
                         }
                     }
                 }
             } else if (Gdx.input.isKeyPressed(Input.Keys.E)) {
-                if (Variables.Players[Variables.MyIndex].getHotKeyE() > 0) {
-                    int spellNum = Variables.Players[Variables.MyIndex].getHotKeyE();
-                    if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
-                        SendClientData.SendUseHotKey(Variables.HOT_KEY_E);
+                if (!Variables.hotKeyE) {
+                    if (Variables.Players[Variables.MyIndex].getHotKeyE() > 0) {
+                        int spellNum = Variables.Players[Variables.MyIndex].getHotKeyE();
+                        if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
+                            SendClientData.SendUseHotKey(Variables.HOT_KEY_E);
+                            Variables.hotKeyE = true;
+                        }
                     }
                 }
             } else if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
