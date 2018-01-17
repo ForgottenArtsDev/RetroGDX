@@ -84,7 +84,7 @@ public class Variables {
 
     public static final int MaxPlayers = 100;
     public static final int MaxMaps = 200;
-    public static final int MaxSprites = 32;
+    public static final int MaxSprites = 33;
     public static final int MaxIcons = 1696;
     public static final int MaxTiles = 1;
     public static final int MaxMapNPCs = 5;
@@ -93,7 +93,7 @@ public class Variables {
     public static final int MaxItems = 200;
     public static final int MaxSpells = 200;
     public static final int MaxSpellIcons = 61;
-    public static final int MaxAnims = 8;
+    public static final int MaxAnims = 10;
 
     public static final int JOB_WARRIOR = 1;
     public static final int JOB_WIZARD = 2;
@@ -132,6 +132,7 @@ public class Variables {
     public static final int MESSAGE_TYPE_WHISPER = 3;
     public static final int MESSAGE_TYPE_SYSTEM = 4;
     public static final int MESSAGE_TYPE_PARTY = 5;
+    public static final int MESSAGE_TYPE_DEATH = 6;
 
     // Party - Drop Sort Methods
     public static final int DROP_SORT_ROUNDROBIN = 1;

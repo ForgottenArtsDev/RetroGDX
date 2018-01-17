@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.helpers.AssetLoader;
+import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.helpers.Variables;
 
 import static com.forgottenartsstudios.gameworld.GameRenderer.batcher;
@@ -31,6 +32,7 @@ public class RenderDesktop {
     private static final long UpdateTime_LongPress = 1000;
     private static final long UpdateTime_Loading = 500;
     private static final long UpdateTime_CastTime = 1000;
+    private static final long UpdateTime_Death = 1000;
 
     ////////////////////////////
     // Update Routines Checks //
@@ -42,6 +44,7 @@ public class RenderDesktop {
     private static long LastUpdateTime_LongPress;
     private static long LastUpdateTime_Loading;
     private static long LastUpdateTime_CastTime;
+    private static long LastUpdateTime_Death;
 
     public static void gsTitleScreen(long tickCount) {
         if (LastUpdateTime_TapAnim < tickCount) {
@@ -622,6 +625,19 @@ public class RenderDesktop {
             }
         }
 
+        // Death Timers //
+        if (LastUpdateTime_Death < tickCount) {
+            for (int i = 1; i <= Variables.MaxPlayers; i++) {
+                if (Variables.Players[i].getDeathTimer() > 0) {
+                    Variables.Players[i].setDeathTimer(Variables.Players[i].getDeathTimer() - 1);
+                    if (Variables.Players[i].getDeathTimer() == 0) {
+                        Variables.Players[i].setTempSprite(0);
+                    }
+                }
+            }
+            LastUpdateTime_Death = tickCount + UpdateTime_Death;
+        }
+
         if (LastUpdateTime_InputTimer < tickCount) {
             if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
                 if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
@@ -721,56 +737,63 @@ public class RenderDesktop {
                 return;
             }
 
+            int sprite = 0;
+            if (Variables.Players[i].getTempSprite() > 0) {
+                sprite = Variables.Players[i].getTempSprite();
+            } else {
+                sprite = Variables.Players[i].getSprite();
+            }
+
             switch (Variables.Players[i].getDir()) {
                 case Variables.DIR_UP:
                     switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[sprite], x + 8, y + 3, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[sprite], x + 8, y + 3, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[sprite], x + 8, y + 3, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_DOWN:
                     switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[sprite], x + 8, y + 3, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[sprite], x + 8, y + 3, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[sprite], x + 8, y + 3, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_LEFT:
                     switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[sprite], x + 8, y + 3, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[sprite], x + 8, y + 3, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[sprite], x + 8, y + 3, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_RIGHT:
                     switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[sprite], x + 8, y + 3, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[sprite], x + 8, y + 3, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.Players[i].getSprite()], x + 8, y + 3, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[sprite], x + 8, y + 3, 32, 36);
                             break;
                     }
                     return;
@@ -2061,6 +2084,14 @@ public class RenderDesktop {
                         drawName(Variables.Players[i].getName(), nameX, nameY, Color.WHITE);
                     }
 
+                    if (Variables.Players[i].getDeathTimer() > 0) {
+                        layout.setText(AssetLoader.nameFont, Variables.Players[i].getDeathTimer() + "");
+                        width = layout.width;// contains the width of the current set text
+                        nameX = PlayerX - ((int)width / 2) + 24;
+                        nameY = PlayerY - 28;
+                        drawName(Variables.Players[i].getDeathTimer() + "", nameX, nameY, Color.RED);
+                    }
+
                     if (i == Variables.MyIndex) {
                         // HP bar beneath player
                         GameRenderer.batcher.draw(AssetLoader.emptyMapBar, PlayerX + 8, PlayerY + 40, 32, 4);
@@ -2297,6 +2328,8 @@ public class RenderDesktop {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.SKY);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_SYSTEM) {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.GOLD);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_DEATH) {
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * i), Color.RED);
                 }
             }
         } else {
@@ -2312,6 +2345,8 @@ public class RenderDesktop {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.SKY);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_SYSTEM) {
                     drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.GOLD);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_DEATH) {
+                    drawName(Variables.chatMessages[i].getMsg(), 13, 455 + (14 * line), Color.RED);
                 }
                 line++;
             }

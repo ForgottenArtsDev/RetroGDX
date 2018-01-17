@@ -253,6 +253,9 @@ public class HandleClientData {
 
         Variables.Players[index].setParty(plData.playerData.getParty());
 
+        Variables.Players[index].setDeathTimer(plData.playerData.getDeathTimer());
+        Variables.Players[index].setTempSprite(plData.playerData.getTempSprite());
+
         if (index == Variables.MyIndex) {
             Variables.MinX = 0;
             Variables.MinY = 0;
@@ -592,8 +595,15 @@ public class HandleClientData {
         String msg = sendMessage.msg;
         double msgLength = msg.length();
 
-        if (msgLength > 110) {
-            String[] multiLine = msg.split("(?<=\\G.{110})");
+        double maxLength = 0;
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            maxLength = 55;
+        } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+            maxLength = 110;
+        }
+
+        if (msgLength > maxLength) {
+            String[] multiLine = msg.split("(?<=\\G.{" + maxLength + "})");
             double lines = Array.getLength(multiLine);
             for (int a = 0; a <= lines - 1; a++) {
                 for (int i = 1; i <= 100; i++) {

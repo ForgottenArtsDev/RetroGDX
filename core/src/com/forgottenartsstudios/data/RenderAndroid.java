@@ -31,6 +31,7 @@ public class RenderAndroid {
     private static final long UpdateTime_LongPress = 1000;
     private static final long UpdateTime_Loading = 500;
     private static final long UpdateTime_CastTime = 1000;
+    private static final long UpdateTime_Death = 1000;
 
     ////////////////////////////
     // Update Routines Checks //
@@ -43,6 +44,7 @@ public class RenderAndroid {
     private static long LastUpdateTime_LongPress;
     private static long LastUpdateTime_Loading;
     private static long LastUpdateTime_CastTime;
+    private static long LastUpdateTime_Death;
 
     public static void gsTitleScreen(long tickCount) {
         if (LastUpdateTime_TapAnim < tickCount) {
@@ -118,9 +120,9 @@ public class RenderAndroid {
 
         drawText("Server Status: ", 105, 200, Color.WHITE);
         if (Variables.serverOnline) {
-            drawText("Online", 285, 200, Color.GREEN);
+            drawText("Online", 305, 200, Color.GREEN);
         } else {
-            drawText("Offline", 285, 200, Color.RED);
+            drawText("Offline", 305, 200, Color.RED);
         }
     }
     public static void gsCharSelect(long tickCount) {
@@ -451,6 +453,19 @@ public class RenderAndroid {
             }
         }
 
+        // Death Timers //
+        if (LastUpdateTime_Death < tickCount) {
+            for (int i = 1; i <= Variables.MaxPlayers; i++) {
+                if (Variables.Players[i].getDeathTimer() > 0) {
+                    Variables.Players[i].setDeathTimer(Variables.Players[i].getDeathTimer() - 1);
+                    if (Variables.Players[i].getDeathTimer() == 0) {
+                        Variables.Players[i].setTempSprite(0);
+                    }
+                }
+            }
+            LastUpdateTime_Death = tickCount + UpdateTime_Death;
+        }
+
         if (LastUpdateTime_InputTimer < tickCount) {
             if (Variables.pauseMovement) {
                 Variables.pauseMovement = false;
@@ -558,59 +573,69 @@ public class RenderAndroid {
                 return;
             }
 
+            int sprite = 0;
+            if (Variables.Players[i].getTempSprite() > 0) {
+                sprite = Variables.Players[i].getTempSprite();
+            } else {
+                sprite = Variables.Players[i].getSprite();
+            }
+
             switch (Variables.Players[i].getDir()) {
                 case Variables.DIR_UP:
                     switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp1[sprite], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp2[sprite], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesUp3[sprite], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_DOWN:
                     switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown1[sprite], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown2[sprite], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesDown3[sprite], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_LEFT:
                     switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft1[sprite], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft2[sprite], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesLeft3[sprite], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
                 case Variables.DIR_RIGHT:
                     switch (Variables.Players[i].getStep()) {
                         case 0:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight1[sprite], x + 16, y + 11, 32, 36);
                             break;
                         case 1:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight2[sprite], x + 16, y + 11, 32, 36);
                             break;
                         case 2:
-                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[Variables.Players[i].getSprite()], x + 16, y + 11, 32, 36);
+                            GameRenderer.batcher.draw(AssetLoader.spritesRight3[sprite], x + 16, y + 11, 32, 36);
                             break;
                     }
                     return;
+            }
+            if (Variables.Players[i].getDeathTimer() > 0) {
+                drawName(Variables.Players[i].getDeathTimer() + "", x + 5, y - 16, Color.RED);
             }
             GameRenderer.batcher.draw(AssetLoader.emptyMapBar, x, y + 34, 32, 4);
 
@@ -1797,7 +1822,7 @@ public class RenderAndroid {
                 float width = layout.width;// contains the width of the current set text
 
                 float nameX = PlayerX - ((int)width / 2) + 32;
-                float nameY = PlayerY - 24;
+                float nameY = PlayerY - 8;
                 if (Variables.MapNPCs[i].getHP() > 0) {
                     if (Variables.MapNPCs[i].getName() != null) {
                         if (Variables.Players[Variables.MyIndex].getTarget() == i) {
@@ -2066,6 +2091,8 @@ public class RenderAndroid {
                     drawName(Variables.chatMessages[i].getMsg(), 24, (18 * i) + 10, Color.SKY);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_SYSTEM) {
                     drawName(Variables.chatMessages[i].getMsg(), 24, (18 * i) + 10, Color.GOLD);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_DEATH) {
+                    drawName(Variables.chatMessages[i].getMsg(), 24, (18 * i) + 10, Color.RED);
                 }
             }
         } else {
@@ -2081,6 +2108,8 @@ public class RenderAndroid {
                     drawName(Variables.chatMessages[i].getMsg(), 24, (18 * line) + 10, Color.SKY);
                 } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_SYSTEM) {
                     drawName(Variables.chatMessages[i].getMsg(), 24, (18 * line) + 10, Color.GOLD);
+                } else if (Variables.chatMessages[i].getType() == Variables.MESSAGE_TYPE_DEATH) {
+                    drawName(Variables.chatMessages[i].getMsg(), 24, (18 * line) + 10, Color.RED);
                 }
                 line++;
             }

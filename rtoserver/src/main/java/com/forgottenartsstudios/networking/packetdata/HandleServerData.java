@@ -509,7 +509,20 @@ public class HandleServerData {
             case ServerVars.SEARCH_TYPE_PLAYER:
                 if (i <= 0) { return; }
                 if (ServerVars.Players[i] != null) {
-                    SendServerData.SendOpenPlayerMenu(index, i);
+                    if (index == i) {
+                        if (ServerVars.Players[i].getDeathTimer() > 0) {
+                            ServerVars.Players[i].setTempSprite(0);
+                            ServerVars.Players[i].setDeathTimer(0);
+                            RTOServer.ErasePlayer(i);
+                            return;
+                        }
+                    }
+                    if (ServerVars.Players[i].getTarget() == i) {
+                        SendServerData.SendOpenPlayerMenu(index, i);
+                    }
+                    ServerVars.Players[i].setTarget(i);
+                    ServerVars.Players[i].setTargetType(searchType);
+                    SendServerData.SendPlayerData(index, index);
                 }
                 break;
             case ServerVars.SEARCH_TYPE_NPC:
@@ -1574,6 +1587,14 @@ public class HandleServerData {
                                         SendServerData.SendCastTime(index, spellInvSlot, ServerVars.Spells[spellNum].CastTime);
                                     }
                                 }
+                            }
+                        }
+                    } else if (ServerVars.Players[index].getTargetType() == ServerVars.SEARCH_TYPE_PLAYER) {
+                        if (ServerVars.Players[index].spells[spellInvSlot].getCoolDown() == 0) {
+                            if (ServerVars.Spells[spellNum].CastTime > 0) {
+                                ServerVars.Players[index].spells[spellInvSlot].setCastTime(ServerVars.Spells[spellNum].CastTime);
+                                ServerVars.Players[index].spells[spellInvSlot].setCastTimeTimer(0);
+                                SendServerData.SendCastTime(index, spellInvSlot, ServerVars.Spells[spellNum].CastTime);
                             }
                         }
                     }

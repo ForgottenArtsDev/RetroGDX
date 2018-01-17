@@ -24,9 +24,10 @@ public class Player implements Serializable {
     private int Step;
     private int LastStep;
     private int Attacking;
-    private long AttackTimer;
+    private long AttackTimer, DeathTimer;
     private int Target;
     private int TargetType;
+    private int TempSprite;
 
     public Inventory_Struct[] inventory = new Inventory_Struct[60 + 1];
     public Spell_Inv_Struct[] spells = new Spell_Inv_Struct[60 + 1];
@@ -69,6 +70,8 @@ public class Player implements Serializable {
     public int getHotKeyE() { return HotKeyE; }
     public int getTarget() { return Target; }
     public int getTargetType() { return TargetType; }
+    public long getDeathTimer() { return DeathTimer; }
+    public int getTempSprite() { return TempSprite; }
 
     public void setName(String name) { Name = name; }
     public void setJob(int job) { Job = job; }
@@ -108,4 +111,6 @@ public class Player implements Serializable {
     public void setHotKeyE(int hotKeyE) { HotKeyE = hotKeyE; }
     public void setTarget(int target) { Target = target; }
     public void setTargetType(int targetType) { TargetType = targetType; }
+    public void setDeathTimer(long deathTimer) { DeathTimer = deathTimer; }
+    public void setTempSprite(int tempSprite) { TempSprite = tempSprite; }
 }

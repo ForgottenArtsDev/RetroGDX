@@ -124,6 +124,9 @@ public class SendServerData {
 
         plData.playerData.setParty(ServerVars.Players[index].getParty());
 
+        plData.playerData.setDeathTimer(ServerVars.Players[index].getDeathTimer());
+        plData.playerData.setTempSprite(ServerVars.Players[index].getTempSprite());
+
         server.sendToTCP(ServerVars.Accounts[indexTo].getCID(), plData);
 
         SendInvData(index, index);
@@ -818,6 +821,60 @@ public class SendServerData {
                         ServerVars.Players[index].setMaxHP((pVIT * 2) * (pSTR / 2));
                         ServerVars.Players[index].setMaxMP((pMAG * 2) * (pDEF / 2));
 
+                        switch (ServerVars.Players[index].getJob()) {
+                            case 1: // Warrior
+                                for (int i = 1; i <= ServerVars.MaxSpells; i++) {
+                                    if (ServerVars.Spells[i].ClassReq == 1) {
+                                        if (ServerVars.Spells[i].LevelReq == ServerVars.Players[index].getLevel()) {
+                                            for (int a = 1; a <= 60; a++) {
+                                                if (ServerVars.Players[index].spells[a].getSpellNum() == 0) {
+                                                    ServerVars.Players[index].spells[a].setSpellNum(i);
+
+                                                    SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "New skill learned: " + ServerVars.Spells[i].Name);
+                                                    SendServerData.SendPlayerData(index, index);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case 2: // Mage
+                                for (int i = 1; i <= ServerVars.MaxSpells; i++) {
+                                    if (ServerVars.Spells[i].ClassReq == 2) {
+                                        if (ServerVars.Spells[i].LevelReq == ServerVars.Players[index].getLevel()) {
+                                            for (int a = 1; a <= 60; a++) {
+                                                if (ServerVars.Players[index].spells[a].getSpellNum() == 0) {
+                                                    ServerVars.Players[index].spells[a].setSpellNum(i);
+
+                                                    SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "New skill learned: " + ServerVars.Spells[i].Name);
+                                                    SendServerData.SendPlayerData(index, index);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case 3: // Cleric
+                                for (int i = 1; i <= ServerVars.MaxSpells; i++) {
+                                    if (ServerVars.Spells[i].ClassReq == 3) {
+                                        if (ServerVars.Spells[i].LevelReq == ServerVars.Players[index].getLevel()) {
+                                            for (int a = 1; a <= 60; a++) {
+                                                if (ServerVars.Players[index].spells[a].getSpellNum() == 0) {
+                                                    ServerVars.Players[index].spells[a].setSpellNum(i);
+
+                                                    SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "New skill learned: " + ServerVars.Spells[i].Name);
+                                                    SendServerData.SendPlayerData(index, index);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+
                         for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                             if (ServerVars.Players[i] != null) {
                                 if (ServerVars.Players[i].getMap() == ServerVars.Players[index].getMap()) {
@@ -827,6 +884,9 @@ public class SendServerData {
                         }
                     }
                     SendServerData.SendVital(index);
+                    ServerVars.Players[index].setTarget(0);
+                    ServerVars.Players[index].setTargetType(0);
+                    SendServerData.SendPlayerData(index, index);
                 }
             }
             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].drop1 > 0) {

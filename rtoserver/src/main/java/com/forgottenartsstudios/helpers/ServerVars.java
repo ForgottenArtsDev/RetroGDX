@@ -90,6 +90,7 @@ public class ServerVars {
     public static final int MESSAGE_TYPE_WHISPER = 3;
     public static final int MESSAGE_TYPE_SYSTEM = 4;
     public static final int MESSAGE_TYPE_PARTY = 5;
+    public static final int MESSAGE_TYPE_DEATH = 6;
 
     // Party - Drop Sort Methods
     public static final int DROP_SORT_ROUNDROBIN = 1;

@@ -144,6 +144,7 @@ public class RTOServer extends ApplicationAdapter {
     private static final long UpdateTime_RegenPlayers = 5000;
     private static final long UpdateTime_ClearMapItems = 1000;
     private static final long UpdateTime_CastTime = 1000;
+    private static final long UpdateTime_Death = 1000;
 
     private static long LastUpdateTime_KeepAlive;
     private static long LastUpdateTime_KeepAliveCount;
@@ -153,6 +154,7 @@ public class RTOServer extends ApplicationAdapter {
     private static long LastUpdateTime_RegenPlayers;
     private static long LastUpdateTime_ClearMapItems;
     private static long LastUpdateTime_CastTime;
+    private static long LastUpdateTime_Death;
 
     private static boolean UpdateNpcMovement = false;
     private static boolean UpdateNpcRecover = false;
@@ -272,6 +274,7 @@ public class RTOServer extends ApplicationAdapter {
                     if (LastUpdateTime_RegenPlayers < tickCount) {
                         for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                             if (ServerVars.Players[i] != null) {
+                                if (ServerVars.Players[i].getDeathTimer() > 0) { break; }
                                 if (ServerVars.Players[i].getHP() < ServerVars.Players[i].getMaxHP() || ServerVars.Players[i].getMP() < ServerVars.Players[i].getMaxMP()) {
                                     float percent;
                                     boolean boost = false;
@@ -380,6 +383,21 @@ public class RTOServer extends ApplicationAdapter {
                         }
 
                         LastUpdateTime_KeepAliveCount = tickCount + UpdateTime_KeepAliveCount;
+                    }
+
+                    // Death Timers //
+                    if (LastUpdateTime_Death < tickCount) {
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] == null) { break; }
+                            if (ServerVars.Players[i].getDeathTimer() > 0) {
+                                ServerVars.Players[i].setDeathTimer(ServerVars.Players[i].getDeathTimer() - 1);
+                                if (ServerVars.Players[i].getDeathTimer() == 0) {
+                                    ServerVars.Players[i].setTempSprite(0);
+                                    ErasePlayer(i);
+                                }
+                            }
+                        }
+                        LastUpdateTime_Death = tickCount + UpdateTime_Death;
                     }
 
                     // Save Players //
@@ -1008,6 +1026,8 @@ public class RTOServer extends ApplicationAdapter {
                 return false;
             case ServerVars.TILE_TYPE_WARP:
                 return false;
+            case ServerVars.TILE_TYPE_HEAL:
+                return false;
         }
 
         // Check Players //
@@ -1123,24 +1143,30 @@ public class RTOServer extends ApplicationAdapter {
         int mapNum = ServerVars.Players[Victim].getMap();
         int npcNum = ServerVars.MapNPCs[mapNum].Npc[Attacker].getNum();
 
-        if (Damage >= ServerVars.Players[Victim].getHP())
-        {
+        if (Damage >= ServerVars.Players[Victim].getHP()) {
             // Clear Npc Target
             ServerVars.MapNPCs[mapNum].Npc[Attacker].setTarget(0);
             ServerVars.MapNPCs[mapNum].Npc[Attacker].setTargetType(0);
 
-            // Erase Map Npc
-            ErasePlayer(Victim);
-        }
-        else
-        {
+            // Erase Player
+            ServerVars.Players[Victim].setHP(0);
+            ServerVars.Players[Victim].setTempSprite(33); // Set temp sprite to crystal sprite
+            ServerVars.Players[Victim].setDeathTimer(5 * 60);
+            SendServerData.SendMessage(Victim, ServerVars.MESSAGE_TYPE_DEATH, "Click on yourself to respawn.");
+            SendServerData.SendPlayerData(Victim, Victim);
+            for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                if (ServerVars.Players[i] == null) { break; }
+                if (ServerVars.Players[i].getMap() == mapNum) {
+                    SendServerData.SendPlayerData(Victim, i);
+                }
+            }
+        } else {
             // Do Damage
             ServerVars.Players[Victim].setHP(ServerVars.Players[Victim].getHP() - Damage);
             SendServerData.SendVital(Victim);
         }
-
     }
-    private static void ErasePlayer(int Victim) {
+    public static void ErasePlayer(int Victim) {
         // Revive
         ServerVars.Players[Victim].setHP(ServerVars.Players[Victim].getMaxHP());
         ServerVars.Players[Victim].setMP(ServerVars.Players[Victim].getMaxMP());
@@ -1435,6 +1461,49 @@ public class RTOServer extends ApplicationAdapter {
                 } else {
                     SendServerData.SendNPCDmg(index, target, 0);
                 }
+            }
+        } else if (targetType == ServerVars.TARGET_TYPE_PLAYER) {
+            switch (ServerVars.Spells[spellNum].Type) {
+                case ServerVars.SPELL_TYPE_DAMAGE:
+
+                    break;
+                case ServerVars.SPELL_TYPE_HEAL:
+                    if (ServerVars.Players[target].getHP() < ServerVars.Players[target].getMaxHP()) {
+                        int healAmt = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int HP = (int)(ServerVars.Players[target].getMaxHP() * (healAmt / 100.0f));
+                        ServerVars.Players[target].setHP(ServerVars.Players[target].getHP() + HP);
+                        if (ServerVars.Players[target].getHP() > ServerVars.Players[target].getMaxHP()) {
+                            ServerVars.Players[target].setHP(ServerVars.Players[target].getMaxHP());
+                        }
+                        SendServerData.SendVital(target);
+                        SendServerData.SendSystemMessage(target, target, HP + "", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, HP + "", Color.GREEN);
+                    } else {
+                        SendServerData.SendSystemMessage(target, target, "0", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, "0", Color.GREEN);
+                    }
+                    break;
+                case ServerVars.SPELL_TYPE_REVIVE:
+                    if (ServerVars.Players[target].getHP() == 0) {
+                        int percent = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int hp = (int)(ServerVars.Players[target].getMaxHP() * (percent / 100.0f));
+
+                        ServerVars.Players[target].setHP(hp);
+                        ServerVars.Players[target].setDeathTimer(0);
+                        ServerVars.Players[target].setTempSprite(0);
+
+                        SendServerData.SendPlayerData(target, target);
+                        SendServerData.SendPlayerData(target, index);
+
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] != null) {
+                                if (ServerVars.Players[i].getMap() == mapNum) {
+                                    SendServerData.SendPlayerData(target, i);
+                                }
+                            }
+                        }
+                    }
+                    break;
             }
         }
     }
