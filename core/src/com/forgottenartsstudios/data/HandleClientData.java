@@ -595,7 +595,7 @@ public class HandleClientData {
         String msg = sendMessage.msg;
         double msgLength = msg.length();
 
-        double maxLength = 0;
+        int maxLength = 0;
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             maxLength = 55;
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {

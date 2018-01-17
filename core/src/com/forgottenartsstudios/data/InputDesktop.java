@@ -799,10 +799,6 @@ public class InputDesktop {
                                         //SendClientData.SendDropItem(i);
                                     }
                                 }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedSpellSlot != i) {
-                                    Variables.selectedSpellSlot = i;
-                                }
                             }
                         }
                     }
@@ -853,10 +849,6 @@ public class InputDesktop {
                                         //SendClientData.SendDropItem(i);
                                     }
                                 }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedSpellSlot != i) {
-                                    Variables.selectedSpellSlot = i;
-                                }
                             }
                         }
                     }
@@ -879,10 +871,6 @@ public class InputDesktop {
                                     if (Variables.selectedSpellSlot == i) {
                                         //SendClientData.SendDropItem(i);
                                     }
-                                }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedSpellSlot != i) {
-                                    Variables.selectedSpellSlot = i;
                                 }
                             }
                         }
@@ -907,10 +895,6 @@ public class InputDesktop {
                                         //SendClientData.SendDropItem(i);
                                     }
                                 }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedSpellSlot != i) {
-                                    Variables.selectedSpellSlot = i;
-                                }
                             }
                         }
                     }
@@ -932,10 +916,6 @@ public class InputDesktop {
                                         //SendClientData.SendDropItem(i);
                                     }
                                 }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedSpellSlot != i) {
-                                    Variables.selectedSpellSlot = i;
-                                }
                             }
                         }
                     }
@@ -950,7 +930,6 @@ public class InputDesktop {
                 if (worldCoordinates.y >= 212 && worldCoordinates.y <= 248) {
                     Variables.Players[Variables.MyIndex].setHotKeyQ(Variables.selectedSpellSlot);
                     SendClientData.SendSetHotKey(Variables.HOT_KEY_Q, Variables.selectedSpellSlot);
-                    Variables.selectedSpellSlot = 0;
                 }
             }
             // E Hotkey
@@ -958,7 +937,6 @@ public class InputDesktop {
                 if (worldCoordinates.y >= 212 && worldCoordinates.y <= 248) {
                     Variables.Players[Variables.MyIndex].setHotKeyE(Variables.selectedSpellSlot);
                     SendClientData.SendSetHotKey(Variables.HOT_KEY_E, Variables.selectedSpellSlot);
-                    Variables.selectedSpellSlot = 0;
                 }
             }
         }

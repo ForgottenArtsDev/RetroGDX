@@ -307,6 +307,7 @@ public class HandleServerData {
 
         switch (Dir) {
             case ServerVars.DIR_UP:
+                if (Map <= 0) { return; }
                 if (Y <= 0 || (Y - 1) < 0) {
                     if (ServerVars.mapData[Map].Up > 0) {
                         int newMap = ServerVars.mapData[Map].Up;
@@ -337,6 +338,7 @@ public class HandleServerData {
                 }
                 break;
             case ServerVars.DIR_DOWN:
+                if (Map <= 0) { return; }
                 if (Y >= ServerVars.mapData[Map].MaxY - 1 || (Y + 1) > ServerVars.mapData[Map].MaxY - 1) {
                     if (ServerVars.mapData[Map].Down > 0) {
                         int newMap = ServerVars.mapData[Map].Down;
@@ -367,6 +369,7 @@ public class HandleServerData {
                 }
                 break;
             case ServerVars.DIR_LEFT:
+                if (Map <= 0) { return; }
                 if (X <= 0 || (X - 1) < 0) {
                     if (ServerVars.mapData[Map].Left > 0) {
                         int newMap = ServerVars.mapData[Map].Left;
@@ -397,6 +400,7 @@ public class HandleServerData {
                 }
                 break;
             case ServerVars.DIR_RIGHT:
+                if (Map <= 0) { return; }
                 if (X >= ServerVars.mapData[Map].MaxX - 1 || (X + 1) > ServerVars.mapData[Map].MaxX - 1) {
                     if (ServerVars.mapData[Map].Right > 0) {
                         int newMap = ServerVars.mapData[Map].Right;
@@ -1009,8 +1013,6 @@ public class HandleServerData {
         int index = sendPickUpItem.index;
         int pNum = ServerVars.Players[index].getParty();
         int dropIndex = 0;
-
-        System.out.println("pNum: " + pNum);
 
         for (int i = 1; i <= ServerVars.MaxMapItems; i++) {
             int mapNum = ServerVars.Players[index].getMap();
