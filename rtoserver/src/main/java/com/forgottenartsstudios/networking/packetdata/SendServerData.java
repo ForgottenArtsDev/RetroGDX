@@ -69,16 +69,6 @@ public class SendServerData {
         }
     }
     public static void SendPlayerData(int index, int indexTo) {
-        if (ServerVars.Players[index] == null) {
-            if (ServerVars.Accounts[index] != null) {
-                ServerVars.Players[index] = ServerVars.Accounts[index].chars[ServerVars.Accounts[index].getActiveChar()];
-            }
-        }
-        if (ServerVars.Players[indexTo] == null) {
-            if (ServerVars.Accounts[indexTo] != null) {
-                ServerVars.Players[indexTo] = ServerVars.Accounts[indexTo].chars[ServerVars.Accounts[indexTo].getActiveChar()];
-            }
-        }
         PlayerData plData = new PlayerData();
         plData.playerData = new Player();
 
@@ -126,6 +116,13 @@ public class SendServerData {
 
         plData.playerData.setDeathTimer(ServerVars.Players[index].getDeathTimer());
         plData.playerData.setTempSprite(ServerVars.Players[index].getTempSprite());
+
+        if (plData == null) {
+            System.out.println("plData = null");
+        }
+        if (plData.playerData == null) {
+            System.out.println("plData.playerData = null");
+        }
 
         server.sendToTCP(ServerVars.Accounts[indexTo].getCID(), plData);
 

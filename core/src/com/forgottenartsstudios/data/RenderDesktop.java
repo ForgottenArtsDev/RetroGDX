@@ -1880,6 +1880,7 @@ public class RenderDesktop {
         if (Variables.Players[Variables.MyIndex].getWeapon() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()].getItemNum();
             if (itemNum > 0) {
+                if (Variables.Items[itemNum] == null) { return; }
                 batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 592 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
             }
         }
@@ -1887,6 +1888,7 @@ public class RenderDesktop {
         if (Variables.Players[Variables.MyIndex].getArmor() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()].getItemNum();
             if (itemNum > 0) {
+                if (Variables.Items[itemNum] == null) { return; }
                 batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 576 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
             }
         }
@@ -1894,6 +1896,7 @@ public class RenderDesktop {
         if (Variables.Players[Variables.MyIndex].getOffhand() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()].getItemNum();
             if (itemNum > 0) {
+                if (Variables.Items[itemNum] == null) { return; }
                 batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 629 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
             }
         }
@@ -1901,6 +1904,7 @@ public class RenderDesktop {
         if (Variables.Players[Variables.MyIndex].getHelmet() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()].getItemNum();
             if (itemNum > 0) {
+                if (Variables.Items[itemNum] == null) { return; }
                 batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 648 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
             }
         }

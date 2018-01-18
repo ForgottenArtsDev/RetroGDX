@@ -1195,6 +1195,7 @@ public class RenderAndroid {
         if (Variables.Players[Variables.MyIndex].getWeapon() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()].getItemNum();
             if (itemNum <= 0) { return; }
+            if (Variables.Items[itemNum] == null) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
             pVIT = pVIT + Variables.Items[itemNum].VIT;
@@ -1204,6 +1205,7 @@ public class RenderAndroid {
         if (Variables.Players[Variables.MyIndex].getOffhand() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()].getItemNum();
             if (itemNum <= 0) { return; }
+            if (Variables.Items[itemNum] == null) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
             pVIT = pVIT + Variables.Items[itemNum].VIT;
@@ -1213,6 +1215,7 @@ public class RenderAndroid {
         if (Variables.Players[Variables.MyIndex].getArmor() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()].getItemNum();
             if (itemNum <= 0) { return; }
+            if (Variables.Items[itemNum] == null) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
             pVIT = pVIT + Variables.Items[itemNum].VIT;
@@ -1222,6 +1225,7 @@ public class RenderAndroid {
         if (Variables.Players[Variables.MyIndex].getHelmet() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()].getItemNum();
             if (itemNum <= 0) { return; }
+            if (Variables.Items[itemNum] == null) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
             pVIT = pVIT + Variables.Items[itemNum].VIT;
@@ -1231,6 +1235,7 @@ public class RenderAndroid {
         if (Variables.Players[Variables.MyIndex].getAcc1() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getAcc1()].getItemNum();
             if (itemNum <= 0) { return; }
+            if (Variables.Items[itemNum] == null) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
             pVIT = pVIT + Variables.Items[itemNum].VIT;
@@ -1240,6 +1245,7 @@ public class RenderAndroid {
         if (Variables.Players[Variables.MyIndex].getAcc2() > 0) {
             int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getAcc2()].getItemNum();
             if (itemNum <= 0) { return; }
+            if (Variables.Items[itemNum] == null) { return; }
             pSTR = pSTR + Variables.Items[itemNum].STR;
             pDEF = pDEF + Variables.Items[itemNum].DEF;
             pVIT = pVIT + Variables.Items[itemNum].VIT;

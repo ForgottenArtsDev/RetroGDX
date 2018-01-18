@@ -214,6 +214,8 @@ public class HandleClientData {
             }
         }
 
+        System.out.println("PlayerData packet received.");
+
         Variables.Players[index].setJob(plData.playerData.getJob());
         Variables.Players[index].setLevel(plData.playerData.getLevel());
         Variables.Players[index].setSprite(plData.playerData.getSprite());
