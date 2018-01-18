@@ -279,6 +279,7 @@ public class HandleServerData {
         }
 
         SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Welcome to Retro Tales Online! This is an alpha build. Please bear with us.");
+        SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Your first set of gear is on the house! Just click/tap on the barkeep.");
         SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Type /help to get help with chat commands.");
 
         int totalOnline = 0;
