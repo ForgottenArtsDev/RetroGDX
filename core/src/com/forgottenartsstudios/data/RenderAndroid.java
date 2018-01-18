@@ -66,6 +66,8 @@ public class RenderAndroid {
 
         batcher.draw(AssetLoader.mainMenuBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
 
+        drawName(Variables.buildVersion, 8, 8, Color.WHITE);
+
         // Tap Flash
         c = batcher.getColor();
         oldAlpha = c.a;
@@ -90,6 +92,8 @@ public class RenderAndroid {
     }
     public static void gsLogin(long tickCount) {
         batcher.draw(AssetLoader.loginMenuBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
+
+        drawName(Variables.buildVersion, 8, 8, Color.WHITE);
 
         if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
             drawText(Variables.Login_ID, 151, 325, Color.WHITE);
@@ -127,6 +131,8 @@ public class RenderAndroid {
     }
     public static void gsCharSelect(long tickCount) {
         batcher.draw(AssetLoader.charSelectBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
+
+        drawName(Variables.buildVersion, 8, 8, Color.WHITE);
 
         if (Variables.MyAccount.chars[1].getName() != null && !Variables.MyAccount.chars[1].getName().isEmpty()) {
             TextureRegion spriteTex = new TextureRegion(AssetLoader.sprites[Variables.MyAccount.chars[1].getSprite()], 32, 72, 32, 36);
@@ -224,6 +230,9 @@ public class RenderAndroid {
     }
     public static void gsCharCreate(long tickCount) {
         batcher.draw(AssetLoader.charCreateBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
+
+        drawName(Variables.buildVersion, 8, 8, Color.WHITE);
+
         if (Variables.TempName != null && !Variables.TempName.isEmpty()) {
             drawText(Variables.TempName, 159, 257, Color.WHITE);
         }
@@ -359,6 +368,8 @@ public class RenderAndroid {
     private static int firstTick = 0;
     public static void gsLoading(long tickCount) {
         batcher.draw(AssetLoader.loadBG, 0, 0, 480, 854, 0, 0, 480, 854, false, true);
+
+        drawName(Variables.buildVersion, 8, 8, Color.WHITE);
 
         if (firstTick == 0) {
             LastUpdateTime_Loading = tickCount;

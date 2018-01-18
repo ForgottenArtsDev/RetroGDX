@@ -207,13 +207,6 @@ public class HandleClientData {
 
         Variables.Players[index].setName(plData.playerData.getName());
 
-        for (int i = 1; i <= 3; i++) {
-            if (Variables.Players[index].getName().equals(Variables.MyAccount.chars[i].getName())) {
-                Variables.MyAccount.setActiveChar(i);
-                break;
-            }
-        }
-
         System.out.println("PlayerData packet received.");
 
         Variables.Players[index].setJob(plData.playerData.getJob());
