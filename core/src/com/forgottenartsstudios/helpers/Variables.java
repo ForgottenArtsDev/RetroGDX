@@ -85,7 +85,7 @@ public class Variables {
     public static int inputTimer;
 
     public static final int MaxPlayers = 100;
-    public static final int MaxMaps = 200;
+    public static final int MaxMaps = 305;
     public static final int MaxSprites = 33;
     public static final int MaxIcons = 1696;
     public static final int MaxTiles = 1;

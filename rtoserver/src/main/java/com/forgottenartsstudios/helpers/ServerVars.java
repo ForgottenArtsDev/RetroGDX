@@ -25,7 +25,7 @@ public class ServerVars {
     public static boolean ServerRunning = true;
 
     public static final int MaxPlayers = 100;
-    public static final int MaxMaps = 200;
+    public static final int MaxMaps = 305;
     public static final int MaxNPCs = 200;
     public static final int MaxItems = 200;
     public static final int MaxShops = 200;
