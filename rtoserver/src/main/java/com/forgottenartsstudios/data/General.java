@@ -217,7 +217,9 @@ public class General {
             if (ServerVars.mapData[mapNum].Tile[X][Y].Type != ServerVars.TILE_TYPE_NPCSPAWN) {
                 if (ServerVars.mapData[mapNum].Tile[X][Y].Type != ServerVars.TILE_TYPE_ITEM) {
                     if (ServerVars.mapData[mapNum].Tile[X][Y].Type != ServerVars.TILE_TYPE_WARP) {
-                        return false;
+                        if (ServerVars.mapData[mapNum].Tile[X][Y].Type != ServerVars.TILE_TYPE_NPCAVOID) {
+                            return false;
+                        }
                     }
                 }
             }

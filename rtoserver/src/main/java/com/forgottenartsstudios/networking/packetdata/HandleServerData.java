@@ -1593,6 +1593,7 @@ public class HandleServerData {
                         if (!ServerVars.MapNPCs[mapNum].Npc[target].isDead()) {
                             if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
                                 // Calculate spell damage
+                                if (ServerVars.Players[index].spells[spellInvSlot].getSpellNum() <= 0) { return; }
                                 if (ServerVars.Players[index].spells[spellInvSlot].getCoolDown() == 0) {
                                     if (ServerVars.Spells[spellNum].CastTime > 0) {
                                         ServerVars.Players[index].spells[spellInvSlot].setCastTime(ServerVars.Spells[spellNum].CastTime);

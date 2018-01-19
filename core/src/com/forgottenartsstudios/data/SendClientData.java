@@ -361,7 +361,9 @@ public class SendClientData {
             if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_NPCSPAWN) {
                 if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_ITEM) {
                     if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_WARP) {
-                        return false;
+                        if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_NPCAVOID) {
+                            return false;
+                        }
                     }
                 }
             }
