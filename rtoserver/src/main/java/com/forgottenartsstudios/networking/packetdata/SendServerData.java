@@ -138,8 +138,9 @@ public class SendServerData {
             }
         }
     }
-    public static void SendAccountRegistered(Connection connection) {
+    public static void SendAccountRegistered(Connection connection, boolean result) {
         AccountRegistered ar = new AccountRegistered();
+        ar.result = result;
         server.sendToTCP(connection.getID(), ar);
     }
     public static void SendLogin(int index) {

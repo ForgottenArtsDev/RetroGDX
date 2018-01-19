@@ -17,6 +17,8 @@ import com.forgottenartsstudios.server.RTOServer;
 import com.forgottenartsstudios.server.serverWindow;
 import com.sun.org.apache.xpath.internal.operations.Variable;
 
+import java.io.File;
+
 /**
  * Created by forgo on 10/8/2017.
  */
@@ -182,9 +184,17 @@ public class HandleServerData {
         accountData.chars[2] = player2;
         accountData.chars[3] = player3;
 
-        SaveData.SaveAccount(accountData);
+        String absoPath = new File("").getAbsolutePath();
+        String fileName = absoPath + "\\rtoserver\\data\\accounts\\" + newAccount.ID + ".dat";
 
-        SendServerData.SendAccountRegistered(connection);
+        File f = new File(fileName);
+
+        if (!f.exists()) {
+            SaveData.SaveAccount(accountData);
+            SendServerData.SendAccountRegistered(connection, true);
+        } else {
+            SendServerData.SendAccountRegistered(connection, false);
+        }
 
         serverWindow.svrMonitor.append("Account (" + accountData.getID() + ") created." + "\n");
     }

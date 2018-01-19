@@ -204,5 +204,5 @@ public class Variables {
     public static String TempName;
     public static int TempJob;
     public static int TempSprite;
-    public static boolean AccountNotFound, AccountRegistered, PasswordReq, IDReq;
+    public static boolean AccountNotFound, AccountRegistered, AccountExists, PasswordReq, IDReq;
 }

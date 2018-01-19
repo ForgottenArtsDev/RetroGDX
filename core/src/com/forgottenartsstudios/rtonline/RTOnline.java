@@ -209,7 +209,7 @@ public class RTOnline extends Game {
     public static void checkPackets(Object object) {
         if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }
         if (object instanceof AccountNotFound) { HandleClientData.HandleAccountNotFound(); }
-        if (object instanceof AccountRegistered) { HandleClientData.HandleAccountRegistered(); }
+        if (object instanceof AccountRegistered) { HandleClientData.HandleAccountRegistered(object); }
         if (object instanceof PlayerData) { HandleClientData.HandlePlayerData(object); }
         if (object instanceof MovePlayer) { HandleClientData.HandleMovePlayer(object); }
         if (object instanceof SendNPCSpawn) { HandleClientData.HandleSpawnNPC(object); }

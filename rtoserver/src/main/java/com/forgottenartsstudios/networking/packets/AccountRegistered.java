@@ -5,4 +5,5 @@ package com.forgottenartsstudios.networking.packets;
  */
 
 public class AccountRegistered extends Packet {
+    public boolean result;
 }

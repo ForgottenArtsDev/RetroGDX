@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
+import com.forgottenartsstudios.networking.packets.AccountRegistered;
 import com.forgottenartsstudios.networking.packets.DisconnectPlayer;
 import com.forgottenartsstudios.networking.packets.MovePlayer;
 import com.forgottenartsstudios.networking.packets.PartyInfo;
@@ -196,9 +197,17 @@ public class HandleClientData {
     public static void HandleAccountNotFound() {
         Variables.AccountNotFound = true;
     }
-    public static void HandleAccountRegistered() {
+    public static void HandleAccountRegistered(Object object) {
+        AccountRegistered ar = (AccountRegistered) object;
+
+        boolean result = ar.result;
+
+        if (result) {
+            Variables.AccountRegistered = true;
+        } else {
+            Variables.AccountExists = true;
+        }
         Variables.AccountNotFound = false;
-        Variables.AccountRegistered = true;
     }
     public static void HandlePlayerData(Object object) {
         PlayerData plData = (PlayerData) object;

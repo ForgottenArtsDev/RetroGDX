@@ -117,6 +117,9 @@ public class RenderAndroid {
         if (Variables.AccountRegistered) {
             drawText("Account Registered", 122, 501, Color.YELLOW);
         }
+        if (Variables.AccountExists) {
+            drawText("Account Already Exists", 122, 501, Color.RED);
+        }
 
         if (Variables.saveLogin) {
             drawText("x", 151, 437, Color.WHITE);
@@ -1745,22 +1748,34 @@ public class RenderAndroid {
                     for (int i = 1; i <= Variables.chatMessageIndex; i++) {
                         int type = Variables.chatMessages[i].getType();
                         if (type == Variables.MESSAGE_TYPE_MAP) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.WHITE);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.WHITE);
                         } else if (type == Variables.MESSAGE_TYPE_GLOBAL) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.ORANGE);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.ORANGE);
                         } else if (type == Variables.MESSAGE_TYPE_WHISPER) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.PINK);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.PINK);
+                        } else if (type == Variables.MESSAGE_TYPE_PARTY) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.SKY);
+                        } else if (type == Variables.MESSAGE_TYPE_SYSTEM) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.GOLD);
+                        } else if (type == Variables.MESSAGE_TYPE_DEATH) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.RED);
                         }
                     }
                 } else if (Variables.chatMessageIndex > 4) {
                     for (int i = Variables.chatMessageIndex - 4; i <= Variables.chatMessageIndex; i++) {
                         int type = Variables.chatMessages[i].getType();
                         if (type == Variables.MESSAGE_TYPE_MAP) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.WHITE);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.WHITE);
                         } else if (type == Variables.MESSAGE_TYPE_GLOBAL) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.ORANGE);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.ORANGE);
                         } else if (type == Variables.MESSAGE_TYPE_WHISPER) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 462 + (14 * i), Color.PINK);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.PINK);
+                        } else if (type == Variables.MESSAGE_TYPE_PARTY) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.SKY);
+                        } else if (type == Variables.MESSAGE_TYPE_SYSTEM) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.GOLD);
+                        } else if (type == Variables.MESSAGE_TYPE_DEATH) {
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.RED);
                         }
                     }
                 }
