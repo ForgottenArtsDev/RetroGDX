@@ -89,7 +89,7 @@ public class Variables {
     public static final int MaxSprites = 33;
     public static final int MaxIcons = 1696;
     public static final int MaxTiles = 1;
-    public static final int MaxMapNPCs = 5;
+    public static final int MaxMapNPCs = 30;
     public static final int MaxMapItems = 20;
     public static final int MaxMapSpells = 20;
     public static final int MaxItems = 200;
