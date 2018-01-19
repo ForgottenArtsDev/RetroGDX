@@ -96,6 +96,7 @@ public class SendClientData {
                 }
                 break;
             case Variables.DIR_DOWN:
+                if (Variables.mapRender[Map] == null) { break; }
                 if (Y >= Variables.mapRender[Map].MaxY - 1 || (Y + 1) > Variables.mapRender[Map].MaxY - 1) {
 
                 } else {
@@ -127,6 +128,7 @@ public class SendClientData {
                 }
                 break;
             case Variables.DIR_RIGHT:
+                if (Variables.mapRender[Map] == null) { break; }
                 if (X >= Variables.mapRender[Map].MaxX - 1 || (X + 1) > Variables.mapRender[Map].MaxX - 1) {
 
                 } else {
