@@ -1350,9 +1350,9 @@ public class RenderAndroid {
         nameX = 75;
         nameY = 230;
         if (Variables.Players[Variables.MyIndex].getPoints() > 0) {
-            drawName("Points: " + Variables.Players[Variables.MyIndex].getPoints(), nameX, nameY, Color.YELLOW);
+            drawName("Points: " + Variables.tempStats.Points, nameX, nameY, Color.YELLOW);
         } else {
-            drawName("Points: " + Variables.Players[Variables.MyIndex].getPoints(), nameX, nameY, Color.WHITE);
+            drawName("Points: " + Variables.tempStats.Points, nameX, nameY, Color.WHITE);
         }
 
         // Confirm Button
