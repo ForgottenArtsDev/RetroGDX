@@ -559,6 +559,9 @@ public class RenderAndroid {
         //float nameX = (X - (int)width) - 20;
         //float nameY = Y + 20;
 
+        if (color == null){ return; }
+        if (text == null) {return; }
+
         AssetLoader.nameFont.setColor(Color.BLACK);
         AssetLoader.nameFont.draw(batcher, text, X - 2, Y);
         AssetLoader.nameFont.draw(batcher, text, X + 2, Y);
@@ -1849,6 +1852,9 @@ public class RenderAndroid {
                         layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
                     }
                 } else {
+                    if (Variables.MapNPCs[i] == null) { return; }
+                    if (Integer.valueOf(Variables.MapNPCs[i].getName()) == null) {return; }
+
                     layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
                 }
                 float width = layout.width;// contains the width of the current set text

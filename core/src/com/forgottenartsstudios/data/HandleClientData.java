@@ -576,6 +576,8 @@ public class HandleClientData {
                 Variables.DrawPlayerDamage[i].setMapNpcNum(sDmg.index);
                 Variables.DrawPlayerDamage[i].setDamage(sDmg.damage);
 
+                if (Integer.valueOf(Variables.DrawPlayerDamage[i].getDamage()) == null) {return; }
+
                 layout.setText(AssetLoader.nameFont, Variables.DrawPlayerDamage[i].getDamage() + "");
                 float width = layout.width;// contains the width of the current set text
 
