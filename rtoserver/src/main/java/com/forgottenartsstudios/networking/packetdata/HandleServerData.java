@@ -773,6 +773,9 @@ public class HandleServerData {
                     if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
                     if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
                         if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y - 1) {
+                            if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
+                            if (ServerVars.MapNPCs[mapNum].Npc[i].getNum() <= 0) { return; }
+                            if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()] == null) { return; }
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
                                 if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
                                     // Damage Algorithm
@@ -823,6 +826,9 @@ public class HandleServerData {
                     if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
                     if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
                         if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y + 1) {
+                            if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
+                            if (ServerVars.MapNPCs[mapNum].Npc[i].getNum() <= 0) { return; }
+                            if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()] == null) { return; }
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
                                 if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
                                     // Damage Algorithm
@@ -873,6 +879,9 @@ public class HandleServerData {
                     if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
                     if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
                         if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x - 1 && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y) {
+                            if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
+                            if (ServerVars.MapNPCs[mapNum].Npc[i].getNum() <= 0) { return; }
+                            if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()] == null) { return; }
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
                                 if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
                                     // Damage Algorithm
@@ -923,6 +932,9 @@ public class HandleServerData {
                     if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
                     if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
                         if (ServerVars.MapNPCs[mapNum].Npc[i].getX() == x + 1 && ServerVars.MapNPCs[mapNum].Npc[i].getY() == y) {
+                            if (ServerVars.MapNPCs[mapNum].Npc[i] == null) { return; }
+                            if (ServerVars.MapNPCs[mapNum].Npc[i].getNum() <= 0) { return; }
+                            if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()] == null) { return; }
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
                                 if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
                                     // Damage Algorithm
