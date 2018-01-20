@@ -1853,7 +1853,7 @@ public class RenderAndroid {
                     }
                 } else {
                     if (Variables.MapNPCs[i] == null) { return; }
-                    if (Integer.valueOf(Variables.MapNPCs[i].getName()) == null) {return; }
+                    //if (Integer.valueOf(Variables.MapNPCs[i].getName()) == null) {return; }
 
                     layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
                 }

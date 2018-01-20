@@ -1,5 +1,6 @@
 package com.forgottenartsstudios.data;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.forgottenartsstudios.helpers.AssetLoader;
@@ -485,7 +486,18 @@ public class HandleClientData {
                 Variables.DrawNPCDamage[i].setMapNpcNum(sDmg.mapNPCNum);
                 Variables.DrawNPCDamage[i].setDamage(sDmg.damage);
 
-                layout.setText(AssetLoader.nameFont, Variables.DrawNPCDamage[i].getDamage() + "");
+                if ( layout == null ) {
+                    System.out.println("Layout = null");
+                    return; }
+
+                if (Integer.valueOf(Variables.DrawNPCDamage[i].getDamage()) == null) {
+                    System.out.println("DrawNPCDamage = Null");
+                    return; }
+
+                try {
+                    layout.setText(AssetLoader.nameFont, Integer.toString(Variables.DrawNPCDamage[i].getDamage()) + "");
+                } catch (Exception e) {
+                }
                 float width = layout.width;// contains the width of the current set text
 
                 float PlayerX = ((Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getX() * Variables.MoveSize) + Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getOffsetX());
@@ -541,7 +553,22 @@ public class HandleClientData {
             if (Variables.DrawXP[i].getTimer() == 0) {
                 Variables.DrawXP[i].setDamage(sendNPCXP.xp);
 
-                layout.setText(AssetLoader.nameFont, Variables.DrawXP[i].getDamage() + "");
+                if (layout == null) {
+                    System.out.println("layout = null");
+                    return;
+                }
+                if (Integer.valueOf(Variables.DrawXP[i].getDamage()) == null) {
+
+                    return;
+                }
+
+
+                try {
+                    layout.setText(AssetLoader.nameFont, Variables.DrawXP[i].getDamage() + "");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 float width = layout.width;// contains the width of the current set text
 
                 float PlayerX = ((Variables.Players[Variables.MyIndex].getX() * Variables.MoveSize) + Variables.Players[Variables.MyIndex].getOffsetX());

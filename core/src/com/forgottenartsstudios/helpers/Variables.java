@@ -58,8 +58,9 @@ public class Variables {
     public static boolean saveLogin;
     public static String Login_ID = "", Login_PW = "";
 
-    public static String Server_IP =  "76.112.239.106";
+    //public static String Server_IP =  "76.112.239.106";
     //public static String Server_IP =  "162.198.233.237";
+    public static String Server_IP = "127.0.0.1";
     public static int Server_Port = 4001;
     public static boolean serverOnline = false;
 
@@ -89,7 +90,7 @@ public class Variables {
     public static final int MaxSprites = 33;
     public static final int MaxIcons = 1696;
     public static final int MaxTiles = 1;
-    public static final int MaxMapNPCs = 30;
+    public static final int MaxMapNPCs = 5;
     public static final int MaxMapItems = 20;
     public static final int MaxMapSpells = 20;
     public static final int MaxItems = 200;

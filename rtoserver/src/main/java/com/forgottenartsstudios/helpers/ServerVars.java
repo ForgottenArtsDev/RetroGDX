@@ -30,7 +30,7 @@ public class ServerVars {
     public static final int MaxItems = 200;
     public static final int MaxShops = 200;
     public static final int MaxSpells = 200;
-    public static final int MaxMapNPCs = 30;
+    public static final int MaxMapNPCs = 5;
     public static final int MaxMapItems = 20;
     public static final int MaxMapSpells = 20;
     public static final int MaxParties = 100;
