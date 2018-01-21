@@ -683,13 +683,25 @@ public class RenderDesktop {
         drawItems();
         drawPlayersAndNPCs(tickCount);
         renderMap_Upper();
-        drawNames();
-        drawUI();
+        try {
+            drawNames();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            drawUI();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // FPS
         drawText("" + Gdx.graphics.getFramesPerSecond(), 12, 12, Color.WHITE);
 
-        drawChat();
+        try {
+            drawChat();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (Variables.inMenu) { drawMenu(); }
         if (Variables.inShop) { drawShop(); }
@@ -713,7 +725,8 @@ public class RenderDesktop {
         AssetLoader.font.setColor(color);
         AssetLoader.font.draw(batcher, text, X, Y);
     }
-    public static void drawName(String text, float X, float Y, Color color) {
+    public static void drawName(CharSequence text, float X, float Y, Color color) {
+        //if (text == "" || text.isEmpty()) {text = "";}
         layout.setText(AssetLoader.nameFont, text);
         float width = layout.width;// contains the width of the current set text
 
@@ -727,6 +740,7 @@ public class RenderDesktop {
         AssetLoader.nameFont.draw(batcher, text, X, Y + 2);
         AssetLoader.nameFont.setColor(color);
         AssetLoader.nameFont.draw(batcher, text, X, Y);
+        layout.reset();
     }
 
     public static void renderPlayer(int i, float x, float y, long tickCount) {

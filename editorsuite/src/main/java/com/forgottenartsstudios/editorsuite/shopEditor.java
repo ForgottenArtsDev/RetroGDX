@@ -139,11 +139,7 @@ public class shopEditor {
 
                 editorVars.shops[editorVars.shopIndex].salesTax = Integer.parseInt(inputFields[3].getText());
 
-                if (inputFields[4].getText() == "1") {
-                    editorVars.shops[editorVars.shopIndex].canRepair = true;
-                } else {
-                    editorVars.shops[editorVars.shopIndex].canRepair = false;
-                }
+                editorVars.shops[editorVars.shopIndex].canRepair = inputFields[4].getText() == "1";
 
                 editorAssetLoader.saveShop(editorVars.shopIndex);
             }
