@@ -225,7 +225,11 @@ public class RTOnline extends Game {
         if (object instanceof SendInventory) { HandleClientData.HandleSendInventory(object); }
         if (object instanceof ItemBoughtMsg) { HandleClientData.HandleBoughtItemMsg(); }
         if (object instanceof SendKillNPC) { HandleClientData.HandleKillNPC(object); }
-        if (object instanceof SendNPCDmg) { HandleClientData.HandleDmgNPC(object); }
+        try {
+            if (object instanceof SendNPCDmg) { HandleClientData.HandleDmgNPC(object); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (object instanceof SendRespawnNPC) { HandleClientData.HandleRespawnNPC(object); }
         if (object instanceof SendMapNPCs) { HandleClientData.HandleMapNPCs(object); }
         if (object instanceof SendNPCXP) { HandleClientData.HandleNPCXP(object); }
@@ -233,7 +237,11 @@ public class RTOnline extends Game {
         if (object instanceof NotEnoughGoldMsg) { HandleClientData.HandleNotEnoughGoldMsg(); }
         if (object instanceof SendPlayerDmg) { HandleClientData.HandlePlayerDmg(object); }
         if (object instanceof SendMessage) { HandleClientData.HandleSendMessage(object); }
-        if (object instanceof SendSystemMessage) { HandleClientData.HandleSendSystemMessage(object); }
+        try {
+            if (object instanceof SendSystemMessage) { HandleClientData.HandleSendSystemMessage(object); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (object instanceof SendHPRegen) { HandleClientData.HandleHPRegen(object); }
         if (object instanceof SendOpenPlayerMenu) { HandleClientData.HandleOpenPlayerMenu(object); }
         if (object instanceof SendPartyInvite) { HandleClientData.HandlePartyInvite(object); }

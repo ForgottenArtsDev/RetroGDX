@@ -497,6 +497,7 @@ public class HandleClientData {
                 try {
                     layout.setText(AssetLoader.nameFont, Integer.toString(Variables.DrawNPCDamage[i].getDamage()) + "");
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 float width = layout.width;// contains the width of the current set text
 
