@@ -539,11 +539,13 @@ public class RenderAndroid {
 
     public static void drawText(String text, float X, float Y, Color color) {
         if (color == null) { return; }
+        if (text == null || text.isEmpty()) { return; }
         AssetLoader.font.setColor(color);
         AssetLoader.font.draw(batcher, text, X, Y);
     }
     public static void drawName(String text, float X, float Y, Color color) {
         if (color == null) { return; }
+        if (text == null || text.isEmpty()) { return; }
         AssetLoader.nameFont.setColor(color);
         AssetLoader.nameFont.draw(batcher, text, X, Y);
     }
@@ -1696,8 +1698,10 @@ public class RenderAndroid {
         }
         int goldTotal = 0;
         for (int i = 1; i <= 60; i++) {
-            if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
-                goldTotal += Variables.Players[Variables.MyIndex].inventory[i].getItemVal();
+            if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
+                    goldTotal += Variables.Players[Variables.MyIndex].inventory[i].getItemVal();
+                }
             }
         }
 
@@ -1782,41 +1786,35 @@ public class RenderAndroid {
         }
         // Hot Keys
         if (Variables.Players[Variables.MyIndex].getHotKeyQ() > 0) {
-            for (int i = 1; i <= 60; i++) {
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() == Variables.Players[Variables.MyIndex].getHotKeyQ()) {
-                    if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
-                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()] != null) {
-                            batcher.setColor(Color.RED);
-                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].Icon], 290, 595, 48, 48, 0, 0, 56, 56, false, true);
-                            batcher.setColor(Color.WHITE);
-                            long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
-                            drawName(timer + "", 292, 607, Color.WHITE);
-                        }
-                    } else {
-                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()] != null) {
-                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].Icon], 290, 595, 48, 48, 0, 0, 56, 56, false, true);
-                        }
-                    }
+            int i = Variables.Players[Variables.MyIndex].getHotKeyQ();
+            if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
+                if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum] != null) {
+                    batcher.setColor(Color.RED);
+                    batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum].Icon], 290, 595, 48, 48, 0, 0, 56, 56, false, true);
+                    batcher.setColor(Color.WHITE);
+                    long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                    drawName(timer + "", 292, 607, Color.WHITE);
+                }
+            } else {
+                if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].spellNum] != null) {
+                    batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum].Icon], 290, 595, 48, 48, 0, 0, 56, 56, false, true);
                 }
             }
         }
 
         if (Variables.Players[Variables.MyIndex].getHotKeyE() > 0) {
-            for (int i = 1; i <= 60; i++) {
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() == Variables.Players[Variables.MyIndex].getHotKeyE()) {
-                    if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
-                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {
-                            batcher.setColor(Color.RED);
-                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()].Icon], 378, 684, 48, 48, 0, 0, 56, 56, false, true);
-                            batcher.setColor(Color.WHITE);
-                            long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
-                            drawName(timer + "", 380, 696, Color.WHITE);
-                        }
-                    } else {
-                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {
-                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()].Icon], 378, 684, 48, 48, 0, 0, 56, 56, false, true);
-                        }
-                    }
+            int i = Variables.Players[Variables.MyIndex].getHotKeyQ();
+            if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
+                if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum] != null) {
+                    batcher.setColor(Color.RED);
+                    batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum].Icon], 378, 684, 48, 48, 0, 0, 56, 56, false, true);
+                    batcher.setColor(Color.WHITE);
+                    long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                    drawName(timer + "", 380, 696, Color.WHITE);
+                }
+            } else {
+                if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum] != null) {
+                    batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum].Icon], 378, 684, 48, 48, 0, 0, 56, 56, false, true);
                 }
             }
         }

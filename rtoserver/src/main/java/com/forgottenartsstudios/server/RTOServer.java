@@ -1376,7 +1376,286 @@ public class RTOServer extends ApplicationAdapter {
         int mapNum = ServerVars.Players[index].getMap();
         int targetType = ServerVars.Players[index].getTargetType();
         int target = ServerVars.Players[index].getTarget();
+        int job = ServerVars.Players[index].getJob();
 
+        switch (job) {
+            case 1: // Warrior
+                warriorSpell(index, spellNum, mapNum, targetType, target);
+                break;
+            case 2: // Mage
+                mageSpell(index, spellNum, mapNum, targetType, target);
+                break;
+            case 3: // Cleric
+                clericSpell(index, spellNum, mapNum, targetType, target);
+                break;
+        }
+    }
+    public static void warriorSpell(int index, int spellNum, int mapNum, int targetType, int target) {
+        int cost = ServerVars.Spells[spellNum].MPCost;
+
+        if (ServerVars.Players[index].getMP() >= cost) {
+            ServerVars.Players[index].setMP(ServerVars.Players[index].getMP() - cost);
+            SendServerData.SendVital(index);
+        }
+
+        if (targetType == ServerVars.TARGET_TYPE_NPC) {
+            // ****** Set Range ******
+            int N = ServerVars.Spells[spellNum].Range;
+
+            int DistanceX = ServerVars.MapNPCs[mapNum].Npc[target].getX() - ServerVars.Players[index].getX();
+            int DistanceY = ServerVars.MapNPCs[mapNum].Npc[target].getY() - ServerVars.Players[index].getY();
+
+            // Make sure we get a positive value
+            if (DistanceX < 0) {
+                DistanceX = DistanceX * -1;
+            }
+            if (DistanceY < 0) {
+                DistanceY = DistanceY * -1;
+            }
+
+            // Are they in range?  if so GET'M!
+            if ((DistanceX <= N) && (DistanceY <= N)) {
+                float baseSplDmg = ServerVars.Spells[spellNum].DmgHealAmt;
+                int baseDmg = GetPlayerDamage(index);
+                int percent = (int)(baseDmg * (baseSplDmg / 100.0f));
+                int spellDmg = (baseDmg + percent);
+
+                System.out.println(baseDmg + "+" + percent + "=" + spellDmg);
+
+                if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                    if (spellDmg > RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum())) {
+                        spellDmg = spellDmg - RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
+                    } else {
+                        spellDmg = 0;
+                    }
+
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTarget(index);
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+                }
+
+                SendServerData.SendNPCDmg(index, target, spellDmg);
+                for (int i = 1; i <= ServerVars.MaxMapSpells; i++) {
+                    if (ServerVars.MapSpells[mapNum].Spell[i].getSpellNum() == 0) {
+                        ServerVars.MapSpells[mapNum].Spell[i].setSpellNum(spellNum);
+                        ServerVars.MapSpells[mapNum].Spell[i].setType(ServerVars.Players[index].getTargetType());
+                        ServerVars.MapSpells[mapNum].Spell[i].setIndex(target);
+                        ServerVars.MapSpells[mapNum].Spell[i].setX(ServerVars.MapNPCs[mapNum].Npc[target].getX());
+                        ServerVars.MapSpells[mapNum].Spell[i].setY(ServerVars.MapNPCs[mapNum].Npc[target].getY());
+                        ServerVars.MapSpells[mapNum].Spell[i].setTimer(ServerVars.tickCount + (ServerVars.Spells[spellNum].AnimSpeed));
+                        break;
+                    }
+                }
+                SendServerData.SendMapSpells(mapNum);
+
+                if (spellDmg > 0) {
+                    if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() - spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() <= 0) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setDead(true);
+                                ServerVars.MapNPCs[mapNum].Npc[target].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].SpawnSecs);
+
+                                SendServerData.SendKillNPC(index, target, true);
+                                for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                    if (a != index) {
+                                        if (ServerVars.Players[a] != null) {
+                                            if (mapNum == ServerVars.Players[a].getMap()) {
+                                                SendServerData.SendKillNPC(a, target, false);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_HEAL) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() < ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() + spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health);
+                            }
+                        }
+                    }
+                } else {
+                    SendServerData.SendNPCDmg(index, target, 0);
+                }
+            }
+        } else if (targetType == ServerVars.TARGET_TYPE_PLAYER) {
+            switch (ServerVars.Spells[spellNum].Type) {
+                case ServerVars.SPELL_TYPE_DAMAGE:
+
+                    break;
+                case ServerVars.SPELL_TYPE_HEAL:
+                    if (ServerVars.Players[target].getHP() < ServerVars.Players[target].getMaxHP()) {
+                        int healAmt = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int HP = (int)(ServerVars.Players[target].getMaxHP() * (healAmt / 100.0f));
+                        ServerVars.Players[target].setHP(ServerVars.Players[target].getHP() + HP);
+                        if (ServerVars.Players[target].getHP() > ServerVars.Players[target].getMaxHP()) {
+                            ServerVars.Players[target].setHP(ServerVars.Players[target].getMaxHP());
+                        }
+                        SendServerData.SendVital(target);
+                        SendServerData.SendSystemMessage(target, target, HP + "", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, HP + "", Color.GREEN);
+                    } else {
+                        SendServerData.SendSystemMessage(target, target, "0", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, "0", Color.GREEN);
+                    }
+                    break;
+                case ServerVars.SPELL_TYPE_REVIVE:
+                    if (ServerVars.Players[target].getHP() == 0) {
+                        int percent = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int hp = (int)(ServerVars.Players[target].getMaxHP() * (percent / 100.0f));
+
+                        ServerVars.Players[target].setHP(hp);
+                        ServerVars.Players[target].setDeathTimer(0);
+                        ServerVars.Players[target].setTempSprite(0);
+
+                        SendServerData.SendPlayerData(target, target);
+                        SendServerData.SendPlayerData(target, index);
+
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] != null) {
+                                if (ServerVars.Players[i].getMap() == mapNum) {
+                                    SendServerData.SendPlayerData(target, i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+    public static void mageSpell(int index, int spellNum, int mapNum, int targetType, int target) {
+        int cost = ServerVars.Spells[spellNum].MPCost;
+
+        if (ServerVars.Players[index].getMP() >= cost) {
+            ServerVars.Players[index].setMP(ServerVars.Players[index].getMP() - cost);
+            SendServerData.SendVital(index);
+        }
+
+        if (targetType == ServerVars.TARGET_TYPE_NPC) {
+            // ****** Set Range ******
+            int N = ServerVars.Spells[spellNum].Range;
+
+            int DistanceX = ServerVars.MapNPCs[mapNum].Npc[target].getX() - ServerVars.Players[index].getX();
+            int DistanceY = ServerVars.MapNPCs[mapNum].Npc[target].getY() - ServerVars.Players[index].getY();
+
+            // Make sure we get a positive value
+            if (DistanceX < 0) {
+                DistanceX = DistanceX * -1;
+            }
+            if (DistanceY < 0) {
+                DistanceY = DistanceY * -1;
+            }
+
+            // Are they in range?  if so GET'M!
+            if ((DistanceX <= N) && (DistanceY <= N)) {
+                int baseSplDmg = ServerVars.Spells[spellNum].DmgHealAmt;
+                int casterMAG = ServerVars.Players[index].getMAG();
+                int spellDmg = (baseSplDmg * casterMAG) / 5;
+
+                if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                    if (spellDmg > RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum())) {
+                        spellDmg = spellDmg - RTOServer.GetNpcMagProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
+                    } else {
+                        spellDmg = 0;
+                    }
+
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTarget(index);
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+                }
+
+                SendServerData.SendNPCDmg(index, target, spellDmg);
+                for (int i = 1; i <= ServerVars.MaxMapSpells; i++) {
+                    if (ServerVars.MapSpells[mapNum].Spell[i].getSpellNum() == 0) {
+                        ServerVars.MapSpells[mapNum].Spell[i].setSpellNum(spellNum);
+                        ServerVars.MapSpells[mapNum].Spell[i].setType(ServerVars.Players[index].getTargetType());
+                        ServerVars.MapSpells[mapNum].Spell[i].setIndex(target);
+                        ServerVars.MapSpells[mapNum].Spell[i].setX(ServerVars.MapNPCs[mapNum].Npc[target].getX());
+                        ServerVars.MapSpells[mapNum].Spell[i].setY(ServerVars.MapNPCs[mapNum].Npc[target].getY());
+                        ServerVars.MapSpells[mapNum].Spell[i].setTimer(ServerVars.tickCount + (ServerVars.Spells[spellNum].AnimSpeed));
+                        break;
+                    }
+                }
+                SendServerData.SendMapSpells(mapNum);
+
+                if (spellDmg > 0) {
+                    if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() - spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() <= 0) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setDead(true);
+                                ServerVars.MapNPCs[mapNum].Npc[target].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].SpawnSecs);
+
+                                SendServerData.SendKillNPC(index, target, true);
+                                for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                    if (a != index) {
+                                        if (ServerVars.Players[a] != null) {
+                                            if (mapNum == ServerVars.Players[a].getMap()) {
+                                                SendServerData.SendKillNPC(a, target, false);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_HEAL) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() < ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() + spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health);
+                            }
+                        }
+                    }
+                } else {
+                    SendServerData.SendNPCDmg(index, target, 0);
+                }
+            }
+        } else if (targetType == ServerVars.TARGET_TYPE_PLAYER) {
+            switch (ServerVars.Spells[spellNum].Type) {
+                case ServerVars.SPELL_TYPE_DAMAGE:
+
+                    break;
+                case ServerVars.SPELL_TYPE_HEAL:
+                    if (ServerVars.Players[target].getHP() < ServerVars.Players[target].getMaxHP()) {
+                        int healAmt = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int HP = (int)(ServerVars.Players[target].getMaxHP() * (healAmt / 100.0f));
+                        ServerVars.Players[target].setHP(ServerVars.Players[target].getHP() + HP);
+                        if (ServerVars.Players[target].getHP() > ServerVars.Players[target].getMaxHP()) {
+                            ServerVars.Players[target].setHP(ServerVars.Players[target].getMaxHP());
+                        }
+                        SendServerData.SendVital(target);
+                        SendServerData.SendSystemMessage(target, target, HP + "", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, HP + "", Color.GREEN);
+                    } else {
+                        SendServerData.SendSystemMessage(target, target, "0", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, "0", Color.GREEN);
+                    }
+                    break;
+                case ServerVars.SPELL_TYPE_REVIVE:
+                    if (ServerVars.Players[target].getHP() == 0) {
+                        int percent = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int hp = (int)(ServerVars.Players[target].getMaxHP() * (percent / 100.0f));
+
+                        ServerVars.Players[target].setHP(hp);
+                        ServerVars.Players[target].setDeathTimer(0);
+                        ServerVars.Players[target].setTempSprite(0);
+
+                        SendServerData.SendPlayerData(target, target);
+                        SendServerData.SendPlayerData(target, index);
+
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] != null) {
+                                if (ServerVars.Players[i].getMap() == mapNum) {
+                                    SendServerData.SendPlayerData(target, i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+    public static void clericSpell(int index, int spellNum, int mapNum, int targetType, int target) {
         int cost = ServerVars.Spells[spellNum].MPCost;
 
         if (ServerVars.Players[index].getMP() >= cost) {

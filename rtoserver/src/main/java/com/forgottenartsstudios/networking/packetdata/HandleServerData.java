@@ -788,6 +788,9 @@ public class HandleServerData {
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()] == null) { return; }
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
                                 if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                                    ServerVars.Players[index].setTarget(i);
+                                    ServerVars.Players[index].setTargetType(ServerVars.TARGET_TYPE_NPC);
+                                    SendServerData.SendPlayerData(index, index);
                                     // Damage Algorithm
                                     double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
                                     if (diff < 0) diff = 0;
@@ -841,6 +844,9 @@ public class HandleServerData {
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()] == null) { return; }
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
                                 if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                                    ServerVars.Players[index].setTarget(i);
+                                    ServerVars.Players[index].setTargetType(ServerVars.TARGET_TYPE_NPC);
+                                    SendServerData.SendPlayerData(index, index);
                                     // Damage Algorithm
                                     double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
                                     if (diff < 0) diff = 0;
@@ -894,6 +900,9 @@ public class HandleServerData {
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()] == null) { return; }
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
                                 if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                                    ServerVars.Players[index].setTarget(i);
+                                    ServerVars.Players[index].setTargetType(ServerVars.TARGET_TYPE_NPC);
+                                    SendServerData.SendPlayerData(index, index);
                                     // Damage Algorithm
                                     double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
                                     if (diff < 0) diff = 0;
@@ -947,6 +956,9 @@ public class HandleServerData {
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()] == null) { return; }
                             if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour < 2 || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == 10) {
                                 if (!ServerVars.MapNPCs[mapNum].Npc[i].isDead()) {
+                                    ServerVars.Players[index].setTarget(i);
+                                    ServerVars.Players[index].setTargetType(ServerVars.TARGET_TYPE_NPC);
+                                    SendServerData.SendPlayerData(index, index);
                                     // Damage Algorithm
                                     double diff = RTOServer.GetPlayerDamage(index) - RTOServer.GetNpcProtection(i);
                                     if (diff < 0) diff = 0;

@@ -719,6 +719,9 @@ public class SendServerData {
                                 ServerVars.Players[ServerVars.Parties[pNum].members[i]].setMaxHP((pVIT * 2) * (pSTR / 2));
                                 ServerVars.Players[ServerVars.Parties[pNum].members[i]].setMaxMP((pMAG * 2) * (pDEF / 2));
 
+                                ServerVars.Players[ServerVars.Parties[pNum].members[i]].setTarget(0);
+                                ServerVars.Players[ServerVars.Parties[pNum].members[i]].setTargetType(0);
+
                                 for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
                                     if (ServerVars.Players[a] != null) {
                                         if (ServerVars.Players[a].getMap() == ServerVars.Players[ServerVars.Parties[pNum].members[i]].getMap()) {

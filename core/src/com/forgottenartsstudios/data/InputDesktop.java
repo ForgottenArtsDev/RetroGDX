@@ -598,24 +598,26 @@ public class InputDesktop {
             if (i == 11) {
                 x = 28;
                 y = 69;
-                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedInvSlot != i) {
+                                            Variables.selectedInvSlot = i;
+                                        } else {
+                                            SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedInvSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
+                                    }
+                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
-                                    } else {
-                                        SendClientData.SendUseItem();
                                     }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedInvSlot == i) {
-                                        //SendClientData.SendDropItem(i);
-                                    }
-                                }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedInvSlot != i) {
-                                    Variables.selectedInvSlot = i;
                                 }
                             }
                         }
@@ -625,24 +627,26 @@ public class InputDesktop {
             } else if (i == 21) {
                 x = 28;
                 y = 110;
-                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedInvSlot != i) {
+                                            Variables.selectedInvSlot = i;
+                                        } else {
+                                            SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedInvSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
+                                    }
+                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
-                                    } else {
-                                        SendClientData.SendUseItem();
                                     }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedInvSlot == i) {
-                                        //SendClientData.SendDropItem(i);
-                                    }
-                                }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedInvSlot != i) {
-                                    Variables.selectedInvSlot = i;
                                 }
                             }
                         }
@@ -652,24 +656,26 @@ public class InputDesktop {
             } else if (i == 31) {
                 x = 28;
                 y = 151;
-                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedInvSlot != i) {
+                                            Variables.selectedInvSlot = i;
+                                        } else {
+                                            SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedInvSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
+                                    }
+                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
-                                    } else {
-                                        SendClientData.SendUseItem();
                                     }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedInvSlot == i) {
-                                        //SendClientData.SendDropItem(i);
-                                    }
-                                }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedInvSlot != i) {
-                                    Variables.selectedInvSlot = i;
                                 }
                             }
                         }
@@ -679,24 +685,26 @@ public class InputDesktop {
             } else if (i == 41) {
                 x = 28;
                 y = 192;
-                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedInvSlot != i) {
+                                            Variables.selectedInvSlot = i;
+                                        } else {
+                                            SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedInvSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
+                                    }
+                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
-                                    } else {
-                                        SendClientData.SendUseItem();
                                     }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedInvSlot == i) {
-                                        //SendClientData.SendDropItem(i);
-                                    }
-                                }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedInvSlot != i) {
-                                    Variables.selectedInvSlot = i;
                                 }
                             }
                         }
@@ -706,24 +714,26 @@ public class InputDesktop {
             } else if (i == 51) {
                 x = 28;
                 y = 233;
-                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedInvSlot != i) {
+                                            Variables.selectedInvSlot = i;
+                                        } else {
+                                            SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedInvSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
+                                    }
+                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
-                                    } else {
-                                        SendClientData.SendUseItem();
                                     }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedInvSlot == i) {
-                                        //SendClientData.SendDropItem(i);
-                                    }
-                                }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedInvSlot != i) {
-                                    Variables.selectedInvSlot = i;
                                 }
                             }
                         }
@@ -731,24 +741,26 @@ public class InputDesktop {
                 }
                 x = x + 41;
             } else {
-                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedInvSlot != i) {
+                                            Variables.selectedInvSlot = i;
+                                        } else {
+                                            SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedInvSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
+                                    }
+                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.selectedInvSlot != i) {
                                         Variables.selectedInvSlot = i;
-                                    } else {
-                                        SendClientData.SendUseItem();
                                     }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedInvSlot == i) {
-                                        //SendClientData.SendDropItem(i);
-                                    }
-                                }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedInvSlot != i) {
-                                    Variables.selectedInvSlot = i;
                                 }
                             }
                         }
@@ -928,7 +940,6 @@ public class InputDesktop {
             // Q Hotkey
             if (worldCoordinates.x >= 546 && worldCoordinates.x <= 582) {
                 if (worldCoordinates.y >= 212 && worldCoordinates.y <= 248) {
-                    System.out.println("SelectedSpellSlot: " + Variables.selectedSpellSlot);
                     Variables.Players[Variables.MyIndex].setHotKeyQ(Variables.selectedSpellSlot);
                     SendClientData.SendSetHotKey(Variables.HOT_KEY_Q, Variables.selectedSpellSlot);
                 }
