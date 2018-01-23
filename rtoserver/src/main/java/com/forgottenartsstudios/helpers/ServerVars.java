@@ -19,10 +19,13 @@ import javax.swing.JFrame;
  */
 
 public class ServerVars {
-    public static final String buildVersion = "v0.1.51";
+    public static final String buildVersion = "v0.1.52";
 
     public static JFrame serverWindow;
     public static boolean ServerRunning = true;
+
+    public static final int Server_Port = 4001; // LIVE SERVER
+    //public static final int Server_Port = 4003; // TEST SERVER
 
     public static final int MaxPlayers = 100;
     public static final int MaxMaps = 305;

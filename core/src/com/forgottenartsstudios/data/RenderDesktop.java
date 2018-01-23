@@ -683,25 +683,13 @@ public class RenderDesktop {
         drawItems();
         drawPlayersAndNPCs(tickCount);
         renderMap_Upper();
-        try {
-            drawNames();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            drawUI();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        drawNames();
+        drawUI();
 
         // FPS
         drawText("" + Gdx.graphics.getFramesPerSecond(), 12, 12, Color.WHITE);
 
-        try {
-            drawChat();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        drawChat();
 
         if (Variables.inMenu) { drawMenu(); }
         if (Variables.inShop) { drawShop(); }
@@ -711,36 +699,14 @@ public class RenderDesktop {
     }
 
     public static void drawText(String text, float X, float Y, Color color) {
-        layout.setText(AssetLoader.font, text);
-        float width = layout.width;// contains the width of the current set text
-
-        //float nameX = (X - (int)width) - 20;
-        //float nameY = Y + 20;
-
-        AssetLoader.font.setColor(Color.BLACK);
-        AssetLoader.font.draw(batcher, text, X - 2, Y);
-        AssetLoader.font.draw(batcher, text, X + 2, Y);
-        AssetLoader.font.draw(batcher, text, X, Y - 2);
-        AssetLoader.font.draw(batcher, text, X, Y + 2);
+        if (color == null) { return; }
         AssetLoader.font.setColor(color);
         AssetLoader.font.draw(batcher, text, X, Y);
     }
-    public static void drawName(CharSequence text, float X, float Y, Color color) {
-        //if (text == "" || text.isEmpty()) {text = "";}
-        layout.setText(AssetLoader.nameFont, text);
-        float width = layout.width;// contains the width of the current set text
-
-        //float nameX = (X - (int)width) - 20;
-        //float nameY = Y + 20;
-
-        AssetLoader.nameFont.setColor(Color.BLACK);
-        AssetLoader.nameFont.draw(batcher, text, X - 2, Y);
-        AssetLoader.nameFont.draw(batcher, text, X + 2, Y);
-        AssetLoader.nameFont.draw(batcher, text, X, Y - 2);
-        AssetLoader.nameFont.draw(batcher, text, X, Y + 2);
+    public static void drawName(String text, float X, float Y, Color color) {
+        if (color == null) { return; }
         AssetLoader.nameFont.setColor(color);
         AssetLoader.nameFont.draw(batcher, text, X, Y);
-        layout.reset();
     }
 
     public static void renderPlayer(int i, float x, float y, long tickCount) {
@@ -954,10 +920,10 @@ public class RenderDesktop {
                         if (Variables.mapRender[mapNum] == null) { break; }
                         if (Variables.mapRender[mapNum].Tile == null) { break; }
                         if (Variables.mapRender[mapNum].Tile[x][y] == null) { break; }
-                        if (Variables.mapRender[mapNum].Tile[x][y].TileNum == null) { break; }
-                        Text = Variables.mapRender[mapNum].Tile[x][y].TileNum[LoopL];
                         if (Variables.mapRender[mapNum].Tile[x][y].Layer == null) { break; }
                         if (Variables.mapRender[mapNum].Tile[x][y].Layer[LoopL] == null) { break; }
+                        if (Variables.mapRender[mapNum].Tile[x][y].TileNum == null) { break; }
+                        Text = Variables.mapRender[mapNum].Tile[x][y].TileNum[LoopL];
                         int tileSet = Variables.mapRender[mapNum].Tile[x][y].Layer[LoopL].Tileset;
                         int tileX = Variables.mapRender[mapNum].Tile[x][y].Layer[LoopL].X;
                         int tileY = Variables.mapRender[mapNum].Tile[x][y].Layer[LoopL].Y;
@@ -1343,7 +1309,9 @@ public class RenderDesktop {
     public static void drawStatus() {
         batcher.draw(AssetLoader.menuBG, 8, 8, 448, 448, 0, 0, 448, 448, false, true);
 
-        layout.setText(AssetLoader.font, Variables.Players[Variables.MyIndex].getName());
+        if (Variables.Players[Variables.MyIndex].getName() != null && !Variables.Players[Variables.MyIndex].getName().isEmpty()) {
+            layout.setText(AssetLoader.font, Variables.Players[Variables.MyIndex].getName());
+        }
         float width = layout.width;// contains the width of the current set text
 
         float nameX = 232 - ((int)width / 2);
@@ -1853,26 +1821,25 @@ public class RenderDesktop {
         drawName("XP", 533, 184, Color.WHITE);
 
         // Player Sprite
-        batcher.draw(AssetLoader.spritesDown2[Variables.Players[Variables.MyIndex].getSprite()], 613, 260, 32, 36);
+        if (AssetLoader.spritesDown2[Variables.Players[Variables.MyIndex].getSprite()] != null) {
+            batcher.draw(AssetLoader.spritesDown2[Variables.Players[Variables.MyIndex].getSprite()], 613, 260, 32, 36);
+        }
 
         // Hot Keys
         batcher.draw(AssetLoader.eqBG, 546, 212, 36, 36);
         if (Variables.Players[Variables.MyIndex].getHotKeyQ() > 0) {
-            for (int i = 1; i <= 60; i++) {
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() == Variables.Players[Variables.MyIndex].getHotKeyQ()) {
-                    if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
-                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()] != null) {
-                            batcher.setColor(Color.RED);
-                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].Icon], 548, 214, 32, 32, 0, 0, 56, 56, false, true);
-                            batcher.setColor(Color.WHITE);
-                            long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
-                            drawName(timer + "", 550, 236, Color.WHITE);
-                        }
-                    } else {
-                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()] != null) {
-                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].Icon], 548, 214, 32, 32, 0, 0, 56, 56, false, true);
-                        }
-                    }
+            int i = Variables.Players[Variables.MyIndex].getHotKeyQ();
+            if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
+                if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].spellNum] != null) {
+                    batcher.setColor(Color.RED);
+                    batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].spellNum].Icon], 548, 214, 32, 32, 0, 0, 56, 56, false, true);
+                    batcher.setColor(Color.WHITE);
+                    long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                    drawName(timer + "", 550, 236, Color.WHITE);
+                }
+            } else {
+                if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].spellNum] != null) {
+                    batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[Variables.Players[Variables.MyIndex].getHotKeyQ()].spellNum].Icon], 548, 214, 32, 32, 0, 0, 56, 56, false, true);
                 }
             }
         }
@@ -1880,21 +1847,18 @@ public class RenderDesktop {
 
         batcher.draw(AssetLoader.eqBG, 675, 212, 36, 36);
         if (Variables.Players[Variables.MyIndex].getHotKeyE() > 0) {
-            for (int i = 1; i <= 60; i++) {
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() == Variables.Players[Variables.MyIndex].getHotKeyE()) {
-                    if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
-                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {
-                            batcher.setColor(Color.RED);
-                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()].Icon], 677, 214, 32, 32, 0, 0, 56, 56, false, true);
-                            batcher.setColor(Color.WHITE);
-                            long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
-                            drawName(timer + "", 679, 236, Color.WHITE);
-                        }
-                    } else {
-                        if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {
-                            batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()].Icon], 677, 214, 32, 32, 0, 0, 56, 56, false, true);
-                        }
-                    }
+            int i = Variables.Players[Variables.MyIndex].getHotKeyE();
+            if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
+                if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {
+                    batcher.setColor(Color.RED);
+                    batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[Variables.Players[Variables.MyIndex].getHotKeyE()].spellNum].Icon], 677, 214, 32, 32, 0, 0, 56, 56, false, true);
+                    batcher.setColor(Color.WHITE);
+                    long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                    drawName(timer + "", 679, 236, Color.WHITE);
+                }
+            } else {
+                if (Variables.Spells[Variables.Players[Variables.MyIndex].getHotKeyE()] != null) {
+                    batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[Variables.Players[Variables.MyIndex].getHotKeyE()].spellNum].Icon], 677, 214, 32, 32, 0, 0, 56, 56, false, true);
                 }
             }
         }
@@ -1903,34 +1867,50 @@ public class RenderDesktop {
         // Player Equipment
         batcher.draw(AssetLoader.eqBG, 592, 222, 36, 36);
         if (Variables.Players[Variables.MyIndex].getWeapon() > 0) {
-            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()].getItemNum();
-            if (itemNum > 0) {
-                if (Variables.Items[itemNum] == null) { return; }
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 592 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
+            if (Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()] != null) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()].getItemNum();
+                if (itemNum > 0) {
+                    if (Variables.Items[itemNum] == null) {
+                        return;
+                    }
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 592 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
         }
         batcher.draw(AssetLoader.eqBG, 576, 259, 36, 36);
         if (Variables.Players[Variables.MyIndex].getArmor() > 0) {
-            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()].getItemNum();
-            if (itemNum > 0) {
-                if (Variables.Items[itemNum] == null) { return; }
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 576 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+            if (Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()] != null) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()].getItemNum();
+                if (itemNum > 0) {
+                    if (Variables.Items[itemNum] == null) {
+                        return;
+                    }
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 576 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
         }
         batcher.draw(AssetLoader.eqBG, 629, 222, 36, 36);
         if (Variables.Players[Variables.MyIndex].getOffhand() > 0) {
-            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()].getItemNum();
-            if (itemNum > 0) {
-                if (Variables.Items[itemNum] == null) { return; }
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 629 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
+            if (Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()] != null) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()].getItemNum();
+                if (itemNum > 0) {
+                    if (Variables.Items[itemNum] == null) {
+                        return;
+                    }
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 629 + 5, 222 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
         }
         batcher.draw(AssetLoader.eqBG, 648, 259, 36, 36);
         if (Variables.Players[Variables.MyIndex].getHelmet() > 0) {
-            int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()].getItemNum();
-            if (itemNum > 0) {
-                if (Variables.Items[itemNum] == null) { return; }
-                batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 648 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+            if (Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()] != null) {
+                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()].getItemNum();
+                if (itemNum > 0) {
+                    if (Variables.Items[itemNum] == null) {
+                        return;
+                    }
+                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 648 + 5, 259 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                }
             }
         }
         batcher.draw(AssetLoader.eqBG, 592, 296, 36, 36);
@@ -2026,8 +2006,10 @@ public class RenderDesktop {
 
         int goldTotal = 0;
         for (int i = 1; i <= 60; i++) {
-            if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
-                goldTotal += Variables.Players[Variables.MyIndex].inventory[i].getItemVal();
+            if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
+                    goldTotal += Variables.Players[Variables.MyIndex].inventory[i].getItemVal();
+                }
             }
         }
         drawName("Gold: " + goldTotal, 465, 441, Color.YELLOW);

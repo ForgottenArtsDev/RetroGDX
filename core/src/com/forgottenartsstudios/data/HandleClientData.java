@@ -268,7 +268,9 @@ public class HandleClientData {
             Variables.MaxY = 14;
         }
 
-        Variables.Game_State = Variables.Game_State_InGame;
+        if (Variables.Game_State != Variables.Game_State_InGame) {
+            Variables.Game_State = Variables.Game_State_InGame;
+        }
     }
     public static void HandleMovePlayer(Object object) {
         MovePlayer mPlayer = (MovePlayer) object;
@@ -486,19 +488,8 @@ public class HandleClientData {
                 Variables.DrawNPCDamage[i].setMapNpcNum(sDmg.mapNPCNum);
                 Variables.DrawNPCDamage[i].setDamage(sDmg.damage);
 
-                if ( layout == null ) {
-                    System.out.println("Layout = null");
-                    return; }
-
-                if (Integer.valueOf(Variables.DrawNPCDamage[i].getDamage()) == null) {
-                    System.out.println("DrawNPCDamage = Null");
-                    return; }
-
-                try {
-                    layout.setText(AssetLoader.nameFont, Integer.toString(Variables.DrawNPCDamage[i].getDamage()) + "");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                layout = new GlyphLayout();
+                layout.setText(AssetLoader.nameFont, Variables.DrawNPCDamage[i].getDamage() + "");
                 float width = layout.width;// contains the width of the current set text
 
                 float PlayerX = ((Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getX() * Variables.MoveSize) + Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getOffsetX());
@@ -631,7 +622,7 @@ public class HandleClientData {
 
         int maxLength = 0;
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-            maxLength = 55;
+            maxLength = 63;
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
             maxLength = 110;
         }

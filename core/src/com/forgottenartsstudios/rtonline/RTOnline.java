@@ -37,7 +37,8 @@ public class RTOnline extends Game {
 
         initPackets();
 
-        new Thread(client).start();
+        //new Thread(client).start();
+        client.start();
 
         try {
             client.connect(5000, Variables.Server_IP, Variables.Server_Port, Variables.Server_Port + 1); //192.168.1.16

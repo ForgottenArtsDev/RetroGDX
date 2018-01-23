@@ -120,7 +120,7 @@ public class RTOServer extends ApplicationAdapter {
         initPackets();
 
         server.start();
-        server.bind(4001, 4002);
+        server.bind(ServerVars.Server_Port, ServerVars.Server_Port + 1);
 
         serverWindow.svrMonitor.append("Server initialized" + "\n");
         serverWindow.svrMonitor.append("Listening for connections.." + "\n");

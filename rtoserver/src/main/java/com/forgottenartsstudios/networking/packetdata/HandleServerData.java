@@ -301,6 +301,16 @@ public class HandleServerData {
             }
         }
 
+        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+            if (ServerVars.Players[i] != null) {
+                if (ServerVars.Players[i].getName() != null && !ServerVars.Players[i].getName().isEmpty()) {
+                    if (i != index) {
+                        SendServerData.SendMessage(i, ServerVars.MESSAGE_TYPE_SYSTEM, ServerVars.Players[index].getName() + " has joined Retro Tales Online!");
+                    }
+                }
+            }
+        }
+
         SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Total Online Players: " + totalOnline);
 
         SendServerData.SendMapItems(ServerVars.Players[index].getMap());
@@ -1533,24 +1543,19 @@ public class HandleServerData {
         int dropType = uPDT.dropType;
         int pNum = ServerVars.Players[index].getParty();
 
-        System.out.println("pNum: " + pNum);
-
         if (pNum > 0) {
             if (ServerVars.Parties[pNum].leader == index) {
-                System.out.println("Party Leader");
                 ServerVars.Parties[pNum].dropType = dropType;
 
                 if (dropType == ServerVars.DROP_SORT_ROUNDROBIN) {
                     for (int i = 1; i <= 3; i++) {
                         if (ServerVars.Parties[pNum].members[i] > 0) {
-                            System.out.println("Sending Msg: RR");
                             SendServerData.SendMessage(ServerVars.Parties[pNum].members[i], ServerVars.MESSAGE_TYPE_SYSTEM, "Drop sort system changed to Round Robin.");
                         }
                     }
                 } else if (dropType == ServerVars.DROP_SORT_FREEFORALL) {
                     for (int i = 1; i <= 3; i++) {
                         if (ServerVars.Parties[pNum].members[i] > 0) {
-                            System.out.println("Sending Msg: F4A");
                             SendServerData.SendMessage(ServerVars.Parties[pNum].members[i], ServerVars.MESSAGE_TYPE_SYSTEM, "Drop sort system changed to Free For All.");
                         }
                     }
@@ -1564,6 +1569,8 @@ public class HandleServerData {
         int index = setHotKey.index;
         int hotKey = setHotKey.hotKey;
         int hotKeyNum = setHotKey.hotKeyVal;
+
+        System.out.println("Hotkey: " + hotKey + ", Hotkeynum: " + hotKeyNum);
 
         switch (hotKey) {
             case ServerVars.HOT_KEY_Q:
@@ -1580,24 +1587,20 @@ public class HandleServerData {
         int index = sendCastSpell.index;
         int hotKey = sendCastSpell.hotKey;
         int spellNum = 0;
+        int spellInvSlot = 0;
 
         if (hotKey >= ServerVars.HOT_KEY_Q && hotKey <= ServerVars.HOT_KEY_E) {
             switch (hotKey) {
                 case ServerVars.HOT_KEY_Q:
-                    spellNum = ServerVars.Players[index].getHotKeyQ();
+                    spellNum = ServerVars.Players[index].spells[ServerVars.Players[index].getHotKeyQ()].getSpellNum();
+                    spellInvSlot = ServerVars.Players[index].getHotKeyQ();
                     break;
                 case ServerVars.HOT_KEY_E:
-                    spellNum = ServerVars.Players[index].getHotKeyE();
+                    spellNum = ServerVars.Players[index].spells[ServerVars.Players[index].getHotKeyE()].getSpellNum();
+                    spellInvSlot = ServerVars.Players[index].getHotKeyE();
                     break;
             }
             if (spellNum > 0) {
-                int spellInvSlot = 0;
-                for (int i = 1; i <= 60; i++) {
-                    if (ServerVars.Players[index].spells[i].getSpellNum() == spellNum) {
-                        spellInvSlot = i;
-                        break;
-                    }
-                }
                 if (ServerVars.Players[index].getTarget() > 0) {
                     int target = ServerVars.Players[index].getTarget();
                     if (ServerVars.Players[index].getTargetType() == ServerVars.SEARCH_TYPE_NPC) {

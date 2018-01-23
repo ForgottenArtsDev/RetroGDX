@@ -928,6 +928,7 @@ public class InputDesktop {
             // Q Hotkey
             if (worldCoordinates.x >= 546 && worldCoordinates.x <= 582) {
                 if (worldCoordinates.y >= 212 && worldCoordinates.y <= 248) {
+                    System.out.println("SelectedSpellSlot: " + Variables.selectedSpellSlot);
                     Variables.Players[Variables.MyIndex].setHotKeyQ(Variables.selectedSpellSlot);
                     SendClientData.SendSetHotKey(Variables.HOT_KEY_Q, Variables.selectedSpellSlot);
                 }

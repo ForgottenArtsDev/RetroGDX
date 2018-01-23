@@ -881,6 +881,7 @@ public class InputAndroid {
 
                         @Override
                         public void canceled() {
+                            Variables.inputOpen = false;
                         }
                     }, "Chat:", "", "");
                 }

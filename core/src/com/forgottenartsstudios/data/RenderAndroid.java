@@ -538,35 +538,12 @@ public class RenderAndroid {
     }
 
     public static void drawText(String text, float X, float Y, Color color) {
-        layout.setText(AssetLoader.font, text);
-        float width = layout.width;// contains the width of the current set text
-
-        //float nameX = (X - (int)width) - 20;
-        //float nameY = Y + 20;
-
-        AssetLoader.font.setColor(Color.BLACK);
-        AssetLoader.font.draw(batcher, text, X - 2, Y);
-        AssetLoader.font.draw(batcher, text, X + 2, Y);
-        AssetLoader.font.draw(batcher, text, X, Y - 2);
-        AssetLoader.font.draw(batcher, text, X, Y + 2);
+        if (color == null) { return; }
         AssetLoader.font.setColor(color);
         AssetLoader.font.draw(batcher, text, X, Y);
     }
     public static void drawName(String text, float X, float Y, Color color) {
-        layout.setText(AssetLoader.nameFont, text);
-        float width = layout.width;// contains the width of the current set text
-
-        //float nameX = (X - (int)width) - 20;
-        //float nameY = Y + 20;
-
-        if (color == null){ return; }
-        if (text == null) {return; }
-
-        AssetLoader.nameFont.setColor(Color.BLACK);
-        AssetLoader.nameFont.draw(batcher, text, X - 2, Y);
-        AssetLoader.nameFont.draw(batcher, text, X + 2, Y);
-        AssetLoader.nameFont.draw(batcher, text, X, Y - 2);
-        AssetLoader.nameFont.draw(batcher, text, X, Y + 2);
+        if (color == null) { return; }
         AssetLoader.nameFont.setColor(color);
         AssetLoader.nameFont.draw(batcher, text, X, Y);
     }
@@ -808,9 +785,9 @@ public class RenderAndroid {
                         if (Variables.mapRender[mapNum].Tile == null) { break; }
                         if (Variables.mapRender[mapNum].Tile[x][y] == null) { break; }
                         if (Variables.mapRender[mapNum].Tile[x][y].TileNum == null) { break; }
-                        Text = Variables.mapRender[mapNum].Tile[x][y].TileNum[LoopL];
                         if (Variables.mapRender[mapNum].Tile[x][y].Layer == null) { break; }
                         if (Variables.mapRender[mapNum].Tile[x][y].Layer[LoopL] == null) { break; }
+                        Text = Variables.mapRender[mapNum].Tile[x][y].TileNum[LoopL];
                         int tileSet = Variables.mapRender[mapNum].Tile[x][y].Layer[LoopL].Tileset;
                         int tileX = Variables.mapRender[mapNum].Tile[x][y].Layer[LoopL].X;
                         int tileY = Variables.mapRender[mapNum].Tile[x][y].Layer[LoopL].Y;
@@ -1196,7 +1173,9 @@ public class RenderAndroid {
     public static void drawStatus() {
         batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
 
-        layout.setText(AssetLoader.font, Variables.Players[Variables.MyIndex].getName());
+        if (Variables.Players[Variables.MyIndex].getName() != null && !Variables.Players[Variables.MyIndex].getName().isEmpty()) {
+            layout.setText(AssetLoader.font, Variables.Players[Variables.MyIndex].getName());
+        }
         float width = layout.width;// contains the width of the current set text
 
         float nameX = 240 - ((int)width / 2);
@@ -1548,34 +1527,44 @@ public class RenderAndroid {
             }
         } else {
             // Player Sprite
-            batcher.draw(AssetLoader.spritesDown2[Variables.Players[Variables.MyIndex].getSprite()], 63, 59, 32, 36);
+            if (AssetLoader.spritesDown2[Variables.Players[Variables.MyIndex].getSprite()] != null) {
+                batcher.draw(AssetLoader.spritesDown2[Variables.Players[Variables.MyIndex].getSprite()], 63, 59, 32, 36);
+            }
             // Player Equipment
             batcher.draw(AssetLoader.eqBG, 39, 21, 36, 36);
             if (Variables.Players[Variables.MyIndex].getWeapon() > 0) {
-                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()].getItemNum();
-                if (itemNum > 0) {
-                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 39 + 5, 21 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                if (Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()] != null) {
+                    int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getWeapon()].getItemNum();
+                    if (itemNum > 0) {
+                        batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 39 + 5, 21 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                    }
                 }
             }
             batcher.draw(AssetLoader.eqBG, 21, 58, 36, 36);
             if (Variables.Players[Variables.MyIndex].getArmor() > 0) {
-                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()].getItemNum();
-                if (itemNum > 0) {
-                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 21 + 5, 58 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                if (Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()] != null) {
+                    int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getArmor()].getItemNum();
+                    if (itemNum > 0) {
+                        batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 21 + 5, 58 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                    }
                 }
             }
             batcher.draw(AssetLoader.eqBG, 76, 21, 36, 36);
             if (Variables.Players[Variables.MyIndex].getOffhand() > 0) {
-                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()].getItemNum();
-                if (itemNum > 0) {
-                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 76 + 5, 21 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                if (Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()] != null) {
+                    int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getOffhand()].getItemNum();
+                    if (itemNum > 0) {
+                        batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 76 + 5, 21 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                    }
                 }
             }
             batcher.draw(AssetLoader.eqBG, 100, 58, 36, 36);
             if (Variables.Players[Variables.MyIndex].getHelmet() > 0) {
-                int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()].getItemNum();
-                if (itemNum > 0) {
-                    batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 100 + 5, 58 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                if (Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()] != null) {
+                    int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.Players[Variables.MyIndex].getHelmet()].getItemNum();
+                    if (itemNum > 0) {
+                        batcher.draw(AssetLoader.items[Variables.Items[itemNum].Icon], 100 + 5, 58 + 5, 24, 24, 0, 0, 24, 24, false, true);
+                    }
                 }
             }
             batcher.draw(AssetLoader.eqBG, 39, 95, 36, 36);
@@ -1765,21 +1754,23 @@ public class RenderAndroid {
                         }
                     }
                 } else if (Variables.chatMessageIndex > 4) {
+                    int line = 1;
                     for (int i = Variables.chatMessageIndex - 4; i <= Variables.chatMessageIndex; i++) {
                         int type = Variables.chatMessages[i].getType();
                         if (type == Variables.MESSAGE_TYPE_MAP) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.WHITE);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 456 + (14 * line), Color.WHITE);
                         } else if (type == Variables.MESSAGE_TYPE_GLOBAL) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.ORANGE);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 456 + (14 * line), Color.ORANGE);
                         } else if (type == Variables.MESSAGE_TYPE_WHISPER) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.PINK);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 456 + (14 * line), Color.PINK);
                         } else if (type == Variables.MESSAGE_TYPE_PARTY) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.SKY);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 456 + (14 * line), Color.SKY);
                         } else if (type == Variables.MESSAGE_TYPE_SYSTEM) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.GOLD);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 456 + (14 * line), Color.GOLD);
                         } else if (type == Variables.MESSAGE_TYPE_DEATH) {
-                            drawName(Variables.chatMessages[i].getMsg(), 20, 442 + (14 * i), Color.RED);
+                            drawName(Variables.chatMessages[i].getMsg(), 20, 456 + (14 * line), Color.RED);
                         }
+                        line++;
                     }
                 }
             }
