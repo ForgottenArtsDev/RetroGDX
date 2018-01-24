@@ -24,14 +24,18 @@ import java.io.File;
  */
 
 public class HandleServerData {
-    public static void HandleConnect(Object object) {
+    public static void HandleConnect(Object object, Connection connection) {
         Connect cnt = (Connect) object;
         int client_mode = cnt.client_mode;
+        String build_version = cnt.build_version;
 
         if (client_mode == 1) {
             serverWindow.svrMonitor.append("Desktop client connected" + "\n");
         } else if (client_mode == 2) {
             serverWindow.svrMonitor.append("Android client connected" + "\n");
+        }
+        if (!build_version.equals(ServerVars.buildVersion)) {
+            SendServerData.SendInvalidBuildVersion(connection.getID());
         }
         serverWindow.svrMonitor.setCaretPosition(serverWindow.svrMonitor.getDocument().getLength());
     }
@@ -653,36 +657,28 @@ public class HandleServerData {
                 switch (itemType) {
                     case ServerVars.ITEM_TYPE_WEAPON:
                         if (ServerVars.Players[index].getWeapon() != invSlot) {
-                            if (ServerVars.Players[index].getSTR() >= ServerVars.Items[itemNum].STR) {
-                                ServerVars.Players[index].setWeapon(invSlot);
-                            }
+                            ServerVars.Players[index].setWeapon(invSlot);
                         } else {
                             ServerVars.Players[index].setWeapon(0);
                         }
                         break;
                     case ServerVars.ITEM_TYPE_ARMOR:
                         if (ServerVars.Players[index].getArmor() != invSlot) {
-                            if (ServerVars.Players[index].getDEF() >= ServerVars.Items[itemNum].DEF) {
-                                ServerVars.Players[index].setArmor(invSlot);
-                            }
+                            ServerVars.Players[index].setArmor(invSlot);
                         } else {
                             ServerVars.Players[index].setArmor(0);
                         }
                         break;
                     case ServerVars.ITEM_TYPE_HELMET:
                         if (ServerVars.Players[index].getHelmet() != invSlot) {
-                            if (ServerVars.Players[index].getVIT() >= ServerVars.Items[itemNum].VIT) {
-                                ServerVars.Players[index].setHelmet(invSlot);
-                            }
+                            ServerVars.Players[index].setHelmet(invSlot);
                         } else {
                             ServerVars.Players[index].setHelmet(0);
                         }
                         break;
                     case ServerVars.ITEM_TYPE_OFFHAND:
                         if (ServerVars.Players[index].getOffhand() != invSlot) {
-                            if (ServerVars.Players[index].getDEF() >= ServerVars.Items[itemNum].DEF) {
-                                ServerVars.Players[index].setOffhand(invSlot);
-                            }
+                            ServerVars.Players[index].setOffhand(invSlot);
                         } else {
                             ServerVars.Players[index].setOffhand(0);
                         }

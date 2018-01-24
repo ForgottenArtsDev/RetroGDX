@@ -508,9 +508,10 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(MapSpell[].class);
         server.getKryo().register(SendCastTime.class);
         server.getKryo().register(SendCoolDown.class);
+        server.getKryo().register(InvalidBuildVersion.class);
     }
     private static void checkPackets(Object object, Connection connection) {
-        if (object instanceof Connect) { HandleServerData.HandleConnect(object); }
+        if (object instanceof Connect) { HandleServerData.HandleConnect(object, connection); }
         if (object instanceof NewAccount) { HandleServerData.HandleNewAccount(object, connection); }
         if (object instanceof Login) { HandleServerData.HandleLogin(object, connection); }
         if (object instanceof CreateChar) { HandleServerData.HandleCreateChar(object, connection); }

@@ -7,6 +7,7 @@ import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
 import com.forgottenartsstudios.networking.packets.AccountRegistered;
 import com.forgottenartsstudios.networking.packets.DisconnectPlayer;
+import com.forgottenartsstudios.networking.packets.InvalidBuildVersion;
 import com.forgottenartsstudios.networking.packets.MovePlayer;
 import com.forgottenartsstudios.networking.packets.PartyInfo;
 import com.forgottenartsstudios.networking.packets.PlayerData;
@@ -779,5 +780,10 @@ public class HandleClientData {
 
         //Variables.Players[Variables.MyIndex].spells[spellInvSlot].setCoolDown(coolDown);
         //Variables.Players[Variables.MyIndex].spells[spellInvSlot].setCoolDownTimer(0);
+    }
+    public static void HandleInvalidBuildVersion(Object object) {
+        InvalidBuildVersion invalidBuildVersion = (InvalidBuildVersion) object;
+
+        Variables.InvalidBuildVersion = invalidBuildVersion.isInvalid;
     }
 }

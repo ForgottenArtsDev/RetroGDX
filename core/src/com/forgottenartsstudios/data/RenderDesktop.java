@@ -120,6 +120,9 @@ public class RenderDesktop {
         if (Variables.AccountNotFound) {
             drawText("Account Not Found", 220, 501, Color.RED);
         }
+        if (Variables.InvalidBuildVersion) {
+            drawName("Version does not match server. Please update client", 220, 501, Color.RED);
+        }
         if (Variables.PasswordReq) {
             drawText("Password Required", 220, 501, Color.RED);
         }

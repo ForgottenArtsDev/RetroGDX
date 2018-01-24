@@ -45,42 +45,46 @@ public class InputDesktop {
         // LOGIN BUTTON
         if (worldCoordinates.x >= 658 && worldCoordinates.x <= 779) {
             if (worldCoordinates.y >= 465 && worldCoordinates.y <= 497) {
-                if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
-                    Variables.IDReq = false;
-                    if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
-                        Variables.PasswordReq = false;
+                if (!Variables.InvalidBuildVersion) {
+                    if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
                         Variables.IDReq = false;
-                        if (Variables.saveLogin) {
-                            AssetLoader.saveLogin();
+                        if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
+                            Variables.PasswordReq = false;
+                            Variables.IDReq = false;
+                            if (Variables.saveLogin) {
+                                AssetLoader.saveLogin();
+                            }
+                            SendClientData.SendLogin(Variables.Login_ID, Variables.Login_PW);
+                            Variables.PasswordReq = false;
+                            Variables.IDReq = false;
+                        } else {
+                            Variables.PasswordReq = true;
                         }
-                        SendClientData.SendLogin(Variables.Login_ID, Variables.Login_PW);
-                        Variables.PasswordReq = false;
-                        Variables.IDReq = false;
                     } else {
-                        Variables.PasswordReq = true;
+                        Variables.IDReq = true;
                     }
-                } else {
-                    Variables.IDReq = true;
                 }
             }
         }
         // REGISTER BUTTON
         if (worldCoordinates.x >= 578 && worldCoordinates.x <= 779) {
             if (worldCoordinates.y >= 505 && worldCoordinates.y <= 537) {
-                if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
-                    Variables.IDReq = false;
-                    if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
-                        Variables.PasswordReq = false;
+                if (!Variables.InvalidBuildVersion) {
+                    if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
                         Variables.IDReq = false;
-                        if (Variables.saveLogin) {
-                            AssetLoader.saveLogin();
+                        if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
+                            Variables.PasswordReq = false;
+                            Variables.IDReq = false;
+                            if (Variables.saveLogin) {
+                                AssetLoader.saveLogin();
+                            }
+                            SendClientData.SendNewAccount(Variables.Login_ID, Variables.Login_PW);
+                        } else {
+                            Variables.PasswordReq = true;
                         }
-                        SendClientData.SendNewAccount(Variables.Login_ID, Variables.Login_PW);
                     } else {
-                        Variables.PasswordReq = true;
+                        Variables.IDReq = true;
                     }
-                } else {
-                    Variables.IDReq = true;
                 }
             }
         }
@@ -796,19 +800,21 @@ public class InputDesktop {
             if (i == 11) {
                 x = 28;
                 y = 69;
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                    if (Variables.selectedSpellSlot != i) {
-                                        Variables.selectedSpellSlot = i;
-                                    } else {
-                                        //SendClientData.SendUseItem();
-                                    }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedSpellSlot == i) {
-                                        //SendClientData.SendDropItem(i);
+                if (Variables.Players[Variables.MyIndex].spells[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedSpellSlot != i) {
+                                            Variables.selectedSpellSlot = i;
+                                        } else {
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedSpellSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
                                     }
                                 }
                             }
@@ -819,24 +825,26 @@ public class InputDesktop {
             } else if (i == 21) {
                 x = 28;
                 y = 110;
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                if (Variables.Players[Variables.MyIndex].spells[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedSpellSlot != i) {
+                                            Variables.selectedSpellSlot = i;
+                                        } else {
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedSpellSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
+                                    }
+                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.selectedSpellSlot != i) {
                                         Variables.selectedSpellSlot = i;
-                                    } else {
-                                        //SendClientData.SendUseItem();
                                     }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedSpellSlot == i) {
-                                        //SendClientData.SendDropItem(i);
-                                    }
-                                }
-                            } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                if (Variables.selectedSpellSlot != i) {
-                                    Variables.selectedSpellSlot = i;
                                 }
                             }
                         }
@@ -846,19 +854,21 @@ public class InputDesktop {
             } else if (i == 31) {
                 x = 28;
                 y = 151;
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                    if (Variables.selectedSpellSlot != i) {
-                                        Variables.selectedSpellSlot = i;
-                                    } else {
-                                        //SendClientData.SendUseItem();
-                                    }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedSpellSlot == i) {
-                                        //SendClientData.SendDropItem(i);
+                if (Variables.Players[Variables.MyIndex].spells[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedSpellSlot != i) {
+                                            Variables.selectedSpellSlot = i;
+                                        } else {
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedSpellSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
                                     }
                                 }
                             }
@@ -869,19 +879,21 @@ public class InputDesktop {
             } else if (i == 41) {
                 x = 28;
                 y = 192;
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                    if (Variables.selectedSpellSlot != i) {
-                                        Variables.selectedSpellSlot = i;
-                                    } else {
-                                        //SendClientData.SendUseItem();
-                                    }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedSpellSlot == i) {
-                                        //SendClientData.SendDropItem(i);
+                if (Variables.Players[Variables.MyIndex].spells[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedSpellSlot != i) {
+                                            Variables.selectedSpellSlot = i;
+                                        } else {
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedSpellSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
                                     }
                                 }
                             }
@@ -892,19 +904,21 @@ public class InputDesktop {
             } else if (i == 51) {
                 x = 28;
                 y = 233;
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                    if (Variables.selectedSpellSlot != i) {
-                                        Variables.selectedSpellSlot = i;
-                                    } else {
-                                        //SendClientData.SendUseItem();
-                                    }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedSpellSlot == i) {
-                                        //SendClientData.SendDropItem(i);
+                if (Variables.Players[Variables.MyIndex].spells[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedSpellSlot != i) {
+                                            Variables.selectedSpellSlot = i;
+                                        } else {
+                                            //SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedSpellSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
                                     }
                                 }
                             }
@@ -913,19 +927,21 @@ public class InputDesktop {
                 }
                 x = x + 41;
             } else {
-                if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
-                    if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
-                        if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                            if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                    if (Variables.selectedSpellSlot != i) {
-                                        Variables.selectedSpellSlot = i;
-                                    } else {
-                                       // SendClientData.SendUseItem();
-                                    }
-                                } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                    if (Variables.selectedSpellSlot == i) {
-                                        //SendClientData.SendDropItem(i);
+                if (Variables.Players[Variables.MyIndex].spells[i] != null) {
+                    if (Variables.Players[Variables.MyIndex].spells[i].getSpellNum() > 0) {
+                        if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
+                            if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                                        if (Variables.selectedSpellSlot != i) {
+                                            Variables.selectedSpellSlot = i;
+                                        } else {
+                                            // SendClientData.SendUseItem();
+                                        }
+                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                                        if (Variables.selectedSpellSlot == i) {
+                                            //SendClientData.SendDropItem(i);
+                                        }
                                     }
                                 }
                             }

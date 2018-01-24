@@ -108,6 +108,9 @@ public class RenderAndroid {
         if (Variables.AccountNotFound) {
             drawText("Account Not Found", 132, 501, Color.RED);
         }
+        if (Variables.InvalidBuildVersion) {
+            drawName("Version does not match server. Please update client", 132, 501, Color.RED);
+        }
         if (Variables.PasswordReq) {
             drawText("Password Required", 132, 501, Color.RED);
         }
