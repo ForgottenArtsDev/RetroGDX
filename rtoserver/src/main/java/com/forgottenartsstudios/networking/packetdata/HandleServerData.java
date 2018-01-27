@@ -316,7 +316,7 @@ public class HandleServerData {
         }
 
         // Check to make sure the level is properly set, cause of that stupid bug
-        int totalPoints = ServerVars.Players[index].getSTR() + ServerVars.Players[index].getDEF() + ServerVars.Players[index].getVIT() + ServerVars.Players[index].getAGI() + ServerVars.Players[index].getMAG();
+        int totalPoints = ServerVars.Players[index].getSTR() + ServerVars.Players[index].getDEF() + ServerVars.Players[index].getVIT() + ServerVars.Players[index].getAGI() + ServerVars.Players[index].getMAG() + ServerVars.Players[index].getPoints();
         int actualLevel = (totalPoints - 25) / 5;
 
         if (actualLevel != ServerVars.Players[index].getLevel()) {
