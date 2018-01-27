@@ -1154,4 +1154,11 @@ public class SendServerData {
     public static void SendCoolDown(int index, int spellInvSlot, int coolDown) {
 
     }
+    public static void SendInvalidBuildVersion(int CID) {
+        InvalidBuildVersion invalidBuildVersion = new InvalidBuildVersion();
+
+        invalidBuildVersion.isInvalid = true;
+
+        server.sendToTCP(CID, invalidBuildVersion);
+    }
 }

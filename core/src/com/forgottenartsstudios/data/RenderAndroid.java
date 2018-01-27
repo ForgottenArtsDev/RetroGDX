@@ -24,7 +24,7 @@ public class RenderAndroid {
     ////////////////////
     // Routine Timers //
     ////////////////////
-    private static final long UpdateTime_InputTimer = 500;
+    private static final long UpdateTime_InputTimer = 50;
     private static final long UpdateTime_TapAnimTimer = 50;
     private static final long UpdateTime_BuyMsg = 1000;
     private static final long UpdateTime_Damage = 50;
@@ -107,6 +107,9 @@ public class RenderAndroid {
         }
         if (Variables.AccountNotFound) {
             drawText("Account Not Found", 132, 501, Color.RED);
+        }
+        if (Variables.InvalidBuildVersion) {
+            drawName("Version does not match server. Please update client", 132, 501, Color.RED);
         }
         if (Variables.PasswordReq) {
             drawText("Password Required", 132, 501, Color.RED);

@@ -49,6 +49,7 @@ public class RTOnline extends Game {
 
         Connect cnt = new Connect();
         cnt.client_mode = Variables.Client_Mode;
+        cnt.build_version = Variables.buildVersion;
         client.sendTCP(cnt);
 
         Variables.Players = new Player[Variables.MaxPlayers + 1];
@@ -205,6 +206,7 @@ public class RTOnline extends Game {
         client.getKryo().register(MapSpell[].class);
         client.getKryo().register(SendCastTime.class);
         client.getKryo().register(SendCoolDown.class);
+        client.getKryo().register(InvalidBuildVersion.class);
     }
 
     public static void checkPackets(Object object) {
@@ -226,11 +228,7 @@ public class RTOnline extends Game {
         if (object instanceof SendInventory) { HandleClientData.HandleSendInventory(object); }
         if (object instanceof ItemBoughtMsg) { HandleClientData.HandleBoughtItemMsg(); }
         if (object instanceof SendKillNPC) { HandleClientData.HandleKillNPC(object); }
-        try {
-            if (object instanceof SendNPCDmg) { HandleClientData.HandleDmgNPC(object); }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (object instanceof SendNPCDmg) { HandleClientData.HandleDmgNPC(object); }
         if (object instanceof SendRespawnNPC) { HandleClientData.HandleRespawnNPC(object); }
         if (object instanceof SendMapNPCs) { HandleClientData.HandleMapNPCs(object); }
         if (object instanceof SendNPCXP) { HandleClientData.HandleNPCXP(object); }
@@ -238,11 +236,7 @@ public class RTOnline extends Game {
         if (object instanceof NotEnoughGoldMsg) { HandleClientData.HandleNotEnoughGoldMsg(); }
         if (object instanceof SendPlayerDmg) { HandleClientData.HandlePlayerDmg(object); }
         if (object instanceof SendMessage) { HandleClientData.HandleSendMessage(object); }
-        try {
-            if (object instanceof SendSystemMessage) { HandleClientData.HandleSendSystemMessage(object); }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (object instanceof SendSystemMessage) { HandleClientData.HandleSendSystemMessage(object); }
         if (object instanceof SendHPRegen) { HandleClientData.HandleHPRegen(object); }
         if (object instanceof SendOpenPlayerMenu) { HandleClientData.HandleOpenPlayerMenu(object); }
         if (object instanceof SendPartyInvite) { HandleClientData.HandlePartyInvite(object); }
@@ -252,5 +246,6 @@ public class RTOnline extends Game {
         if (object instanceof SendMapSpells) { HandleClientData.HandleSendMapSpells(object); }
         if (object instanceof SendCastTime) { HandleClientData.HandleSendCastTime(object); }
         if (object instanceof SendCoolDown) { HandleClientData.HandleSendCoolDown(object); }
+        if (object instanceof InvalidBuildVersion) { HandleClientData.HandleInvalidBuildVersion(object); }
     }
 }

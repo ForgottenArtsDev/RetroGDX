@@ -63,40 +63,44 @@ public class InputAndroid {
         // LOGIN BUTTON
         if (worldCoordinates.x >= 162 && worldCoordinates.x <= 324) {
             if (worldCoordinates.y >= 540 && worldCoordinates.y <= 584) {
-                if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
-                    Variables.IDReq = false;
-                    if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
-                        Variables.PasswordReq = false;
+                if (!Variables.InvalidBuildVersion) {
+                    if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
                         Variables.IDReq = false;
-                        if (Variables.saveLogin) {
-                            AssetLoader.saveLogin();
+                        if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
+                            Variables.PasswordReq = false;
+                            Variables.IDReq = false;
+                            if (Variables.saveLogin) {
+                                AssetLoader.saveLogin();
+                            }
+                            SendClientData.SendLogin(Variables.Login_ID, Variables.Login_PW);
+                        } else {
+                            Variables.PasswordReq = true;
                         }
-                        SendClientData.SendLogin(Variables.Login_ID, Variables.Login_PW);
                     } else {
-                        Variables.PasswordReq = true;
+                        Variables.IDReq = true;
                     }
-                } else {
-                    Variables.IDReq = true;
                 }
             }
         }
         // REGISTER BUTTON
         if (worldCoordinates.x >= 114 && worldCoordinates.x <= 380) {
             if (worldCoordinates.y >= 662 && worldCoordinates.y <= 705) {
-                if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
-                    Variables.IDReq = false;
-                    if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
-                        if (Variables.saveLogin) {
-                            AssetLoader.saveLogin();
-                        }
-                        SendClientData.SendNewAccount(Variables.Login_ID, Variables.Login_PW);
-                        Variables.PasswordReq = false;
+                if (!Variables.InvalidBuildVersion) {
+                    if (Variables.Login_ID != null && !Variables.Login_ID.isEmpty()) {
                         Variables.IDReq = false;
+                        if (Variables.Login_PW != null && !Variables.Login_PW.isEmpty()) {
+                            if (Variables.saveLogin) {
+                                AssetLoader.saveLogin();
+                            }
+                            SendClientData.SendNewAccount(Variables.Login_ID, Variables.Login_PW);
+                            Variables.PasswordReq = false;
+                            Variables.IDReq = false;
+                        } else {
+                            Variables.PasswordReq = true;
+                        }
                     } else {
-                        Variables.PasswordReq = true;
+                        Variables.IDReq = true;
                     }
-                } else {
-                    Variables.IDReq = true;
                 }
             }
         }

@@ -290,14 +290,9 @@ public class General {
         for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
             if (ServerVars.Players[i] != null) {
                 if (ServerVars.Players[i].getMap() == mapNum) {
-                    if (Index != i) {
-                        SendServerData.SendPlayerData(Index, i);
-                        SendServerData.SendPlayerData(i, Index);
-                    }
+                    SendServerData.SendPlayerData(Index, i);
                 } else if (ServerVars.Players[i].getMap() == oldMap) {
-                    if (Index != i) {
-                        SendServerData.SendPlayerData(Index, i);
-                    }
+                    SendServerData.SendPlayerData(Index, i);
                 }
             }
         }
