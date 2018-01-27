@@ -311,6 +311,14 @@ public class HandleServerData {
             }
         }
 
+        // Check to make sure the level is properly set, cause of that stupid bug
+        int totalPoints = ServerVars.Players[index].getSTR() + ServerVars.Players[index].getDEF() + ServerVars.Players[index].getVIT() + ServerVars.Players[index].getAGI() + ServerVars.Players[index].getMAG();
+        int actualLevel = (totalPoints - 25) / 5;
+
+        if (actualLevel != ServerVars.Players[index].getLevel()) {
+            ServerVars.Players[index].setLevel(actualLevel);
+        }
+
         SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Total Online Players: " + totalOnline);
 
         SendServerData.SendMapItems(ServerVars.Players[index].getMap());
