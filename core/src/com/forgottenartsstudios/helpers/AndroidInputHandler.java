@@ -12,10 +12,8 @@ import com.forgottenartsstudios.gameworld.GameWorld;
  */
 
 public class AndroidInputHandler implements GestureListener, InputProcessor {
-    private GameWorld myWorld;
 
-    public AndroidInputHandler(GameWorld myWorld) {
-        this.myWorld = myWorld;
+    public AndroidInputHandler() {
     }
 
     @Override
