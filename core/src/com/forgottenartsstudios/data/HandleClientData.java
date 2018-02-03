@@ -471,6 +471,7 @@ public class HandleClientData {
     }
     public static void HandleBoughtItemMsg() {
         Variables.BoughtMsgTimer = 1;
+        Variables.LastUpdateTime_BuyMsg = Variables.tickCount + Variables.UpdateTime_BuyMsg;
     }
     public static void HandleKillNPC(Object object) {
         SendKillNPC sKNPC = (SendKillNPC) object;
@@ -546,21 +547,8 @@ public class HandleClientData {
             if (Variables.DrawXP[i].getTimer() == 0) {
                 Variables.DrawXP[i].setDamage(sendNPCXP.xp);
 
-                if (layout == null) {
-                    System.out.println("layout = null");
-                    return;
-                }
-                if (Integer.valueOf(Variables.DrawXP[i].getDamage()) == null) {
-
-                    return;
-                }
-
-
-                try {
-                    layout.setText(AssetLoader.nameFont, Variables.DrawXP[i].getDamage() + "");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                if (AssetLoader.nameFont.getColor() == null) { return; }
+                layout.setText(AssetLoader.nameFont, Variables.DrawXP[i].getDamage() + "");
 
                 float width = layout.width;// contains the width of the current set text
 
@@ -587,6 +575,7 @@ public class HandleClientData {
     }
     public static void HandleNotEnoughGoldMsg() {
         Variables.NotEnoughGoldMsgTimer = 1;
+        Variables.LastUpdateTime_BuyMsg = Variables.tickCount + Variables.UpdateTime_BuyMsg;
     }
     public static void HandlePlayerDmg(Object object) {
         SendPlayerDmg sDmg = (SendPlayerDmg) object;
@@ -596,7 +585,7 @@ public class HandleClientData {
                 Variables.DrawPlayerDamage[i].setMapNpcNum(sDmg.index);
                 Variables.DrawPlayerDamage[i].setDamage(sDmg.damage);
 
-                if (Integer.valueOf(Variables.DrawPlayerDamage[i].getDamage()) == null) {return; }
+                if (AssetLoader.nameFont.getColor() == null) { return; }
 
                 layout.setText(AssetLoader.nameFont, Variables.DrawPlayerDamage[i].getDamage() + "");
                 float width = layout.width;// contains the width of the current set text
@@ -666,6 +655,8 @@ public class HandleClientData {
             if (Variables.DrawSystemMessage[i].getTimer() == 0) {
                 Variables.DrawSystemMessage[i].setMsg(msg);
 
+                if (AssetLoader.nameFont.getColor() == null) { return; }
+
                 layout.setText(AssetLoader.nameFont, Variables.DrawSystemMessage[i].getMsg());
                 float width = layout.width;// contains the width of the current set text
 
@@ -689,6 +680,8 @@ public class HandleClientData {
         for (int i = 1; i <= 20; i++) {
             if (Variables.DrawHP[i].getTimer() == 0) {
                 Variables.DrawHP[i].setDamage(sendHPRegen.hp);
+
+                if (AssetLoader.nameFont.getColor() == null) { return; }
 
                 layout.setText(AssetLoader.nameFont, Variables.DrawHP[i].getDamage() + "");
                 float width = layout.width;// contains the width of the current set text

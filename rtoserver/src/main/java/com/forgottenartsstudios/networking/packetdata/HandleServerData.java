@@ -293,7 +293,7 @@ public class HandleServerData {
         }
 
         SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Welcome to Retro Tales Online! This is an alpha build. Please bear with us.");
-        SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Your first set of gear is on the house! Just click/tap on the barkeep.");
+        SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Your first set of gear is in the tavern! Just click/tap on the tavernkeeper.");
         SendServerData.SendMessage(index, ServerVars.MESSAGE_TYPE_SYSTEM, "Type /help to get help with chat commands.");
 
         int totalOnline = 0;
@@ -317,7 +317,7 @@ public class HandleServerData {
 
         // Check to make sure the level is properly set, cause of that stupid bug
         int totalPoints = ServerVars.Players[index].getSTR() + ServerVars.Players[index].getDEF() + ServerVars.Players[index].getVIT() + ServerVars.Players[index].getAGI() + ServerVars.Players[index].getMAG() + ServerVars.Players[index].getPoints();
-        int actualLevel = (totalPoints - 25) / 5;
+        int actualLevel = ((totalPoints - 25) / 5) + 1;
 
         if (actualLevel != ServerVars.Players[index].getLevel()) {
             ServerVars.Players[index].setLevel(actualLevel);

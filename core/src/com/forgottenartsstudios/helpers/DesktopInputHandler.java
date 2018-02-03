@@ -10,16 +10,17 @@ import com.forgottenartsstudios.gameworld.GameWorld;
 import com.forgottenartsstudios.networking.packetdata.SendServerData;
 
 /**
- * Created by forgo on 10/6/2017.
+ * Created by forgo on 2/2/2018.
  */
 
-public class InputHandler implements InputProcessor {
+public class DesktopInputHandler implements InputProcessor {
 
     private GameWorld myWorld;
 
-    public InputHandler(GameWorld myWorld) {
+    public DesktopInputHandler(GameWorld myWorld) {
         this.myWorld = myWorld;
     }
+
     @Override
     public boolean keyDown(int keycode) {
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {

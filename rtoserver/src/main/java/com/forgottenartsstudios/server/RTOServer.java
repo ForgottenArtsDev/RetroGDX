@@ -143,8 +143,9 @@ public class RTOServer extends ApplicationAdapter {
     private static final long UpdateTime_RespawnNPCs = 1000;
     private static final long UpdateTime_RegenPlayers = 5000;
     private static final long UpdateTime_ClearMapItems = 1000;
-    private static final long UpdateTime_CastTime = 1000;
+    private static final long UpdateTime_CastTime = 10;
     private static final long UpdateTime_Death = 1000;
+    private static final long UpdateTime_NpcAttack = 50;
 
     private static long LastUpdateTime_KeepAlive;
     private static long LastUpdateTime_KeepAliveCount;
@@ -155,6 +156,7 @@ public class RTOServer extends ApplicationAdapter {
     private static long LastUpdateTime_ClearMapItems;
     private static long LastUpdateTime_CastTime;
     private static long LastUpdateTime_Death;
+    private static long LastUpdateTime_NpcAttack;
 
     private static boolean UpdateNpcMovement = false;
     private static boolean UpdateNpcRecover = false;
@@ -183,6 +185,17 @@ public class RTOServer extends ApplicationAdapter {
                         LastUpdateTime_KeepAlive = tickCount + UpdateTime_KeepAlive;
                     }
 
+                    if (LastUpdateTime_NpcAttack < tickCount) {
+                        for (int i = 1; i <= ServerVars.MaxMaps; i++) {
+                            for (int a = 1; a <= ServerVars.MaxMapNPCs; a++) {
+                                if (ServerVars.MapNPCs[i].Npc[a].getAttackTimer() > 0) {
+                                    ServerVars.MapNPCs[i].Npc[a].setAttackTimer(ServerVars.MapNPCs[i].Npc[a].getAttackTimer() - (int)UpdateTime_NpcAttack);
+                                }
+                            }
+                        }
+                        LastUpdateTime_NpcAttack = tickCount + UpdateTime_NpcAttack;
+                    }
+
                     if (LastUpdateTime_CastTime < tickCount) {
                         for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                             for (int a = 1; a <= 60; a++) {
@@ -192,7 +205,7 @@ public class RTOServer extends ApplicationAdapter {
                                             if (ServerVars.Players[i].spells[a].getSpellNum() > 0) {
                                                 if (ServerVars.Players[i].spells[a].getCastTime() > 0) {
                                                     if (ServerVars.Players[i].spells[a].getCastTimeTimer() <= ServerVars.Players[i].spells[a].getCastTime()) {
-                                                        ServerVars.Players[i].spells[a].setCastTimeTimer(ServerVars.Players[i].spells[a].getCastTimeTimer() + 1);
+                                                        ServerVars.Players[i].spells[a].setCastTimeTimer(ServerVars.Players[i].spells[a].getCastTimeTimer() + UpdateTime_CastTime);
                                                         if (ServerVars.Players[i].spells[a].getCastTimeTimer() > ServerVars.Players[i].spells[a].getCastTime()) {
                                                             int spellNum = ServerVars.Players[i].spells[a].getSpellNum();
                                                             ServerVars.Players[i].spells[a].setCastTime(0);
@@ -206,7 +219,7 @@ public class RTOServer extends ApplicationAdapter {
                                                 }
                                                 if (ServerVars.Players[i].spells[a].getCoolDown() > 0) {
                                                     if (ServerVars.Players[i].spells[a].getCoolDownTimer() <= ServerVars.Players[i].spells[a].getCoolDown()) {
-                                                        ServerVars.Players[i].spells[a].setCoolDownTimer(ServerVars.Players[i].spells[a].getCoolDownTimer() + 1);
+                                                        ServerVars.Players[i].spells[a].setCoolDownTimer(ServerVars.Players[i].spells[a].getCoolDownTimer() + UpdateTime_CastTime);
                                                         if (ServerVars.Players[i].spells[a].getCoolDownTimer() > ServerVars.Players[i].spells[a].getCoolDown()) {
                                                             ServerVars.Players[i].spells[a].setCoolDown(0);
                                                             ServerVars.Players[i].spells[a].setCoolDownTimer(0);
@@ -301,9 +314,9 @@ public class RTOServer extends ApplicationAdapter {
                                     }
                                     // HP //
                                     if (boost) {
-                                        percent = 10.0f;
+                                        percent = 20.0f;
                                     } else {
-                                        percent = 5.0f;
+                                        percent = 10.0f;
                                     }
                                     int HP = (int)(ServerVars.Players[i].getMaxHP() * (percent / 100.0f));
                                     ServerVars.Players[i].setHP(ServerVars.Players[i].getHP() + HP);
@@ -314,9 +327,9 @@ public class RTOServer extends ApplicationAdapter {
                                     }
                                     // MP //
                                     if (boost) {
-                                        percent = 6.0f;
+                                        percent = 12.0f;
                                     } else {
-                                        percent = 3.0f;
+                                        percent = 6.0f;
                                     }
                                     int MP = (int)(ServerVars.Players[i].getMaxMP() * (percent / 100.0f));
                                     ServerVars.Players[i].setMP(ServerVars.Players[i].getMP() + MP);
@@ -1077,9 +1090,10 @@ public class RTOServer extends ApplicationAdapter {
         }
 
         // Make sure npcs dont attack more then once a second
-        if (System.currentTimeMillis() < ServerVars.MapNPCs[mapNum].Npc[Attacker].getAttackTimer() + 1000) {
+        if (ServerVars.MapNPCs[mapNum].Npc[Attacker].getAttackTimer() > 0) {
             return false;
         }
+        ServerVars.MapNPCs[mapNum].Npc[Attacker].setAttackTimer((int) System.currentTimeMillis());
 
         if (npcNum > 0) {
             int X = 0;
@@ -1103,7 +1117,7 @@ public class RTOServer extends ApplicationAdapter {
                     break;
             }
             if ((ServerVars.Players[Victim].getY() == Y) && (ServerVars.Players[Victim].getX() == X)) {
-                ServerVars.MapNPCs[mapNum].Npc[Attacker].setAttackTimer((int)System.currentTimeMillis());
+                ServerVars.MapNPCs[mapNum].Npc[Attacker].setAttackTimer(1000);
                 return true;
             }
         }

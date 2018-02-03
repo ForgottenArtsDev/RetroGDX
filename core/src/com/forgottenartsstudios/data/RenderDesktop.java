@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.helpers.AssetLoader;
-import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.helpers.Variables;
 
 import static com.forgottenartsstudios.gameworld.GameRenderer.batcher;
@@ -27,11 +26,9 @@ public class RenderDesktop {
     ////////////////////
     private static final long UpdateTime_InputTimer = 50;
     private static final long UpdateTime_TapAnimTimer = 50;
-    private static final long UpdateTime_BuyMsg = 1000;
     private static final long UpdateTime_Damage = 50;
     private static final long UpdateTime_LongPress = 1000;
-    private static final long UpdateTime_Loading = 500;
-    private static final long UpdateTime_CastTime = 1000;
+    private static final long UpdateTime_CastTime = 10;
     private static final long UpdateTime_Death = 1000;
 
     ////////////////////////////
@@ -39,9 +36,7 @@ public class RenderDesktop {
     ////////////////////////////
     private static long LastUpdateTime_InputTimer;
     private static long LastUpdateTime_TapAnim;
-    private static long LastUpdateTime_BuyMsg;
     private static long LastUpdateTime_Damage;
-    private static long LastUpdateTime_LongPress;
     private static long LastUpdateTime_Loading;
     private static long LastUpdateTime_CastTime;
     private static long LastUpdateTime_Death;
@@ -151,57 +146,72 @@ public class RenderDesktop {
 
             batcher.draw(spriteTex, 125, 290);
 
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, Variables.MyAccount.chars[1].getName());
             float width = layout.width;// contains the width of the current set text
             drawText(Variables.MyAccount.chars[1].getName(), 139 - (width / 2), 335, Color.WHITE);
             if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_WARRIOR) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Warrior");
                 width = layout.width;// contains the width of the current set text
                 drawText("Warrior", 139 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_WIZARD) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Mage");
                 width = layout.width;// contains the width of the current set text
                 drawText("Mage", 139 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_CLERIC) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Cleric");
                 width = layout.width;// contains the width of the current set text
                 drawText("Cleric", 139 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_RANGER) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Ranger");
                 width = layout.width;// contains the width of the current set text
                 drawText("Ranger", 139 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[1].getJob() == Variables.JOB_ROGUE) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Rogue");
                 width = layout.width;// contains the width of the current set text
                 drawText("Rogue", 139 - (width / 2), 355, Color.WHITE);
             }
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Lvl: " + Variables.MyAccount.chars[1].getLevel());
             width = layout.width;// contains the width of the current set text
             drawText("Lvl: " + Variables.MyAccount.chars[1].getLevel(), 139 - (width / 2), 375, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "HP: " + Variables.MyAccount.chars[1].getHP() + "/" + Variables.MyAccount.chars[1].getMaxHP());
             width = layout.width;// contains the width of the current set text
             drawText("HP: " + Variables.MyAccount.chars[1].getHP() + "/" + Variables.MyAccount.chars[1].getMaxHP(), 139 - (width / 2), 395, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MP: " + Variables.MyAccount.chars[1].getMP() + "/" + Variables.MyAccount.chars[1].getMaxMP());
             width = layout.width;// contains the width of the current set text
             drawText("MP: " + Variables.MyAccount.chars[1].getMP() + "/" + Variables.MyAccount.chars[1].getMaxMP(), 139 - (width / 2), 415, Color.WHITE);
 
             // STATS
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Variables.MyAccount.chars[1].getSTR());
             width = layout.width;// contains the width of the current set text
             drawText("STR: " + Variables.MyAccount.chars[1].getSTR(), 139 - (width / 2), 435, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Variables.MyAccount.chars[1].getDEF());
             width = layout.width;// contains the width of the current set text
             drawText("DEF: " + Variables.MyAccount.chars[1].getDEF(), 139 - (width / 2), 455, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Variables.MyAccount.chars[1].getVIT());
             width = layout.width;// contains the width of the current set text
             drawText("VIT: " + Variables.MyAccount.chars[1].getVIT(), 139 - (width / 2), 475, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Variables.MyAccount.chars[1].getAGI());
             width = layout.width;// contains the width of the current set text
             drawText("AGI: " + Variables.MyAccount.chars[1].getAGI(), 139 - (width / 2), 495, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Variables.MyAccount.chars[1].getMAG());
             width = layout.width;// contains the width of the current set text
             drawText("MAG: " + Variables.MyAccount.chars[1].getMAG(), 139 - (width / 2), 515, Color.WHITE);
         } else {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Create");
             float width = layout.width;// contains the width of the current set text
             drawText("Create", 139 - (width / 2), 405, Color.WHITE);
@@ -212,57 +222,72 @@ public class RenderDesktop {
 
             batcher.draw(spriteTex, 385, 290);
 
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, Variables.MyAccount.chars[1].getName());
             float width = layout.width;// contains the width of the current set text
             drawText(Variables.MyAccount.chars[2].getName(), 399 - (width / 2), 335, Color.WHITE);
             if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_WARRIOR) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Warrior");
                 width = layout.width;// contains the width of the current set text
                 drawText("Warrior", 399 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_WIZARD) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Mage");
                 width = layout.width;// contains the width of the current set text
                 drawText("Mage", 399 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_CLERIC) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Cleric");
                 width = layout.width;// contains the width of the current set text
                 drawText("Cleric", 399 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_RANGER) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Ranger");
                 width = layout.width;// contains the width of the current set text
                 drawText("Ranger", 399 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[2].getJob() == Variables.JOB_ROGUE) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Rogue");
                 width = layout.width;// contains the width of the current set text
                 drawText("Rogue", 399 - (width / 2), 355, Color.WHITE);
             }
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Lvl: " + Variables.MyAccount.chars[2].getLevel());
             width = layout.width;// contains the width of the current set text
             drawText("Lvl: " + Variables.MyAccount.chars[2].getLevel(), 399 - (width / 2), 375, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "HP: " + Variables.MyAccount.chars[2].getHP() + "/" + Variables.MyAccount.chars[2].getMaxHP());
             width = layout.width;// contains the width of the current set text
             drawText("HP: " + Variables.MyAccount.chars[2].getHP() + "/" + Variables.MyAccount.chars[2].getMaxHP(), 399 - (width / 2), 395, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MP: " + Variables.MyAccount.chars[2].getMP() + "/" + Variables.MyAccount.chars[2].getMaxMP());
             width = layout.width;// contains the width of the current set text
             drawText("MP: " + Variables.MyAccount.chars[2].getMP() + "/" + Variables.MyAccount.chars[2].getMaxMP(), 399 - (width / 2), 415, Color.WHITE);
 
             // STATS
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Variables.MyAccount.chars[2].getSTR());
             width = layout.width;// contains the width of the current set text
             drawText("STR: " + Variables.MyAccount.chars[2].getSTR(), 399 - (width / 2), 435, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Variables.MyAccount.chars[2].getDEF());
             width = layout.width;// contains the width of the current set text
             drawText("DEF: " + Variables.MyAccount.chars[2].getDEF(), 399 - (width / 2), 455, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Variables.MyAccount.chars[2].getVIT());
             width = layout.width;// contains the width of the current set text
             drawText("VIT: " + Variables.MyAccount.chars[2].getVIT(), 399 - (width / 2), 475, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Variables.MyAccount.chars[2].getAGI());
             width = layout.width;// contains the width of the current set text
             drawText("AGI: " + Variables.MyAccount.chars[2].getAGI(), 399 - (width / 2), 495, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Variables.MyAccount.chars[2].getMAG());
             width = layout.width;// contains the width of the current set text
             drawText("MAG: " + Variables.MyAccount.chars[2].getMAG(), 399 - (width / 2), 515, Color.WHITE);
         } else {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Create");
             float width = layout.width;// contains the width of the current set text
             drawText("Create", 399 - (width / 2), 405, Color.WHITE);
@@ -273,57 +298,72 @@ public class RenderDesktop {
 
             batcher.draw(spriteTex, 646, 290);
 
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, Variables.MyAccount.chars[3].getName());
             float width = layout.width;// contains the width of the current set text
             drawText(Variables.MyAccount.chars[3].getName(), 660 - (width / 2), 335, Color.WHITE);
             if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_WARRIOR) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Warrior");
                 width = layout.width;// contains the width of the current set text
                 drawText("Warrior", 660 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_WIZARD) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Mage");
                 width = layout.width;// contains the width of the current set text
                 drawText("Mage", 660 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_CLERIC) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Cleric");
                 width = layout.width;// contains the width of the current set text
                 drawText("Cleric", 660 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_RANGER) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Ranger");
                 width = layout.width;// contains the width of the current set text
                 drawText("Ranger", 660 - (width / 2), 355, Color.WHITE);
             } else if (Variables.MyAccount.chars[3].getJob() == Variables.JOB_ROGUE) {
+                if (AssetLoader.font.getColor() == null) { return; }
                 layout.setText(AssetLoader.font, "Rogue");
                 width = layout.width;// contains the width of the current set text
                 drawText("Rogue", 660 - (width / 2), 355, Color.WHITE);
             }
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Lvl: " + Variables.MyAccount.chars[3].getLevel());
             width = layout.width;// contains the width of the current set text
             drawText("Lvl: " + Variables.MyAccount.chars[3].getLevel(), 660 - (width / 2), 375, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "HP: " + Variables.MyAccount.chars[3].getHP() + "/" + Variables.MyAccount.chars[3].getMaxHP());
             width = layout.width;// contains the width of the current set text
             drawText("HP: " + Variables.MyAccount.chars[3].getHP() + "/" + Variables.MyAccount.chars[3].getMaxHP(), 660 - (width / 2), 395, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MP: " + Variables.MyAccount.chars[3].getMP() + "/" + Variables.MyAccount.chars[3].getMaxMP());
             width = layout.width;// contains the width of the current set text
             drawText("MP: " + Variables.MyAccount.chars[3].getMP() + "/" + Variables.MyAccount.chars[3].getMaxMP(), 660 - (width / 2), 415, Color.WHITE);
 
             // STATS
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Variables.MyAccount.chars[3].getSTR());
             width = layout.width;// contains the width of the current set text
             drawText("STR: " + Variables.MyAccount.chars[3].getSTR(), 660 - (width / 2), 435, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Variables.MyAccount.chars[3].getDEF());
             width = layout.width;// contains the width of the current set text
             drawText("DEF: " + Variables.MyAccount.chars[3].getDEF(), 660 - (width / 2), 455, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Variables.MyAccount.chars[3].getVIT());
             width = layout.width;// contains the width of the current set text
             drawText("VIT: " + Variables.MyAccount.chars[3].getVIT(), 660 - (width / 2), 475, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Variables.MyAccount.chars[3].getAGI());
             width = layout.width;// contains the width of the current set text
             drawText("AGI: " + Variables.MyAccount.chars[3].getAGI(), 660 - (width / 2), 495, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Variables.MyAccount.chars[3].getMAG());
             width = layout.width;// contains the width of the current set text
             drawText("MAG: " + Variables.MyAccount.chars[3].getMAG(), 660 - (width / 2), 515, Color.WHITE);
         } else {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Create");
             float width = layout.width;// contains the width of the current set text
             drawText("Create", 660 - (width / 2), 405, Color.WHITE);
@@ -348,6 +388,7 @@ public class RenderDesktop {
 
         if (Variables.TempJob == Variables.JOB_WARRIOR) {
             batcher.draw(AssetLoader.warriorEmb, 155, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Warrior");
             float width = layout.width;
 
@@ -359,26 +400,33 @@ public class RenderDesktop {
             batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "HP: " + (Jobs.Warrior.getVIT() * 2) * (Jobs.Warrior.getSTR() / 2));
             width = layout.width;
             drawText("HP: " + (Jobs.Warrior.getVIT() * 2) * (Jobs.Warrior.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MP: " + (Jobs.Warrior.getMAG() * 2) * (Jobs.Warrior.getDEF() / 2));
             width = layout.width;
             drawText("MP: " + (Jobs.Warrior.getMAG() * 2) * (Jobs.Warrior.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Jobs.Warrior.getSTR());
             width = layout.width;
             drawText("STR: " + Jobs.Warrior.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Jobs.Warrior.getDEF());
             width = layout.width;
             drawText("DEF: " + Jobs.Warrior.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Jobs.Warrior.getVIT());
             width = layout.width;
             drawText("VIT: " + Jobs.Warrior.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Jobs.Warrior.getAGI());
             width = layout.width;
             drawText("AGI: " + Jobs.Warrior.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Jobs.Warrior.getMAG());
             width = layout.width;
             drawText("MAG: " + Jobs.Warrior.getMAG(), 300 - (width / 2), 565, Color.WHITE);
@@ -387,6 +435,7 @@ public class RenderDesktop {
         }
         if (Variables.TempJob == Variables.JOB_WIZARD) {
             batcher.draw(AssetLoader.wizardEmb, 255, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Wizard");
             float width = layout.width;
 
@@ -398,26 +447,33 @@ public class RenderDesktop {
             batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "HP: " + (Jobs.Wizard.getVIT() * 2) * (Jobs.Wizard.getSTR() / 2));
             width = layout.width;
             drawText("HP: " + (Jobs.Wizard.getVIT() * 2) * (Jobs.Wizard.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MP: " + (Jobs.Wizard.getMAG() * 2) * (Jobs.Wizard.getDEF() / 2));
             width = layout.width;
             drawText("MP: " + (Jobs.Wizard.getMAG() * 2) * (Jobs.Wizard.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Jobs.Wizard.getSTR());
             width = layout.width;
             drawText("STR: " + Jobs.Wizard.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Jobs.Wizard.getDEF());
             width = layout.width;
             drawText("DEF: " + Jobs.Wizard.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Jobs.Wizard.getVIT());
             width = layout.width;
             drawText("VIT: " + Jobs.Wizard.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Jobs.Wizard.getAGI());
             width = layout.width;
             drawText("AGI: " + Jobs.Wizard.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Jobs.Wizard.getMAG());
             width = layout.width;
             drawText("MAG: " + Jobs.Wizard.getMAG(), 300 - (width / 2), 565, Color.WHITE);
@@ -426,6 +482,7 @@ public class RenderDesktop {
         }
         if (Variables.TempJob == Variables.JOB_CLERIC) {
             batcher.draw(AssetLoader.clericEmb, 355, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Cleric");
             float width = layout.width;
 
@@ -437,26 +494,33 @@ public class RenderDesktop {
             batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "HP: " + (Jobs.Cleric.getVIT() * 2) * (Jobs.Cleric.getSTR() / 2));
             width = layout.width;
             drawText("HP: " + (Jobs.Cleric.getVIT() * 2) * (Jobs.Cleric.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MP: " + (Jobs.Cleric.getMAG() * 2) * (Jobs.Cleric.getDEF() / 2));
             width = layout.width;
             drawText("MP: " + (Jobs.Cleric.getMAG() * 2) * (Jobs.Cleric.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Jobs.Cleric.getSTR());
             width = layout.width;
             drawText("STR: " + Jobs.Cleric.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Jobs.Cleric.getDEF());
             width = layout.width;
             drawText("DEF: " + Jobs.Cleric.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Jobs.Cleric.getVIT());
             width = layout.width;
             drawText("VIT: " + Jobs.Cleric.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Jobs.Cleric.getAGI());
             width = layout.width;
             drawText("AGI: " + Jobs.Cleric.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Jobs.Cleric.getMAG());
             width = layout.width;
             drawText("MAG: " + Jobs.Cleric.getMAG(), 300 - (width / 2), 565, Color.WHITE);
@@ -465,6 +529,7 @@ public class RenderDesktop {
         }
         if (Variables.TempJob == Variables.JOB_RANGER) {
             batcher.draw(AssetLoader.wizardEmb, 455, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Ranger");
             float width = layout.width;
 
@@ -476,26 +541,33 @@ public class RenderDesktop {
             batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "HP: " + (Jobs.Ranger.getVIT() * 2) * (Jobs.Ranger.getSTR() / 2));
             width = layout.width;
             drawText("HP: " + (Jobs.Ranger.getVIT() * 2) * (Jobs.Ranger.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MP: " + (Jobs.Ranger.getMAG() * 2) * (Jobs.Ranger.getDEF() / 2));
             width = layout.width;
             drawText("MP: " + (Jobs.Ranger.getMAG() * 2) * (Jobs.Ranger.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Jobs.Ranger.getSTR());
             width = layout.width;
             drawText("STR: " + Jobs.Ranger.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Jobs.Ranger.getDEF());
             width = layout.width;
             drawText("DEF: " + Jobs.Ranger.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Jobs.Ranger.getVIT());
             width = layout.width;
             drawText("VIT: " + Jobs.Ranger.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Jobs.Ranger.getAGI());
             width = layout.width;
             drawText("AGI: " + Jobs.Ranger.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Jobs.Ranger.getMAG());
             width = layout.width;
             drawText("MAG: " + Jobs.Ranger.getMAG(), 300 - (width / 2), 565, Color.WHITE);
@@ -504,6 +576,7 @@ public class RenderDesktop {
         }
         if (Variables.TempJob == Variables.JOB_ROGUE) {
             batcher.draw(AssetLoader.rogueEmb, 555, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Rogue");
             float width = layout.width;
 
@@ -515,26 +588,33 @@ public class RenderDesktop {
             batcher.draw(spriteTex, 500 - 16, 490);
 
             // HP-MP
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "HP: " + (Jobs.Rogue.getVIT() * 2) * (Jobs.Rogue.getSTR() / 2));
             width = layout.width;
             drawText("HP: " + (Jobs.Rogue.getVIT() * 2) * (Jobs.Rogue.getSTR() / 2), 300 - (width / 2), 445, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MP: " + (Jobs.Rogue.getMAG() * 2) * (Jobs.Rogue.getDEF() / 2));
             width = layout.width;
             drawText("MP: " + (Jobs.Rogue.getMAG() * 2) * (Jobs.Rogue.getDEF() / 2), 300 - (width / 2), 465, Color.WHITE);
 
             // STATS
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Jobs.Rogue.getSTR());
             width = layout.width;
             drawText("STR: " + Jobs.Rogue.getSTR(), 300 - (width / 2), 485, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Jobs.Rogue.getDEF());
             width = layout.width;
             drawText("DEF: " + Jobs.Rogue.getDEF(), 300 - (width / 2), 505, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Jobs.Rogue.getVIT());
             width = layout.width;
             drawText("VIT: " + Jobs.Rogue.getVIT(), 300 - (width / 2), 525, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Jobs.Rogue.getAGI());
             width = layout.width;
             drawText("AGI: " + Jobs.Rogue.getAGI(), 300 - (width / 2), 545, Color.WHITE);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Jobs.Rogue.getMAG());
             width = layout.width;
             drawText("MAG: " + Jobs.Rogue.getMAG(), 300 - (width / 2), 565, Color.WHITE);
@@ -582,7 +662,6 @@ public class RenderDesktop {
 
         // Timers
         buyMsgTimer(tickCount);
-        longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
         // Check if it's null and fix that shit - Side note: Why this shit null anyway?
@@ -599,7 +678,7 @@ public class RenderDesktop {
                                 if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()] != null) {
                                     if (Variables.Players[Variables.MyIndex].spells[a].getSpellNum() > 0) {
                                         if (Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() < Variables.Players[Variables.MyIndex].spells[a].getCastTime()) {
-                                            Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() + 1);
+                                            Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() + UpdateTime_CastTime);
                                         } else {
                                             if (Variables.Players[Variables.MyIndex].spells[a].getCastTime() > 0) {
                                                 Variables.Players[Variables.MyIndex].spells[a].setCoolDown(Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()].CoolDown);
@@ -609,7 +688,7 @@ public class RenderDesktop {
                                             Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(0);
                                         }
                                         if (Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() < Variables.Players[Variables.MyIndex].spells[a].getCoolDown()) {
-                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() + 1);
+                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() + UpdateTime_CastTime);
                                         } else {
                                             Variables.Players[Variables.MyIndex].spells[a].setCoolDown(0);
                                             Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(0);
@@ -960,6 +1039,7 @@ public class RenderDesktop {
     public static void drawShop() {
         batcher.draw(AssetLoader.menuBG, 8, 8, 448, 448, 0, 0, 448, 448, false, true);
 
+        if (AssetLoader.font.getColor() == null) { return; }
         layout.setText(AssetLoader.font, Variables.Shop.Name);
         float width = layout.width;// contains the width of the current set text
 
@@ -967,6 +1047,7 @@ public class RenderDesktop {
         float nameY = 24 - 8;
         drawText(Variables.Shop.Name, nameX, nameY, Color.WHITE);
 
+        if (AssetLoader.nameFont.getColor() == null) { return; }
         layout.setText(AssetLoader.nameFont, Variables.Shop.welcomeMsg);
         width = layout.width;// contains the width of the current set text
 
@@ -1003,6 +1084,7 @@ public class RenderDesktop {
         }
 
         if (Variables.selectedShopSlot > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Name);
             width = layout.width;// contains the width of the current set text
 
@@ -1020,6 +1102,7 @@ public class RenderDesktop {
             drawText("AGI: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].AGI, 284, 304, Color.WHITE);
             drawText("MAG: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].MAG, 364, 304, Color.WHITE);
 
+            if (AssetLoader.nameFont.getColor() == null) { return; }
             layout.setText(AssetLoader.nameFont, "Cost: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost + " Gold");
             width = layout.width;// contains the width of the current set text
 
@@ -1029,6 +1112,7 @@ public class RenderDesktop {
         }
 
         if (Variables.BoughtMsgTimer > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Purchase successful!");
             width = layout.width;// contains the width of the current set text
 
@@ -1037,6 +1121,7 @@ public class RenderDesktop {
             drawText("Purchase successful!", nameX, nameY, Color.YELLOW);
         }
         if (Variables.NotEnoughGoldMsgTimer > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "You don't have enough gold.");
             width = layout.width;// contains the width of the current set text
 
@@ -1153,6 +1238,7 @@ public class RenderDesktop {
                     if (Variables.selectedInvSlot > 0) {
                         int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum();
                         if (itemNum > 0) {
+                            if (AssetLoader.font.getColor() == null) { return; }
                             layout.setText(AssetLoader.font, Variables.Items[itemNum].Name);
                             float width = layout.width;// contains the width of the current set text
 
@@ -1160,6 +1246,7 @@ public class RenderDesktop {
                             float nameY = 325;
                             drawText(Variables.Items[itemNum].Name, nameX, nameY, Color.WHITE);
 
+                            if (AssetLoader.nameFont.getColor() == null) { return; }
                             layout.setText(AssetLoader.nameFont, "Lvl: " + Variables.Items[itemNum].LVL + "     HP: " + Variables.Items[itemNum].HP + "     MP: " + Variables.Items[itemNum].MP);
                             width = layout.width;// contains the width of the current set text
 
@@ -1167,6 +1254,7 @@ public class RenderDesktop {
                             nameY = 350;
                             drawName("Lvl: " + Variables.Items[itemNum].LVL + "     HP: " + Variables.Items[itemNum].HP + "     MP: " + Variables.Items[itemNum].MP, nameX, nameY, Color.WHITE);
 
+                            if (AssetLoader.nameFont.getColor() == null) { return; }
                             layout.setText(AssetLoader.nameFont, "STR: " + Variables.Items[itemNum].STR + "     DEF: " + Variables.Items[itemNum].DEF + "     VIT: " + Variables.Items[itemNum].VIT + "     AGI: " + Variables.Items[itemNum].AGI + "     MAG: " + Variables.Items[itemNum].MAG);
                             width = layout.width;// contains the width of the current set text
 
@@ -1175,6 +1263,7 @@ public class RenderDesktop {
                             drawName("STR: " + Variables.Items[itemNum].STR + "     DEF: " + Variables.Items[itemNum].DEF + "     VIT: " + Variables.Items[itemNum].VIT + "     AGI: " + Variables.Items[itemNum].AGI + "     MAG: " + Variables.Items[itemNum].MAG, nameX, nameY, Color.WHITE);
 
                             if (Variables.Items[itemNum].isStackable == 1) {
+                                if (AssetLoader.nameFont.getColor() == null) { return; }
                                 layout.setText(AssetLoader.nameFont, "Amount: " + Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal());
                                 width = layout.width;// contains the width of the current set text
 
@@ -1279,6 +1368,7 @@ public class RenderDesktop {
                     if (Variables.selectedSpellSlot > 0) {
                         int spellNum = Variables.Players[Variables.MyIndex].spells[Variables.selectedSpellSlot].getSpellNum();
                         if (spellNum > 0) {
+                            if (AssetLoader.font.getColor() == null) { return; }
                             layout.setText(AssetLoader.font, Variables.Spells[spellNum].Name);
                             float width = layout.width;// contains the width of the current set text
 
@@ -1286,6 +1376,7 @@ public class RenderDesktop {
                             float nameY = 325;
                             drawText(Variables.Spells[spellNum].Name, nameX, nameY, Color.WHITE);
 
+                            if (AssetLoader.nameFont.getColor() == null) { return; }
                             layout.setText(AssetLoader.nameFont, "Lvl: " + Variables.Spells[spellNum].LevelReq);
                             width = layout.width;// contains the width of the current set text
 
@@ -1293,6 +1384,7 @@ public class RenderDesktop {
                             nameY = 350;
                             drawName("Lvl: " + Variables.Spells[spellNum].LevelReq, nameX, nameY, Color.WHITE);
 
+                            if (AssetLoader.nameFont.getColor() == null) { return; }
                             layout.setText(AssetLoader.nameFont, "Strength: " + Variables.Spells[spellNum].DmgHealAmt + "     Cost: " + Variables.Spells[spellNum].MPCost);
                             width = layout.width;// contains the width of the current set text
 
@@ -1315,6 +1407,7 @@ public class RenderDesktop {
         batcher.draw(AssetLoader.menuBG, 8, 8, 448, 448, 0, 0, 448, 448, false, true);
 
         if (Variables.Players[Variables.MyIndex].getName() != null && !Variables.Players[Variables.MyIndex].getName().isEmpty()) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, Variables.Players[Variables.MyIndex].getName());
         }
         float width = layout.width;// contains the width of the current set text
@@ -1396,6 +1489,7 @@ public class RenderDesktop {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pSTR > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Variables.Players[Variables.MyIndex].getSTR());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pSTR + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1412,6 +1506,7 @@ public class RenderDesktop {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pDEF > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Variables.Players[Variables.MyIndex].getDEF());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pDEF + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1428,6 +1523,7 @@ public class RenderDesktop {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pVIT > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Variables.Players[Variables.MyIndex].getVIT());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pVIT + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1444,6 +1540,7 @@ public class RenderDesktop {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pAGI > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Variables.Players[Variables.MyIndex].getAGI());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pAGI + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1460,6 +1557,7 @@ public class RenderDesktop {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pMAG > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Variables.Players[Variables.MyIndex].getMAG());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pMAG + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1839,7 +1937,7 @@ public class RenderDesktop {
                     batcher.setColor(Color.RED);
                     batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum].Icon], 548, 214, 32, 32, 0, 0, 56, 56, false, true);
                     batcher.setColor(Color.WHITE);
-                    long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                    long timer = ((Variables.Players[Variables.MyIndex].spells[i].getCoolDown() / 1000) - (Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer() / 1000));
                     drawName(timer + "", 550, 236, Color.WHITE);
                 }
             } else {
@@ -1858,7 +1956,7 @@ public class RenderDesktop {
                     batcher.setColor(Color.RED);
                     batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum].Icon], 677, 214, 32, 32, 0, 0, 56, 56, false, true);
                     batcher.setColor(Color.WHITE);
-                    long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                    long timer = ((Variables.Players[Variables.MyIndex].spells[i].getCoolDown() / 1000) - (Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer() / 1000));
                     drawName(timer + "", 679, 236, Color.WHITE);
                 }
             } else {
@@ -2041,11 +2139,14 @@ public class RenderDesktop {
                 if (Variables.MapNPCs[i].getName() == null) { break; }
                 if (Variables.Players[Variables.MyIndex].getTarget() == i) {
                     if (Variables.Players[Variables.MyIndex].getTargetType() == Variables.SEARCH_TYPE_NPC) {
+                        if (AssetLoader.nameFont.getColor() == null) { return; }
                         layout.setText(AssetLoader.nameFont, ">" + Variables.MapNPCs[i].getName() + "<");
                     } else {
+                        if (AssetLoader.nameFont.getColor() == null) { return; }
                         layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
                     }
                 } else {
+                    if (AssetLoader.nameFont.getColor() == null) { return; }
                     layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
                 }
                 float width = layout.width;// contains the width of the current set text
@@ -2085,6 +2186,7 @@ public class RenderDesktop {
                     float PlayerY = ((Variables.Players[i].getY() * Variables.MoveSize) + Variables.Players[i].getOffsetY());
 
                     if (Variables.Players[i].getName() == null) { return; }
+                    if (AssetLoader.nameFont.getColor() == null) { return; }
                     layout.setText(AssetLoader.nameFont, Variables.Players[i].getName());
                     float width = layout.width;// contains the width of the current set text
 
@@ -2101,6 +2203,7 @@ public class RenderDesktop {
                     }
 
                     if (Variables.Players[i].getDeathTimer() > 0) {
+                        if (AssetLoader.nameFont.getColor() == null) { return; }
                         layout.setText(AssetLoader.nameFont, Variables.Players[i].getDeathTimer() + "");
                         width = layout.width;// contains the width of the current set text
                         nameX = PlayerX - ((int)width / 2) + 24;
@@ -2145,6 +2248,7 @@ public class RenderDesktop {
                                             GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 8, PlayerY + 40, (int) maxWidth, 4);
 
                                             if (Variables.MyParty.members[a] == Variables.MyParty.leader) {
+                                                if (AssetLoader.nameFont.getColor() == null) { return; }
                                                 layout.setText(AssetLoader.nameFont, Variables.Players[Variables.MyParty.leader].getName());
                                                 width = layout.width;// contains the width of the current set text
                                                 PlayerX = ((Variables.Players[Variables.MyParty.leader].getX() * Variables.MoveSize) + Variables.Players[Variables.MyParty.leader].getOffsetX());
@@ -2416,30 +2520,22 @@ public class RenderDesktop {
 
     public static void buyMsgTimer(long tickCount) {
         // Buy Msg Timer //
-        if (LastUpdateTime_BuyMsg < tickCount) {
-            if (Variables.BoughtMsgTimer > 0) {
-                Variables.BoughtMsgTimer--;
-            }
-            if (Variables.NotEnoughGoldMsgTimer > 0) {
-                Variables.NotEnoughGoldMsgTimer--;
-            }
-            LastUpdateTime_BuyMsg = tickCount + UpdateTime_BuyMsg;
-        }
-    }
-    public static void longPressTimer(long tickCount) {
-        if (LastUpdateTime_LongPress < tickCount) {
-            if (Variables.touchDown) {
-                if (Variables.longPressTimer < 1) {
-                    Variables.longPressTimer++;
-                    if (Variables.longPressTimer == 1) {
-                        // Long Press
-                        //SendClientData.SendDropItem(Variables.selectedInvSlot);
-                        Variables.longPressTimer = 0;
-                        Variables.touchDown = false;
+        if (Variables.LastUpdateTime_BuyMsg > 0) {
+            if (Variables.LastUpdateTime_BuyMsg < tickCount) {
+                if (Variables.BoughtMsgTimer > 0) {
+                    Variables.BoughtMsgTimer--;
+                    if (Variables.BoughtMsgTimer <= 0) {
+                        Variables.LastUpdateTime_BuyMsg = 0;
                     }
                 }
+                if (Variables.NotEnoughGoldMsgTimer > 0) {
+                    Variables.NotEnoughGoldMsgTimer--;
+                    if (Variables.NotEnoughGoldMsgTimer <= 0) {
+                        Variables.LastUpdateTime_BuyMsg = 0;
+                    }
+                }
+                Variables.LastUpdateTime_BuyMsg = tickCount + Variables.UpdateTime_BuyMsg;
             }
-            LastUpdateTime_LongPress = tickCount + UpdateTime_LongPress;
         }
     }
     public static void drawDmgTimer(long tickCount) {

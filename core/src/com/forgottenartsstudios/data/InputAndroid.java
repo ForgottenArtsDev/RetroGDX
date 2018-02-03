@@ -15,7 +15,7 @@ public class InputAndroid {
     public static void inputTileScreen() {
         Variables.Game_State = Variables.Game_State_Loading;
     }
-    public static void inputLogin(int screenX, int screenY) {
+    public static void inputLogin(float screenX, float screenY) {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
 
         // ID TEXT FIELD
@@ -31,7 +31,7 @@ public class InputAndroid {
                     @Override
                     public void canceled() {
                     }
-                }, "ID:", "", "");
+                }, "ID:", Variables.Login_ID, "");
             }
         }
         // PW TEXT FIELD
@@ -47,7 +47,7 @@ public class InputAndroid {
                     @Override
                     public void canceled() {
                     }
-                }, "PW:", "", "");
+                }, "PW:", Variables.Login_PW, "");
             }
         }
         // SAVE LOGIN
@@ -105,7 +105,7 @@ public class InputAndroid {
             }
         }
     }
-    public static void inputCharSelect(int screenX, int screenY) {
+    public static void inputCharSelect(float screenX, float screenY) {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
         // Char 1
         if (worldCoordinates.x >= 8 && worldCoordinates.x <= 471) {
@@ -150,7 +150,7 @@ public class InputAndroid {
             }
         }
     }
-    public static void inputCharCreate(int screenX, int screenY) {
+    public static void inputCharCreate(float screenX, float screenY) {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
         // NAME
         if (worldCoordinates.x >= 154 && worldCoordinates.x <= 445) {
@@ -252,7 +252,7 @@ public class InputAndroid {
             }
         }
     }
-    public static void inputInGame(int screenX, int screenY) {
+    public static void inputInGame(float screenX, float screenY) {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
         Variables.CurX = (int)worldCoordinates.x / Variables.MoveSize;
         Variables.CurY = (int)worldCoordinates.y / Variables.MoveSize;
@@ -934,13 +934,15 @@ public class InputAndroid {
                                     }
                                 } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.inputTimer == 0) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        } else {
-                                            if (!Variables.touchDown) {
-                                                Variables.touchDown = true;
-                                                SendClientData.SendUseItem();
+                                        if (Variables.tapCount == 1) {
+                                            if (Variables.selectedInvSlot != i) {
+                                                Variables.selectedInvSlot = i;
                                             }
+                                            Variables.tapCount = 0;
+                                        }
+                                        if (Variables.tapCount == 2) {
+                                            SendClientData.SendUseItem();
+                                            Variables.tapCount = 0;
                                         }
                                     }
                                     Variables.inputTimer = 1;
@@ -973,14 +975,19 @@ public class InputAndroid {
                                         }
                                     }
                                 } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                    if (Variables.selectedInvSlot != i) {
-                                        Variables.selectedInvSlot = i;
-                                    } else {
-                                        if (!Variables.touchDown) {
-                                            Variables.touchDown = true;
+                                    if (Variables.inputTimer == 0) {
+                                        if (Variables.tapCount == 1) {
+                                            if (Variables.selectedInvSlot != i) {
+                                                Variables.selectedInvSlot = i;
+                                            }
+                                            Variables.tapCount = 0;
+                                        }
+                                        if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
+                                            Variables.tapCount = 0;
                                         }
                                     }
+                                    Variables.inputTimer = 1;
                                 }
                             }
                         }
@@ -1010,14 +1017,19 @@ public class InputAndroid {
                                         }
                                     }
                                 } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                    if (Variables.selectedInvSlot != i) {
-                                        Variables.selectedInvSlot = i;
-                                    } else {
-                                        if (!Variables.touchDown) {
-                                            Variables.touchDown = true;
+                                    if (Variables.inputTimer == 0) {
+                                        if (Variables.tapCount == 1) {
+                                            if (Variables.selectedInvSlot != i) {
+                                                Variables.selectedInvSlot = i;
+                                            }
+                                            Variables.tapCount = 0;
+                                        }
+                                        if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
+                                            Variables.tapCount = 0;
                                         }
                                     }
+                                    Variables.inputTimer = 1;
                                 }
                             }
                         }
@@ -1047,14 +1059,19 @@ public class InputAndroid {
                                         }
                                     }
                                 } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                    if (Variables.selectedInvSlot != i) {
-                                        Variables.selectedInvSlot = i;
-                                    } else {
-                                        if (!Variables.touchDown) {
-                                            Variables.touchDown = true;
+                                    if (Variables.inputTimer == 0) {
+                                        if (Variables.tapCount == 1) {
+                                            if (Variables.selectedInvSlot != i) {
+                                                Variables.selectedInvSlot = i;
+                                            }
+                                            Variables.tapCount = 0;
+                                        }
+                                        if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
+                                            Variables.tapCount = 0;
                                         }
                                     }
+                                    Variables.inputTimer = 1;
                                 }
                             }
                         }
@@ -1084,14 +1101,19 @@ public class InputAndroid {
                                         }
                                     }
                                 } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                    if (Variables.selectedInvSlot != i) {
-                                        Variables.selectedInvSlot = i;
-                                    } else {
-                                        if (!Variables.touchDown) {
-                                            Variables.touchDown = true;
+                                    if (Variables.inputTimer == 0) {
+                                        if (Variables.tapCount == 1) {
+                                            if (Variables.selectedInvSlot != i) {
+                                                Variables.selectedInvSlot = i;
+                                            }
+                                            Variables.tapCount = 0;
+                                        }
+                                        if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
+                                            Variables.tapCount = 0;
                                         }
                                     }
+                                    Variables.inputTimer = 1;
                                 }
                             }
                         }
@@ -1119,14 +1141,19 @@ public class InputAndroid {
                                         }
                                     }
                                 } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                                    if (Variables.selectedInvSlot != i) {
-                                        Variables.selectedInvSlot = i;
-                                    } else {
-                                        if (!Variables.touchDown) {
-                                            Variables.touchDown = true;
+                                    if (Variables.inputTimer == 0) {
+                                        if (Variables.tapCount == 1) {
+                                            if (Variables.selectedInvSlot != i) {
+                                                Variables.selectedInvSlot = i;
+                                            }
+                                            Variables.tapCount = 0;
+                                        }
+                                        if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
+                                            Variables.tapCount = 0;
                                         }
                                     }
+                                    Variables.inputTimer = 1;
                                 }
                             }
                         }

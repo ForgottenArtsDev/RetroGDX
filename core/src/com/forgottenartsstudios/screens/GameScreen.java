@@ -1,10 +1,14 @@
 package com.forgottenartsstudios.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.input.GestureDetector;
 import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.gameworld.GameWorld;
-import com.forgottenartsstudios.helpers.InputHandler;
+import com.forgottenartsstudios.helpers.AndroidInputHandler;
+import com.forgottenartsstudios.helpers.DesktopInputHandler;
 import com.forgottenartsstudios.helpers.Variables;
 
 /**
@@ -35,7 +39,18 @@ public class GameScreen implements Screen {
         world = new GameWorld(midPointY);
         renderer = new GameRenderer(world, (int) gameHeight, midPointY);
 
-        Gdx.input.setInputProcessor(new InputHandler(world));
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            InputMultiplexer im = new InputMultiplexer();
+            GestureDetector gd = new GestureDetector(new AndroidInputHandler(world));
+            InputProcessor ip = new AndroidInputHandler(world);
+            im.addProcessor(gd);
+            im.addProcessor(ip);
+            Gdx.input.setInputProcessor(im);
+        } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+            Gdx.input.setInputProcessor(new DesktopInputHandler(world));
+        }
+
+        //Gdx.input.setInputProcessor(new InputHandler(world));
     }
     @Override
     public void show() {
@@ -47,7 +62,6 @@ public class GameScreen implements Screen {
         runTime += delta;
         world.update(delta);
         renderer.render(runTime);
-
     }
 
     @Override

@@ -241,6 +241,7 @@ public class editorRenderer {
 
     public static GlyphLayout layout = new GlyphLayout();
     public static void drawText(String text, float X, float Y, Color color) {
+        if (editorAssetLoader.font.getColor() == null) { return; }
         layout.setText(editorAssetLoader.font, text);
         float width = layout.width;// contains the width of the current set text
 

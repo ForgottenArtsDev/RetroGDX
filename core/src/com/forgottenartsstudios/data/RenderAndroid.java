@@ -26,22 +26,17 @@ public class RenderAndroid {
     ////////////////////
     private static final long UpdateTime_InputTimer = 50;
     private static final long UpdateTime_TapAnimTimer = 50;
-    private static final long UpdateTime_BuyMsg = 1000;
     private static final long UpdateTime_Damage = 50;
     private static final long UpdateTime_LongPress = 1000;
-    private static final long UpdateTime_Loading = 500;
-    private static final long UpdateTime_CastTime = 1000;
+    private static final long UpdateTime_CastTime = 10;
     private static final long UpdateTime_Death = 1000;
 
     ////////////////////////////
     // Update Routines Checks //
     ////////////////////////////
     private static long LastUpdateTime_InputTimer;
-    private static long LastUpdateTime_TouchDown;
     private static long LastUpdateTime_TapAnim;
-    private static long LastUpdateTime_BuyMsg;
     private static long LastUpdateTime_Damage;
-    private static long LastUpdateTime_LongPress;
     private static long LastUpdateTime_Loading;
     private static long LastUpdateTime_CastTime;
     private static long LastUpdateTime_Death;
@@ -245,6 +240,7 @@ public class RenderAndroid {
 
         if (Variables.TempJob == Variables.JOB_WARRIOR) {
             batcher.draw(AssetLoader.warriorEmb, 11, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Warrior");
             float width = layout.width;
 
@@ -270,6 +266,7 @@ public class RenderAndroid {
         }
         if (Variables.TempJob == Variables.JOB_WIZARD) {
             batcher.draw(AssetLoader.wizardEmb, 103, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Mage");
             float width = layout.width;
 
@@ -295,6 +292,7 @@ public class RenderAndroid {
         }
         if (Variables.TempJob == Variables.JOB_CLERIC) {
             batcher.draw(AssetLoader.clericEmb, 195, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Cleric");
             float width = layout.width;
 
@@ -320,6 +318,7 @@ public class RenderAndroid {
         }
         if (Variables.TempJob == Variables.JOB_RANGER) {
             batcher.draw(AssetLoader.rangerEmb, 287, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Ranger");
             float width = layout.width;
 
@@ -345,6 +344,7 @@ public class RenderAndroid {
         }
         if (Variables.TempJob == Variables.JOB_ROGUE) {
             batcher.draw(AssetLoader.rogueEmb, 379, 327, 90, 90, 0, 0, 90, 90, false, true);
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Job: Rogue");
             float width = layout.width;
 
@@ -410,7 +410,6 @@ public class RenderAndroid {
 
         // Timers
         buyMsgTimer(tickCount);
-        longPressTimer(tickCount);
         drawDmgTimer(tickCount);
 
         if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
@@ -430,7 +429,7 @@ public class RenderAndroid {
                                 if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()] != null) {
                                     if (Variables.Players[Variables.MyIndex].spells[a].getSpellNum() > 0) {
                                         if (Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() < Variables.Players[Variables.MyIndex].spells[a].getCastTime()) {
-                                            Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() + 1);
+                                            Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() + UpdateTime_CastTime);
                                         } else {
                                             if (Variables.Players[Variables.MyIndex].spells[a].getCastTime() > 0) {
                                                 Variables.Players[Variables.MyIndex].spells[a].setCoolDown(Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()].CoolDown);
@@ -440,7 +439,7 @@ public class RenderAndroid {
                                             Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(0);
                                         }
                                         if (Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() < Variables.Players[Variables.MyIndex].spells[a].getCoolDown()) {
-                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() + 1);
+                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() + UpdateTime_CastTime);
                                         } else {
                                             Variables.Players[Variables.MyIndex].spells[a].setCoolDown(0);
                                             Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(0);
@@ -479,6 +478,9 @@ public class RenderAndroid {
                         Variables.Players[i].setTempSprite(0);
                     }
                 }
+            }
+            if (Variables.inputTimer > 0) {
+                Variables.inputTimer--;
             }
             LastUpdateTime_Death = tickCount + UpdateTime_Death;
         }
@@ -824,6 +826,7 @@ public class RenderAndroid {
     public static void drawShop() {
         batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
 
+        if (AssetLoader.font.getColor() == null) { return; }
         layout.setText(AssetLoader.font, Variables.Shop.Name);
         float width = layout.width;// contains the width of the current set text
 
@@ -831,6 +834,7 @@ public class RenderAndroid {
         float nameY = 32 - 8;
         drawText(Variables.Shop.Name, nameX, nameY, Color.WHITE);
 
+        if (AssetLoader.nameFont.getColor() == null) { return; }
         layout.setText(AssetLoader.nameFont, Variables.Shop.welcomeMsg);
         width = layout.width;// contains the width of the current set text
 
@@ -867,6 +871,7 @@ public class RenderAndroid {
         }
 
         if (Variables.selectedShopSlot > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Name);
             width = layout.width;// contains the width of the current set text
 
@@ -884,6 +889,7 @@ public class RenderAndroid {
             drawText("AGI: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].AGI, 292, 312, Color.WHITE);
             drawText("MAG: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].MAG, 372, 312, Color.WHITE);
 
+            if (AssetLoader.nameFont.getColor() == null) { return; }
             layout.setText(AssetLoader.nameFont, "Cost: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost + " Gold");
             width = layout.width;// contains the width of the current set text
 
@@ -893,6 +899,7 @@ public class RenderAndroid {
         }
 
         if (Variables.BoughtMsgTimer > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "Purchase successful!");
             width = layout.width;// contains the width of the current set text
 
@@ -901,6 +908,7 @@ public class RenderAndroid {
             drawText("Purchase successful!", nameX, nameY, Color.YELLOW);
         }
         if (Variables.NotEnoughGoldMsgTimer > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "You don't have enough gold.");
             width = layout.width;// contains the width of the current set text
 
@@ -931,6 +939,7 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
+                        if (Variables.Players[Variables.MyIndex].inventory[i] == null) { return; }
                         if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
@@ -946,6 +955,7 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
+                        if (Variables.Players[Variables.MyIndex].inventory[i] == null) { return; }
                         if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
@@ -961,6 +971,7 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
+                        if (Variables.Players[Variables.MyIndex].inventory[i] == null) { return; }
                         if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
@@ -976,6 +987,7 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
+                        if (Variables.Players[Variables.MyIndex].inventory[i] == null) { return; }
                         if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
@@ -991,6 +1003,7 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
+                        if (Variables.Players[Variables.MyIndex].inventory[i] == null) { return; }
                         if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
@@ -1004,6 +1017,7 @@ public class RenderAndroid {
                         } else {
                             batcher.draw(AssetLoader.eqBG, x, y, 36, 36);
                         }
+                        if (Variables.Players[Variables.MyIndex].inventory[i] == null) { return; }
                         if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                             batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], x + 5, y + 5, 24, 24, 0, 0, 24, 24, false, true);
                         }
@@ -1017,6 +1031,7 @@ public class RenderAndroid {
                     if (Variables.selectedInvSlot > 0) {
                         int itemNum = Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum();
                         if (itemNum > 0) {
+                            if (AssetLoader.font.getColor() == null) { return; }
                             layout.setText(AssetLoader.font, Variables.Items[itemNum].Name);
                             float width = layout.width;// contains the width of the current set text
 
@@ -1024,6 +1039,7 @@ public class RenderAndroid {
                             float nameY = 325;
                             drawText(Variables.Items[itemNum].Name, nameX, nameY, Color.WHITE);
 
+                            if (AssetLoader.nameFont.getColor() == null) { return; }
                             layout.setText(AssetLoader.nameFont, "Lvl: " + Variables.Items[itemNum].LVL + "     HP: " + Variables.Items[itemNum].HP + "     MP: " + Variables.Items[itemNum].MP);
                             width = layout.width;// contains the width of the current set text
 
@@ -1031,6 +1047,7 @@ public class RenderAndroid {
                             nameY = 350;
                             drawName("Lvl: " + Variables.Items[itemNum].LVL + "     HP: " + Variables.Items[itemNum].HP + "     MP: " + Variables.Items[itemNum].MP, nameX, nameY, Color.WHITE);
 
+                            if (AssetLoader.nameFont.getColor() == null) { return; }
                             layout.setText(AssetLoader.nameFont, "STR: " + Variables.Items[itemNum].STR + "     DEF: " + Variables.Items[itemNum].DEF + "     VIT: " + Variables.Items[itemNum].VIT + "     AGI: " + Variables.Items[itemNum].AGI + "     MAG: " + Variables.Items[itemNum].MAG);
                             width = layout.width;// contains the width of the current set text
 
@@ -1039,6 +1056,7 @@ public class RenderAndroid {
                             drawName("STR: " + Variables.Items[itemNum].STR + "     DEF: " + Variables.Items[itemNum].DEF + "     VIT: " + Variables.Items[itemNum].VIT + "     AGI: " + Variables.Items[itemNum].AGI + "     MAG: " + Variables.Items[itemNum].MAG, nameX, nameY, Color.WHITE);
 
                             if (Variables.Items[itemNum].isStackable == 1) {
+                                if (AssetLoader.nameFont.getColor() == null) { return; }
                                 layout.setText(AssetLoader.nameFont, "Amount: " + Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal());
                                 width = layout.width;// contains the width of the current set text
 
@@ -1143,6 +1161,7 @@ public class RenderAndroid {
                     if (Variables.selectedSpellSlot > 0) {
                         int spellNum = Variables.Players[Variables.MyIndex].spells[Variables.selectedSpellSlot].getSpellNum();
                         if (spellNum > 0) {
+                            if (AssetLoader.font.getColor() == null) { return; }
                             layout.setText(AssetLoader.font, Variables.Spells[spellNum].Name);
                             float width = layout.width;// contains the width of the current set text
 
@@ -1150,6 +1169,7 @@ public class RenderAndroid {
                             float nameY = 325;
                             drawText(Variables.Spells[spellNum].Name, nameX, nameY, Color.WHITE);
 
+                            if (AssetLoader.nameFont.getColor() == null) { return; }
                             layout.setText(AssetLoader.nameFont, "Lvl: " + Variables.Spells[spellNum].LevelReq);
                             width = layout.width;// contains the width of the current set text
 
@@ -1157,6 +1177,7 @@ public class RenderAndroid {
                             nameY = 350;
                             drawName("Lvl: " + Variables.Spells[spellNum].LevelReq, nameX, nameY, Color.WHITE);
 
+                            if (AssetLoader.nameFont.getColor() == null) { return; }
                             layout.setText(AssetLoader.nameFont, "Strength: " + Variables.Spells[spellNum].DmgHealAmt + "     Cost: " + Variables.Spells[spellNum].MPCost);
                             width = layout.width;// contains the width of the current set text
 
@@ -1179,6 +1200,7 @@ public class RenderAndroid {
         batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);
 
         if (Variables.Players[Variables.MyIndex].getName() != null && !Variables.Players[Variables.MyIndex].getName().isEmpty()) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, Variables.Players[Variables.MyIndex].getName());
         }
         float width = layout.width;// contains the width of the current set text
@@ -1266,6 +1288,7 @@ public class RenderAndroid {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pSTR > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "STR: " + Variables.Players[Variables.MyIndex].getSTR());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pSTR + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1282,6 +1305,7 @@ public class RenderAndroid {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pDEF > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "DEF: " + Variables.Players[Variables.MyIndex].getDEF());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pDEF + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1298,6 +1322,7 @@ public class RenderAndroid {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pVIT > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "VIT: " + Variables.Players[Variables.MyIndex].getVIT());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pVIT + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1314,6 +1339,7 @@ public class RenderAndroid {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pAGI > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "AGI: " + Variables.Players[Variables.MyIndex].getAGI());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pAGI + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1330,6 +1356,7 @@ public class RenderAndroid {
             drawText("+", nameX - 25, nameY, Color.YELLOW);
         }
         if (pMAG > 0) {
+            if (AssetLoader.font.getColor() == null) { return; }
             layout.setText(AssetLoader.font, "MAG: " + Variables.Players[Variables.MyIndex].getMAG());
             width = layout.width;// contains the width of the current set text
             drawText("(+" + pMAG + ")", nameX + (width + 10), nameY, Color.GREEN);
@@ -1708,6 +1735,7 @@ public class RenderAndroid {
             }
         }
 
+        if (AssetLoader.nameFont.getColor() == null) { return; }
         layout.setText(AssetLoader.nameFont, "Gold: " + goldTotal);
         float width = layout.width;// contains the width of the current set text
 
@@ -1739,6 +1767,19 @@ public class RenderAndroid {
         maxWidth = ((((double) Variables.Players[Variables.MyIndex].getEXP()) / 96) / ((double) Variables.Players[Variables.MyIndex].getNextLVL() / 96) * 96);
         batcher.draw(AssetLoader.xpBar, 298, 0, (int)maxWidth, 12, 0, 0, (int)maxWidth, 12, false, true);
         drawName("XP", 299, 1, Color.WHITE);
+        // Gold
+        int goldTotal = 0;
+        for (int i = 1; i <= 60; i++) {
+            if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
+                    goldTotal += Variables.Players[Variables.MyIndex].inventory[i].getItemVal();
+                }
+            }
+        }
+
+        float nameX = 20;// - (int)width;
+        float nameY = 440;
+        drawName("G: " + goldTotal, nameX, nameY, Color.YELLOW);
         // Chat Bar
         //batcher.draw(AssetLoader.chatBar, 16, 472, 448, 24, 0, 0, 448, 24, false, true);
         if (!Variables.inChat) {
@@ -1795,7 +1836,7 @@ public class RenderAndroid {
                     batcher.setColor(Color.RED);
                     batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum].Icon], 290, 595, 48, 48, 0, 0, 56, 56, false, true);
                     batcher.setColor(Color.WHITE);
-                    long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                    long timer = ((Variables.Players[Variables.MyIndex].spells[i].getCoolDown() / 1000) - (Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer() / 1000));
                     drawName(timer + "", 292, 607, Color.WHITE);
                 }
             } else {
@@ -1812,7 +1853,7 @@ public class RenderAndroid {
                     batcher.setColor(Color.RED);
                     batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum].Icon], 378, 684, 48, 48, 0, 0, 56, 56, false, true);
                     batcher.setColor(Color.WHITE);
-                    long timer = (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() - Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer()) + 1;
+                    long timer = ((Variables.Players[Variables.MyIndex].spells[i].getCoolDown() / 1000) - (Variables.Players[Variables.MyIndex].spells[i].getCoolDownTimer() / 1000));
                     drawName(timer + "", 380, 696, Color.WHITE);
                 }
             } else {
@@ -1839,14 +1880,17 @@ public class RenderAndroid {
                 if (Variables.MapNPCs[i].getName() == null) { break; }
                 if (Variables.Players[Variables.MyIndex].getTarget() == i) {
                     if (Variables.Players[Variables.MyIndex].getTargetType() == Variables.SEARCH_TYPE_NPC) {
+                        if (AssetLoader.nameFont.getColor() == null) { return; }
                         layout.setText(AssetLoader.nameFont, ">" + Variables.MapNPCs[i].getName() + "<");
                     } else {
+                        if (AssetLoader.nameFont.getColor() == null) { return; }
                         layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
                     }
                 } else {
                     if (Variables.MapNPCs[i] == null) { return; }
                     //if (Integer.valueOf(Variables.MapNPCs[i].getName()) == null) {return; }
 
+                    if (AssetLoader.nameFont.getColor() == null) { return; }
                     layout.setText(AssetLoader.nameFont, Variables.MapNPCs[i].getName());
                 }
                 float width = layout.width;// contains the width of the current set text
@@ -1886,6 +1930,7 @@ public class RenderAndroid {
                     float PlayerY = ((Variables.Players[i].getY() * Variables.MoveSize) + Variables.Players[i].getOffsetY());
 
                     if (Variables.Players[i].getName() == null) { return; }
+                    if (AssetLoader.nameFont.getColor() == null) { return; }
                     layout.setText(AssetLoader.nameFont, Variables.Players[i].getName());
                     float width = layout.width;// contains the width of the current set text
 
@@ -1937,6 +1982,7 @@ public class RenderAndroid {
                                             GameRenderer.batcher.draw(AssetLoader.hpMapBar, PlayerX + 16, PlayerY + 48, (int) maxWidth, 4);
 
                                             if (Variables.MyParty.members[a] == Variables.MyParty.leader) {
+                                                if (AssetLoader.nameFont.getColor() == null) { return; }
                                                 layout.setText(AssetLoader.nameFont, Variables.Players[Variables.MyParty.leader].getName());
                                                 width = layout.width;// contains the width of the current set text
                                                 PlayerX = ((Variables.Players[Variables.MyParty.leader].getX() * Variables.MoveSize) + Variables.Players[Variables.MyParty.leader].getOffsetX());
@@ -2194,32 +2240,22 @@ public class RenderAndroid {
 
     public static void buyMsgTimer(long tickCount) {
         // Buy Msg Timer //
-        if (LastUpdateTime_BuyMsg < tickCount) {
-            if (Variables.BoughtMsgTimer > 0) {
-                Variables.BoughtMsgTimer--;
-            }
-            if (Variables.NotEnoughGoldMsgTimer > 0) {
-                Variables.NotEnoughGoldMsgTimer--;
-            }
-            if (Variables.inputTimer > 0) {
-                Variables.inputTimer--;
-            }
-            LastUpdateTime_BuyMsg = tickCount + UpdateTime_BuyMsg;
-        }
-    }
-    public static void longPressTimer(long tickCount) {
-        if (LastUpdateTime_LongPress < tickCount) {
-            if (Variables.touchDown) {
-                if (Variables.longPressTimer < 1) {
-                    if (Variables.longPressTimer == 1) {
-                        // Long Press
-                        //SendClientData.SendDropItem(Variables.selectedInvSlot);
-                        Variables.longPressTimer = 0;
+        if (Variables.LastUpdateTime_BuyMsg > 0) {
+            if (Variables.LastUpdateTime_BuyMsg < tickCount) {
+                if (Variables.BoughtMsgTimer > 0) {
+                    Variables.BoughtMsgTimer--;
+                    if (Variables.BoughtMsgTimer <= 0) {
+                        Variables.LastUpdateTime_BuyMsg = 0;
                     }
-                    Variables.longPressTimer++;
                 }
+                if (Variables.NotEnoughGoldMsgTimer > 0) {
+                    Variables.NotEnoughGoldMsgTimer--;
+                    if (Variables.LastUpdateTime_BuyMsg <= 0) {
+                        Variables.LastUpdateTime_BuyMsg = 0;
+                    }
+                }
+                Variables.LastUpdateTime_BuyMsg = tickCount + Variables.UpdateTime_BuyMsg;
             }
-            LastUpdateTime_LongPress = tickCount + UpdateTime_LongPress;
         }
     }
     public static void drawDmgTimer(long tickCount) {
