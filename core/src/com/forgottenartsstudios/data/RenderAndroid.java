@@ -1778,8 +1778,9 @@ public class RenderAndroid {
         }
 
         float nameX = 20;// - (int)width;
-        float nameY = 440;
-        drawName("G: " + goldTotal, nameX, nameY, Color.YELLOW);
+        float nameY = 449;
+        drawName("G: " + goldTotal, nameX, nameY, Color.WHITE);
+
         // Chat Bar
         //batcher.draw(AssetLoader.chatBar, 16, 472, 448, 24, 0, 0, 448, 24, false, true);
         if (!Variables.inChat) {
@@ -1823,9 +1824,11 @@ public class RenderAndroid {
                 }
             }
         }
-        if (Variables.target > 0) {
-            if (Variables.target != Variables.MyIndex) {
-                batcher.draw(AssetLoader.playerMenu, 136, 91, 200, 300, 0, 0, 200, 300, false, true);
+        if (Variables.playerMenu) {
+            if (Variables.target > 0) {
+                if (Variables.target != Variables.MyIndex) {
+                    batcher.draw(AssetLoader.playerMenu, 136, 91, 200, 300, 0, 0, 200, 300, false, true);
+                }
             }
         }
         // Hot Keys

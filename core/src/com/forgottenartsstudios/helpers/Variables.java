@@ -77,7 +77,7 @@ public class Variables {
     public static boolean dPad_Up, dPad_Down, dPad_Left, dPad_Right, bBtn, aBtn;
     public static boolean hotKeyQ, hotKeyE;
     public static boolean inMenu, inShop, inInventory, inStatus, inChat, inSpells;
-    public static boolean buyItem, useItem, usePoint;
+    public static boolean buyItem, useItem, usePoint, playerMenu;
     public static int usePointTimer;
     public static boolean longPress, touchDown;
     public static boolean inputID, inputPW, inputName;

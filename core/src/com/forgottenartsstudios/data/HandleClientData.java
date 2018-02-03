@@ -708,6 +708,8 @@ public class HandleClientData {
 
         if (index == targetIndex) { return; }
 
+        Variables.playerMenu = true;
+
         Variables.target = targetIndex;
     }
     public static void HandlePartyInvite(Object object) {

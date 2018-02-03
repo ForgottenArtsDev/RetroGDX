@@ -483,8 +483,8 @@ public class InputAndroid {
 
                         }
                     }
-                } else { Variables.target = 0; }
-            } else { Variables.target = 0; }
+                } else { Variables.playerMenu = false; }
+            } else { Variables.playerMenu = false; }
 
             if (Variables.PartyInvite) {
                 if (worldCoordinates.x >= 146 && worldCoordinates.x <= 198) {
