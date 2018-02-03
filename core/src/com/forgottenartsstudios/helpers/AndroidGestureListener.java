@@ -2,14 +2,37 @@ package com.forgottenartsstudios.helpers;
 
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.forgottenartsstudios.data.InputAndroid;
 
 /**
  * Created by Perfekt on 2/3/2018.
  */
 
 public class AndroidGestureListener implements GestureListener {
+
     @Override
-    public boolean touchDown(float x, float y, int pointer, int button) {
+    public boolean touchDown(float screenX, float screenY, int pointer, int button) {
+        if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+            switch (Variables.Game_State) {
+                case Variables.Game_State_TitleScreen:
+                    InputAndroid.inputTileScreen();
+                    break;
+                case Variables.Game_State_Login:
+                    InputAndroid.inputLogin(screenX, screenY);
+                    break;
+                case Variables.Game_State_CharSelect:
+                    InputAndroid.inputCharSelect(screenX, screenY);
+                    break;
+                case Variables.Game_State_CharCreate:
+                    InputAndroid.inputCharCreate(screenX, screenY);
+                    break;
+                case Variables.Game_State_InGame:
+                    if (!Variables.touchDown) {
+                        InputAndroid.inputInGame(screenX, screenY);
+                    }
+                    break;
+            }
+        }
         return false;
     }
 
@@ -43,7 +66,6 @@ public class AndroidGestureListener implements GestureListener {
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
-
         return false;
     }
 

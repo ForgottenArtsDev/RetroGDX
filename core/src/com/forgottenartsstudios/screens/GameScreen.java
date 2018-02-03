@@ -42,9 +42,11 @@ public class GameScreen implements Screen {
         renderer = new GameRenderer(world, (int) gameHeight, midPointY);
 
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-            AndroidGestureListener gl = new AndroidGestureListener();
-            AndroidInputHandler gd = new AndroidInputHandler(gl);
-            Gdx.input.setInputProcessor(gd);
+            InputMultiplexer im = new InputMultiplexer();
+            AndroidInputHandler gd = new AndroidInputHandler(new AndroidGestureListener());
+            gd.setTapSquareSize(10000);
+            im.addProcessor(gd);
+            Gdx.input.setInputProcessor(im);
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
             Gdx.input.setInputProcessor(new DesktopInputHandler(world));
         }
