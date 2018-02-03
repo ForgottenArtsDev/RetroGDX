@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 
         int midPointY = (int) (gameHeight / 2);
 
-        world = new GameWorld(midPointY);
+        world = new GameWorld(midPointY); 
         renderer = new GameRenderer(world, (int) gameHeight, midPointY);
 
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
