@@ -555,7 +555,7 @@ public class HandleServerData {
                         }
                     }
                     if (ServerVars.Players[i].getTarget() == i) {
-                        SendServerData.SendOpenPlayerMenu(index, i);
+                        SendServerData.SendOpenPlayerMenu(index, i, searchType);
                     }
                     ServerVars.Players[i].setTarget(i);
                     ServerVars.Players[i].setTargetType(searchType);

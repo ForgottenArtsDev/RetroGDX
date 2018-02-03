@@ -705,10 +705,13 @@ public class HandleClientData {
 
         int index = sendOpenPlayerMenu.index;
         int targetIndex = sendOpenPlayerMenu.targetIndex;
+        int targetType = sendOpenPlayerMenu.targetType;
 
         if (index == targetIndex) { return; }
 
-        Variables.playerMenu = true;
+        if (targetType == Variables.SEARCH_TYPE_PLAYER) {
+            Variables.playerMenu = true;
+        }
 
         Variables.target = targetIndex;
     }

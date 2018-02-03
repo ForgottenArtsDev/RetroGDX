@@ -1080,11 +1080,12 @@ public class SendServerData {
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sendHPRegen);
     }
-    public static void SendOpenPlayerMenu(int index, int targetIndex) {
+    public static void SendOpenPlayerMenu(int index, int targetIndex, int targetType) {
         SendOpenPlayerMenu sendOpenPlayerMenu = new SendOpenPlayerMenu();
 
         sendOpenPlayerMenu.index = index;
         sendOpenPlayerMenu.targetIndex = targetIndex;
+        sendOpenPlayerMenu.targetType = targetType;
 
         server.sendToTCP(ServerVars.Accounts[index].getCID(), sendOpenPlayerMenu);
     }

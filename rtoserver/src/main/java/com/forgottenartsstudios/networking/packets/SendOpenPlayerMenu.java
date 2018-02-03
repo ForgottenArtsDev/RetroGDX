@@ -7,4 +7,5 @@ package com.forgottenartsstudios.networking.packets;
 public class SendOpenPlayerMenu extends Packet {
     public int index;
     public int targetIndex;
+    public int targetType;
 }
