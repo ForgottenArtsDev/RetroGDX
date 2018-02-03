@@ -479,9 +479,6 @@ public class RenderAndroid {
                     }
                 }
             }
-            if (Variables.inputTimer > 0) {
-                Variables.inputTimer--;
-            }
             LastUpdateTime_Death = tickCount + UpdateTime_Death;
         }
 
@@ -494,6 +491,9 @@ public class RenderAndroid {
                     Variables.usePoint = false;
                 }
                 Variables.usePointTimer--;
+            }
+            if (Variables.inputTimer > 0) {
+                Variables.inputTimer--;
             }
             LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
         }

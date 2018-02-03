@@ -66,7 +66,7 @@ public class Variables {
 
     //public static String Server_IP = "76.112.239.106";
     //public static String Server_IP = "162.198.233.237";
-    public static String Server_IP = "192.168.1.11";
+    public static String Server_IP = "192.168.1.6";
     //public static String Server_IP = "10.0.0.53";
     //public static int Server_Port = 4001; // LIVE SERVER
     public static int Server_Port = 4003; // TEST SERVER

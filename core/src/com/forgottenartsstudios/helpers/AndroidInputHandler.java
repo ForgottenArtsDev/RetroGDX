@@ -48,6 +48,10 @@ public class AndroidInputHandler implements GestureListener, InputProcessor {
     public boolean tap(float x, float y, int count, int button) {
         if (Variables.inInventory) {
             Variables.tapCount = count;
+            if (count > 1) {
+                Variables.tapCount = 2;
+            }
+            System.out.println("TAP! count: " + Variables.tapCount);
         }
         return false;
     }

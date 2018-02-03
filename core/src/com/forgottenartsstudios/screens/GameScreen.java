@@ -43,6 +43,7 @@ public class GameScreen implements Screen {
             InputMultiplexer im = new InputMultiplexer();
             GestureDetector gd = new GestureDetector(new AndroidInputHandler(world));
             InputProcessor ip = new AndroidInputHandler(world);
+            gd.setTapCountInterval(1f);
             im.addProcessor(gd);
             im.addProcessor(ip);
             Gdx.input.setInputProcessor(im);
