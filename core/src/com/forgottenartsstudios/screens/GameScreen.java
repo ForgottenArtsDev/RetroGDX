@@ -8,6 +8,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.gameworld.GameWorld;
+import com.forgottenartsstudios.helpers.AndroidGestureListener;
 import com.forgottenartsstudios.helpers.AndroidInputHandler;
 import com.forgottenartsstudios.helpers.DesktopInputHandler;
 import com.forgottenartsstudios.helpers.Variables;
@@ -37,16 +38,13 @@ public class GameScreen implements Screen {
 
         int midPointY = (int) (gameHeight / 2);
 
-        world = new GameWorld(midPointY); 
+        world = new GameWorld(midPointY);
         renderer = new GameRenderer(world, (int) gameHeight, midPointY);
 
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-            InputMultiplexer im = new InputMultiplexer();
-            GestureDetector gd = new GestureDetector(new AndroidInputHandler());
-            InputProcessor ip = new AndroidInputHandler();
-            im.addProcessor(ip);
-            im.addProcessor(gd);
-            Gdx.input.setInputProcessor(im);
+            AndroidGestureListener gl = new AndroidGestureListener();
+            AndroidInputHandler gd = new AndroidInputHandler(gl);
+            Gdx.input.setInputProcessor(gd);
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
             Gdx.input.setInputProcessor(new DesktopInputHandler(world));
         }
