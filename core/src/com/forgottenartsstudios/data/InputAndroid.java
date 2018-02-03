@@ -939,10 +939,10 @@ public class InputAndroid {
                                         }
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
-                                            Variables.tapCount = 0;
                                         }
+                                        Variables.inputTimer = 1;
                                     }
-                                    Variables.inputTimer = 1;
+                                    Variables.tapCount = 0;
                                 }
                             }
                         }
@@ -978,10 +978,10 @@ public class InputAndroid {
                                         }
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
-                                            Variables.tapCount = 0;
                                         }
+                                        Variables.inputTimer = 1;
                                     }
-                                    Variables.inputTimer = 1;
+                                    Variables.tapCount = 0;
                                 }
                             }
                         }
@@ -1017,10 +1017,10 @@ public class InputAndroid {
                                         }
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
-                                            Variables.tapCount = 0;
                                         }
+                                        Variables.inputTimer = 1;
                                     }
-                                    Variables.inputTimer = 1;
+                                    Variables.tapCount = 0;
                                 }
                             }
                         }
@@ -1056,10 +1056,10 @@ public class InputAndroid {
                                         }
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
-                                            Variables.tapCount = 0;
                                         }
+                                        Variables.inputTimer = 1;
                                     }
-                                    Variables.inputTimer = 1;
+                                    Variables.tapCount = 0;
                                 }
                             }
                         }
@@ -1095,10 +1095,10 @@ public class InputAndroid {
                                         }
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
-                                            Variables.tapCount = 0;
                                         }
+                                        Variables.inputTimer = 1;
                                     }
-                                    Variables.inputTimer = 1;
+                                    Variables.tapCount = 0;
                                 }
                             }
                         }
@@ -1132,10 +1132,10 @@ public class InputAndroid {
                                         }
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
-                                            Variables.tapCount = 0;
                                         }
+                                        Variables.inputTimer = 1;
                                     }
-                                    Variables.inputTimer = 1;
+                                    Variables.tapCount = 0;
                                 }
                             }
                         }
