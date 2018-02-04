@@ -1854,7 +1854,7 @@ public class RenderAndroid {
         }
 
         if (Variables.Players[Variables.MyIndex].getHotKeyE() > 0) {
-            int i = Variables.Players[Variables.MyIndex].getHotKeyQ();
+            int i = Variables.Players[Variables.MyIndex].getHotKeyE();
             if (Variables.Players[Variables.MyIndex].spells[i].getCoolDown() > 0) {
                 if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum] != null) {
                     batcher.setColor(Color.RED);
