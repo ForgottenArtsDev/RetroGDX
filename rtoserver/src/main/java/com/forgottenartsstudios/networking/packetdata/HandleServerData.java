@@ -553,12 +553,13 @@ public class HandleServerData {
                             RTOServer.ErasePlayer(i);
                             return;
                         }
-                    }
-                    ServerVars.Players[index].setTarget(i);
-                    ServerVars.Players[index].setTargetType(searchType);
-                    SendServerData.SendPlayerData(index, index);
-                    if (ServerVars.Players[index].getTarget() == i) {
-                        SendServerData.SendOpenPlayerMenu(index, i, searchType);
+                    } else {
+                        ServerVars.Players[index].setTarget(i);
+                        ServerVars.Players[index].setTargetType(searchType);
+                        SendServerData.SendPlayerData(index, index);
+                        if (ServerVars.Players[index].getTarget() == i) {
+                            SendServerData.SendOpenPlayerMenu(index, i, searchType);
+                        }
                     }
                 }
                 break;
@@ -570,8 +571,7 @@ public class HandleServerData {
                 if (ServerVars.MapNPCs[mapNum].Npc[i].getNum() <= 0) { return; }
                 if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_SELLER_STANDING) {
                     SendServerData.SendOpenShop(index, ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].shopNum);
-                }
-                if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_ATTACK_ROAMING || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_ATTACK_STANDING || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_ONATTACK_ROAMING) {
+                } else if (ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_ATTACK_ROAMING || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_ATTACK_STANDING || ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[i].getNum()].Behaviour == ServerVars.NPC_BEHAVIOUR_ONATTACK_ROAMING) {
                     ServerVars.Players[index].setTarget(i);
                     ServerVars.Players[index].setTargetType(searchType);
                     SendServerData.SendPlayerData(index, index);

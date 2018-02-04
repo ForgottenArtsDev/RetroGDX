@@ -1826,8 +1826,12 @@ public class RenderAndroid {
         }
         if (Variables.playerMenu) {
             if (Variables.target > 0) {
-                if (Variables.target != Variables.MyIndex) {
-                    batcher.draw(AssetLoader.playerMenu, 136, 91, 200, 300, 0, 0, 200, 300, false, true);
+                if (Variables.Players[Variables.MyIndex].getTarget() > 0) {
+                    if (Variables.Players[Variables.MyIndex].getTargetType() == Variables.SEARCH_TYPE_PLAYER) {
+                        if (Variables.target != Variables.MyIndex) {
+                            batcher.draw(AssetLoader.playerMenu, 136, 91, 200, 300, 0, 0, 200, 300, false, true);
+                        }
+                    }
                 }
             }
         }
@@ -2201,6 +2205,7 @@ public class RenderAndroid {
     }
 
     public static void tryNPCSearch() {
+        boolean tryPlayers = true;
         if (!Variables.inShop) {
             if (Variables.CurX > 0 && Variables.CurY > 0) {
                 for (int i = 1; i <= Variables.MaxMapNPCs; i++) {
@@ -2213,22 +2218,25 @@ public class RenderAndroid {
                         SendClientData.SendSearch(NpcX, NpcY, Variables.SEARCH_TYPE_NPC, i);
                         Variables.CurX = 0;
                         Variables.CurY = 0;
+                        tryPlayers = false;
                         break;
                         //}
                     }
                 }
-                for (int i = 1; i <= Variables.MaxPlayers; i++) {
-                    int PlayerX = ((Variables.Players[i].getX() * Variables.MoveSize) + Variables.Players[i].getOffsetX());
-                    int PlayerY = ((Variables.Players[i].getY() * Variables.MoveSize) + Variables.Players[i].getOffsetY());
-                    PlayerX = PlayerX / Variables.MoveSize;
-                    PlayerY = PlayerY / Variables.MoveSize;
-                    if (Variables.CurX == PlayerX && Variables.CurY == PlayerY) {
-                        //if (lastClicked == 1) {
-                        SendClientData.SendSearch(PlayerX, PlayerY, Variables.SEARCH_TYPE_PLAYER, i);
-                        Variables.CurX = 0;
-                        Variables.CurY = 0;
-                        break;
-                        //}
+                if (tryPlayers) {
+                    for (int i = 1; i <= Variables.MaxPlayers; i++) {
+                        int PlayerX = ((Variables.Players[i].getX() * Variables.MoveSize) + Variables.Players[i].getOffsetX());
+                        int PlayerY = ((Variables.Players[i].getY() * Variables.MoveSize) + Variables.Players[i].getOffsetY());
+                        PlayerX = PlayerX / Variables.MoveSize;
+                        PlayerY = PlayerY / Variables.MoveSize;
+                        if (Variables.CurX == PlayerX && Variables.CurY == PlayerY) {
+                            //if (lastClicked == 1) {
+                            SendClientData.SendSearch(PlayerX, PlayerY, Variables.SEARCH_TYPE_PLAYER, i);
+                            Variables.CurX = 0;
+                            Variables.CurY = 0;
+                            break;
+                            //}
+                        }
                     }
                 }
             }
