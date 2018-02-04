@@ -417,7 +417,7 @@ public class AssetLoader {
 
     }
     public static void loadMap(int mapNum) {
-        Variables.loadingMap = true;
+        //Variables.loadingMap = true;
 
         FileHandle mapFile = null;
 
@@ -443,7 +443,7 @@ public class AssetLoader {
             System.out.println("There was an issue reading from the file: " + e);
             System.exit(0);
         }
-        Variables.loadingMap = false;
+        //Variables.loadingMap = false;
     }
     public static void checkMaps() {
         //if (Variables.Client_Mode == Variables.Client_Mode_Android) {

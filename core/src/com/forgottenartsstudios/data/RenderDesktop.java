@@ -950,7 +950,7 @@ public class RenderDesktop {
         }
     }
     public static void renderMap_Lower() {
-        if (!Variables.reloadingMap) {
+        //if (!Variables.reloadingMap) {
             int Text = 0;
 
             int mapNum = Variables.Players[Variables.MyIndex].getMap();
@@ -989,10 +989,10 @@ public class RenderDesktop {
                     }
                 }
             }
-        }
+        //}
     }
     public static void renderMap_Upper() {
-        if (!Variables.reloadingMap) {
+        //if (!Variables.reloadingMap) {
             int Text = 0;
 
             int mapNum = Variables.Players[Variables.MyIndex].getMap();
@@ -1032,7 +1032,7 @@ public class RenderDesktop {
                     Text++;
                 }
             }
-        }
+        //}
     }
 
     // Game State In Game

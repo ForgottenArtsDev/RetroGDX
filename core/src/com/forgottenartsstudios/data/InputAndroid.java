@@ -254,9 +254,9 @@ public class InputAndroid {
     }
     public static void inputInGame(float screenX, float screenY) {
         Vector3 worldCoordinates = GameRenderer.cam.unproject(new Vector3(screenX, screenY, 0));
-        Variables.CurX = (int)worldCoordinates.x / Variables.MoveSize;
-        Variables.CurY = (int)worldCoordinates.y / Variables.MoveSize;
-        if (!Variables.reloadingMap) {
+        Variables.CurX = ((int)worldCoordinates.x) / Variables.MoveSize;
+        Variables.CurY = ((int)worldCoordinates.y) / Variables.MoveSize;
+        //if (!Variables.reloadingMap) {
             // UP
             if (worldCoordinates.x >= 77 && worldCoordinates.x <= 145) {
                 if (worldCoordinates.y >= 569 && worldCoordinates.y <= 628) {
@@ -409,7 +409,7 @@ public class InputAndroid {
                     }
                 }
             }
-            if (Variables.inMenu || Variables.inShop) {
+            if (Variables.inMenu) {
                 if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
                     if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
                         if (!Variables.inMenu || !Variables.inShop) {
@@ -594,7 +594,7 @@ public class InputAndroid {
             if (Variables.inSpells) { handleSpells(worldCoordinates); }
             if (Variables.inStatus) { handleStatus(worldCoordinates); }
             if (Variables.inChat) { handleChat(worldCoordinates); }
-        }
+        //}
     }
 
     public static void checkAttack(long tickCount) {
@@ -648,7 +648,7 @@ public class InputAndroid {
         }
     }
     public static void handleInput() {
-        if (!Variables.inChat && !Variables.reloadingMap) {
+        if (!Variables.inChat){// && !Variables.reloadingMap) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 Variables.pressUp = true;
                 Variables.pressLeft = false;
@@ -702,7 +702,7 @@ public class InputAndroid {
         }
     }
     public static void handleAndroidInput() {
-        if (!Variables.inChat && !Variables.reloadingMap) {
+        if (!Variables.inChat) {// && !Variables.reloadingMap) {
             if (Variables.dPad_Up) {
                 if (!Variables.touchDown) {
                     Variables.touchDown = true;
@@ -1292,13 +1292,13 @@ public class InputAndroid {
             }
         }
 
-        if (worldCoordinates.x >= 16 && worldCoordinates.x <= 66) {
-            if (worldCoordinates.y >= 430 && worldCoordinates.y <= 460) {
+        if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
+            if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
                 Variables.inInventory = false;
                 Variables.inStatus = false;
                 Variables.inSpells = false;
                 Variables.selectedSpellSlot = 0;
-                Variables.inMenu = false;
+                Variables.inMenu = true;
             }
         }
     }
@@ -1418,6 +1418,17 @@ public class InputAndroid {
                 }
             }
 
+        }
+
+        if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
+            if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
+                Variables.inInventory = false;
+                Variables.inStatus = false;
+                Variables.inSpells = false;
+                Variables.selectedSpellSlot = 0;
+                Variables.inMenu = false;
+                Variables.inShop = false;
+            }
         }
     }
 }

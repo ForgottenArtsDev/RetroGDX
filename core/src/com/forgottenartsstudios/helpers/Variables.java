@@ -205,7 +205,7 @@ public class Variables {
     public static int MinY;
     public static int MaxY;
 
-    public static boolean reloadingMap, loadingMap;
+    //public static boolean reloadingMap, loadingMap;
 
     public static MapTiles[] mapTiles = new MapTiles[MaxMaps + 1];
 

@@ -412,7 +412,7 @@ public class HandleClientData {
         Variables.buyItem = false;
     }
     public static void HandlePlayerWarp(Object object) {
-        Variables.reloadingMap = true;
+        //Variables.reloadingMap = true;
         Variables.pauseMovement = true;
         SendPlayerWarp sPWarp = (SendPlayerWarp) object;
 
@@ -428,7 +428,7 @@ public class HandleClientData {
             Variables.Players[index].setY(y);
         }
 
-        Variables.reloadingMap = false;
+        //Variables.reloadingMap = false;
     }
     public static void HandleItems(Object object) {
         SendItems sItems = (SendItems) object;

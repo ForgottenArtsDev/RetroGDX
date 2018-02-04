@@ -737,7 +737,7 @@ public class RenderAndroid {
         }
     }
     public static void renderMap_Lower() {
-        if (!Variables.reloadingMap) {
+        //if (!Variables.reloadingMap) {
             int Text = 0;
 
             int mapNum = Variables.Players[Variables.MyIndex].getMap();
@@ -776,10 +776,10 @@ public class RenderAndroid {
                     }
                 }
             }
-        }
+        //}
     }
     public static void renderMap_Upper() {
-        if (!Variables.reloadingMap) {
+        //if (!Variables.reloadingMap) {
             int Text = 0;
 
             int mapNum = Variables.Players[Variables.MyIndex].getMap();
@@ -819,7 +819,7 @@ public class RenderAndroid {
                     Text++;
                 }
             }
-        }
+        //}
     }
 
     // Game State In Game
@@ -1191,10 +1191,10 @@ public class RenderAndroid {
         }
 
         // Back Button
-        drawText("Back", 16, 429, Color.WHITE);
+        drawText("Back", 24, 437, Color.WHITE);
 
         // Use Button
-        drawText("Use", 410, 429, Color.WHITE);
+        drawText("Use", 418, 437, Color.WHITE);
     }
     public static void drawStatus() {
         batcher.draw(AssetLoader.menuBG, 16, 16, 448, 448, 0, 0, 448, 448, false, true);

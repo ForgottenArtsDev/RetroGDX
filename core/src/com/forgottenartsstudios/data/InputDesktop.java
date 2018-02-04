@@ -409,13 +409,13 @@ public class InputDesktop {
             }
         }
 
-        if (!Variables.reloadingMap) {
+        //if (!Variables.reloadingMap) {
             if (Variables.inShop) { handleShop(worldCoordinates); }
             if (Variables.inInventory) { handleInventory(worldCoordinates); }
             if (Variables.inSpells) { handleSpells(worldCoordinates); }
             if (Variables.inStatus) { handleStatus(worldCoordinates); }
             handleChat(worldCoordinates);
-        }
+        //}
     }
 
     public static void checkAttack(long tickCount) {
@@ -455,7 +455,7 @@ public class InputDesktop {
         }
     }
     public static void handleInput() {
-        if (!Variables.inChat && !Variables.reloadingMap) {
+        if (!Variables.inChat) {// && !Variables.reloadingMap) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 Variables.pressUp = true;
                 Variables.pressLeft = false;
@@ -533,7 +533,7 @@ public class InputDesktop {
         }
     }
     public static void handleAndroidInput() {
-        if (!Variables.inChat && !Variables.reloadingMap) {
+        if (!Variables.inChat) {// && !Variables.reloadingMap) {
             if (Variables.dPad_Up) {
                 Variables.pressUp = true;
                 Variables.pressLeft = false;
