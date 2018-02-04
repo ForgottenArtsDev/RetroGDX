@@ -822,16 +822,16 @@ public class RTOServer extends ApplicationAdapter {
 
                 ////// WEST //////
                 if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() > TargetX) {
-                    if (CanNpcMove(mapNum, mapNpcNum, ServerVars.DIR_RIGHT)) {
-                        NpcMove(mapNum, mapNpcNum, ServerVars.DIR_RIGHT);
+                    if (CanNpcMove(mapNum, mapNpcNum, ServerVars.DIR_LEFT)) {
+                        NpcMove(mapNum, mapNpcNum, ServerVars.DIR_LEFT);
                         return true;
                     }
                 }
 
                 ////// EAST //////
                 if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() < TargetX) {
-                    if (CanNpcMove(mapNum, mapNpcNum, ServerVars.DIR_LEFT)) {
-                        NpcMove(mapNum, mapNpcNum, ServerVars.DIR_LEFT);
+                    if (CanNpcMove(mapNum, mapNpcNum, ServerVars.DIR_RIGHT)) {
+                        NpcMove(mapNum, mapNpcNum, ServerVars.DIR_RIGHT);
                         return true;
                     }
                 }
