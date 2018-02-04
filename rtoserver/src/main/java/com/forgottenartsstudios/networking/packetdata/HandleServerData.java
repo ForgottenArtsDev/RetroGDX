@@ -554,12 +554,12 @@ public class HandleServerData {
                             return;
                         }
                     }
-                    if (ServerVars.Players[i].getTarget() == i) {
+                    ServerVars.Players[index].setTarget(i);
+                    ServerVars.Players[index].setTargetType(searchType);
+                    SendServerData.SendPlayerData(index, index);
+                    if (ServerVars.Players[index].getTarget() == i) {
                         SendServerData.SendOpenPlayerMenu(index, i, searchType);
                     }
-                    ServerVars.Players[i].setTarget(i);
-                    ServerVars.Players[i].setTargetType(searchType);
-                    SendServerData.SendPlayerData(index, index);
                 }
                 break;
             case ServerVars.SEARCH_TYPE_NPC:
