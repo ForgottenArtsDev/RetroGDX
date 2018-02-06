@@ -1238,7 +1238,7 @@ public class RTOServer extends ApplicationAdapter {
         }
 
         // ****** Initial Damage ******
-        GetNpcDamage = Damage + (int)(((Damage) * 2.5) * (nSTR));
+        GetNpcDamage = Damage + (int)(((Damage) * 5) * (nSTR));
         return GetNpcDamage;
     }
     public static int GetNpcProtection(int NpcNum) {

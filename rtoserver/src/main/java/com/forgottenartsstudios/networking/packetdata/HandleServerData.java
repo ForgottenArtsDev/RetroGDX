@@ -15,9 +15,13 @@ import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packets.*;
 import com.forgottenartsstudios.server.RTOServer;
 import com.forgottenartsstudios.server.serverWindow;
-import com.sun.org.apache.xpath.internal.operations.Variable;
+import com.badlogic.gdx.math.MathUtils;
 
 import java.io.File;
+import java.util.Random;
+
+import static com.badlogic.gdx.math.MathUtils.random;
+import static com.forgottenartsstudios.helpers.ServerVars.Rnd;
 
 /**
  * Created by forgo on 10/8/2017.
@@ -803,7 +807,7 @@ public class HandleServerData {
                                     double minDam = diff - Math.round(diff * 0.1);
                                     double maxDam = diff + Math.round(diff * 0.1);
                                     if (maxDam < minDam) minDam = maxDam;
-                                    int Damage = ServerVars.Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
+                                    int Damage = Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
 
                                     if (Damage > 0) {
                                         ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
@@ -859,7 +863,7 @@ public class HandleServerData {
                                     double minDam = diff - Math.round(diff * 0.1);
                                     double maxDam = diff + Math.round(diff * 0.1);
                                     if (maxDam < minDam) minDam = maxDam;
-                                    int Damage = ServerVars.Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
+                                    int Damage = Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
 
                                     if (Damage > 0) {
                                         ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
@@ -915,7 +919,7 @@ public class HandleServerData {
                                     double minDam = diff - Math.round(diff * 0.1);
                                     double maxDam = diff + Math.round(diff * 0.1);
                                     if (maxDam < minDam) minDam = maxDam;
-                                    int Damage = ServerVars.Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
+                                    int Damage = Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
 
                                     if (Damage > 0) {
                                         ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);
@@ -971,7 +975,7 @@ public class HandleServerData {
                                     double minDam = diff - Math.round(diff * 0.1);
                                     double maxDam = diff + Math.round(diff * 0.1);
                                     if (maxDam < minDam) minDam = maxDam;
-                                    int Damage = ServerVars.Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
+                                    int Damage = Rnd.nextInt((int) maxDam - (int) minDam + 1) + (int) minDam;
 
                                     if (Damage > 0) {
                                         ServerVars.MapNPCs[mapNum].Npc[i].setHP(ServerVars.MapNPCs[mapNum].Npc[i].getHP() - Damage);

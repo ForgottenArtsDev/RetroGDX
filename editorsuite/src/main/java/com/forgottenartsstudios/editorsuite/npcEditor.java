@@ -502,7 +502,7 @@ public class npcEditor {
                 int total = STR + DEF + VIT + AGI + MAG;
 
                 int xp = (level * 10) + (total * (total / 4));
-                int hp = ((VIT / 2) + (total / 4)) * (level * (level / 2)) + 25;
+                int hp = ((VIT / 4) + (total / 4)) * (level * (level)) + 25;
 
                 inputFields[5].setText(Integer.toString(hp));
                 inputFields[6].setText(Integer.toString(xp));

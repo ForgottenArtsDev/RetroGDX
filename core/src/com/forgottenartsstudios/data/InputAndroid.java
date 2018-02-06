@@ -596,7 +596,6 @@ public class InputAndroid {
             if (Variables.inChat) { handleChat(worldCoordinates); }
         //}
     }
-
     public static void checkAttack(long tickCount) {
         if (Variables.pressAttack) {
             if (Variables.Players[Variables.MyIndex].getAttackTimer() + 500 < tickCount) {
@@ -868,7 +867,6 @@ public class InputAndroid {
             }
         }
     }
-
     public static void handleChat(Vector3 worldCoordinates) {
         // Input
         if (worldCoordinates.x >= 16 && worldCoordinates.x <= 464) {
