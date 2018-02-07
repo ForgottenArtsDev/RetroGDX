@@ -1411,6 +1411,8 @@ public class RTOServer extends ApplicationAdapter {
         if (ServerVars.Players[index].getMP() >= cost) {
             ServerVars.Players[index].setMP(ServerVars.Players[index].getMP() - cost);
             SendServerData.SendVital(index);
+        } else {
+            return;
         }
 
         if (targetType == ServerVars.TARGET_TYPE_NPC) {
@@ -1545,6 +1547,8 @@ public class RTOServer extends ApplicationAdapter {
         if (ServerVars.Players[index].getMP() >= cost) {
             ServerVars.Players[index].setMP(ServerVars.Players[index].getMP() - cost);
             SendServerData.SendVital(index);
+        } else {
+            return;
         }
 
         if (targetType == ServerVars.TARGET_TYPE_NPC) {
@@ -1676,6 +1680,8 @@ public class RTOServer extends ApplicationAdapter {
         if (ServerVars.Players[index].getMP() >= cost) {
             ServerVars.Players[index].setMP(ServerVars.Players[index].getMP() - cost);
             SendServerData.SendVital(index);
+        } else {
+            return;
         }
 
         if (targetType == ServerVars.TARGET_TYPE_NPC) {

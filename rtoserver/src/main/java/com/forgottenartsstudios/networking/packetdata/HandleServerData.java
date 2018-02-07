@@ -614,12 +614,33 @@ public class HandleServerData {
         if (ServerVars.Items[itemNum].Cost > 0) {
             if (goldTotal >= ServerVars.Items[itemNum].Cost) {
                 goldTotal -= ServerVars.Items[itemNum].Cost;
-                for (int i = 1; i <= 60; i++) {
-                    if (ServerVars.Players[index].inventory[i].getItemNum() == 0) {
-                        ServerVars.Players[index].inventory[i].setItemNum(itemNum);
-                        ServerVars.Players[index].inventory[i].setItemVal(itemVal);
-                        SendServerData.SendBoughtItemMsg(index);
-                        break;
+                if (ServerVars.Items[itemNum].isStackable == 0) {
+                    for (int i = 1; i <= 60; i++) {
+                        if (ServerVars.Players[index].inventory[i].getItemNum() == 0) {
+                            ServerVars.Players[index].inventory[i].setItemNum(itemNum);
+                            ServerVars.Players[index].inventory[i].setItemVal(itemVal);
+                            SendServerData.SendBoughtItemMsg(index);
+                            break;
+                        }
+                    }
+                } else if (ServerVars.Items[itemNum].isStackable == 1) {
+                    boolean hasItem = false;
+                    for (int i = 1; i <= 60; i++) {
+                        if (ServerVars.Players[index].inventory[i].getItemNum() == itemNum) {
+                            hasItem = true;
+                        }
+                        if (hasItem) {
+                            ServerVars.Players[index].inventory[i].setItemVal(ServerVars.Players[index].inventory[i].getItemVal() + itemVal);
+                            SendServerData.SendBoughtItemMsg(index);
+                            break;
+                        } else {
+                            if (ServerVars.Players[index].inventory[i].getItemNum() == 0) {
+                                ServerVars.Players[index].inventory[i].setItemNum(itemNum);
+                                ServerVars.Players[index].inventory[i].setItemVal(itemVal);
+                                SendServerData.SendBoughtItemMsg(index);
+                                break;
+                            }
+                        }
                     }
                 }
                 for (int i = 1; i <= 60; i++) {
@@ -693,6 +714,40 @@ public class HandleServerData {
                             ServerVars.Players[index].setOffhand(invSlot);
                         } else {
                             ServerVars.Players[index].setOffhand(0);
+                        }
+                        break;
+                    case ServerVars.ITEM_TYPE_POTION:
+                        if (ServerVars.Items[itemNum].HP > 0) {
+                            if (ServerVars.Players[index].getHP() < ServerVars.Players[index].getMaxHP()) {
+                                ServerVars.Players[index].setHP(ServerVars.Players[index].getHP() + ServerVars.Items[itemNum].HP);
+                                if (ServerVars.Players[index].getHP() > ServerVars.Players[index].getMaxHP()) {
+                                    ServerVars.Players[index].setHP(ServerVars.Players[index].getMaxHP());
+                                }
+                                ServerVars.Players[index].inventory[invSlot].setItemVal(ServerVars.Players[index].inventory[invSlot].getItemVal() - 1);
+                                if (ServerVars.Players[index].inventory[invSlot].getItemVal() <= 0) {
+                                    ServerVars.Players[index].inventory[invSlot].setItemNum(0);
+                                    ServerVars.Players[index].inventory[invSlot].setItemVal(0);
+                                }
+                                SendServerData.SendInvData(index, index);
+                                SendServerData.SendVital(index);
+                                SendServerData.SendSystemMessage(index, index, "" + ServerVars.Items[itemNum].HP, Color.GREEN);
+                            }
+                        }
+                        if (ServerVars.Items[itemNum].MP > 0) {
+                            if (ServerVars.Players[index].getMP() < ServerVars.Players[index].getMaxMP()) {
+                                ServerVars.Players[index].setMP(ServerVars.Players[index].getHP() + ServerVars.Items[itemNum].MP);
+                                if (ServerVars.Players[index].getMP() > ServerVars.Players[index].getMaxMP()) {
+                                    ServerVars.Players[index].setMP(ServerVars.Players[index].getMaxMP());
+                                }
+                                ServerVars.Players[index].inventory[invSlot].setItemVal(ServerVars.Players[index].inventory[invSlot].getItemVal() - 1);
+                                if (ServerVars.Players[index].inventory[invSlot].getItemVal() <= 0) {
+                                    ServerVars.Players[index].inventory[invSlot].setItemNum(0);
+                                    ServerVars.Players[index].inventory[invSlot].setItemVal(0);
+                                }
+                                SendServerData.SendInvData(index, index);
+                                SendServerData.SendVital(index);
+                                SendServerData.SendSystemMessage(index, index, "" + ServerVars.Items[itemNum].MP, Color.CYAN);
+                            }
                         }
                         break;
                 }
@@ -1630,21 +1685,21 @@ public class HandleServerData {
                                 // Calculate spell damage
                                 if (ServerVars.Players[index].spells[spellInvSlot].getSpellNum() <= 0) { return; }
                                 if (ServerVars.Players[index].spells[spellInvSlot].getCoolDown() == 0) {
-                                    if (ServerVars.Spells[spellNum].CastTime > 0) {
+                                    //if (ServerVars.Spells[spellNum].CastTime > 0) {
                                         ServerVars.Players[index].spells[spellInvSlot].setCastTime(ServerVars.Spells[spellNum].CastTime);
                                         ServerVars.Players[index].spells[spellInvSlot].setCastTimeTimer(0);
                                         SendServerData.SendCastTime(index, spellInvSlot, ServerVars.Spells[spellNum].CastTime);
-                                    }
+                                    //}
                                 }
                             }
                         }
                     } else if (ServerVars.Players[index].getTargetType() == ServerVars.SEARCH_TYPE_PLAYER) {
                         if (ServerVars.Players[index].spells[spellInvSlot].getCoolDown() == 0) {
-                            if (ServerVars.Spells[spellNum].CastTime > 0) {
+                            //if (ServerVars.Spells[spellNum].CastTime > 0) {
                                 ServerVars.Players[index].spells[spellInvSlot].setCastTime(ServerVars.Spells[spellNum].CastTime);
                                 ServerVars.Players[index].spells[spellInvSlot].setCastTimeTimer(0);
                                 SendServerData.SendCastTime(index, spellInvSlot, ServerVars.Spells[spellNum].CastTime);
-                            }
+                            //}
                         }
                     }
                 }
