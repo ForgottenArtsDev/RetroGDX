@@ -2,6 +2,8 @@ package com.forgottenartsstudios.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector3;
 import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.helpers.AssetLoader;
@@ -409,6 +411,40 @@ public class InputAndroid {
                     }
                 }
             }
+            if (worldCoordinates.x >= 29 && worldCoordinates.x <= 60) {
+                if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
+                    if (!Variables.hotKeyR) {
+                        Variables.dPad_Up = false;
+                        Variables.dPad_Down = false;
+                        Variables.dPad_Left = false;
+                        Variables.dPad_Right = false;
+
+                        Variables.aBtn = false;
+                        Variables.bBtn = false;
+                        Variables.hotKeyQ = false;
+                        Variables.hotKeyE = false;
+                        Variables.hotKeyR = true;
+                        Variables.hotKeyF = false;
+                    }
+                }
+            }
+            if (worldCoordinates.x >= 163 && worldCoordinates.x <= 194) {
+                if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
+                    if (!Variables.hotKeyF) {
+                        Variables.dPad_Up = false;
+                        Variables.dPad_Down = false;
+                        Variables.dPad_Left = false;
+                        Variables.dPad_Right = false;
+
+                        Variables.aBtn = false;
+                        Variables.bBtn = false;
+                        Variables.hotKeyQ = false;
+                        Variables.hotKeyE = false;
+                        Variables.hotKeyR = false;
+                        Variables.hotKeyF = true;
+                    }
+                }
+            }
             if (Variables.inMenu) {
                 if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {
                     if (worldCoordinates.y >= 438 && worldCoordinates.y <= 468) {
@@ -596,6 +632,7 @@ public class InputAndroid {
             if (Variables.inChat) { handleChat(worldCoordinates); }
         //}
     }
+
     public static void checkAttack(long tickCount) {
         if (Variables.pressAttack) {
             if (Variables.Players[Variables.MyIndex].getAttackTimer() + 500 < tickCount) {
@@ -646,6 +683,7 @@ public class InputAndroid {
             }
         }
     }
+
     public static void handleInput() {
         if (!Variables.inChat){// && !Variables.reloadingMap) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -855,6 +893,24 @@ public class InputAndroid {
                         Variables.hotKeyE = false;
                     }
                 }
+            } else if (Variables.hotKeyR) {
+                if (Variables.Players[Variables.MyIndex].getHotKeyR() > 0) {
+                    Variables.selectedInvSlot = Variables.Players[Variables.MyIndex].getHotKeyR();
+                    SendClientData.SendUseItem();
+                    if (Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal() <= 0) {
+                        Variables.Players[Variables.MyIndex].setHotKeyR(0);
+                    }
+                    Variables.hotKeyR = false;
+                }
+            } else if (Variables.hotKeyF) {
+                if (Variables.Players[Variables.MyIndex].getHotKeyF() > 0) {
+                    Variables.selectedInvSlot = Variables.Players[Variables.MyIndex].getHotKeyF();
+                    SendClientData.SendUseItem();
+                    if (Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal() <= 0) {
+                        Variables.Players[Variables.MyIndex].setHotKeyF(0);
+                    }
+                    Variables.hotKeyF = false;
+                }
             } else {
                 Variables.pressUp = false;
                 Variables.pressLeft = false;
@@ -867,6 +923,7 @@ public class InputAndroid {
             }
         }
     }
+
     public static void handleChat(Vector3 worldCoordinates) {
         // Input
         if (worldCoordinates.x >= 16 && worldCoordinates.x <= 464) {
@@ -1143,6 +1200,25 @@ public class InputAndroid {
             }
         }
 
+        if (Variables.selectedInvSlot > 0) {
+            if (Variables.Items[Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum()].itemType == Variables.ITEM_TYPE_POTION) {
+                // R Hotkey
+                if (worldCoordinates.x >= 29 && worldCoordinates.x <= 60) {
+                    if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
+                        Variables.Players[Variables.MyIndex].setHotKeyR(Variables.selectedInvSlot);
+                        SendClientData.SendSetHotKey(Variables.HOT_KEY_R, Variables.selectedInvSlot);
+                    }
+                }
+                // F Hotkey
+                if (worldCoordinates.x >= 163 && worldCoordinates.x <= 194) {
+                    if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
+                        Variables.Players[Variables.MyIndex].setHotKeyF(Variables.selectedInvSlot);
+                        SendClientData.SendSetHotKey(Variables.HOT_KEY_F, Variables.selectedInvSlot);
+                    }
+                }
+            }
+        }
+
         if (worldCoordinates.x >= 413 && worldCoordinates.x <= 460) {
             if (worldCoordinates.y >= 434 && worldCoordinates.y <= 456) {
                 if (Variables.selectedInvSlot > 0) {
@@ -1416,6 +1492,24 @@ public class InputAndroid {
                 }
             }
 
+        }
+
+        // Buy multiple of an item
+        // Buy less
+        if (worldCoordinates.x >= 190 && worldCoordinates.x <= 220) {
+            if (worldCoordinates.y >= 372 && worldCoordinates.y <= 402) {
+                if (Variables.shopBuyAmt > 1) {
+                    Variables.shopBuyAmt--;
+                }
+            }
+        }
+        // Buy more
+        if (worldCoordinates.x >= 270 && worldCoordinates.x <= 300) {
+            if (worldCoordinates.y >= 372 && worldCoordinates.y <= 402) {
+                if (Variables.shopBuyAmt < 100) {
+                    Variables.shopBuyAmt++;
+                }
+            }
         }
 
         if (worldCoordinates.x >= 24 && worldCoordinates.x <= 74) {

@@ -108,6 +108,8 @@ public class SendServerData {
 
         plData.playerData.setHotKeyQ(ServerVars.Players[index].getHotKeyQ());
         plData.playerData.setHotKeyE(ServerVars.Players[index].getHotKeyE());
+        plData.playerData.setHotKeyR(ServerVars.Players[index].getHotKeyR());
+        plData.playerData.setHotKeyF(ServerVars.Players[index].getHotKeyF());
 
         plData.playerData.setTarget(ServerVars.Players[index].getTarget());
         plData.playerData.setTargetType(ServerVars.Players[index].getTargetType());

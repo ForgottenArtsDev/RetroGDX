@@ -546,13 +546,21 @@ public class RenderAndroid {
         if (color == null) { return; }
         if (text == null || text.isEmpty()) { return; }
         AssetLoader.font.setColor(color);
-        AssetLoader.font.draw(batcher, text, X, Y);
+        try {
+            AssetLoader.font.draw(batcher, text, X, Y);
+        } catch (Exception e){
+            System.out.println("There was a problem: " + e);
+        }
     }
     public static void drawName(String text, float X, float Y, Color color) {
         if (color == null) { return; }
         if (text == null || text.isEmpty()) { return; }
         AssetLoader.nameFont.setColor(color);
-        AssetLoader.nameFont.draw(batcher, text, X, Y);
+        try {
+            AssetLoader.nameFont.draw(batcher, text, X, Y);
+        } catch (Exception e) {
+            System.out.println("There was a problem: " + e);
+        }
     }
 
     public static void renderPlayer(int i, float x, float y, long tickCount) {
@@ -889,13 +897,29 @@ public class RenderAndroid {
             drawText("AGI: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].AGI, 292, 312, Color.WHITE);
             drawText("MAG: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].MAG, 372, 312, Color.WHITE);
 
-            if (AssetLoader.nameFont.getColor() == null) { return; }
-            layout.setText(AssetLoader.nameFont, "Cost: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost + " Gold");
-            width = layout.width;// contains the width of the current set text
+            if (Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].itemType == Variables.ITEM_TYPE_POTION) {
+                layout = new GlyphLayout();
+                layout.setText(AssetLoader.nameFont, Variables.shopBuyAmt + "");
+                width = layout.width;// contains the width of the current set text
+                drawText("-", 200, 382, Color.WHITE);
+                drawText(Variables.shopBuyAmt + "", 240 - (width / 2), 382, Color.WHITE);
+                drawText("+", 280, 382, Color.WHITE);
+            }
 
+            if (AssetLoader.nameFont.getColor() == null) { return; }
+            if (Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].itemType == Variables.ITEM_TYPE_POTION) {
+                layout.setText(AssetLoader.nameFont, "Cost: " + (Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost * Variables.shopBuyAmt) + " Gold");
+            } else {
+                layout.setText(AssetLoader.nameFont, "Cost: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost + " Gold");
+            }
+            width = layout.width;// contains the width of the current set text
             nameX = 240 - ((int)width / 2);
             nameY = 342;
-            drawName("Cost: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost + " Gold", nameX, nameY, Color.YELLOW);
+            if (Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].itemType == Variables.ITEM_TYPE_POTION) {
+                drawName("Cost: " + (Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost * Variables.shopBuyAmt) + " Gold", nameX, nameY, Color.YELLOW);
+            } else {
+                drawName("Cost: " + Variables.Items[Variables.Shop.itemNum[Variables.selectedShopSlot]].Cost + " Gold", nameX, nameY, Color.YELLOW);
+            }
         }
 
         if (Variables.BoughtMsgTimer > 0) {
@@ -913,9 +937,23 @@ public class RenderAndroid {
             width = layout.width;// contains the width of the current set text
 
             nameX = 240 - ((int)width / 2);
-            nameY = 350;
+            nameY = 370;
             drawText("You don't have enough gold.", nameX, nameY, Color.RED);
         }
+
+        // Gold
+        int goldTotal = 0;
+        for (int i = 1; i <= 60; i++) {
+            if (Variables.Players[Variables.MyIndex].inventory[i] != null) {
+                if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() == 1) {
+                    goldTotal += Variables.Players[Variables.MyIndex].inventory[i].getItemVal();
+                }
+            }
+        }
+        layout = new GlyphLayout();
+        layout.setText(AssetLoader.nameFont, "Gold: " + goldTotal);
+        width = layout.width;// contains the width of the current set text
+        drawName("Gold: " + goldTotal, 240 - (width / 2), 442, Color.YELLOW);
 
         // Back Button
         drawText("Back", 24, 437, Color.WHITE);
@@ -1782,7 +1820,6 @@ public class RenderAndroid {
         drawName("G: " + goldTotal, nameX, nameY, Color.WHITE);
 
         // Chat Bar
-        //batcher.draw(AssetLoader.chatBar, 16, 472, 448, 24, 0, 0, 448, 24, false, true);
         if (!Variables.inChat) {
             if (Variables.chatMessageIndex > 0) {
                 if (Variables.chatMessageIndex < 5) {
@@ -1868,6 +1905,26 @@ public class RenderAndroid {
                     batcher.draw(AssetLoader.icons[Variables.Spells[Variables.Players[Variables.MyIndex].spells[i].spellNum].Icon], 378, 684, 48, 48, 0, 0, 56, 56, false, true);
                 }
             }
+        }
+
+        if (Variables.Players[Variables.MyIndex].getHotKeyR() > 0) {
+            int i = Variables.Players[Variables.MyIndex].getHotKeyR();
+            if (Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()] != null) {
+                batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], 32, 584, 24, 24, 0, 0, 24, 24, false, true);
+                drawName("" + Variables.Players[Variables.MyIndex].inventory[i].getItemVal(), 32, 599, Color.WHITE);
+            }
+        } else {
+            batcher.draw(AssetLoader.emptyPotKey, 29, 581, 32, 32, 0, 0, 32, 32, false, true);
+        }
+
+        if (Variables.Players[Variables.MyIndex].getHotKeyF() > 0) {
+            int i = Variables.Players[Variables.MyIndex].getHotKeyF();
+            if (Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()] != null) {
+                batcher.draw(AssetLoader.items[Variables.Items[Variables.Players[Variables.MyIndex].inventory[i].getItemNum()].Icon], 166, 584, 24, 24, 0, 0, 24, 24, false, true);
+                drawName("" + Variables.Players[Variables.MyIndex].inventory[i].getItemVal(), 166, 599, Color.WHITE);
+            }
+        } else {
+            batcher.draw(AssetLoader.emptyPotKey, 163, 581, 32, 32, 0, 0, 32, 32, false, true);
         }
 
         if (Variables.PartyInvite) {

@@ -141,7 +141,7 @@ public class RTOServer extends ApplicationAdapter {
     private static final long UpdateTime_GameAI = 500;
     private static final long UpdateTime_SavePlayers = 60000 * 5;
     private static final long UpdateTime_RespawnNPCs = 1000;
-    private static final long UpdateTime_RegenPlayers = 5000;
+    private static final long UpdateTime_RegenPlayers = 15000;
     private static final long UpdateTime_ClearMapItems = 1000;
     private static final long UpdateTime_CastTime = 10;
     private static final long UpdateTime_Death = 1000;

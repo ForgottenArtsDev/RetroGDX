@@ -15,7 +15,7 @@ public class Player implements Serializable {
     private int STR, DEF, VIT, AGI, MAG;
     private int Weapon, Offhand, Armor, Helmet, Acc1, Acc2;
     private int Party;
-    private int HotKeyQ, HotKeyE;
+    private int HotKeyQ, HotKeyE, HotKeyR, HotKeyF;
 
     // Temp stuff
     private int OffsetX;
@@ -68,6 +68,8 @@ public class Player implements Serializable {
     public int getParty() { return Party; }
     public int getHotKeyQ() { return HotKeyQ; }
     public int getHotKeyE() { return HotKeyE; }
+    public int getHotKeyR() { return HotKeyR; }
+    public int getHotKeyF() { return HotKeyF; }
     public int getTarget() { return Target; }
     public int getTargetType() { return TargetType; }
     public long getDeathTimer() { return DeathTimer; }
@@ -109,6 +111,8 @@ public class Player implements Serializable {
     public void setParty(int party) { Party = party; }
     public void setHotKeyQ(int hotKeyQ) { HotKeyQ = hotKeyQ; }
     public void setHotKeyE(int hotKeyE) { HotKeyE = hotKeyE; }
+    public void setHotKeyR(int hotKeyR) { HotKeyR = hotKeyR; }
+    public void setHotKeyF(int hotKeyF) { HotKeyF = hotKeyF; }
     public void setTarget(int target) { Target = target; }
     public void setTargetType(int targetType) { TargetType = targetType; }
     public void setDeathTimer(long deathTimer) { DeathTimer = deathTimer; }

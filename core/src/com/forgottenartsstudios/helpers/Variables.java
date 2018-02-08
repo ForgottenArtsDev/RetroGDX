@@ -22,7 +22,7 @@ import com.forgottenartsstudios.data.mapData;
  */
 
 public class Variables {
-    public static final String buildVersion = "v0.1.541";
+    public static final String buildVersion = "v0.2.000";
     public static boolean InvalidBuildVersion = false;
 
     public static int AndroidScreenWidth = 480;
@@ -73,16 +73,17 @@ public class Variables {
     public static int Server_Port = 4003; // TEST SERVER
     public static boolean serverOnline = false;
 
-    public static boolean pressUp, pressDown, pressLeft, pressRight, pressAttack, pickUpItem, pressHotKeyQ, pressHotKeyE;
+    public static boolean pressUp, pressDown, pressLeft, pressRight, pressAttack, pickUpItem;
     public static boolean pauseMovement;
     public static boolean dPad_Up, dPad_Down, dPad_Left, dPad_Right, bBtn, aBtn;
-    public static boolean hotKeyQ, hotKeyE;
+    public static boolean hotKeyQ, hotKeyE, hotKeyR, hotKeyF;
     public static boolean inMenu, inShop, inInventory, inStatus, inChat, inSpells;
     public static boolean buyItem, useItem, usePoint, playerMenu;
     public static int usePointTimer;
     public static boolean longPress, touchDown;
     public static boolean inputID, inputPW, inputName;
     public static int menuIndex, target;
+    public static int shopBuyAmt = 1;
 
     public static int MyIndex;
     public static int ShopNum;
@@ -173,6 +174,8 @@ public class Variables {
     // Hot Keys
     public static final int HOT_KEY_Q = 1;
     public static final int HOT_KEY_E = 2;
+    public static final int HOT_KEY_R = 3;
+    public static final int HOT_KEY_F = 4;
 
     public static long tickCount;
 

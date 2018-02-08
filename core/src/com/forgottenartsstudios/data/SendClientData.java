@@ -170,9 +170,12 @@ public class SendClientData {
         sBuyItem.index = Variables.MyIndex;
         sBuyItem.shopNum = Variables.ShopNum;
         sBuyItem.shopSlot = Variables.selectedShopSlot;
+        sBuyItem.buyAmt = Variables.shopBuyAmt;
 
         Variables.buyItem = true;
         client.sendTCP(sBuyItem);
+
+        Variables.shopBuyAmt = 1;
     }
     public static void SendUseItem() {
         SendUseItem sUseItem = new SendUseItem();

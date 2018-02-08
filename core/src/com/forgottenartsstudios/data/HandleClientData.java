@@ -218,8 +218,6 @@ public class HandleClientData {
 
         Variables.Players[index].setName(plData.playerData.getName());
 
-        System.out.println("PlayerData packet received.");
-
         Variables.Players[index].setJob(plData.playerData.getJob());
         Variables.Players[index].setLevel(plData.playerData.getLevel());
         Variables.Players[index].setSprite(plData.playerData.getSprite());
@@ -253,6 +251,8 @@ public class HandleClientData {
 
         Variables.Players[index].setHotKeyQ(plData.playerData.getHotKeyQ());
         Variables.Players[index].setHotKeyE(plData.playerData.getHotKeyE());
+        Variables.Players[index].setHotKeyR(plData.playerData.getHotKeyR());
+        Variables.Players[index].setHotKeyF(plData.playerData.getHotKeyF());
 
         Variables.Players[index].setTarget(plData.playerData.getTarget());
         Variables.Players[index].setTargetType(plData.playerData.getTargetType());

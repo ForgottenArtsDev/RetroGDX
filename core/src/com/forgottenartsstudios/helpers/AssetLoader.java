@@ -33,7 +33,7 @@ public class AssetLoader {
     public static Texture male, female;
     public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, ctMapBar, emptyMapBar, crown;
     public static Texture chatBar, playerMenu, partyInvite, inPartyBtn;
-    public static Texture disbandBtn, kickBtn, leaveBtn, appointBtn;
+    public static Texture disbandBtn, kickBtn, leaveBtn, appointBtn, emptyPotKey;
     public static Texture[] sprites, tiles, items, icons, anims;
     public static TextureRegion[] spritesUp1, spritesUp2, spritesUp3;
     public static TextureRegion[] spritesDown1, spritesDown2, spritesDown3;
@@ -104,6 +104,9 @@ public class AssetLoader {
         ctMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         emptyMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/empty_map_bar.png"));
         emptyMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        emptyPotKey = new Texture(Gdx.files.internal(clientDir + "data/ui/empty_pot_slot.png"));
+        emptyPotKey.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         chatBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/chat_bar.png"));
         chatBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -258,6 +261,9 @@ public class AssetLoader {
         ctMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         emptyMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/empty_map_bar.png"));
         emptyMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        emptyPotKey = new Texture(Gdx.files.internal(clientDir + "data/ui/empty_pot_slot.png"));
+        emptyPotKey.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         chatBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/chat_bar.png"));
         chatBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

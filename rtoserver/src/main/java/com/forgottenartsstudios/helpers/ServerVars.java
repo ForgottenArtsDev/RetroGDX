@@ -19,7 +19,7 @@ import javax.swing.JFrame;
  */
 
 public class ServerVars {
-    public static final String buildVersion = "v0.1.541";
+    public static final String buildVersion = "v0.2.000";
 
     public static JFrame serverWindow;
     public static boolean ServerRunning = true;
@@ -132,6 +132,8 @@ public class ServerVars {
     // Hot keys
     public static final int HOT_KEY_Q = 1;
     public static final int HOT_KEY_E = 2;
+    public static final int HOT_KEY_R = 3;
+    public static final int HOT_KEY_F = 4;
 
     // NPC Speeds //
     public static int NPC_SPEED;

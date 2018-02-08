@@ -589,13 +589,23 @@ public class HandleServerData {
         int index = sBuyItem.index;
         int shopNum = sBuyItem.shopNum;
         int shopSlot = sBuyItem.shopSlot;
+        int buyAmt = sBuyItem.buyAmt;
 
         if (index <= 0) { return; }
         if (shopNum <= 0) { return; }
         if (shopSlot <= 0) { return; }
 
         int itemNum = ServerVars.Shops[shopNum].itemNum[shopSlot];
-        int itemVal = ServerVars.Shops[shopNum].itemVal[shopSlot];
+
+        if (ServerVars.Items[itemNum].itemType != ServerVars.ITEM_TYPE_POTION) {
+            buyAmt = 0;
+        }
+        int itemVal;
+        if (buyAmt > 0) {
+            itemVal = buyAmt;
+        } else {
+            itemVal = ServerVars.Shops[shopNum].itemVal[shopSlot];
+        }
 
         if (itemNum <= 0) { return; }
         if (itemVal <= 0) { return; }
@@ -612,8 +622,14 @@ public class HandleServerData {
             }
         }
         if (ServerVars.Items[itemNum].Cost > 0) {
-            if (goldTotal >= ServerVars.Items[itemNum].Cost) {
-                goldTotal -= ServerVars.Items[itemNum].Cost;
+            int cost;
+            if (buyAmt > 0) {
+                cost = (ServerVars.Items[itemNum].Cost * buyAmt);
+            } else {
+                cost = ServerVars.Items[itemNum].Cost;
+            }
+            if (goldTotal >= cost) {
+                goldTotal -= cost;
                 if (ServerVars.Items[itemNum].isStackable == 0) {
                     for (int i = 1; i <= 60; i++) {
                         if (ServerVars.Players[index].inventory[i].getItemNum() == 0) {
@@ -1645,14 +1661,18 @@ public class HandleServerData {
         int hotKey = setHotKey.hotKey;
         int hotKeyNum = setHotKey.hotKeyVal;
 
-        System.out.println("Hotkey: " + hotKey + ", Hotkeynum: " + hotKeyNum);
-
         switch (hotKey) {
             case ServerVars.HOT_KEY_Q:
                 ServerVars.Players[index].setHotKeyQ(hotKeyNum);
                 break;
             case ServerVars.HOT_KEY_E:
                 ServerVars.Players[index].setHotKeyE(hotKeyNum);
+                break;
+            case ServerVars.HOT_KEY_R:
+                ServerVars.Players[index].setHotKeyR(hotKeyNum);
+                break;
+            case ServerVars.HOT_KEY_F:
+                ServerVars.Players[index].setHotKeyF(hotKeyNum);
                 break;
         }
     }

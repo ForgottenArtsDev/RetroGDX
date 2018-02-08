@@ -72,6 +72,8 @@ public class SaveData {
 
                 outputStream.writeObject(account.chars[i].getHotKeyQ());
                 outputStream.writeObject(account.chars[i].getHotKeyE());
+                outputStream.writeObject(account.chars[i].getHotKeyR());
+                outputStream.writeObject(account.chars[i].getHotKeyF());
 
                 for (int a = 1; a <= 60; a++) {
                     outputStream.writeObject(account.chars[i].inventory[a].getItemNum());

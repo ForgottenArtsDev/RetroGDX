@@ -101,6 +101,8 @@ public class LoadData {
 
                 account.chars[i].setHotKeyQ((Integer)inputStream.readObject());
                 account.chars[i].setHotKeyE((Integer)inputStream.readObject());
+                account.chars[i].setHotKeyR((Integer)inputStream.readObject());
+                account.chars[i].setHotKeyF((Integer)inputStream.readObject());
 
                 for (int a = 1; a <= 60; a++) {
                     account.chars[i].inventory[a].setItemNum((Integer)inputStream.readObject());
