@@ -483,28 +483,32 @@ public class HandleClientData {
     }
     public static GlyphLayout layout = new GlyphLayout();
     public static void HandleDmgNPC(Object object) {
-        SendNPCDmg sDmg = (SendNPCDmg) object;
+        try {
+            SendNPCDmg sDmg = (SendNPCDmg) object;
 
-        for (int i = 1; i <= 20; i++) {
-            if (Variables.DrawNPCDamage[i].getTimer() == 0) {
-                Variables.DrawNPCDamage[i].setMapNpcNum(sDmg.mapNPCNum);
-                Variables.DrawNPCDamage[i].setDamage(sDmg.damage);
+            for (int i = 1; i <= 20; i++) {
+                if (Variables.DrawNPCDamage[i].getTimer() == 0) {
+                    Variables.DrawNPCDamage[i].setMapNpcNum(sDmg.mapNPCNum);
+                    Variables.DrawNPCDamage[i].setDamage(sDmg.damage);
 
-                layout = new GlyphLayout();
-                layout.setText(AssetLoader.nameFont, Variables.DrawNPCDamage[i].getDamage() + "");
-                float width = layout.width;// contains the width of the current set text
+                    layout = new GlyphLayout();
+                    layout.setText(AssetLoader.nameFont, Variables.DrawNPCDamage[i].getDamage() + "");
+                    float width = layout.width;// contains the width of the current set text
 
-                float PlayerX = ((Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getX() * Variables.MoveSize) + Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getOffsetX());
-                float PlayerY = ((Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getY() * Variables.MoveSize) + Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getOffsetY());
+                    float PlayerX = ((Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getX() * Variables.MoveSize) + Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getOffsetX());
+                    float PlayerY = ((Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getY() * Variables.MoveSize) + Variables.MapNPCs[Variables.DrawNPCDamage[i].getMapNpcNum()].getOffsetY());
 
-                float nameX = PlayerX - ((int)width / 2) + 24;
-                float nameY = PlayerY - 28;
+                    float nameX = PlayerX - ((int) width / 2) + 24;
+                    float nameY = PlayerY - 28;
 
-                Variables.DrawNPCDamage[i].setX((int)nameX);
-                Variables.DrawNPCDamage[i].setY((int)nameY);
-                Variables.DrawNPCDamage[i].setTimer(20);
-                break;
+                    Variables.DrawNPCDamage[i].setX((int) nameX);
+                    Variables.DrawNPCDamage[i].setY((int) nameY);
+                    Variables.DrawNPCDamage[i].setTimer(20);
+                    break;
+                }
             }
+        } catch (Exception e) {
+            System.out.println("There was a problem with: " + e);
         }
     }
     public static void HandleRespawnNPC(Object object) {
