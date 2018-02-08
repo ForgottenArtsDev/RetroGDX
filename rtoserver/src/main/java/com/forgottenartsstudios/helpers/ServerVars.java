@@ -19,7 +19,7 @@ import javax.swing.JFrame;
  */
 
 public class ServerVars {
-    public static final String buildVersion = "v0.2.000";
+    public static final String buildVersion = "v0.2.001";
 
     public static JFrame serverWindow;
     public static boolean ServerRunning = true;

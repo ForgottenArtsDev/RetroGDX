@@ -22,7 +22,7 @@ import com.forgottenartsstudios.data.mapData;
  */
 
 public class Variables {
-    public static final String buildVersion = "v0.2.000";
+    public static final String buildVersion = "v0.2.001";
     public static boolean InvalidBuildVersion = false;
 
     public static int AndroidScreenWidth = 480;
@@ -64,11 +64,11 @@ public class Variables {
     public static boolean saveLogin;
     public static String Login_ID = "", Login_PW = "";
 
-    //public static String Server_IP = "76.112.239.106";
+    public static String Server_IP = "76.112.239.106";
     //public static String Server_IP = "162.198.233.237";
     //public static String Server_IP = "192.168.1.6";
     //public static String Server_IP = "10.0.0.53";
-    public static String Server_IP = "192.168.1.11";
+    //public static String Server_IP = "192.168.1.11";
     public static int Server_Port = 4001; // LIVE SERVER
     //public static int Server_Port = 4003; // TEST SERVER
     public static boolean serverOnline = false;
