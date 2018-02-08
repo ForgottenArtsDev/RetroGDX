@@ -657,41 +657,43 @@ public class RenderDesktop {
         }
     }
     public static void gsInGame(long tickCount) {
-        // Search for NPC
-        tryNPCSearch();
+        try {
+            // Search for NPC
+            tryNPCSearch();
 
-        // Timers
-        buyMsgTimer(tickCount);
-        drawDmgTimer(tickCount);
+            // Timers
+            buyMsgTimer(tickCount);
+            drawDmgTimer(tickCount);
 
-        // Check if it's null and fix that shit - Side note: Why this shit null anyway?
-        if (Variables.Players[Variables.MyIndex] == null) {
-            Variables.Players[Variables.MyIndex] = Variables.MyAccount.chars[Variables.MyAccount.getActiveChar()];
-        }
+            // Check if it's null and fix that shit - Side note: Why this shit null anyway?
+            if (Variables.Players[Variables.MyIndex] == null) {
+                Variables.Players[Variables.MyIndex] = Variables.MyAccount.chars[Variables.MyAccount.getActiveChar()];
+            }
 
-        if (LastUpdateTime_CastTime < tickCount) {
-            for (int a = 1; a <= 60; a++) {
-                if (Variables.Players[Variables.MyIndex] != null) {
-                    if (Variables.Players[Variables.MyIndex].spells != null) {
-                        if (Variables.Players[Variables.MyIndex].spells[a] != null) {
-                            if (Variables.Spells != null) {
-                                if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()] != null) {
-                                    if (Variables.Players[Variables.MyIndex].spells[a].getSpellNum() > 0) {
-                                        if (Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() < Variables.Players[Variables.MyIndex].spells[a].getCastTime()) {
-                                            Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() + UpdateTime_CastTime);
-                                        } else {
-                                            if (Variables.Players[Variables.MyIndex].spells[a].getCastTime() > 0) {
-                                                Variables.Players[Variables.MyIndex].spells[a].setCoolDown(Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()].CoolDown);
+            if (LastUpdateTime_CastTime < tickCount) {
+                for (int a = 1; a <= 60; a++) {
+                    if (Variables.Players[Variables.MyIndex] != null) {
+                        if (Variables.Players[Variables.MyIndex].spells != null) {
+                            if (Variables.Players[Variables.MyIndex].spells[a] != null) {
+                                if (Variables.Spells != null) {
+                                    if (Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()] != null) {
+                                        if (Variables.Players[Variables.MyIndex].spells[a].getSpellNum() > 0) {
+                                            if (Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() < Variables.Players[Variables.MyIndex].spells[a].getCastTime()) {
+                                                Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(Variables.Players[Variables.MyIndex].spells[a].getCastTimeTimer() + UpdateTime_CastTime);
+                                            } else {
+                                                if (Variables.Players[Variables.MyIndex].spells[a].getCastTime() > 0) {
+                                                    Variables.Players[Variables.MyIndex].spells[a].setCoolDown(Variables.Spells[Variables.Players[Variables.MyIndex].spells[a].getSpellNum()].CoolDown);
+                                                    Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(0);
+                                                }
+                                                Variables.Players[Variables.MyIndex].spells[a].setCastTime(0);
+                                                Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(0);
+                                            }
+                                            if (Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() < Variables.Players[Variables.MyIndex].spells[a].getCoolDown()) {
+                                                Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() + UpdateTime_CastTime);
+                                            } else {
+                                                Variables.Players[Variables.MyIndex].spells[a].setCoolDown(0);
                                                 Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(0);
                                             }
-                                            Variables.Players[Variables.MyIndex].spells[a].setCastTime(0);
-                                            Variables.Players[Variables.MyIndex].spells[a].setCastTimeTimer(0);
-                                        }
-                                        if (Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() < Variables.Players[Variables.MyIndex].spells[a].getCoolDown()) {
-                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(Variables.Players[Variables.MyIndex].spells[a].getCoolDownTimer() + UpdateTime_CastTime);
-                                        } else {
-                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDown(0);
-                                            Variables.Players[Variables.MyIndex].spells[a].setCoolDownTimer(0);
                                         }
                                     }
                                 }
@@ -699,85 +701,97 @@ public class RenderDesktop {
                         }
                     }
                 }
+                LastUpdateTime_CastTime = tickCount + UpdateTime_CastTime;
             }
-            LastUpdateTime_CastTime = tickCount + UpdateTime_CastTime;
-        }
 
-        for (int i = 1; i <= Variables.MaxMapSpells; i++) {
-            if (Variables.MapSpells[i] != null) {
-                if (Variables.MapSpells[i].getSpellNum() > 0) {
-                    if (Variables.MapSpells[i].getTimer() < tickCount) {
-                        if (Variables.MapSpells[i].getFrame() < Variables.Spells[Variables.MapSpells[i].getSpellNum()].AnimFrames) {
-                            Variables.MapSpells[i].setFrame(Variables.MapSpells[i].getFrame() + 1);
-                            Variables.MapSpells[i].setTimer(tickCount + Variables.Spells[Variables.MapSpells[i].getSpellNum()].AnimSpeed);
-                        } else {
-                            Variables.MapSpells[i] = new MapSpell();
+            for (int i = 1; i <= Variables.MaxMapSpells; i++) {
+                if (Variables.MapSpells[i] != null) {
+                    if (Variables.MapSpells[i].getSpellNum() > 0) {
+                        if (Variables.MapSpells[i].getTimer() < tickCount) {
+                            if (Variables.MapSpells[i].getFrame() < Variables.Spells[Variables.MapSpells[i].getSpellNum()].AnimFrames) {
+                                Variables.MapSpells[i].setFrame(Variables.MapSpells[i].getFrame() + 1);
+                                Variables.MapSpells[i].setTimer(tickCount + Variables.Spells[Variables.MapSpells[i].getSpellNum()].AnimSpeed);
+                            } else {
+                                Variables.MapSpells[i] = new MapSpell();
+                            }
                         }
                     }
                 }
             }
-        }
 
-        // Death Timers //
-        if (LastUpdateTime_Death < tickCount) {
-            for (int i = 1; i <= Variables.MaxPlayers; i++) {
-                if (Variables.Players[i].getDeathTimer() > 0) {
-                    Variables.Players[i].setDeathTimer(Variables.Players[i].getDeathTimer() - 1);
-                    if (Variables.Players[i].getDeathTimer() == 0) {
-                        Variables.Players[i].setTempSprite(0);
+            // Death Timers //
+            if (LastUpdateTime_Death < tickCount) {
+                for (int i = 1; i <= Variables.MaxPlayers; i++) {
+                    if (Variables.Players[i].getDeathTimer() > 0) {
+                        Variables.Players[i].setDeathTimer(Variables.Players[i].getDeathTimer() - 1);
+                        if (Variables.Players[i].getDeathTimer() == 0) {
+                            Variables.Players[i].setTempSprite(0);
+                        }
                     }
                 }
+                LastUpdateTime_Death = tickCount + UpdateTime_Death;
             }
-            LastUpdateTime_Death = tickCount + UpdateTime_Death;
-        }
 
-        if (LastUpdateTime_InputTimer < tickCount) {
-            if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
-                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                    InputDesktop.handleInput();
-                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-                    InputDesktop.handleAndroidInput();
+            if (LastUpdateTime_InputTimer < tickCount) {
+                if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
+                    if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
+                        InputDesktop.handleInput();
+                    } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                        InputDesktop.handleAndroidInput();
+                    }
                 }
-            }
 
-            if (Variables.usePoint) {
-                if (Variables.usePointTimer == 0) {
-                    Variables.usePoint = false;
+                if (Variables.usePoint) {
+                    if (Variables.usePointTimer == 0) {
+                        Variables.usePoint = false;
+                    }
+                    Variables.usePointTimer--;
                 }
-                Variables.usePointTimer--;
+                LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
             }
-            LastUpdateTime_InputTimer = tickCount + UpdateTime_InputTimer;
+
+            for (int i = 1; i <= Variables.MaxPlayers; i++) {
+                processMovement(i);
+            }
+            for (int i = 1; i <= Variables.MaxMapNPCs; i++) {
+                processNPCMovement(i);
+            }
+
+            InputDesktop.checkMovement();
+            InputDesktop.checkAttack(tickCount);
+            InputDesktop.checkPickUp();
+
+            batcher.draw(AssetLoader.inGameBG, 0, 0, 800, 600, 0, 0, 800, 600, false, true);
+            renderMap_Lower();
+            drawItems();
+            drawPlayersAndNPCs(tickCount);
+            renderMap_Upper();
+            drawNames();
+            drawUI();
+
+            // FPS
+            drawText("" + Gdx.graphics.getFramesPerSecond(), 12, 12, Color.WHITE);
+
+            drawChat();
+
+            if (Variables.inMenu) {
+                drawMenu();
+            }
+            if (Variables.inShop) {
+                drawShop();
+            }
+            if (Variables.inStatus) {
+                drawStatus();
+            }
+            if (Variables.inInventory) {
+                drawInventory();
+            }
+            if (Variables.inSpells) {
+                drawSpellInventory();
+            }
+        } catch (Exception e) {
+            System.out.println("There was a problem with: " + e);
         }
-
-        for (int i = 1; i <= Variables.MaxPlayers; i++) {
-            processMovement(i);
-        }
-        for (int i = 1; i <= Variables.MaxMapNPCs; i++) {
-            processNPCMovement(i);
-        }
-
-        InputDesktop.checkMovement();
-        InputDesktop.checkAttack(tickCount);
-        InputDesktop.checkPickUp();
-
-        batcher.draw(AssetLoader.inGameBG, 0, 0, 800, 600, 0, 0, 800, 600, false, true);
-        renderMap_Lower();
-        drawItems();
-        drawPlayersAndNPCs(tickCount);
-        renderMap_Upper();
-        drawNames();
-        drawUI();
-
-        // FPS
-        drawText("" + Gdx.graphics.getFramesPerSecond(), 12, 12, Color.WHITE);
-
-        drawChat();
-
-        if (Variables.inMenu) { drawMenu(); }
-        if (Variables.inShop) { drawShop(); }
-        if (Variables.inStatus) { drawStatus(); }
-        if (Variables.inInventory) { drawInventory(); }
-        if (Variables.inSpells) { drawSpellInventory(); }
     }
 
     public static void drawText(String text, float X, float Y, Color color) {
