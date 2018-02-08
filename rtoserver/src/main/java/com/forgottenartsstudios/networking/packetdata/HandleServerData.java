@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.Random;
 
 import static com.badlogic.gdx.math.MathUtils.random;
+import static com.forgottenartsstudios.helpers.ServerVars.Parties;
 import static com.forgottenartsstudios.helpers.ServerVars.Rnd;
 
 /**
@@ -1705,21 +1706,25 @@ public class HandleServerData {
                                 // Calculate spell damage
                                 if (ServerVars.Players[index].spells[spellInvSlot].getSpellNum() <= 0) { return; }
                                 if (ServerVars.Players[index].spells[spellInvSlot].getCoolDown() == 0) {
-                                    //if (ServerVars.Spells[spellNum].CastTime > 0) {
+                                    if (ServerVars.Spells[spellNum].CastTime > 0) {
                                         ServerVars.Players[index].spells[spellInvSlot].setCastTime(ServerVars.Spells[spellNum].CastTime);
                                         ServerVars.Players[index].spells[spellInvSlot].setCastTimeTimer(0);
                                         SendServerData.SendCastTime(index, spellInvSlot, ServerVars.Spells[spellNum].CastTime);
-                                    //}
+                                    } else {
+                                        SendServerData.SendCastTime(index, spellInvSlot, 0);
+                                    }
                                 }
                             }
                         }
                     } else if (ServerVars.Players[index].getTargetType() == ServerVars.SEARCH_TYPE_PLAYER) {
                         if (ServerVars.Players[index].spells[spellInvSlot].getCoolDown() == 0) {
-                            //if (ServerVars.Spells[spellNum].CastTime > 0) {
+                            if (ServerVars.Spells[spellNum].CastTime > 0) {
                                 ServerVars.Players[index].spells[spellInvSlot].setCastTime(ServerVars.Spells[spellNum].CastTime);
                                 ServerVars.Players[index].spells[spellInvSlot].setCastTimeTimer(0);
                                 SendServerData.SendCastTime(index, spellInvSlot, ServerVars.Spells[spellNum].CastTime);
-                            //}
+                            } else {
+                                SendServerData.SendCastTime(index, spellInvSlot, 0);
+                            }
                         }
                     }
                 }

@@ -649,8 +649,6 @@ public class HandleClientData {
         String msg = sendSystemMessage.msg;
         Color color = sendSystemMessage.color;
 
-        System.out.println(msg);
-
         for (int i = 1; i <= 20; i++) {
             if (Variables.DrawSystemMessage[i].getTimer() == 0) {
                 Variables.DrawSystemMessage[i].setMsg(msg);

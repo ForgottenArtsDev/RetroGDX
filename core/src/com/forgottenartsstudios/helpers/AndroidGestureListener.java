@@ -43,14 +43,12 @@ public class AndroidGestureListener implements GestureListener {
             if (count > 1) {
                 Variables.tapCount = 2;
             }
-            System.out.println("TAP! count: " + Variables.tapCount);
         }
         return false;
     }
 
     @Override
     public boolean longPress(float x, float y) {
-        System.out.println("LONGPRESS!");
         return false;
     }
 

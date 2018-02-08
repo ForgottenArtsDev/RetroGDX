@@ -1437,8 +1437,6 @@ public class RTOServer extends ApplicationAdapter {
                 int percent = (int)(baseDmg * (baseSplDmg / 100.0f));
                 int spellDmg = (baseDmg + percent);
 
-                System.out.println(baseDmg + "+" + percent + "=" + spellDmg);
-
                 if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
                     if (spellDmg > RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum())) {
                         spellDmg = spellDmg - RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
