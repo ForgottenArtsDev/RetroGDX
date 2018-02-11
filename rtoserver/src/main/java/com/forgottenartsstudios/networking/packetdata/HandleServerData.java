@@ -1195,9 +1195,23 @@ public class HandleServerData {
                 if (ServerVars.Items[ServerVars.MapItems[mapNum].Item[i].itemNum].isStackable == 1) {
                     for (int a = 1; a <= 60; a++) {
                         if (ServerVars.Players[index].inventory[a].getItemNum() == ServerVars.MapItems[mapNum].Item[i].itemNum) {
-                            ServerVars.Players[index].inventory[a].setItemVal(ServerVars.Players[index].inventory[a].getItemVal() + ServerVars.MapItems[mapNum].Item[i].itemVal);
-
                             int value = ServerVars.MapItems[mapNum].Item[i].itemVal;
+
+                            if (ServerVars.MapItems[mapNum].Item[i].itemNum == 1) {
+                                int Percent = (int) (value * (15.0f / 100.0f));
+
+                                Percent = ServerVars.Rnd.nextInt(Percent + 1) + 1;
+
+                                int plusOrMinus = ServerVars.Rnd.nextInt(3 + 1) + 1;
+
+                                if (plusOrMinus == 1) {
+                                    value += Percent;
+                                } else if (plusOrMinus == 2) {
+                                    value -= Percent;
+                                }
+                            }
+
+                            ServerVars.Players[index].inventory[a].setItemVal(ServerVars.Players[index].inventory[a].getItemVal() + value);
 
                             ServerVars.MapItems[mapNum].Item[i] = new MapItem();
 
@@ -1688,12 +1702,12 @@ public class HandleServerData {
         if (hotKey >= ServerVars.HOT_KEY_Q && hotKey <= ServerVars.HOT_KEY_E) {
             switch (hotKey) {
                 case ServerVars.HOT_KEY_Q:
-                    spellNum = ServerVars.Players[index].spells[ServerVars.Players[index].getHotKeyQ()].getSpellNum();
                     spellInvSlot = ServerVars.Players[index].getHotKeyQ();
+                    spellNum = ServerVars.Players[index].spells[spellInvSlot].getSpellNum();
                     break;
                 case ServerVars.HOT_KEY_E:
-                    spellNum = ServerVars.Players[index].spells[ServerVars.Players[index].getHotKeyE()].getSpellNum();
                     spellInvSlot = ServerVars.Players[index].getHotKeyE();
+                    spellNum = ServerVars.Players[index].spells[spellInvSlot].getSpellNum();
                     break;
             }
             if (spellNum > 0) {
