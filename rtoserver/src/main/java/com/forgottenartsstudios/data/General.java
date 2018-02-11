@@ -236,6 +236,7 @@ public class General {
                             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum() == 0) {
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setName(ServerVars.npcs[ServerVars.mapData[mapNum].Tile[X][Y].Data1].Name);
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setNum(ServerVars.mapData[mapNum].Tile[X][Y].Data1);
+                                ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setLevel(ServerVars.npcs[ServerVars.mapData[mapNum].Tile[X][Y].Data1].Level);
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setSprite(ServerVars.npcs[ServerVars.mapData[mapNum].Tile[X][Y].Data1].Sprite);
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setDir(ServerVars.mapData[mapNum].Tile[X][Y].Data2);
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setHP(ServerVars.npcs[ServerVars.mapData[mapNum].Tile[X][Y].Data1].Health);
@@ -314,6 +315,7 @@ public class General {
         NpcNum = ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].getNum();
         if (NpcNum > 0) {
             ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].setNum(NpcNum);
+            ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].setLevel(ServerVars.npcs[NpcNum].Level);
             ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].setTarget(0);
             ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].setTargetType(0);
 

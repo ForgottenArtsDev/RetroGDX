@@ -386,6 +386,11 @@ public class RTOServer extends ApplicationAdapter {
                                             SendServerData.SendDisconnectPlayer(i);
 
                                             serverWindow.svrMonitor.append("Account (" + ServerVars.Accounts[i].getID() + ") Disconnected" + "\n");
+                                            for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                                if (ServerVars.Players[a] != null) {
+                                                    SendServerData.SendMessage(a, ServerVars.MESSAGE_TYPE_SYSTEM, ServerVars.Players[i].getName() + " has left Retro Tales Online!");
+                                                }
+                                            }
                                         }
 
                                         ServerVars.Accounts[i] = new AccountData();

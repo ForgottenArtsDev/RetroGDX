@@ -321,11 +321,13 @@ public class HandleClientData {
         int maxHP = sndNPCSpawn.maxHP;
         int dir = sndNPCSpawn.dir;
         int sprite = sndNPCSpawn.sprite;
+        int level = sndNPCSpawn.level;
 
         //Variables.MapNPCs[mapNPCNum] = new MapNPC();
 
         Variables.MapNPCs[mapNPCNum].setName(name);
         Variables.MapNPCs[mapNPCNum].setNum(npcNum);
+        Variables.MapNPCs[mapNPCNum].setLevel(level);
         Variables.MapNPCs[mapNPCNum].setHP(hp);
         Variables.MapNPCs[mapNPCNum].setMaxHP(maxHP);
         Variables.MapNPCs[mapNPCNum].setX(x);
@@ -531,6 +533,7 @@ public class HandleClientData {
         for (int i = 1; i <= Variables.MaxMapNPCs; i++) {
             Variables.MapNPCs[i].setName(sendMapNPCs.mapNPCs[i].getName());
             Variables.MapNPCs[i].setNum(sendMapNPCs.mapNPCs[i].getNum());
+            Variables.MapNPCs[i].setLevel(sendMapNPCs.mapNPCs[i].getLevel());
 
             Variables.MapNPCs[i].setHP(sendMapNPCs.mapNPCs[i].getHP());
             Variables.MapNPCs[i].setMaxHP(sendMapNPCs.mapNPCs[i].getMaxHP());

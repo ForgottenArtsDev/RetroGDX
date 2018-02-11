@@ -1970,6 +1970,28 @@ public class RenderAndroid {
                 float PlayerX = ((Variables.MapNPCs[i].getX() * Variables.MoveSize) + Variables.MapNPCs[i].getOffsetX());
                 float PlayerY = ((Variables.MapNPCs[i].getY() * Variables.MoveSize) + Variables.MapNPCs[i].getOffsetY());
 
+                int playerLvl = Variables.Players[Variables.MyIndex].getLevel();
+                int npcLvl = Variables.MapNPCs[i].getLevel();
+
+                int lvlDiff = playerLvl - npcLvl;
+                Color color = Color.WHITE;
+
+                if (lvlDiff <= -5) {
+                    color = Color.RED;
+                }
+                if (lvlDiff < -1 && lvlDiff > -5) {
+                    color = toRGB(245, 139, 145);
+                }
+                if (lvlDiff == 0 || lvlDiff == 1 || lvlDiff == -1) {
+                    color = Color.WHITE;
+                }
+                if (lvlDiff > 1 && lvlDiff < 5) {
+                    color = Color.GREEN;
+                }
+                if (lvlDiff >= 5) {
+                    color = Color.LIGHT_GRAY;
+                }
+
                 if (Variables.MapNPCs[i].getName() == null) { break; }
                 if (Variables.Players[Variables.MyIndex].getTarget() == i) {
                     if (Variables.Players[Variables.MyIndex].getTargetType() == Variables.SEARCH_TYPE_NPC) {
@@ -1996,10 +2018,10 @@ public class RenderAndroid {
                             if (Variables.Players[Variables.MyIndex].getTargetType() == Variables.SEARCH_TYPE_NPC) {
                                 drawName(">" + Variables.MapNPCs[i].getName() + "<", nameX, nameY, Color.YELLOW);
                             } else {
-                                drawName(Variables.MapNPCs[i].getName(), nameX, nameY, Color.WHITE);
+                                drawName(Variables.MapNPCs[i].getName(), nameX, nameY, color);
                             }
                         } else {
-                            drawName(Variables.MapNPCs[i].getName(), nameX, nameY, Color.WHITE);
+                            drawName(Variables.MapNPCs[i].getName(), nameX, nameY, color);
                         }
                     }
                 }
