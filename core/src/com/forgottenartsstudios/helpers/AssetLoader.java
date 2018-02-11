@@ -31,6 +31,7 @@ public class AssetLoader {
     public static Texture warriorEmb, wizardEmb, clericEmb, rangerEmb, rogueEmb;
     public static Texture warriorEmbT, wizardEmbT, clericEmbT, rangerEmbT, rogueEmbT;
     public static Texture male, female;
+    public static Texture longPressMenu;
     public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, ctMapBar, emptyMapBar, crown;
     public static Texture chatBar, playerMenu, partyInvite, inPartyBtn;
     public static Texture disbandBtn, kickBtn, leaveBtn, appointBtn, emptyPotKey;
@@ -82,6 +83,9 @@ public class AssetLoader {
         playerMenu.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         partyInvite = new Texture(Gdx.files.internal(clientDir + "data/ui/android/party_invite.png"));
         partyInvite.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        longPressMenu = new Texture(Gdx.files.internal(clientDir + "data/ui/android/long_press_menu.png"));
+        longPressMenu.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         hpBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/hp_bar.png"));
         hpBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

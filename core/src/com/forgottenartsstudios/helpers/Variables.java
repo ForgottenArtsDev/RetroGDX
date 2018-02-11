@@ -75,7 +75,7 @@ public class Variables {
 
     public static boolean pressUp, pressDown, pressLeft, pressRight, pressAttack, pickUpItem;
     public static boolean pauseMovement;
-    public static boolean dPad_Up, dPad_Down, dPad_Left, dPad_Right, bBtn, aBtn;
+    public static boolean dPad_Up, dPad_Down, dPad_Left, dPad_Right, bBtn, aBtn, longPressMenu;
     public static boolean hotKeyQ, hotKeyE, hotKeyR, hotKeyF;
     public static boolean inMenu, inShop, inInventory, inStatus, inChat, inSpells;
     public static boolean buyItem, useItem, usePoint, playerMenu;
@@ -84,6 +84,7 @@ public class Variables {
     public static boolean inputID, inputPW, inputName;
     public static int menuIndex, target;
     public static int shopBuyAmt = 1;
+    public static int longPressMenuX, longPressMenuY;
 
     public static int MyIndex;
     public static int ShopNum;

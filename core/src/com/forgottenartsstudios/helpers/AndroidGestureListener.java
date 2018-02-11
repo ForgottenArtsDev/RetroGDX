@@ -49,6 +49,11 @@ public class AndroidGestureListener implements GestureListener {
 
     @Override
     public boolean longPress(float x, float y) {
+        if (Variables.Game_State == Variables.Game_State_InGame) {
+            if (Variables.inInventory) {
+                Variables.longPressMenu = true;
+            }
+        }
         return false;
     }
 

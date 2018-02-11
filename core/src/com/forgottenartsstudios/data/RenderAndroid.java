@@ -1125,6 +1125,10 @@ public class RenderAndroid {
             }
         }
 
+        if (Variables.longPressMenu) {
+            batcher.draw(AssetLoader.longPressMenu, Variables.longPressMenuX, Variables.longPressMenuY, 64, 160, 0, 0, 64, 160, false, true);
+        }
+
         // Back Button
         drawText("Back", 24, 437, Color.WHITE);
 

@@ -868,7 +868,8 @@ public class InputAndroid {
                 if (!Variables.touchDown) {
                     Variables.touchDown = true;
                     if (Variables.inInventory) {
-                        SendClientData.SendDropItem(Variables.selectedInvSlot);
+                        Variables.inInventory = false;
+                        Variables.inMenu = true;
                     } else if (Variables.inSpells) {
 
                     } else if (Variables.inMenu) {
@@ -962,6 +963,29 @@ public class InputAndroid {
         }
     }
     public static void handleInventory(Vector3 worldCoordinates) {
+        if (Variables.longPressMenu) {
+            // Use
+            if (worldCoordinates.x >= Variables.longPressMenuX + 15 && worldCoordinates.x <= Variables.longPressMenuX + 49) {
+                if (worldCoordinates.y >= Variables.longPressMenuY + 8 && worldCoordinates.y <= Variables.longPressMenuY + 24) {
+                    SendClientData.SendUseItem();
+                    Variables.longPressMenu = false;
+                }
+            }
+            // Drop
+            if (worldCoordinates.x >= Variables.longPressMenuX + 8 && worldCoordinates.x <= Variables.longPressMenuX + 56) {
+                if (worldCoordinates.y >= Variables.longPressMenuY + 48 && worldCoordinates.y <= Variables.longPressMenuY + 64) {
+                    SendClientData.SendDropItem(Variables.selectedInvSlot);
+                    Variables.longPressMenu = false;
+                }
+            }
+            // Trash
+            if (worldCoordinates.x >= Variables.longPressMenuX + 4 && worldCoordinates.x <= Variables.longPressMenuX + 58) {
+                if (worldCoordinates.y >= Variables.longPressMenuY + 138 && worldCoordinates.y <= Variables.longPressMenuY + 154) {
+
+                }
+            }
+        }
+
         int x = 36;
         int y = 36;
         for (int i = 1; i <= 60; i++) {
@@ -972,22 +996,7 @@ public class InputAndroid {
                     if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                         if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                             if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        } else {
-                                            if (!Variables.touchDown) {
-                                                Variables.touchDown = true;
-                                                SendClientData.SendUseItem();
-                                            }
-                                        }
-                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                        if (Variables.selectedInvSlot == i) {
-                                            //SendClientData.SendDropItem(i);
-                                        }
-                                    }
-                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.inputTimer == 0) {
                                         if (Variables.selectedInvSlot != i) {
                                             Variables.selectedInvSlot = i;
@@ -995,6 +1004,11 @@ public class InputAndroid {
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
                                         }
+                                        if (Variables.longPressMenu) {
+                                            Variables.longPressMenu = false;
+                                        }
+                                        Variables.longPressMenuX = x + 32;
+                                        Variables.longPressMenuY = y;
                                         Variables.inputTimer = 1;
                                     }
                                     Variables.tapCount = 0;
@@ -1011,22 +1025,7 @@ public class InputAndroid {
                     if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                         if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                             if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        } else {
-                                            if (!Variables.touchDown) {
-                                                Variables.touchDown = true;
-                                                SendClientData.SendUseItem();
-                                            }
-                                        }
-                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                        if (Variables.selectedInvSlot == i) {
-                                            //SendClientData.SendDropItem(i);
-                                        }
-                                    }
-                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.inputTimer == 0) {
                                         if (Variables.selectedInvSlot != i) {
                                             Variables.selectedInvSlot = i;
@@ -1034,6 +1033,11 @@ public class InputAndroid {
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
                                         }
+                                        if (Variables.longPressMenu) {
+                                            Variables.longPressMenu = false;
+                                        }
+                                        Variables.longPressMenuX = x + 32;
+                                        Variables.longPressMenuY = y;
                                         Variables.inputTimer = 1;
                                     }
                                     Variables.tapCount = 0;
@@ -1050,22 +1054,7 @@ public class InputAndroid {
                     if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                         if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                             if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        } else {
-                                            if (!Variables.touchDown) {
-                                                Variables.touchDown = true;
-                                                SendClientData.SendUseItem();
-                                            }
-                                        }
-                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                        if (Variables.selectedInvSlot == i) {
-                                            //SendClientData.SendDropItem(i);
-                                        }
-                                    }
-                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.inputTimer == 0) {
                                         if (Variables.selectedInvSlot != i) {
                                             Variables.selectedInvSlot = i;
@@ -1073,6 +1062,11 @@ public class InputAndroid {
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
                                         }
+                                        if (Variables.longPressMenu) {
+                                            Variables.longPressMenu = false;
+                                        }
+                                        Variables.longPressMenuX = x + 32;
+                                        Variables.longPressMenuY = y;
                                         Variables.inputTimer = 1;
                                     }
                                     Variables.tapCount = 0;
@@ -1089,22 +1083,7 @@ public class InputAndroid {
                     if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                         if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                             if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        } else {
-                                            if (!Variables.touchDown) {
-                                                Variables.touchDown = true;
-                                                SendClientData.SendUseItem();
-                                            }
-                                        }
-                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                        if (Variables.selectedInvSlot == i) {
-                                            //SendClientData.SendDropItem(i);
-                                        }
-                                    }
-                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.inputTimer == 0) {
                                         if (Variables.selectedInvSlot != i) {
                                             Variables.selectedInvSlot = i;
@@ -1112,6 +1091,11 @@ public class InputAndroid {
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
                                         }
+                                        if (Variables.longPressMenu) {
+                                            Variables.longPressMenu = false;
+                                        }
+                                        Variables.longPressMenuX = x + 32;
+                                        Variables.longPressMenuY = y;
                                         Variables.inputTimer = 1;
                                     }
                                     Variables.tapCount = 0;
@@ -1128,22 +1112,7 @@ public class InputAndroid {
                     if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                         if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                             if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        } else {
-                                            if (!Variables.touchDown) {
-                                                Variables.touchDown = true;
-                                                SendClientData.SendUseItem();
-                                            }
-                                        }
-                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                        if (Variables.selectedInvSlot == i) {
-                                            //SendClientData.SendDropItem(i);
-                                        }
-                                    }
-                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.inputTimer == 0) {
                                         if (Variables.selectedInvSlot != i) {
                                             Variables.selectedInvSlot = i;
@@ -1151,6 +1120,11 @@ public class InputAndroid {
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
                                         }
+                                        if (Variables.longPressMenu) {
+                                            Variables.longPressMenu = false;
+                                        }
+                                        Variables.longPressMenuX = x + 32;
+                                        Variables.longPressMenuY = y;
                                         Variables.inputTimer = 1;
                                     }
                                     Variables.tapCount = 0;
@@ -1165,22 +1139,7 @@ public class InputAndroid {
                     if (Variables.Players[Variables.MyIndex].inventory[i].getItemNum() > 0) {
                         if (worldCoordinates.x >= x && worldCoordinates.x <= x + 36) {
                             if (worldCoordinates.y >= y && worldCoordinates.y <= y + 36) {
-                                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                                    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                                        if (Variables.selectedInvSlot != i) {
-                                            Variables.selectedInvSlot = i;
-                                        } else {
-                                            if (!Variables.touchDown) {
-                                                Variables.touchDown = true;
-                                                SendClientData.SendUseItem();
-                                            }
-                                        }
-                                    } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                        if (Variables.selectedInvSlot == i) {
-                                            //SendClientData.SendDropItem(i);
-                                        }
-                                    }
-                                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                                     if (Variables.inputTimer == 0) {
                                         if (Variables.selectedInvSlot != i) {
                                             Variables.selectedInvSlot = i;
@@ -1188,6 +1147,11 @@ public class InputAndroid {
                                         if (Variables.tapCount == 2) {
                                             SendClientData.SendUseItem();
                                         }
+                                        if (Variables.longPressMenu) {
+                                            Variables.longPressMenu = false;
+                                        }
+                                        Variables.longPressMenuX = x + 32;
+                                        Variables.longPressMenuY = y;
                                         Variables.inputTimer = 1;
                                     }
                                     Variables.tapCount = 0;
@@ -1201,19 +1165,21 @@ public class InputAndroid {
         }
 
         if (Variables.selectedInvSlot > 0) {
-            if (Variables.Items[Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum()].itemType == Variables.ITEM_TYPE_POTION) {
-                // R Hotkey
-                if (worldCoordinates.x >= 29 && worldCoordinates.x <= 60) {
-                    if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
-                        Variables.Players[Variables.MyIndex].setHotKeyR(Variables.selectedInvSlot);
-                        SendClientData.SendSetHotKey(Variables.HOT_KEY_R, Variables.selectedInvSlot);
+            if (Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot] != null) {
+                if (Variables.Items[Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum()].itemType == Variables.ITEM_TYPE_POTION) {
+                    // R Hotkey
+                    if (worldCoordinates.x >= 29 && worldCoordinates.x <= 60) {
+                        if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
+                            Variables.Players[Variables.MyIndex].setHotKeyR(Variables.selectedInvSlot);
+                            SendClientData.SendSetHotKey(Variables.HOT_KEY_R, Variables.selectedInvSlot);
+                        }
                     }
-                }
-                // F Hotkey
-                if (worldCoordinates.x >= 163 && worldCoordinates.x <= 194) {
-                    if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
-                        Variables.Players[Variables.MyIndex].setHotKeyF(Variables.selectedInvSlot);
-                        SendClientData.SendSetHotKey(Variables.HOT_KEY_F, Variables.selectedInvSlot);
+                    // F Hotkey
+                    if (worldCoordinates.x >= 163 && worldCoordinates.x <= 194) {
+                        if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
+                            Variables.Players[Variables.MyIndex].setHotKeyF(Variables.selectedInvSlot);
+                            SendClientData.SendSetHotKey(Variables.HOT_KEY_F, Variables.selectedInvSlot);
+                        }
                     }
                 }
             }
@@ -1238,6 +1204,7 @@ public class InputAndroid {
                     Variables.selectedInvSlot = 0;
                     Variables.inMenu = true;
                     Variables.menuIndex = 1;
+                    Variables.longPressMenu = false;
                 }
             }
         }
