@@ -622,47 +622,38 @@ public class SendServerData {
                     EXP = EXP * 1.2;
                     XP = EXP / 2;
                     if (lvlDiff <= 5) {
-                        XP = (int)(XP * (10.0f / 100.0f));
-                    }
-                    if (lvlDiff < 1 && lvlDiff > -5) {
-                        XP = (int)(XP * (50.0f / 100.0f));
-                    }
-                    if (lvlDiff > -1 && lvlDiff < 5) {
-                        XP = (int)(XP * (125.0f / 100.0f));
-                    }
-                    if (lvlDiff >= -5) {
-                        XP = (int)(XP * (150.0f / 100.0f));
+                        XP = (XP * (10.0f / 100.0f));
+                    } else if (lvlDiff > 1 && lvlDiff < 5) {
+                        XP = (XP * (50.0f / 100.0f));
+                    } else if (lvlDiff < -1 && lvlDiff > -5) {
+                        XP = (XP * (125.0f / 100.0f));
+                    } else if (lvlDiff >= -5) {
+                        XP = (XP * (150.0f / 100.0f));
                     }
                 } else if (split == 3) {
                     EXP = (double)ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].Exp;
                     EXP = EXP * 1.5;
                     XP = EXP / 3;
                     if (lvlDiff <= 5) {
-                        XP = (int)(XP * (10.0f / 100.0f));
-                    }
-                    if (lvlDiff < 1 && lvlDiff > -5) {
-                        XP = (int)(XP * (50.0f / 100.0f));
-                    }
-                    if (lvlDiff > -1 && lvlDiff < 5) {
-                        XP = (int)(XP * (125.0f / 100.0f));
-                    }
-                    if (lvlDiff >= -5) {
-                        XP = (int)(XP * (150.0f / 100.0f));
+                        XP = (XP * (10.0f / 100.0f));
+                    } else if (lvlDiff > 1 && lvlDiff < 5) {
+                        XP = (XP * (50.0f / 100.0f));
+                    } else if (lvlDiff < -1 && lvlDiff > -5) {
+                        XP = (XP * (125.0f / 100.0f));
+                    } else if (lvlDiff >= -5) {
+                        XP = (XP * (150.0f / 100.0f));
                     }
                 }
             } else {
                 XP = ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].Exp;
-                if (lvlDiff <= 5) {
-                    XP = (int)(XP * (10.0f / 100.0f));
-                }
-                if (lvlDiff < 1 && lvlDiff > -5) {
-                    XP = (int)(XP * (50.0f / 100.0f));
-                }
-                if (lvlDiff > -1 && lvlDiff < 5) {
-                    XP = (int)(XP * (125.0f / 100.0f));
-                }
-                if (lvlDiff >= -5) {
-                    XP = (int)(XP * (150.0f / 100.0f));
+                if (lvlDiff >= 5) {
+                    XP = (XP * (10.0f / 100.0f));
+                } else if (lvlDiff > 1 && lvlDiff < 5) {
+                    XP = (XP * (50.0f / 100.0f));
+                } else if (lvlDiff < -1 && lvlDiff > -5) {
+                    XP = (XP * (125.0f / 100.0f));
+                } else if (lvlDiff <= -5) {
+                    XP = (XP * (150.0f / 100.0f));
                 }
             }
 
