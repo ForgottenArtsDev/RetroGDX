@@ -1745,4 +1745,22 @@ public class HandleServerData {
             }
         }
     }
+    public static void HandleTrashItem(Object object) {
+        TrashItem trashItem = (TrashItem) object;
+
+        int index = trashItem.index;
+        int invSlot = trashItem.invSlot;
+
+        ServerVars.Players[index].inventory[invSlot].setItemNum(0);
+        ServerVars.Players[index].inventory[invSlot].setItemVal(0);
+
+        SendServerData.SendInvData(index, index);
+    }
+    public static void HandlePlayerNull(Object object) {
+        CheckPlayerDataNull checkPlayerDataNull = (CheckPlayerDataNull) object;
+
+        int index = checkPlayerDataNull.index;
+
+        SendServerData.SendPlayerData(index, index);
+    }
 }

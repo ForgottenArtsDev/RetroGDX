@@ -207,6 +207,8 @@ public class RTOnline extends Game {
         client.getKryo().register(SendCastTime.class);
         client.getKryo().register(SendCoolDown.class);
         client.getKryo().register(InvalidBuildVersion.class);
+        client.getKryo().register(TrashItem.class);
+        client.getKryo().register(CheckPlayerDataNull.class);
     }
 
     public static void checkPackets(Object object) {

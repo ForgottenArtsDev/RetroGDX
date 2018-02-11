@@ -22,7 +22,7 @@ import com.forgottenartsstudios.data.mapData;
  */
 
 public class Variables {
-    public static final String buildVersion = "v0.2.001";
+    public static final String buildVersion = "v0.2.100";
     public static boolean InvalidBuildVersion = false;
 
     public static int AndroidScreenWidth = 480;

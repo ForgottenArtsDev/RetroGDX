@@ -30,6 +30,7 @@ public class RenderAndroid {
     private static final long UpdateTime_LongPress = 1000;
     private static final long UpdateTime_CastTime = 10;
     private static final long UpdateTime_Death = 1000;
+    private static final long UpdateTime_PlayerNull = 10;
 
     ////////////////////////////
     // Update Routines Checks //
@@ -40,6 +41,7 @@ public class RenderAndroid {
     private static long LastUpdateTime_Loading;
     private static long LastUpdateTime_CastTime;
     private static long LastUpdateTime_Death;
+    private static long LastUpdateTime_PlayerNull;
 
     public static void gsTitleScreen(long tickCount) {
         if (LastUpdateTime_TapAnim < tickCount) {
@@ -419,6 +421,13 @@ public class RenderAndroid {
                 } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                     InputAndroid.handleAndroidInput();
                 }
+            }
+
+            if (LastUpdateTime_PlayerNull < tickCount) {
+                if (Variables.Players[Variables.MyIndex] == null) {
+                    SendClientData.SendPlayerNull();
+                }
+                LastUpdateTime_PlayerNull = tickCount + UpdateTime_PlayerNull;
             }
 
             if (LastUpdateTime_CastTime < tickCount) {

@@ -522,6 +522,8 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(SendCastTime.class);
         server.getKryo().register(SendCoolDown.class);
         server.getKryo().register(InvalidBuildVersion.class);
+        server.getKryo().register(TrashItem.class);
+        server.getKryo().register(CheckPlayerDataNull.class);
     }
     private static void checkPackets(Object object, Connection connection) {
         if (object instanceof Connect) { HandleServerData.HandleConnect(object, connection); }
@@ -549,6 +551,8 @@ public class RTOServer extends ApplicationAdapter {
         if (object instanceof UpdatePartyDropType) { HandleServerData.HandleUpdateDropType(object); }
         if (object instanceof SetHotKey) { HandleServerData.HandleSetHotKey(object); }
         if (object instanceof SendCastSpell) { HandleServerData.HandleCastSpell(object); }
+        if (object instanceof TrashItem) { HandleServerData.HandleTrashItem(object); }
+        if (object instanceof CheckPlayerDataNull) { HandleServerData.HandlePlayerNull(object); }
     }
 
     private static void UpdateNpcAI(long tickCount) {

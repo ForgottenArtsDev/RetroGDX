@@ -981,7 +981,8 @@ public class InputAndroid {
             // Trash
             if (worldCoordinates.x >= Variables.longPressMenuX + 4 && worldCoordinates.x <= Variables.longPressMenuX + 58) {
                 if (worldCoordinates.y >= Variables.longPressMenuY + 138 && worldCoordinates.y <= Variables.longPressMenuY + 154) {
-
+                    SendClientData.SendTrashItem(Variables.selectedInvSlot);
+                    Variables.longPressMenu = false;
                 }
             }
         }
@@ -1166,19 +1167,21 @@ public class InputAndroid {
 
         if (Variables.selectedInvSlot > 0) {
             if (Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot] != null) {
-                if (Variables.Items[Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum()].itemType == Variables.ITEM_TYPE_POTION) {
-                    // R Hotkey
-                    if (worldCoordinates.x >= 29 && worldCoordinates.x <= 60) {
-                        if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
-                            Variables.Players[Variables.MyIndex].setHotKeyR(Variables.selectedInvSlot);
-                            SendClientData.SendSetHotKey(Variables.HOT_KEY_R, Variables.selectedInvSlot);
+                if (Variables.Items[Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum()] != null) {
+                    if (Variables.Items[Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemNum()].itemType == Variables.ITEM_TYPE_POTION) {
+                        // R Hotkey
+                        if (worldCoordinates.x >= 29 && worldCoordinates.x <= 60) {
+                            if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
+                                Variables.Players[Variables.MyIndex].setHotKeyR(Variables.selectedInvSlot);
+                                SendClientData.SendSetHotKey(Variables.HOT_KEY_R, Variables.selectedInvSlot);
+                            }
                         }
-                    }
-                    // F Hotkey
-                    if (worldCoordinates.x >= 163 && worldCoordinates.x <= 194) {
-                        if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
-                            Variables.Players[Variables.MyIndex].setHotKeyF(Variables.selectedInvSlot);
-                            SendClientData.SendSetHotKey(Variables.HOT_KEY_F, Variables.selectedInvSlot);
+                        // F Hotkey
+                        if (worldCoordinates.x >= 163 && worldCoordinates.x <= 194) {
+                            if (worldCoordinates.y >= 581 && worldCoordinates.y <= 612) {
+                                Variables.Players[Variables.MyIndex].setHotKeyF(Variables.selectedInvSlot);
+                                SendClientData.SendSetHotKey(Variables.HOT_KEY_F, Variables.selectedInvSlot);
+                            }
                         }
                     }
                 }

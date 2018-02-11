@@ -2,6 +2,7 @@ package com.forgottenartsstudios.data;
 
 import com.forgottenartsstudios.helpers.Variables;
 import com.forgottenartsstudios.networking.packets.AppointPartyLeader;
+import com.forgottenartsstudios.networking.packets.CheckPlayerDataNull;
 import com.forgottenartsstudios.networking.packets.ChooseChar;
 import com.forgottenartsstudios.networking.packets.CreateChar;
 import com.forgottenartsstudios.networking.packets.DisbandParty;
@@ -23,6 +24,7 @@ import com.forgottenartsstudios.networking.packets.SendTryAttack;
 import com.forgottenartsstudios.networking.packets.SendUseItem;
 import com.forgottenartsstudios.networking.packets.SendUsePoint;
 import com.forgottenartsstudios.networking.packets.SetHotKey;
+import com.forgottenartsstudios.networking.packets.TrashItem;
 import com.forgottenartsstudios.networking.packets.UpdatePartyDropType;
 
 import static com.forgottenartsstudios.rtonline.RTOnline.client;
@@ -327,6 +329,21 @@ public class SendClientData {
         setHotKey.hotKeyVal = hotKeyNum;
 
         client.sendTCP(setHotKey);
+    }
+    public static void SendTrashItem(int invSlot) {
+        TrashItem trashItem = new TrashItem();
+
+        trashItem.index = Variables.MyIndex;
+        trashItem.invSlot = invSlot;
+
+        client.sendTCP(trashItem);
+    }
+    public static void SendPlayerNull() {
+        CheckPlayerDataNull checkPlayerDataNull = new CheckPlayerDataNull();
+
+        checkPlayerDataNull.index = Variables.MyIndex;
+
+        client.sendTCP(checkPlayerDataNull);
     }
 
     public static boolean TileIsOpen(int mapNum, int X, int Y) {
