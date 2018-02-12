@@ -22,7 +22,7 @@ import com.forgottenartsstudios.data.mapData;
  */
 
 public class Variables {
-    public static final String buildVersion = "v0.2.102";
+    public static final String buildVersion = "v0.2.103";
     public static String newBuildVersion;
     public static boolean InvalidBuildVersion = false;
 

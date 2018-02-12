@@ -621,26 +621,26 @@ public class SendServerData {
                     EXP = (double)ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].Exp;
                     EXP = EXP * 1.2;
                     XP = EXP / 2;
-                    if (lvlDiff <= 5) {
+                    if (lvlDiff >= 5) {
                         XP = (XP * (10.0f / 100.0f));
                     } else if (lvlDiff > 1 && lvlDiff < 5) {
                         XP = (XP * (50.0f / 100.0f));
                     } else if (lvlDiff < -1 && lvlDiff > -5) {
                         XP = (XP * (125.0f / 100.0f));
-                    } else if (lvlDiff >= -5) {
+                    } else if (lvlDiff <= -5) {
                         XP = (XP * (150.0f / 100.0f));
                     }
                 } else if (split == 3) {
                     EXP = (double)ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum()].Exp;
                     EXP = EXP * 1.5;
                     XP = EXP / 3;
-                    if (lvlDiff <= 5) {
+                    if (lvlDiff >= 5) {
                         XP = (XP * (10.0f / 100.0f));
                     } else if (lvlDiff > 1 && lvlDiff < 5) {
                         XP = (XP * (50.0f / 100.0f));
                     } else if (lvlDiff < -1 && lvlDiff > -5) {
                         XP = (XP * (125.0f / 100.0f));
-                    } else if (lvlDiff >= -5) {
+                    } else if (lvlDiff <= -5) {
                         XP = (XP * (150.0f / 100.0f));
                     }
                 }
