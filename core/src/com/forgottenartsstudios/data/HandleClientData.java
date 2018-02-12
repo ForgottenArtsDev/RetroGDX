@@ -788,5 +788,6 @@ public class HandleClientData {
         InvalidBuildVersion invalidBuildVersion = (InvalidBuildVersion) object;
 
         Variables.InvalidBuildVersion = invalidBuildVersion.isInvalid;
+        Variables.newBuildVersion = invalidBuildVersion.newVersion;
     }
 }

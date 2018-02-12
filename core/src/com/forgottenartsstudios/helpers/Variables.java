@@ -22,7 +22,8 @@ import com.forgottenartsstudios.data.mapData;
  */
 
 public class Variables {
-    public static final String buildVersion = "v0.2.101";
+    public static final String buildVersion = "v0.2.102";
+    public static String newBuildVersion;
     public static boolean InvalidBuildVersion = false;
 
     public static int AndroidScreenWidth = 480;

@@ -1198,6 +1198,7 @@ public class SendServerData {
         InvalidBuildVersion invalidBuildVersion = new InvalidBuildVersion();
 
         invalidBuildVersion.isInvalid = true;
+        invalidBuildVersion.newVersion = ServerVars.buildVersion;
 
         server.sendToTCP(CID, invalidBuildVersion);
     }

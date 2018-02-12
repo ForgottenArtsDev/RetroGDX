@@ -106,7 +106,10 @@ public class RenderAndroid {
             drawText("Account Not Found", 132, 501, Color.RED);
         }
         if (Variables.InvalidBuildVersion) {
-            drawName("Version does not match server. Please update client", 132, 501, Color.RED);
+            layout = new GlyphLayout();
+            layout.setText(AssetLoader.nameFont, "Version does not match server. Tap to update.");
+            float width = layout.width;// contains the width of the current set text
+            drawName("Version does not match server. Tap to update.", 240 - (width / 2), 501, Color.RED);
         }
         if (Variables.PasswordReq) {
             drawText("Password Required", 132, 501, Color.RED);

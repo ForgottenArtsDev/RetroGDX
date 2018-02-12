@@ -6,4 +6,5 @@ package com.forgottenartsstudios.networking.packets;
 
 public class InvalidBuildVersion extends Packet {
     public boolean isInvalid;
+    public String newVersion;
 }

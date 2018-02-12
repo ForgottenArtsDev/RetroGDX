@@ -9,6 +9,10 @@ import com.forgottenartsstudios.gameworld.GameRenderer;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+
 /**
  * Created by forgo on 10/6/2017.
  */
@@ -84,6 +88,16 @@ public class InputAndroid {
                 }
             }
         }
+
+        // WRONG VERSION
+        if (Variables.InvalidBuildVersion) {
+            if (worldCoordinates.x >= 62 && worldCoordinates.x <= 380) {
+                if (worldCoordinates.y >= 501 && worldCoordinates.y <= 601) {
+                    Gdx.net.openURI("http://www.retrotalesonline.com/downloads/RTO-" + Variables.newBuildVersion + ".apk");
+                }
+            }
+        }
+
         // REGISTER BUTTON
         if (worldCoordinates.x >= 114 && worldCoordinates.x <= 380) {
             if (worldCoordinates.y >= 662 && worldCoordinates.y <= 705) {
