@@ -419,9 +419,7 @@ public class RenderAndroid {
             drawDmgTimer(tickCount);
 
             if (Variables.Players[Variables.MyIndex].getMoving() == 0) {
-                if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-                    InputAndroid.handleInput();
-                } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
+                if (Variables.Client_Mode == Variables.Client_Mode_Android) {
                     InputAndroid.handleAndroidInput();
                 }
             }

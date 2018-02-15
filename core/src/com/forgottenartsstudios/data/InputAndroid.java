@@ -755,97 +755,105 @@ public class InputAndroid {
     public static void handleAndroidInput() {
         if (!Variables.inChat) {// && !Variables.reloadingMap) {
             if (Variables.dPad_Up) {
-                if (!Variables.touchDown) {
-                    Variables.touchDown = true;
-                    if (Variables.inInventory) {
-                        if (Variables.selectedInvSlot > 10) {
-                            Variables.selectedInvSlot = Variables.selectedInvSlot - 10;
+                if (Variables.Players[Variables.MyIndex].getTempSprite() <= 0) {
+                    if (!Variables.touchDown) {
+                        Variables.touchDown = true;
+                        if (Variables.inInventory) {
+                            if (Variables.selectedInvSlot > 10) {
+                                Variables.selectedInvSlot = Variables.selectedInvSlot - 10;
+                            }
+                        }
+                        if (Variables.inSpells) {
+                            if (Variables.selectedSpellSlot > 10) {
+                                Variables.selectedSpellSlot = Variables.selectedSpellSlot - 10;
+                            }
+                        }
+                        if (Variables.inMenu) {
+                            Variables.menuIndex--;
+                            if (Variables.menuIndex == 0) {
+                                Variables.menuIndex = 3;
+                            }
                         }
                     }
-                    if (Variables.inSpells) {
-                        if (Variables.selectedSpellSlot > 10) {
-                            Variables.selectedSpellSlot = Variables.selectedSpellSlot - 10;
-                        }
-                    }
-                    if (Variables.inMenu) {
-                        Variables.menuIndex--;
-                        if (Variables.menuIndex == 0) {
-                            Variables.menuIndex = 3;
-                        }
-                    }
+                    Variables.pressUp = true;
+                    Variables.pressLeft = false;
+                    Variables.pressDown = false;
+                    Variables.pressRight = false;
+                    Variables.pressAttack = false;
+                    Variables.pickUpItem = false;
                 }
-                Variables.pressUp = true;
-                Variables.pressLeft = false;
-                Variables.pressDown = false;
-                Variables.pressRight = false;
-                Variables.pressAttack = false;
-                Variables.pickUpItem = false;
             } else if (Variables.dPad_Down) {
-                if (!Variables.touchDown) {
-                    Variables.touchDown = true;
-                    if (Variables.inInventory) {
-                        if (Variables.selectedInvSlot < 51) {
-                            Variables.selectedInvSlot = Variables.selectedInvSlot + 10;
+                if (Variables.Players[Variables.MyIndex].getTempSprite() <= 0) {
+                    if (!Variables.touchDown) {
+                        Variables.touchDown = true;
+                        if (Variables.inInventory) {
+                            if (Variables.selectedInvSlot < 51) {
+                                Variables.selectedInvSlot = Variables.selectedInvSlot + 10;
+                            }
+                        }
+                        if (Variables.inSpells) {
+                            if (Variables.selectedSpellSlot < 51) {
+                                Variables.selectedSpellSlot = Variables.selectedSpellSlot + 10;
+                            }
+                        }
+                        if (Variables.inMenu) {
+                            Variables.menuIndex++;
+                            if (Variables.menuIndex == 4) {
+                                Variables.menuIndex = 1;
+                            }
                         }
                     }
-                    if (Variables.inSpells) {
-                        if (Variables.selectedSpellSlot < 51) {
-                            Variables.selectedSpellSlot = Variables.selectedSpellSlot + 10;
-                        }
-                    }
-                    if (Variables.inMenu) {
-                        Variables.menuIndex++;
-                        if (Variables.menuIndex == 4) {
-                            Variables.menuIndex = 1;
-                        }
-                    }
+                    Variables.pressUp = false;
+                    Variables.pressLeft = false;
+                    Variables.pressDown = true;
+                    Variables.pressRight = false;
+                    Variables.pressAttack = false;
+                    Variables.pickUpItem = false;
                 }
-                Variables.pressUp = false;
-                Variables.pressLeft = false;
-                Variables.pressDown = true;
-                Variables.pressRight = false;
-                Variables.pressAttack = false;
-                Variables.pickUpItem = false;
             } else if (Variables.dPad_Left) {
-                if (!Variables.touchDown) {
-                    Variables.touchDown = true;
-                    if (Variables.inInventory) {
-                        if (Variables.selectedInvSlot > 1) {
-                            Variables.selectedInvSlot = Variables.selectedInvSlot - 1;
+                if (Variables.Players[Variables.MyIndex].getTempSprite() <= 0) {
+                    if (!Variables.touchDown) {
+                        Variables.touchDown = true;
+                        if (Variables.inInventory) {
+                            if (Variables.selectedInvSlot > 1) {
+                                Variables.selectedInvSlot = Variables.selectedInvSlot - 1;
+                            }
+                        }
+                        if (Variables.inSpells) {
+                            if (Variables.selectedSpellSlot > 1) {
+                                Variables.selectedSpellSlot = Variables.selectedSpellSlot - 1;
+                            }
                         }
                     }
-                    if (Variables.inSpells) {
-                        if (Variables.selectedSpellSlot > 1) {
-                            Variables.selectedSpellSlot = Variables.selectedSpellSlot - 1;
-                        }
-                    }
+                    Variables.pressUp = false;
+                    Variables.pressLeft = true;
+                    Variables.pressDown = false;
+                    Variables.pressRight = false;
+                    Variables.pressAttack = false;
+                    Variables.pickUpItem = false;
                 }
-                Variables.pressUp = false;
-                Variables.pressLeft = true;
-                Variables.pressDown = false;
-                Variables.pressRight = false;
-                Variables.pressAttack = false;
-                Variables.pickUpItem = false;
             } else if (Variables.dPad_Right) {
-                if (!Variables.touchDown) {
-                    Variables.touchDown = true;
-                    if (Variables.inInventory) {
-                        if (Variables.selectedInvSlot < 60) {
-                            Variables.selectedInvSlot = Variables.selectedInvSlot + 1;
+                if (Variables.Players[Variables.MyIndex].getTempSprite() <= 0) {
+                    if (!Variables.touchDown) {
+                        Variables.touchDown = true;
+                        if (Variables.inInventory) {
+                            if (Variables.selectedInvSlot < 60) {
+                                Variables.selectedInvSlot = Variables.selectedInvSlot + 1;
+                            }
+                        }
+                        if (Variables.inSpells) {
+                            if (Variables.selectedSpellSlot < 60) {
+                                Variables.selectedSpellSlot = Variables.selectedSpellSlot + 1;
+                            }
                         }
                     }
-                    if (Variables.inSpells) {
-                        if (Variables.selectedSpellSlot < 60) {
-                            Variables.selectedSpellSlot = Variables.selectedSpellSlot + 1;
-                        }
-                    }
+                    Variables.pressUp = false;
+                    Variables.pressLeft = false;
+                    Variables.pressDown = false;
+                    Variables.pressRight = true;
+                    Variables.pressAttack = false;
+                    Variables.pickUpItem = false;
                 }
-                Variables.pressUp = false;
-                Variables.pressLeft = false;
-                Variables.pressDown = false;
-                Variables.pressRight = true;
-                Variables.pressAttack = false;
-                Variables.pickUpItem = false;
             } else if (Variables.bBtn) {
                 Variables.pressUp = false;
                 Variables.pressLeft = false;
@@ -893,38 +901,46 @@ public class InputAndroid {
                     }
                 }
             } else if (Variables.hotKeyQ) {
-                if (Variables.Players[Variables.MyIndex].getHotKeyQ() > 0) {
-                    int spellNum = Variables.Players[Variables.MyIndex].getHotKeyQ();
-                    if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
-                        SendClientData.SendUseHotKey(Variables.HOT_KEY_Q);
-                        Variables.hotKeyQ = false;
+                if (Variables.Players[Variables.MyIndex].getTempSprite() <= 0) {
+                    if (Variables.Players[Variables.MyIndex].getHotKeyQ() > 0) {
+                        int spellNum = Variables.Players[Variables.MyIndex].getHotKeyQ();
+                        if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
+                            SendClientData.SendUseHotKey(Variables.HOT_KEY_Q);
+                            Variables.hotKeyQ = false;
+                        }
                     }
                 }
             } else if (Variables.hotKeyE) {
-                if (Variables.Players[Variables.MyIndex].getHotKeyE() > 0) {
-                    int spellNum = Variables.Players[Variables.MyIndex].getHotKeyE();
-                    if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
-                        SendClientData.SendUseHotKey(Variables.HOT_KEY_E);
-                        Variables.hotKeyE = false;
+                if (Variables.Players[Variables.MyIndex].getTempSprite() <= 0) {
+                    if (Variables.Players[Variables.MyIndex].getHotKeyE() > 0) {
+                        int spellNum = Variables.Players[Variables.MyIndex].getHotKeyE();
+                        if (Variables.Players[Variables.MyIndex].spells[spellNum].getCastTime() == 0) {
+                            SendClientData.SendUseHotKey(Variables.HOT_KEY_E);
+                            Variables.hotKeyE = false;
+                        }
                     }
                 }
             } else if (Variables.hotKeyR) {
-                if (Variables.Players[Variables.MyIndex].getHotKeyR() > 0) {
-                    Variables.selectedInvSlot = Variables.Players[Variables.MyIndex].getHotKeyR();
-                    SendClientData.SendUseItem();
-                    if (Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal() <= 0) {
-                        Variables.Players[Variables.MyIndex].setHotKeyR(0);
+                if (Variables.Players[Variables.MyIndex].getTempSprite() <= 0) {
+                    if (Variables.Players[Variables.MyIndex].getHotKeyR() > 0) {
+                        Variables.selectedInvSlot = Variables.Players[Variables.MyIndex].getHotKeyR();
+                        SendClientData.SendUseItem();
+                        if (Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal() <= 0) {
+                            Variables.Players[Variables.MyIndex].setHotKeyR(0);
+                        }
+                        Variables.hotKeyR = false;
                     }
-                    Variables.hotKeyR = false;
                 }
             } else if (Variables.hotKeyF) {
-                if (Variables.Players[Variables.MyIndex].getHotKeyF() > 0) {
-                    Variables.selectedInvSlot = Variables.Players[Variables.MyIndex].getHotKeyF();
-                    SendClientData.SendUseItem();
-                    if (Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal() <= 0) {
-                        Variables.Players[Variables.MyIndex].setHotKeyF(0);
+                if (Variables.Players[Variables.MyIndex].getTempSprite() <= 0) {
+                    if (Variables.Players[Variables.MyIndex].getHotKeyF() > 0) {
+                        Variables.selectedInvSlot = Variables.Players[Variables.MyIndex].getHotKeyF();
+                        SendClientData.SendUseItem();
+                        if (Variables.Players[Variables.MyIndex].inventory[Variables.selectedInvSlot].getItemVal() <= 0) {
+                            Variables.Players[Variables.MyIndex].setHotKeyF(0);
+                        }
+                        Variables.hotKeyF = false;
                     }
-                    Variables.hotKeyF = false;
                 }
             } else {
                 Variables.pressUp = false;
@@ -935,6 +951,8 @@ public class InputAndroid {
                 Variables.pickUpItem = false;
                 Variables.hotKeyQ = false;
                 Variables.hotKeyE = false;
+                Variables.hotKeyR = false;
+                Variables.hotKeyF = false;
             }
         }
     }
