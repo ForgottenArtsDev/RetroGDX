@@ -8,6 +8,7 @@ public class MapNPC {
     private String Name;
     private boolean canMove; // canMove - I don't feel like recreating NPCs, ya know?
     private int Num;
+    private int Level;
 
     private int sprite;
     private int dir;
@@ -42,6 +43,7 @@ public class MapNPC {
     public String getName() { return Name; }
     public boolean isCanMove() { return canMove; }
     public int getNum() { return Num; }
+    public int getLevel() { return Level; }
     public int getSprite() { return sprite; }
     public int getDir() { return dir; }
     public int getHP() { return hp; }
@@ -68,6 +70,7 @@ public class MapNPC {
     public void setName(String newName) { Name = newName; }
     public void setCanMove(boolean newCanMove) { canMove = newCanMove; }
     public void setNum(int newNum) { Num = newNum; }
+    public void setLevel(int level) { Level = level; }
     public void setSprite(int newSprite) { sprite = newSprite; }
     public void setDir(int newDir) { dir = newDir; }
     public void setHP(int hp) { this.hp = hp; }

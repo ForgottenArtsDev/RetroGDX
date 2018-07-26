@@ -118,4 +118,22 @@ public class editorLoadData {
 
         editorVars.shops[shopNum].canRepair = false;
     }
+
+    public static void clearSpell(int spellNum) {
+        editorVars.spells[spellNum].Name = "Empty Slot";
+        editorVars.spells[spellNum].Type = 0;
+        editorVars.spells[spellNum].Icon = 0;
+
+        editorVars.spells[spellNum].LevelReq = 0;
+        editorVars.spells[spellNum].ClassReq = 0;
+
+        editorVars.spells[spellNum].Animation = 0;
+        editorVars.spells[spellNum].AnimSpeed = 0;
+
+        editorVars.spells[spellNum].CastTime = 0;
+        editorVars.spells[spellNum].CoolDown = 0;
+
+        editorVars.spells[spellNum].MPCost = 0;
+        editorVars.spells[spellNum].DmgHealAmt = 0;
+    }
 }

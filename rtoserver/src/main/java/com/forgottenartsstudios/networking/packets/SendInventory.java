@@ -7,5 +7,6 @@ import com.forgottenartsstudios.data.Inventory_Struct;
  */
 
 public class SendInventory extends Packet {
+    public int index;
     public Inventory_Struct[] invData = new Inventory_Struct[60 + 1];
 }

@@ -49,8 +49,10 @@ public class LoadData {
         for (int i = 1; i <= 3; i++) {
             account.chars[i] = new Player();
             account.chars[i].inventory = new Inventory_Struct[60 + 1];
+            account.chars[i].spells = new Spell_Inv_Struct[60 + 1];
             for (int a = 1; a <= 60; a++) {
                 account.chars[i].inventory[a] = new Inventory_Struct();
+                account.chars[i].spells[a] = new Spell_Inv_Struct();
             }
         }
 
@@ -59,6 +61,9 @@ public class LoadData {
 
             account.setID((String)inputStream.readObject());
             account.setPW((String)inputStream.readObject());
+
+            account.setSfxOn((Boolean)inputStream.readObject());
+            account.setMusicOn((Boolean)inputStream.readObject());
 
             for (int i = 1; i <= 3; i++) {
                 account.chars[i].setName((String)inputStream.readObject());
@@ -94,9 +99,18 @@ public class LoadData {
                 account.chars[i].setAcc1((Integer)inputStream.readObject());
                 account.chars[i].setAcc2((Integer)inputStream.readObject());
 
+                account.chars[i].setHotKeyQ((Integer)inputStream.readObject());
+                account.chars[i].setHotKeyE((Integer)inputStream.readObject());
+                account.chars[i].setHotKeyR((Integer)inputStream.readObject());
+                account.chars[i].setHotKeyF((Integer)inputStream.readObject());
+
                 for (int a = 1; a <= 60; a++) {
                     account.chars[i].inventory[a].setItemNum((Integer)inputStream.readObject());
                     account.chars[i].inventory[a].setItemVal((Integer)inputStream.readObject());
+                }
+
+                for (int a = 1; a <= 60; a++) {
+                    account.chars[i].spells[a].setSpellNum((Integer)inputStream.readObject());
                 }
             }
 
@@ -129,6 +143,9 @@ public class LoadData {
                         for (int z = 1; z <= 60; z++) {
                             ServerVars.Accounts[i].chars[a].inventory[z] = account.chars[a].inventory[z];
                         }
+                        for (int z = 1; z <= 60; z++) {
+                            ServerVars.Accounts[i].chars[a].spells[z] = account.chars[a].spells[z];
+                        }
                     }
 
                     sndLogin.Index = i;
@@ -144,6 +161,10 @@ public class LoadData {
                     sndLogin.char1.inventory = ServerVars.Accounts[i].chars[1].inventory;
                     sndLogin.char2.inventory = ServerVars.Accounts[i].chars[2].inventory;
                     sndLogin.char3.inventory = ServerVars.Accounts[i].chars[3].inventory;
+
+                    sndLogin.char1.spells = ServerVars.Accounts[i].chars[1].spells;
+                    sndLogin.char2.spells = ServerVars.Accounts[i].chars[2].spells;
+                    sndLogin.char3.spells = ServerVars.Accounts[i].chars[3].spells;
 
                     break;
                 } else if (i == ServerVars.MaxPlayers) {
@@ -467,6 +488,72 @@ public class LoadData {
 
         try{
             ServerVars.Shops[shopNum] = (Shop_Struct) inputStream.readObject();
+
+            inputStream.close();
+        }catch(Exception e){
+            System.out.println("There was an issue reading from the file: " + e);
+            System.exit(0);
+        }
+    }
+    public static void checkSpells() {
+        ServerVars.Spells = new Spell_Struct[ServerVars.MaxSpells + 1];
+        for (int i = 1; i <= ServerVars.MaxSpells; i++) {
+            ServerVars.Spells[i] = new Spell_Struct();
+        }
+        for (int i = 1; i <= ServerVars.MaxSpells; i++) {
+            String absoPath = new File("").getAbsolutePath();
+            String fileName = absoPath + "\\rtoserver\\data\\spells\\" + i + ".dat";
+            File f = new File(fileName);
+            if(!f.exists() && !f.isDirectory()) {
+                clearSpell(i);
+                SaveData.saveSpell(i);
+            }
+        }
+    }
+    public static void clearSpell(int spellNum) {
+        ServerVars.Spells[spellNum].Name = "";
+        ServerVars.Spells[spellNum].Type = 0;
+        ServerVars.Spells[spellNum].Icon = 0;
+
+        ServerVars.Spells[spellNum].LevelReq = 0;
+        ServerVars.Spells[spellNum].ClassReq = 0;
+
+        ServerVars.Spells[spellNum].Animation = 0;
+        ServerVars.Spells[spellNum].AnimSpeed = 0;
+
+        ServerVars.Spells[spellNum].CastTime = 0;
+        ServerVars.Spells[spellNum].CoolDown = 0;
+
+        ServerVars.Spells[spellNum].MPCost = 0;
+        ServerVars.Spells[spellNum].DmgHealAmt = 0;
+    }
+    public static void loadSpells() {
+        checkSpells();
+        for (int LoopI = 1; LoopI <= ServerVars.MaxSpells; LoopI++)
+        {
+            clearSpell(LoopI);
+            loadSpell(LoopI);
+        }
+    }
+    public static void loadSpell(int spellNum) {
+        String absoPath = new File("").getAbsolutePath();
+        String fileName = absoPath + "\\rtoserver\\data\\spells\\" + spellNum + ".dat";
+
+        File f = new File(fileName);
+        if(!f.exists() && !f.isDirectory()) {
+            return;
+        }
+
+        ObjectInputStream inputStream = null;
+        try{
+            inputStream = new ObjectInputStream(new FileInputStream(fileName));
+        }catch(IOException e){
+            System.out.println("There was a problem opening the file: " + e);
+            System.exit(0);
+        }
+
+        try{
+            ServerVars.Spells[spellNum] = (Spell_Struct) inputStream.readObject();
 
             inputStream.close();
         }catch(Exception e){

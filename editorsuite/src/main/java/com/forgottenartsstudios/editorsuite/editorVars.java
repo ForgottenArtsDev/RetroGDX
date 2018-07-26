@@ -17,7 +17,7 @@ public class editorVars {
 
     public static editorPlayerData Player;
 
-    public static JFrame toolBox, npcEditor, npcSpawn, itemEditor, itemSpawn, warpTile, shopEditor;
+    public static JFrame toolBox, npcEditor, npcSpawn, itemEditor, itemSpawn, warpTile, shopEditor, spellEditor;
     public static JLabel tileSet, tileBox;
     public static int MaxTiles = 1;
     public static int MaxSprites = 10;
@@ -26,6 +26,7 @@ public class editorVars {
     public static int maxNPCs = 200;
     public static int maxItems = 200;
     public static int maxShops = 200;
+    public static int maxSpells = 200;
 
     public static int LastScrollHorizontal, LastScrollVertical;
     public static Point LastViewport;
@@ -41,6 +42,7 @@ public class editorVars {
     public static int itemIndex;
     public static int shopIndex;
     public static int shopItemIndex;
+    public static int spellIndex;
 
     public static int currentUndo = 0;
 
@@ -57,6 +59,7 @@ public class editorVars {
     public static NPC_Struct[] npcs;
     public static Item_Struct[] items;
     public static Shop_Struct[] shops;
+    public static Spell_Struct[] spells;
 
     public static boolean reloadingMap;
     public static Random Rnd = new Random();

@@ -1,14 +1,20 @@
 package com.forgottenartsstudios.data;
 
 import com.forgottenartsstudios.helpers.Variables;
+import com.forgottenartsstudios.networking.packets.AppointPartyLeader;
+import com.forgottenartsstudios.networking.packets.CheckPlayerDataNull;
 import com.forgottenartsstudios.networking.packets.ChooseChar;
 import com.forgottenartsstudios.networking.packets.CreateChar;
+import com.forgottenartsstudios.networking.packets.DisbandParty;
 import com.forgottenartsstudios.networking.packets.KeepAliveCheck;
+import com.forgottenartsstudios.networking.packets.KickPartyMember;
+import com.forgottenartsstudios.networking.packets.LeaveParty;
 import com.forgottenartsstudios.networking.packets.Login;
 import com.forgottenartsstudios.networking.packets.MovePlayer;
 import com.forgottenartsstudios.networking.packets.NewAccount;
 import com.forgottenartsstudios.networking.packets.PartyDecision;
 import com.forgottenartsstudios.networking.packets.SendBuyItem;
+import com.forgottenartsstudios.networking.packets.SendCastSpell;
 import com.forgottenartsstudios.networking.packets.SendDropItem;
 import com.forgottenartsstudios.networking.packets.SendMessage;
 import com.forgottenartsstudios.networking.packets.SendPartyInvite;
@@ -17,6 +23,9 @@ import com.forgottenartsstudios.networking.packets.SendSearch;
 import com.forgottenartsstudios.networking.packets.SendTryAttack;
 import com.forgottenartsstudios.networking.packets.SendUseItem;
 import com.forgottenartsstudios.networking.packets.SendUsePoint;
+import com.forgottenartsstudios.networking.packets.SetHotKey;
+import com.forgottenartsstudios.networking.packets.TrashItem;
+import com.forgottenartsstudios.networking.packets.UpdatePartyDropType;
 
 import static com.forgottenartsstudios.rtonline.RTOnline.client;
 
@@ -60,15 +69,15 @@ public class SendClientData {
     public static void SendMovePlayer(int dir) {
         MovePlayer mPlayer = new MovePlayer();
         mPlayer.Index = Variables.MyIndex;
-        mPlayer.Map = Variables.players[Variables.MyIndex].getMap();
-        mPlayer.X = Variables.players[Variables.MyIndex].getX();
-        mPlayer.Y = Variables.players[Variables.MyIndex].getY();
+        mPlayer.Map = Variables.Players[Variables.MyIndex].getMap();
+        mPlayer.X = Variables.Players[Variables.MyIndex].getX();
+        mPlayer.Y = Variables.Players[Variables.MyIndex].getY();
         mPlayer.Dir = dir;
         client.sendTCP(mPlayer);
 
         int X = mPlayer.X;
         int Y = mPlayer.Y;
-        int Map = Variables.players[Variables.MyIndex].getMap();
+        int Map = Variables.Players[Variables.MyIndex].getMap();
 
         boolean canMove;
 
@@ -79,27 +88,28 @@ public class SendClientData {
                 } else {
                     canMove = TileIsOpen(Map, X, Y - 1);
                     if (canMove) {
-                        Variables.players[Variables.MyIndex].setY(Y - 1);
-                        Variables.players[Variables.MyIndex].setOffsetY(32);
-                        Variables.players[Variables.MyIndex].setMoving(1);
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setY(Y - 1);
+                        Variables.Players[Variables.MyIndex].setOffsetY(32);
+                        Variables.Players[Variables.MyIndex].setMoving(1);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     } else {
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
             case Variables.DIR_DOWN:
+                if (Variables.mapRender[Map] == null) { break; }
                 if (Y >= Variables.mapRender[Map].MaxY - 1 || (Y + 1) > Variables.mapRender[Map].MaxY - 1) {
 
                 } else {
                     canMove = TileIsOpen(Map, X, Y + 1);
                     if (canMove) {
-                        Variables.players[Variables.MyIndex].setY(Y + 1);
-                        Variables.players[Variables.MyIndex].setOffsetY(32 * -1);
-                        Variables.players[Variables.MyIndex].setMoving(1);
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setY(Y + 1);
+                        Variables.Players[Variables.MyIndex].setOffsetY(32 * -1);
+                        Variables.Players[Variables.MyIndex].setMoving(1);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     } else {
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
@@ -110,27 +120,28 @@ public class SendClientData {
                 } else {
                     canMove = TileIsOpen(Map, X - 1, Y);
                     if (canMove) {
-                        Variables.players[Variables.MyIndex].setX(X - 1);
-                        Variables.players[Variables.MyIndex].setOffsetX(32);
-                        Variables.players[Variables.MyIndex].setMoving(1);
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setX(X - 1);
+                        Variables.Players[Variables.MyIndex].setOffsetX(32);
+                        Variables.Players[Variables.MyIndex].setMoving(1);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     } else {
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
             case Variables.DIR_RIGHT:
+                if (Variables.mapRender[Map] == null) { break; }
                 if (X >= Variables.mapRender[Map].MaxX - 1 || (X + 1) > Variables.mapRender[Map].MaxX - 1) {
 
                 } else {
                     canMove = TileIsOpen(Map, X + 1, Y);
                     if (canMove) {
-                        Variables.players[Variables.MyIndex].setX(X + 1);
-                        Variables.players[Variables.MyIndex].setOffsetX(32 * -1);
-                        Variables.players[Variables.MyIndex].setMoving(1);
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setX(X + 1);
+                        Variables.Players[Variables.MyIndex].setOffsetX(32 * -1);
+                        Variables.Players[Variables.MyIndex].setMoving(1);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     } else {
-                        Variables.players[Variables.MyIndex].setDir(dir);
+                        Variables.Players[Variables.MyIndex].setDir(dir);
                     }
                 }
                 break;
@@ -151,7 +162,7 @@ public class SendClientData {
         sndSearch.targetIndex = targetNum;
         sndSearch.x = X;
         sndSearch.y = Y;
-        sndSearch.mapNum = Variables.players[Variables.MyIndex].getMap();
+        sndSearch.mapNum = Variables.Players[Variables.MyIndex].getMap();
 
         client.sendTCP(sndSearch);
     }
@@ -161,9 +172,12 @@ public class SendClientData {
         sBuyItem.index = Variables.MyIndex;
         sBuyItem.shopNum = Variables.ShopNum;
         sBuyItem.shopSlot = Variables.selectedShopSlot;
+        sBuyItem.buyAmt = Variables.shopBuyAmt;
 
         Variables.buyItem = true;
         client.sendTCP(sBuyItem);
+
+        Variables.shopBuyAmt = 1;
     }
     public static void SendUseItem() {
         SendUseItem sUseItem = new SendUseItem();
@@ -186,11 +200,11 @@ public class SendClientData {
 
         if (Variables.inInventory) {
             if (invSlot > 0) {
-                if (Variables.players[Variables.MyIndex].inventory[invSlot].getItemNum() > 0) {
+                if (Variables.Players[Variables.MyIndex].inventory[invSlot].getItemNum() > 0) {
                     sendDropItem.index = Variables.MyIndex;
                     sendDropItem.invSlot = invSlot;
-                    sendDropItem.x = Variables.players[Variables.MyIndex].getX();
-                    sendDropItem.y = Variables.players[Variables.MyIndex].getY();
+                    sendDropItem.x = Variables.Players[Variables.MyIndex].getX();
+                    sendDropItem.y = Variables.Players[Variables.MyIndex].getY();
                     client.sendTCP(sendDropItem);
                 }
             }
@@ -230,6 +244,8 @@ public class SendClientData {
             sendMessage.type = Variables.MESSAGE_TYPE_GLOBAL;
         } else if (Variables.chatInput.substring(0, 1).equals("@")) {
             sendMessage.type = Variables.MESSAGE_TYPE_WHISPER;
+        } else if (Variables.chatInput.substring(0, 1).equals("\"")) {
+            sendMessage.type = Variables.MESSAGE_TYPE_PARTY;
         } else {
             sendMessage.type = Variables.MESSAGE_TYPE_MAP;
         }
@@ -259,16 +275,86 @@ public class SendClientData {
 
         client.sendTCP(partyDecision);
     }
+    public static void SendDisbandParty() {
+        DisbandParty dParty = new DisbandParty();
+
+        dParty.index = Variables.MyIndex;
+
+        client.sendTCP(dParty);
+    }
+    public static void SendLeaveParty() {
+        LeaveParty lParty = new LeaveParty();
+
+        lParty.index = Variables.MyIndex;
+
+        client.sendTCP(lParty);
+    }
+    public static void SendAppointLeader(int newLeader) {
+        AppointPartyLeader aPL = new AppointPartyLeader();
+
+        aPL.index = Variables.MyIndex;
+        aPL.newLeader = newLeader;
+
+        client.sendTCP(aPL);
+    }
+    public static void SendKickMember(int kickMem) {
+        KickPartyMember kPM = new KickPartyMember();
+
+        kPM.index = Variables.MyIndex;
+        kPM.kickedMember = kickMem;
+
+        client.sendTCP(kPM);
+    }
+    public static void SendUpdateDropType(int dropType) {
+        UpdatePartyDropType uPDT = new UpdatePartyDropType();
+
+        uPDT.index = Variables.MyIndex;
+        uPDT.dropType = dropType;
+
+        client.sendTCP(uPDT);
+    }
+    public static void SendUseHotKey(int hotKey) {
+        SendCastSpell sendCastSpell = new SendCastSpell();
+
+        sendCastSpell.index = Variables.MyIndex;
+        sendCastSpell.hotKey = hotKey;
+
+        client.sendTCP(sendCastSpell);
+    }
+    public static void SendSetHotKey(int hotKey, int hotKeyNum) {
+        SetHotKey setHotKey = new SetHotKey();
+
+        setHotKey.index = Variables.MyIndex;
+        setHotKey.hotKey = hotKey;
+        setHotKey.hotKeyVal = hotKeyNum;
+
+        client.sendTCP(setHotKey);
+    }
+    public static void SendTrashItem(int invSlot) {
+        TrashItem trashItem = new TrashItem();
+
+        trashItem.index = Variables.MyIndex;
+        trashItem.invSlot = invSlot;
+
+        client.sendTCP(trashItem);
+    }
+    public static void SendPlayerNull() {
+        CheckPlayerDataNull checkPlayerDataNull = new CheckPlayerDataNull();
+
+        checkPlayerDataNull.index = Variables.MyIndex;
+
+        client.sendTCP(checkPlayerDataNull);
+    }
 
     public static boolean TileIsOpen(int mapNum, int X, int Y) {
         // CHECK FOR PLAYERS ON MAP //
         //if (Static.PlayersOnMap[mapNum])
         //{
         for (int LoopI = 1; LoopI <= Variables.MaxPlayers; LoopI++) {
-            if (Variables.players[LoopI] != null) {
-                if (Variables.players[LoopI].getMap() == mapNum) {
-                    if (Variables.players[LoopI].getX() == X) {
-                        if (Variables.players[LoopI].getY() == Y) {
+            if (Variables.Players[LoopI] != null) {
+                if (Variables.Players[LoopI].getMap() == mapNum) {
+                    if (Variables.Players[LoopI].getX() == X) {
+                        if (Variables.Players[LoopI].getY() == Y) {
                             return false;
                         }
                     }
@@ -295,7 +381,9 @@ public class SendClientData {
             if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_NPCSPAWN) {
                 if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_ITEM) {
                     if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_WARP) {
-                        return false;
+                        if (Variables.mapRender[mapNum].Tile[X][Y].Type != Variables.TILE_TYPE_NPCAVOID) {
+                            return false;
+                        }
                     }
                 }
             }

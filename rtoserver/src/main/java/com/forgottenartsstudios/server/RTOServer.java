@@ -13,9 +13,12 @@ import com.forgottenartsstudios.data.Inventory_Struct;
 import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
+import com.forgottenartsstudios.data.MapSpell;
 import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.SaveData;
 import com.forgottenartsstudios.data.Shop_Struct;
+import com.forgottenartsstudios.data.Spell_Inv_Struct;
+import com.forgottenartsstudios.data.Spell_Struct;
 import com.forgottenartsstudios.data.mapData_Struct;
 import com.forgottenartsstudios.networking.packetdata.HandleServerData;
 import com.forgottenartsstudios.data.LoadData;
@@ -23,8 +26,7 @@ import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packetdata.SendServerData;
 import com.forgottenartsstudios.networking.packets.*;
-
-import java.util.Random;
+import com.sun.org.apache.xpath.internal.operations.Variable;
 
 public class RTOServer extends ApplicationAdapter {
     public static Server server = new Server(204800, 204800);
@@ -44,25 +46,30 @@ public class RTOServer extends ApplicationAdapter {
 
         ServerVars.MapNPCs = new mapData_Struct[ServerVars.MaxMaps + 1];
         ServerVars.MapItems = new mapData_Struct[ServerVars.MaxMaps + 1];
+        ServerVars.MapSpells = new mapData_Struct[ServerVars.MaxMaps + 1];
         for (int i = 1; i <= ServerVars.MaxMaps; i++) {
             ServerVars.MapNPCs[i] = new mapData_Struct();
             ServerVars.MapItems[i] = new mapData_Struct();
-
+            ServerVars.MapSpells[i] = new mapData_Struct();
         }
         for (int i = 1; i <= ServerVars.MaxMaps; i++) {
             ServerVars.MapNPCs[i].Npc = new MapNPC[ServerVars.MaxMapNPCs + 1];
             ServerVars.MapItems[i].Item = new MapItem[ServerVars.MaxMapItems + 1];
+            ServerVars.MapSpells[i].Spell = new MapSpell[ServerVars.MaxMapSpells + 1];
             for (int a = 1; a <= ServerVars.MaxMapNPCs; a++) {
                 ServerVars.MapNPCs[i].Npc[a] = new MapNPC();
+            }
+            for (int a = 1; a <= ServerVars.MaxMapItems; a++) {
                 ServerVars.MapItems[i].Item[a] = new MapItem();
+            }
+            for (int a = 1; a <= ServerVars.MaxMapSpells; a++) {
+                ServerVars.MapSpells[i].Spell[a] = new MapSpell();
             }
         }
         ServerVars.Parties = new Party[ServerVars.MaxParties + 1];
         for (int i = 1; i <= ServerVars.MaxParties; i++) {
             ServerVars.Parties[i] = new Party();
             ServerVars.Parties[i].members = new int[3 + 1];
-            ServerVars.Parties[i].hp = new int[3 + 1];
-            ServerVars.Parties[i].maxHP = new int[3 + 1];
         }
 
         serverWindow.svrMonitor.append("Loading maps.." + "\n");
@@ -73,6 +80,8 @@ public class RTOServer extends ApplicationAdapter {
         LoadData.loadItems();
         serverWindow.svrMonitor.append("Loading shops.." + "\n");
         LoadData.loadShops();
+        serverWindow.svrMonitor.append("Loading spells.." + "\n");
+        LoadData.loadSpells();
         serverWindow.svrMonitor.append("Spawning NPCs.." + "\n");
         ServerVars.MapNPCs = new mapData_Struct[ServerVars.MaxMaps + 1];
         General.SpawnAllNpcs();
@@ -96,10 +105,14 @@ public class RTOServer extends ApplicationAdapter {
             for (int z = 1; z <= 3; z++) {
                 ServerVars.Accounts[i].chars[z] = new Player();
                 ServerVars.Accounts[i].chars[z].inventory = new Inventory_Struct[60 + 1];
+                ServerVars.Accounts[i].chars[z].spells = new Spell_Inv_Struct[60 + 1];
                 for (int a = 1; a <= 60; a++) {
                     ServerVars.Accounts[i].chars[z].inventory[a] = new Inventory_Struct();
                     ServerVars.Accounts[i].chars[z].inventory[a].setItemNum(0);
                     ServerVars.Accounts[i].chars[z].inventory[a].setItemVal(0);
+
+                    ServerVars.Accounts[i].chars[z].spells[a] = new Spell_Inv_Struct();
+                    ServerVars.Accounts[i].chars[z].spells[a].setSpellNum(0);
                 }
             }
         }
@@ -107,7 +120,7 @@ public class RTOServer extends ApplicationAdapter {
         initPackets();
 
         server.start();
-        server.bind(4001, 4002);
+        server.bind(ServerVars.Server_Port, ServerVars.Server_Port + 1);
 
         serverWindow.svrMonitor.append("Server initialized" + "\n");
         serverWindow.svrMonitor.append("Listening for connections.." + "\n");
@@ -128,8 +141,11 @@ public class RTOServer extends ApplicationAdapter {
     private static final long UpdateTime_GameAI = 500;
     private static final long UpdateTime_SavePlayers = 60000 * 5;
     private static final long UpdateTime_RespawnNPCs = 1000;
-    private static final long UpdateTime_RegenPlayers = 5000;
+    private static final long UpdateTime_RegenPlayers = 15000;
     private static final long UpdateTime_ClearMapItems = 1000;
+    private static final long UpdateTime_CastTime = 10;
+    private static final long UpdateTime_Death = 1000;
+    private static final long UpdateTime_NpcAttack = 50;
 
     private static long LastUpdateTime_KeepAlive;
     private static long LastUpdateTime_KeepAliveCount;
@@ -138,6 +154,9 @@ public class RTOServer extends ApplicationAdapter {
     private static long LastUpdateTime_RespawnNPCs;
     private static long LastUpdateTime_RegenPlayers;
     private static long LastUpdateTime_ClearMapItems;
+    private static long LastUpdateTime_CastTime;
+    private static long LastUpdateTime_Death;
+    private static long LastUpdateTime_NpcAttack;
 
     private static boolean UpdateNpcMovement = false;
     private static boolean UpdateNpcRecover = false;
@@ -152,6 +171,7 @@ public class RTOServer extends ApplicationAdapter {
 
                 while (ServerVars.ServerRunning) {
                     long tickCount = System.currentTimeMillis();
+                    ServerVars.tickCount = tickCount;
 
                     if (LastUpdateTime_KeepAlive < tickCount) {
 
@@ -163,6 +183,79 @@ public class RTOServer extends ApplicationAdapter {
                         }
 
                         LastUpdateTime_KeepAlive = tickCount + UpdateTime_KeepAlive;
+                    }
+
+                    if (LastUpdateTime_NpcAttack < tickCount) {
+                        for (int i = 1; i <= ServerVars.MaxMaps; i++) {
+                            for (int a = 1; a <= ServerVars.MaxMapNPCs; a++) {
+                                if (ServerVars.MapNPCs[i].Npc[a].getAttackTimer() > 0) {
+                                    ServerVars.MapNPCs[i].Npc[a].setAttackTimer(ServerVars.MapNPCs[i].Npc[a].getAttackTimer() - (int)UpdateTime_NpcAttack);
+                                }
+                            }
+                        }
+                        LastUpdateTime_NpcAttack = tickCount + UpdateTime_NpcAttack;
+                    }
+
+                    if (LastUpdateTime_CastTime < tickCount) {
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            for (int a = 1; a <= 60; a++) {
+                                if (ServerVars.Players[i] != null) {
+                                    if (ServerVars.Players[i].spells != null) {
+                                        if (ServerVars.Players[i].spells[a] != null) {
+                                            if (ServerVars.Players[i].spells[a].getSpellNum() > 0) {
+                                                if (ServerVars.Players[i].spells[a].getCastTime() > 0) {
+                                                    if (ServerVars.Players[i].spells[a].getCastTimeTimer() <= ServerVars.Players[i].spells[a].getCastTime()) {
+                                                        ServerVars.Players[i].spells[a].setCastTimeTimer(ServerVars.Players[i].spells[a].getCastTimeTimer() + UpdateTime_CastTime);
+                                                        if (ServerVars.Players[i].spells[a].getCastTimeTimer() > ServerVars.Players[i].spells[a].getCastTime()) {
+                                                            int spellNum = ServerVars.Players[i].spells[a].getSpellNum();
+                                                            ServerVars.Players[i].spells[a].setCastTime(0);
+                                                            ServerVars.Players[i].spells[a].setCastTimeTimer(0);
+                                                            ServerVars.Players[i].spells[a].setCoolDown(ServerVars.Spells[spellNum].CoolDown);
+                                                            ServerVars.Players[i].spells[a].setCoolDownTimer(0);
+                                                            SendServerData.SendCoolDown(i, a, ServerVars.Spells[spellNum].CoolDown);
+                                                            processCastSpell(i, spellNum);
+                                                        }
+                                                    }
+                                                }
+                                                if (ServerVars.Players[i].spells[a].getCoolDown() > 0) {
+                                                    if (ServerVars.Players[i].spells[a].getCoolDownTimer() <= ServerVars.Players[i].spells[a].getCoolDown()) {
+                                                        ServerVars.Players[i].spells[a].setCoolDownTimer(ServerVars.Players[i].spells[a].getCoolDownTimer() + UpdateTime_CastTime);
+                                                        if (ServerVars.Players[i].spells[a].getCoolDownTimer() > ServerVars.Players[i].spells[a].getCoolDown()) {
+                                                            ServerVars.Players[i].spells[a].setCoolDown(0);
+                                                            ServerVars.Players[i].spells[a].setCoolDownTimer(0);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        LastUpdateTime_CastTime = tickCount + UpdateTime_CastTime;
+                    }
+
+                    for (int i = 1; i <= ServerVars.MaxMaps; i++) {
+                        for (int a = 1; a <= ServerVars.MaxMapSpells; a++) {
+                            if (ServerVars.MapSpells[i].Spell[a].getSpellNum() > 0) {
+                                if (ServerVars.MapSpells[i].Spell[a].getTimer() < tickCount) {
+                                    if (ServerVars.MapSpells[i].Spell[a].getFrame() < ServerVars.Spells[ServerVars.MapSpells[i].Spell[a].getSpellNum()].AnimFrames) {
+                                        ServerVars.MapSpells[i].Spell[a].setFrame(ServerVars.MapSpells[i].Spell[a].getFrame() + 1);
+                                        ServerVars.MapSpells[i].Spell[a].setTimer(tickCount + ServerVars.Spells[ServerVars.MapSpells[i].Spell[a].getSpellNum()].AnimSpeed);
+
+                                        SendServerData.SendMapSpells(i);
+                                    } else {
+                                        ServerVars.MapSpells[i].Spell[a].setSpellNum(0);
+                                        ServerVars.MapSpells[i].Spell[a].setX(0);
+                                        ServerVars.MapSpells[i].Spell[a].setY(0);
+                                        ServerVars.MapSpells[i].Spell[a].setTimer(0);
+                                        ServerVars.MapSpells[i].Spell[a].setFrame(0);
+
+                                        SendServerData.SendMapSpells(i);
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     if (LastUpdateTime_ClearMapItems < tickCount) {
@@ -194,6 +287,7 @@ public class RTOServer extends ApplicationAdapter {
                     if (LastUpdateTime_RegenPlayers < tickCount) {
                         for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
                             if (ServerVars.Players[i] != null) {
+                                if (ServerVars.Players[i].getDeathTimer() > 0) { break; }
                                 if (ServerVars.Players[i].getHP() < ServerVars.Players[i].getMaxHP() || ServerVars.Players[i].getMP() < ServerVars.Players[i].getMaxMP()) {
                                     float percent;
                                     boolean boost = false;
@@ -220,9 +314,9 @@ public class RTOServer extends ApplicationAdapter {
                                     }
                                     // HP //
                                     if (boost) {
-                                        percent = 10.0f;
+                                        percent = 20.0f;
                                     } else {
-                                        percent = 5.0f;
+                                        percent = 10.0f;
                                     }
                                     int HP = (int)(ServerVars.Players[i].getMaxHP() * (percent / 100.0f));
                                     ServerVars.Players[i].setHP(ServerVars.Players[i].getHP() + HP);
@@ -233,9 +327,9 @@ public class RTOServer extends ApplicationAdapter {
                                     }
                                     // MP //
                                     if (boost) {
-                                        percent = 6.0f;
+                                        percent = 12.0f;
                                     } else {
-                                        percent = 3.0f;
+                                        percent = 6.0f;
                                     }
                                     int MP = (int)(ServerVars.Players[i].getMaxMP() * (percent / 100.0f));
                                     ServerVars.Players[i].setMP(ServerVars.Players[i].getMP() + MP);
@@ -292,6 +386,11 @@ public class RTOServer extends ApplicationAdapter {
                                             SendServerData.SendDisconnectPlayer(i);
 
                                             serverWindow.svrMonitor.append("Account (" + ServerVars.Accounts[i].getID() + ") Disconnected" + "\n");
+                                            for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                                if (ServerVars.Players[a] != null) {
+                                                    SendServerData.SendMessage(a, ServerVars.MESSAGE_TYPE_SYSTEM, ServerVars.Players[i].getName() + " has left Retro Tales Online!");
+                                                }
+                                            }
                                         }
 
                                         ServerVars.Accounts[i] = new AccountData();
@@ -302,6 +401,21 @@ public class RTOServer extends ApplicationAdapter {
                         }
 
                         LastUpdateTime_KeepAliveCount = tickCount + UpdateTime_KeepAliveCount;
+                    }
+
+                    // Death Timers //
+                    if (LastUpdateTime_Death < tickCount) {
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] == null) { break; }
+                            if (ServerVars.Players[i].getDeathTimer() > 0) {
+                                ServerVars.Players[i].setDeathTimer(ServerVars.Players[i].getDeathTimer() - 1);
+                                if (ServerVars.Players[i].getDeathTimer() == 0) {
+                                    ServerVars.Players[i].setTempSprite(0);
+                                    ErasePlayer(i);
+                                }
+                            }
+                        }
+                        LastUpdateTime_Death = tickCount + UpdateTime_Death;
                     }
 
                     // Save Players //
@@ -395,9 +509,29 @@ public class RTOServer extends ApplicationAdapter {
         server.getKryo().register(PartyInfo.class);
         server.getKryo().register(PartyDecision.class);
         server.getKryo().register(Party.class);
+        server.getKryo().register(DisbandParty.class);
+        server.getKryo().register(LeaveParty.class);
+        server.getKryo().register(AppointPartyLeader.class);
+        server.getKryo().register(KickPartyMember.class);
+        server.getKryo().register(UpdatePartyDropType.class);
+        server.getKryo().register(SendSpellInv.class);
+        server.getKryo().register(SendSpells.class);
+        server.getKryo().register(Spell_Inv_Struct.class);
+        server.getKryo().register(Spell_Inv_Struct[].class);
+        server.getKryo().register(Spell_Struct.class);
+        server.getKryo().register(SendCastSpell.class);
+        server.getKryo().register(SetHotKey.class);
+        server.getKryo().register(SendMapSpells.class);
+        server.getKryo().register(MapSpell.class);
+        server.getKryo().register(MapSpell[].class);
+        server.getKryo().register(SendCastTime.class);
+        server.getKryo().register(SendCoolDown.class);
+        server.getKryo().register(InvalidBuildVersion.class);
+        server.getKryo().register(TrashItem.class);
+        server.getKryo().register(CheckPlayerDataNull.class);
     }
     private static void checkPackets(Object object, Connection connection) {
-        if (object instanceof Connect) { HandleServerData.HandleConnect(object); }
+        if (object instanceof Connect) { HandleServerData.HandleConnect(object, connection); }
         if (object instanceof NewAccount) { HandleServerData.HandleNewAccount(object, connection); }
         if (object instanceof Login) { HandleServerData.HandleLogin(object, connection); }
         if (object instanceof CreateChar) { HandleServerData.HandleCreateChar(object, connection); }
@@ -415,6 +549,15 @@ public class RTOServer extends ApplicationAdapter {
         if (object instanceof SendMessage) { HandleServerData.HandleSendMessage(object); }
         if (object instanceof SendPartyInvite) { HandleServerData.HandlePartyInvite(object); }
         if (object instanceof PartyDecision) { HandleServerData.HandlePartyDecision(object); }
+        if (object instanceof DisbandParty) { HandleServerData.HandleDisbandParty(object); }
+        if (object instanceof LeaveParty) { HandleServerData.HandleLeaveParty(object); }
+        if (object instanceof AppointPartyLeader) { HandleServerData.HandleAppointPartyLeader(object); }
+        if (object instanceof KickPartyMember) { HandleServerData.HandleKickPartyMember(object); }
+        if (object instanceof UpdatePartyDropType) { HandleServerData.HandleUpdateDropType(object); }
+        if (object instanceof SetHotKey) { HandleServerData.HandleSetHotKey(object); }
+        if (object instanceof SendCastSpell) { HandleServerData.HandleCastSpell(object); }
+        if (object instanceof TrashItem) { HandleServerData.HandleTrashItem(object); }
+        if (object instanceof CheckPlayerDataNull) { HandleServerData.HandlePlayerNull(object); }
     }
 
     private static void UpdateNpcAI(long tickCount) {
@@ -622,26 +765,22 @@ public class RTOServer extends ApplicationAdapter {
         if (ServerVars.MapNPCs[mapNum].Npc == null) { return; }
         if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum] == null) { return; }
         // Check if we can't move and if player is behind something and if we can just switch dirs
-        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() - 1 == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() == ServerVars.Players[Target].getY())
-        {
+        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() - 1 == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() == ServerVars.Players[Target].getY()) {
             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getDir() != ServerVars.DIR_LEFT) NpcDir(mapNum, mapNpcNum, ServerVars.DIR_LEFT);
             keepMoving = false;
         }
 
-        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() + 1 == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() == ServerVars.Players[Target].getY())
-        {
+        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() + 1 == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() == ServerVars.Players[Target].getY()) {
             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getDir() != ServerVars.DIR_RIGHT) NpcDir(mapNum, mapNpcNum, ServerVars.DIR_RIGHT);
             keepMoving = false;
         }
 
-        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() - 1 == ServerVars.Players[Target].getY())
-        {
+        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() - 1 == ServerVars.Players[Target].getY()) {
             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getDir() != ServerVars.DIR_UP) NpcDir(mapNum, mapNpcNum, ServerVars.DIR_UP);
             keepMoving = false;
         }
 
-        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() + 1 == ServerVars.Players[Target].getY())
-        {
+        if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() == ServerVars.Players[Target].getX() && ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getY() + 1 == ServerVars.Players[Target].getY()) {
             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getDir() != ServerVars.DIR_DOWN) NpcDir(mapNum, mapNpcNum, ServerVars.DIR_DOWN);
             keepMoving = false;
         }
@@ -692,16 +831,16 @@ public class RTOServer extends ApplicationAdapter {
 
                 ////// WEST //////
                 if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() > TargetX) {
-                    if (CanNpcMove(mapNum, mapNpcNum, ServerVars.DIR_RIGHT)) {
-                        NpcMove(mapNum, mapNpcNum, ServerVars.DIR_RIGHT);
+                    if (CanNpcMove(mapNum, mapNpcNum, ServerVars.DIR_LEFT)) {
+                        NpcMove(mapNum, mapNpcNum, ServerVars.DIR_LEFT);
                         return true;
                     }
                 }
 
                 ////// EAST //////
                 if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getX() < TargetX) {
-                    if (CanNpcMove(mapNum, mapNpcNum, ServerVars.DIR_LEFT)) {
-                        NpcMove(mapNum, mapNpcNum, ServerVars.DIR_LEFT);
+                    if (CanNpcMove(mapNum, mapNpcNum, ServerVars.DIR_RIGHT)) {
+                        NpcMove(mapNum, mapNpcNum, ServerVars.DIR_RIGHT);
                         return true;
                     }
                 }
@@ -910,6 +1049,8 @@ public class RTOServer extends ApplicationAdapter {
                 return false;
             case ServerVars.TILE_TYPE_WARP:
                 return false;
+            case ServerVars.TILE_TYPE_HEAL:
+                return false;
         }
 
         // Check Players //
@@ -958,9 +1099,10 @@ public class RTOServer extends ApplicationAdapter {
         }
 
         // Make sure npcs dont attack more then once a second
-        if (System.currentTimeMillis() < ServerVars.MapNPCs[mapNum].Npc[Attacker].getAttackTimer() + 1000) {
+        if (ServerVars.MapNPCs[mapNum].Npc[Attacker].getAttackTimer() > 0) {
             return false;
         }
+        ServerVars.MapNPCs[mapNum].Npc[Attacker].setAttackTimer((int) System.currentTimeMillis());
 
         if (npcNum > 0) {
             int X = 0;
@@ -984,7 +1126,7 @@ public class RTOServer extends ApplicationAdapter {
                     break;
             }
             if ((ServerVars.Players[Victim].getY() == Y) && (ServerVars.Players[Victim].getX() == X)) {
-                ServerVars.MapNPCs[mapNum].Npc[Attacker].setAttackTimer((int)System.currentTimeMillis());
+                ServerVars.MapNPCs[mapNum].Npc[Attacker].setAttackTimer(1000);
                 return true;
             }
         }
@@ -1025,24 +1167,30 @@ public class RTOServer extends ApplicationAdapter {
         int mapNum = ServerVars.Players[Victim].getMap();
         int npcNum = ServerVars.MapNPCs[mapNum].Npc[Attacker].getNum();
 
-        if (Damage >= ServerVars.Players[Victim].getHP())
-        {
+        if (Damage >= ServerVars.Players[Victim].getHP()) {
             // Clear Npc Target
             ServerVars.MapNPCs[mapNum].Npc[Attacker].setTarget(0);
             ServerVars.MapNPCs[mapNum].Npc[Attacker].setTargetType(0);
 
-            // Erase Map Npc
-            ErasePlayer(Victim);
-        }
-        else
-        {
+            // Erase Player
+            ServerVars.Players[Victim].setHP(0);
+            ServerVars.Players[Victim].setTempSprite(33); // Set temp sprite to crystal sprite
+            ServerVars.Players[Victim].setDeathTimer(5 * 60);
+            SendServerData.SendMessage(Victim, ServerVars.MESSAGE_TYPE_DEATH, "Click on yourself to respawn.");
+            SendServerData.SendPlayerData(Victim, Victim);
+            for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                if (ServerVars.Players[i] == null) { break; }
+                if (ServerVars.Players[i].getMap() == mapNum) {
+                    SendServerData.SendPlayerData(Victim, i);
+                }
+            }
+        } else {
             // Do Damage
             ServerVars.Players[Victim].setHP(ServerVars.Players[Victim].getHP() - Damage);
             SendServerData.SendVital(Victim);
         }
-
     }
-    private static void ErasePlayer(int Victim) {
+    public static void ErasePlayer(int Victim) {
         // Revive
         ServerVars.Players[Victim].setHP(ServerVars.Players[Victim].getMaxHP());
         ServerVars.Players[Victim].setMP(ServerVars.Players[Victim].getMaxMP());
@@ -1099,7 +1247,7 @@ public class RTOServer extends ApplicationAdapter {
         }
 
         // ****** Initial Damage ******
-        GetNpcDamage = Damage + (int)(((Damage) * 2.5) * (nSTR));
+        GetNpcDamage = Damage + (int)(((Damage) * 5) * (nSTR));
         return GetNpcDamage;
     }
     public static int GetNpcProtection(int NpcNum) {
@@ -1134,6 +1282,39 @@ public class RTOServer extends ApplicationAdapter {
         // ****** Retrive END ******
         GetNpcProtection = Defence + (int)(((Defence) * 1.5) * (nDEF));
         return GetNpcProtection;
+    }
+    public static int GetNpcMagProtection(int NpcNum) {
+
+        // ****** Clear Data******
+        int GetNpcMagProtection = 0;
+
+        // ****** Subscript Out Of Range ******
+        if (NpcNum <= 0 || NpcNum > ServerVars.MaxMapNPCs)
+            return 0;
+
+        int Magic = 2;
+
+        int nMAG = ServerVars.npcs[NpcNum].MAG;
+        if (ServerVars.npcs[NpcNum].weapon > 0) {
+            int itemNum = ServerVars.npcs[NpcNum].weapon;
+            nMAG = nMAG + ServerVars.Items[itemNum].MAG;
+        }
+        if (ServerVars.npcs[NpcNum].offhand > 0) {
+            int itemNum = ServerVars.npcs[NpcNum].weapon;
+            nMAG = nMAG + ServerVars.Items[itemNum].MAG;
+        }
+        if (ServerVars.npcs[NpcNum].armor > 0) {
+            int itemNum = ServerVars.npcs[NpcNum].weapon;
+            nMAG = nMAG + ServerVars.Items[itemNum].MAG;
+        }
+        if (ServerVars.npcs[NpcNum].helmet > 0) {
+            int itemNum = ServerVars.npcs[NpcNum].weapon;
+            nMAG = nMAG + ServerVars.Items[itemNum].MAG;
+        }
+
+        // ****** Retrive END ******
+        GetNpcMagProtection = Magic + (int)(((Magic) * 1.5) * (nMAG));
+        return GetNpcMagProtection;
     }
     public static int GetPlayerDamage(int index) {
         // ****** Clear Data******
@@ -1213,5 +1394,424 @@ public class RTOServer extends ApplicationAdapter {
 
         GetPlayerProtection = Defence + (int)(((Defence) * 1.5) * (pDEF));
         return GetPlayerProtection;
+    }
+
+    public static void processCastSpell(int index, int spellNum) {
+        int mapNum = ServerVars.Players[index].getMap();
+        int targetType = ServerVars.Players[index].getTargetType();
+        int target = ServerVars.Players[index].getTarget();
+        int job = ServerVars.Players[index].getJob();
+
+        switch (job) {
+            case 1: // Warrior
+                warriorSpell(index, spellNum, mapNum, targetType, target);
+                break;
+            case 2: // Mage
+                mageSpell(index, spellNum, mapNum, targetType, target);
+                break;
+            case 3: // Cleric
+                clericSpell(index, spellNum, mapNum, targetType, target);
+                break;
+        }
+    }
+    public static void warriorSpell(int index, int spellNum, int mapNum, int targetType, int target) {
+        int cost = ServerVars.Spells[spellNum].MPCost;
+
+        if (ServerVars.Players[index].getMP() >= cost) {
+            ServerVars.Players[index].setMP(ServerVars.Players[index].getMP() - cost);
+            SendServerData.SendVital(index);
+        } else {
+            return;
+        }
+
+        if (targetType == ServerVars.TARGET_TYPE_NPC) {
+            // ****** Set Range ******
+            int N = ServerVars.Spells[spellNum].Range;
+
+            int DistanceX = ServerVars.MapNPCs[mapNum].Npc[target].getX() - ServerVars.Players[index].getX();
+            int DistanceY = ServerVars.MapNPCs[mapNum].Npc[target].getY() - ServerVars.Players[index].getY();
+
+            // Make sure we get a positive value
+            if (DistanceX < 0) {
+                DistanceX = DistanceX * -1;
+            }
+            if (DistanceY < 0) {
+                DistanceY = DistanceY * -1;
+            }
+
+            // Are they in range?  if so GET'M!
+            if ((DistanceX <= N) && (DistanceY <= N)) {
+                float baseSplDmg = ServerVars.Spells[spellNum].DmgHealAmt;
+                int baseDmg = GetPlayerDamage(index);
+                int percent = (int)(baseDmg * (baseSplDmg / 100.0f));
+                int spellDmg = (baseDmg + percent);
+
+                if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                    if (spellDmg > RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum())) {
+                        spellDmg = spellDmg - RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
+                    } else {
+                        spellDmg = 0;
+                    }
+
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTarget(index);
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+                }
+
+                SendServerData.SendNPCDmg(index, target, spellDmg);
+                for (int i = 1; i <= ServerVars.MaxMapSpells; i++) {
+                    if (ServerVars.MapSpells[mapNum].Spell[i].getSpellNum() == 0) {
+                        ServerVars.MapSpells[mapNum].Spell[i].setSpellNum(spellNum);
+                        ServerVars.MapSpells[mapNum].Spell[i].setType(ServerVars.Players[index].getTargetType());
+                        ServerVars.MapSpells[mapNum].Spell[i].setIndex(target);
+                        ServerVars.MapSpells[mapNum].Spell[i].setX(ServerVars.MapNPCs[mapNum].Npc[target].getX());
+                        ServerVars.MapSpells[mapNum].Spell[i].setY(ServerVars.MapNPCs[mapNum].Npc[target].getY());
+                        ServerVars.MapSpells[mapNum].Spell[i].setTimer(ServerVars.tickCount + (ServerVars.Spells[spellNum].AnimSpeed));
+                        break;
+                    }
+                }
+                SendServerData.SendMapSpells(mapNum);
+
+                if (spellDmg > 0) {
+                    if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() - spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() <= 0) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setDead(true);
+                                ServerVars.MapNPCs[mapNum].Npc[target].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].SpawnSecs);
+
+                                SendServerData.SendKillNPC(index, target, true);
+                                for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                    if (a != index) {
+                                        if (ServerVars.Players[a] != null) {
+                                            if (mapNum == ServerVars.Players[a].getMap()) {
+                                                SendServerData.SendKillNPC(a, target, false);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_HEAL) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() < ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() + spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health);
+                            }
+                        }
+                    }
+                } else {
+                    SendServerData.SendNPCDmg(index, target, 0);
+                }
+            }
+        } else if (targetType == ServerVars.TARGET_TYPE_PLAYER) {
+            switch (ServerVars.Spells[spellNum].Type) {
+                case ServerVars.SPELL_TYPE_DAMAGE:
+
+                    break;
+                case ServerVars.SPELL_TYPE_HEAL:
+                    if (ServerVars.Players[target].getHP() < ServerVars.Players[target].getMaxHP()) {
+                        int healAmt = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int HP = (int)(ServerVars.Players[target].getMaxHP() * (healAmt / 100.0f));
+                        ServerVars.Players[target].setHP(ServerVars.Players[target].getHP() + HP);
+                        if (ServerVars.Players[target].getHP() > ServerVars.Players[target].getMaxHP()) {
+                            ServerVars.Players[target].setHP(ServerVars.Players[target].getMaxHP());
+                        }
+                        SendServerData.SendVital(target);
+                        SendServerData.SendSystemMessage(target, target, HP + "", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, HP + "", Color.GREEN);
+                    } else {
+                        SendServerData.SendSystemMessage(target, target, "0", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, "0", Color.GREEN);
+                    }
+                    break;
+                case ServerVars.SPELL_TYPE_REVIVE:
+                    if (ServerVars.Players[target].getHP() == 0) {
+                        int percent = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int hp = (int)(ServerVars.Players[target].getMaxHP() * (percent / 100.0f));
+
+                        ServerVars.Players[target].setHP(hp);
+                        ServerVars.Players[target].setDeathTimer(0);
+                        ServerVars.Players[target].setTempSprite(0);
+
+                        SendServerData.SendPlayerData(target, target);
+                        SendServerData.SendPlayerData(target, index);
+
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] != null) {
+                                if (ServerVars.Players[i].getMap() == mapNum) {
+                                    SendServerData.SendPlayerData(target, i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+    public static void mageSpell(int index, int spellNum, int mapNum, int targetType, int target) {
+        int cost = ServerVars.Spells[spellNum].MPCost;
+
+        if (ServerVars.Players[index].getMP() >= cost) {
+            ServerVars.Players[index].setMP(ServerVars.Players[index].getMP() - cost);
+            SendServerData.SendVital(index);
+        } else {
+            return;
+        }
+
+        if (targetType == ServerVars.TARGET_TYPE_NPC) {
+            // ****** Set Range ******
+            int N = ServerVars.Spells[spellNum].Range;
+
+            int DistanceX = ServerVars.MapNPCs[mapNum].Npc[target].getX() - ServerVars.Players[index].getX();
+            int DistanceY = ServerVars.MapNPCs[mapNum].Npc[target].getY() - ServerVars.Players[index].getY();
+
+            // Make sure we get a positive value
+            if (DistanceX < 0) {
+                DistanceX = DistanceX * -1;
+            }
+            if (DistanceY < 0) {
+                DistanceY = DistanceY * -1;
+            }
+
+            // Are they in range?  if so GET'M!
+            if ((DistanceX <= N) && (DistanceY <= N)) {
+                int baseSplDmg = ServerVars.Spells[spellNum].DmgHealAmt;
+                int casterMAG = ServerVars.Players[index].getMAG();
+                int spellDmg = (baseSplDmg * casterMAG) / 5;
+
+                if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                    if (spellDmg > RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum())) {
+                        spellDmg = spellDmg - RTOServer.GetNpcMagProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
+                    } else {
+                        spellDmg = 0;
+                    }
+
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTarget(index);
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+                }
+
+                SendServerData.SendNPCDmg(index, target, spellDmg);
+                for (int i = 1; i <= ServerVars.MaxMapSpells; i++) {
+                    if (ServerVars.MapSpells[mapNum].Spell[i].getSpellNum() == 0) {
+                        ServerVars.MapSpells[mapNum].Spell[i].setSpellNum(spellNum);
+                        ServerVars.MapSpells[mapNum].Spell[i].setType(ServerVars.Players[index].getTargetType());
+                        ServerVars.MapSpells[mapNum].Spell[i].setIndex(target);
+                        ServerVars.MapSpells[mapNum].Spell[i].setX(ServerVars.MapNPCs[mapNum].Npc[target].getX());
+                        ServerVars.MapSpells[mapNum].Spell[i].setY(ServerVars.MapNPCs[mapNum].Npc[target].getY());
+                        ServerVars.MapSpells[mapNum].Spell[i].setTimer(ServerVars.tickCount + (ServerVars.Spells[spellNum].AnimSpeed));
+                        break;
+                    }
+                }
+                SendServerData.SendMapSpells(mapNum);
+
+                if (spellDmg > 0) {
+                    if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() - spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() <= 0) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setDead(true);
+                                ServerVars.MapNPCs[mapNum].Npc[target].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].SpawnSecs);
+
+                                SendServerData.SendKillNPC(index, target, true);
+                                for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                    if (a != index) {
+                                        if (ServerVars.Players[a] != null) {
+                                            if (mapNum == ServerVars.Players[a].getMap()) {
+                                                SendServerData.SendKillNPC(a, target, false);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_HEAL) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() < ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() + spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health);
+                            }
+                        }
+                    }
+                } else {
+                    SendServerData.SendNPCDmg(index, target, 0);
+                }
+            }
+        } else if (targetType == ServerVars.TARGET_TYPE_PLAYER) {
+            switch (ServerVars.Spells[spellNum].Type) {
+                case ServerVars.SPELL_TYPE_DAMAGE:
+
+                    break;
+                case ServerVars.SPELL_TYPE_HEAL:
+                    if (ServerVars.Players[target].getHP() < ServerVars.Players[target].getMaxHP()) {
+                        int healAmt = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int HP = (int)(ServerVars.Players[target].getMaxHP() * (healAmt / 100.0f));
+                        ServerVars.Players[target].setHP(ServerVars.Players[target].getHP() + HP);
+                        if (ServerVars.Players[target].getHP() > ServerVars.Players[target].getMaxHP()) {
+                            ServerVars.Players[target].setHP(ServerVars.Players[target].getMaxHP());
+                        }
+                        SendServerData.SendVital(target);
+                        SendServerData.SendSystemMessage(target, target, HP + "", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, HP + "", Color.GREEN);
+                    } else {
+                        SendServerData.SendSystemMessage(target, target, "0", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, "0", Color.GREEN);
+                    }
+                    break;
+                case ServerVars.SPELL_TYPE_REVIVE:
+                    if (ServerVars.Players[target].getHP() == 0) {
+                        int percent = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int hp = (int)(ServerVars.Players[target].getMaxHP() * (percent / 100.0f));
+
+                        ServerVars.Players[target].setHP(hp);
+                        ServerVars.Players[target].setDeathTimer(0);
+                        ServerVars.Players[target].setTempSprite(0);
+
+                        SendServerData.SendPlayerData(target, target);
+                        SendServerData.SendPlayerData(target, index);
+
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] != null) {
+                                if (ServerVars.Players[i].getMap() == mapNum) {
+                                    SendServerData.SendPlayerData(target, i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+    public static void clericSpell(int index, int spellNum, int mapNum, int targetType, int target) {
+        int cost = ServerVars.Spells[spellNum].MPCost;
+
+        if (ServerVars.Players[index].getMP() >= cost) {
+            ServerVars.Players[index].setMP(ServerVars.Players[index].getMP() - cost);
+            SendServerData.SendVital(index);
+        } else {
+            return;
+        }
+
+        if (targetType == ServerVars.TARGET_TYPE_NPC) {
+            // ****** Set Range ******
+            int N = ServerVars.Spells[spellNum].Range;
+
+            int DistanceX = ServerVars.MapNPCs[mapNum].Npc[target].getX() - ServerVars.Players[index].getX();
+            int DistanceY = ServerVars.MapNPCs[mapNum].Npc[target].getY() - ServerVars.Players[index].getY();
+
+            // Make sure we get a positive value
+            if (DistanceX < 0) {
+                DistanceX = DistanceX * -1;
+            }
+            if (DistanceY < 0) {
+                DistanceY = DistanceY * -1;
+            }
+
+            // Are they in range?  if so GET'M!
+            if ((DistanceX <= N) && (DistanceY <= N)) {
+                int baseSplDmg = ServerVars.Spells[spellNum].DmgHealAmt;
+                int casterMAG = ServerVars.Players[index].getMAG();
+                int spellDmg = (baseSplDmg * casterMAG) / 5;
+
+                if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                    if (spellDmg > RTOServer.GetNpcProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum())) {
+                        spellDmg = spellDmg - RTOServer.GetNpcMagProtection(ServerVars.MapNPCs[mapNum].Npc[target].getNum());
+                    } else {
+                        spellDmg = 0;
+                    }
+
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTarget(index);
+                    ServerVars.MapNPCs[mapNum].Npc[target].setTargetType(ServerVars.TARGET_TYPE_PLAYER);
+                }
+
+                SendServerData.SendNPCDmg(index, target, spellDmg);
+                for (int i = 1; i <= ServerVars.MaxMapSpells; i++) {
+                    if (ServerVars.MapSpells[mapNum].Spell[i].getSpellNum() == 0) {
+                        ServerVars.MapSpells[mapNum].Spell[i].setSpellNum(spellNum);
+                        ServerVars.MapSpells[mapNum].Spell[i].setType(ServerVars.Players[index].getTargetType());
+                        ServerVars.MapSpells[mapNum].Spell[i].setIndex(target);
+                        ServerVars.MapSpells[mapNum].Spell[i].setX(ServerVars.MapNPCs[mapNum].Npc[target].getX());
+                        ServerVars.MapSpells[mapNum].Spell[i].setY(ServerVars.MapNPCs[mapNum].Npc[target].getY());
+                        ServerVars.MapSpells[mapNum].Spell[i].setTimer(ServerVars.tickCount + (ServerVars.Spells[spellNum].AnimSpeed));
+                        break;
+                    }
+                }
+                SendServerData.SendMapSpells(mapNum);
+
+                if (spellDmg > 0) {
+                    if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_DAMAGE) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > 0) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() - spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() <= 0) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setDead(true);
+                                ServerVars.MapNPCs[mapNum].Npc[target].setSpawnWait(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].SpawnSecs);
+
+                                SendServerData.SendKillNPC(index, target, true);
+                                for (int a = 1; a <= ServerVars.MaxPlayers; a++) {
+                                    if (a != index) {
+                                        if (ServerVars.Players[a] != null) {
+                                            if (mapNum == ServerVars.Players[a].getMap()) {
+                                                SendServerData.SendKillNPC(a, target, false);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (ServerVars.Spells[spellNum].Type == ServerVars.SPELL_TYPE_HEAL) {
+                        if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() < ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                            ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.MapNPCs[mapNum].Npc[target].getHP() + spellDmg);
+                            if (ServerVars.MapNPCs[mapNum].Npc[target].getHP() > ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health) {
+                                ServerVars.MapNPCs[mapNum].Npc[target].setHP(ServerVars.npcs[ServerVars.MapNPCs[mapNum].Npc[target].getNum()].Health);
+                            }
+                        }
+                    }
+                } else {
+                    SendServerData.SendNPCDmg(index, target, 0);
+                }
+            }
+        } else if (targetType == ServerVars.TARGET_TYPE_PLAYER) {
+            switch (ServerVars.Spells[spellNum].Type) {
+                case ServerVars.SPELL_TYPE_DAMAGE:
+
+                    break;
+                case ServerVars.SPELL_TYPE_HEAL:
+                    if (ServerVars.Players[target].getHP() < ServerVars.Players[target].getMaxHP()) {
+                        int healAmt = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int HP = (int)(ServerVars.Players[target].getMaxHP() * (healAmt / 100.0f));
+                        ServerVars.Players[target].setHP(ServerVars.Players[target].getHP() + HP);
+                        if (ServerVars.Players[target].getHP() > ServerVars.Players[target].getMaxHP()) {
+                            ServerVars.Players[target].setHP(ServerVars.Players[target].getMaxHP());
+                        }
+                        SendServerData.SendVital(target);
+                        SendServerData.SendSystemMessage(target, target, HP + "", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, HP + "", Color.GREEN);
+                    } else {
+                        SendServerData.SendSystemMessage(target, target, "0", Color.GREEN);
+                        SendServerData.SendSystemMessage(target, index, "0", Color.GREEN);
+                    }
+                    break;
+                case ServerVars.SPELL_TYPE_REVIVE:
+                    if (ServerVars.Players[target].getHP() == 0) {
+                        int percent = ServerVars.Spells[spellNum].DmgHealAmt;
+                        int hp = (int)(ServerVars.Players[target].getMaxHP() * (percent / 100.0f));
+
+                        ServerVars.Players[target].setHP(hp);
+                        ServerVars.Players[target].setDeathTimer(0);
+                        ServerVars.Players[target].setTempSprite(0);
+
+                        SendServerData.SendPlayerData(target, target);
+                        SendServerData.SendPlayerData(target, index);
+
+                        for (int i = 1; i <= ServerVars.MaxPlayers; i++) {
+                            if (ServerVars.Players[i] != null) {
+                                if (ServerVars.Players[i].getMap() == mapNum) {
+                                    SendServerData.SendPlayerData(target, i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
     }
 }

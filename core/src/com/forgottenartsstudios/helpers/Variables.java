@@ -5,11 +5,13 @@ import com.forgottenartsstudios.data.Damage_Struct;
 import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
+import com.forgottenartsstudios.data.MapSpell;
 import com.forgottenartsstudios.data.MapTiles;
 import com.forgottenartsstudios.data.Message;
 import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
+import com.forgottenartsstudios.data.Spell_Struct;
 import com.forgottenartsstudios.data.SystemMsg_Struct;
 import com.forgottenartsstudios.data.TempStats;
 import com.forgottenartsstudios.data.TileLayer_Struct;
@@ -20,6 +22,10 @@ import com.forgottenartsstudios.data.mapData;
  */
 
 public class Variables {
+    public static final String buildVersion = "v0.2.103";
+    public static String newBuildVersion;
+    public static boolean InvalidBuildVersion = false;
+
     public static int AndroidScreenWidth = 480;
     public static int AndroidScreenHeight = 854;
     public static int DesktopScreenWidth = 800;
@@ -51,42 +57,58 @@ public class Variables {
 
     public static boolean inputOpen;
 
+    public static long LastUpdateTime_BuyMsg;
+    public static final long UpdateTime_BuyMsg = 1000;
+
+    public static int tapCount;
+
     public static boolean saveLogin;
     public static String Login_ID = "", Login_PW = "";
 
-    //public static String Server_IP =  "68.56.251.225"; //"68.56.251.225"; //"162.198.233.237";
-    public static String Server_IP =  "162.198.233.237";
-    public static int Server_Port = 4001;
+    public static String Server_IP = "76.112.239.106";
+    //public static String Server_IP = "162.198.233.237";
+    //public static String Server_IP = "192.168.1.6";
+    //public static String Server_IP = "10.0.0.53";
+    //public static String Server_IP = "192.168.1.11";
+    public static int Server_Port = 4001; // LIVE SERVER
+    //public static int Server_Port = 4003; // TEST SERVER
     public static boolean serverOnline = false;
 
     public static boolean pressUp, pressDown, pressLeft, pressRight, pressAttack, pickUpItem;
     public static boolean pauseMovement;
-    public static boolean dPad_Up, dPad_Down, dPad_Left, dPad_Right, bBtn, aBtn;
-    public static boolean inMenu, inShop, inInventory, inStatus, inChat;
-    public static boolean buyItem, useItem, usePoint;
+    public static boolean dPad_Up, dPad_Down, dPad_Left, dPad_Right, bBtn, aBtn, longPressMenu;
+    public static boolean hotKeyQ, hotKeyE, hotKeyR, hotKeyF;
+    public static boolean inMenu, inShop, inInventory, inStatus, inChat, inSpells;
+    public static boolean buyItem, useItem, usePoint, playerMenu;
     public static int usePointTimer;
     public static boolean longPress, touchDown;
     public static boolean inputID, inputPW, inputName;
     public static int menuIndex, target;
+    public static int shopBuyAmt = 1;
+    public static int longPressMenuX, longPressMenuY;
 
     public static int MyIndex;
     public static int ShopNum;
     public static int longPressTimer;
 
-    public static int selectedShopSlot, selectedInvSlot;
+    public static int selectedShopSlot, selectedInvSlot, selectedSpellSlot;
 
     public static final int MoveSize = 32;
 
     public static int inputTimer;
 
     public static final int MaxPlayers = 100;
-    public static final int MaxMaps = 200;
-    public static final int MaxSprites = 32;
-    public static final int MaxIcons = 1695;
+    public static final int MaxMaps = 305;
+    public static final int MaxSprites = 33;
+    public static final int MaxIcons = 1696;
     public static final int MaxTiles = 1;
     public static final int MaxMapNPCs = 5;
     public static final int MaxMapItems = 20;
+    public static final int MaxMapSpells = 20;
     public static final int MaxItems = 200;
+    public static final int MaxSpells = 200;
+    public static final int MaxSpellIcons = 61;
+    public static final int MaxAnims = 10;
 
     public static final int JOB_WARRIOR = 1;
     public static final int JOB_WIZARD = 2;
@@ -124,6 +146,12 @@ public class Variables {
     public static final int MESSAGE_TYPE_GLOBAL = 2;
     public static final int MESSAGE_TYPE_WHISPER = 3;
     public static final int MESSAGE_TYPE_SYSTEM = 4;
+    public static final int MESSAGE_TYPE_PARTY = 5;
+    public static final int MESSAGE_TYPE_DEATH = 6;
+
+    // Party - Drop Sort Methods
+    public static final int DROP_SORT_ROUNDROBIN = 1;
+    public static final int DROP_SORT_FREEFORALL = 2;
 
     // Search types
     public static final int SEARCH_TYPE_NONE = 0;
@@ -131,7 +159,7 @@ public class Variables {
     public static final int SEARCH_TYPE_NPC = 2;
     public static final int SEARCH_TYPE_ITEM = 3;
 
-    // Item Types //
+    // Item Types
     public static final int ITEM_TYPE_NONE = 0;
     public static final int ITEM_TYPE_CURRENCY = 1;
     public static final int ITEM_TYPE_WEAPON = 2;
@@ -140,13 +168,28 @@ public class Variables {
     public static final int ITEM_TYPE_HELMET = 5;
     public static final int ITEM_TYPE_POTION = 6;
 
+    // Spell types
+    public static final int SPELL_TYPE_DAMAGE = 1;
+    public static final int SPELL_TYPE_HEAL = 2;
+    public static final int SPELL_TYPE_REVIVE = 3;
+
+    // Hot Keys
+    public static final int HOT_KEY_Q = 1;
+    public static final int HOT_KEY_E = 2;
+    public static final int HOT_KEY_R = 3;
+    public static final int HOT_KEY_F = 4;
+
+    public static long tickCount;
+
     public static AccountData MyAccount;
     public static TempStats tempStats = new TempStats();
     public static mapData[] mapRender = new mapData[MaxMaps + 1];
-    public static Player[] players = new Player[MaxPlayers + 1];
+    public static Player[] Players = new Player[MaxPlayers + 1];
     public static MapNPC[] MapNPCs = new MapNPC[MaxMapNPCs + 1];
     public static MapItem[] MapItems = new MapItem[MaxMapItems + 1];
+    public static MapSpell[] MapSpells = new MapSpell[MaxMapSpells + 1];
     public static Item_Struct[] Items = new Item_Struct[MaxItems + 1];
+    public static Spell_Struct[] Spells = new Spell_Struct[MaxSpells + 1];
     public static Shop_Struct Shop = new Shop_Struct();
     public static Damage_Struct[] DrawNPCDamage = new Damage_Struct[20 + 1];
     public static Damage_Struct[] DrawXP = new Damage_Struct[20 + 1];
@@ -168,7 +211,7 @@ public class Variables {
     public static int MinY;
     public static int MaxY;
 
-    public static boolean reloadingMap, loadingMap;
+    //public static boolean reloadingMap, loadingMap;
 
     public static MapTiles[] mapTiles = new MapTiles[MaxMaps + 1];
 
@@ -176,5 +219,5 @@ public class Variables {
     public static String TempName;
     public static int TempJob;
     public static int TempSprite;
-    public static boolean AccountNotFound, AccountRegistered, PasswordReq, IDReq;
+    public static boolean AccountNotFound, AccountRegistered, AccountExists, PasswordReq, IDReq;
 }

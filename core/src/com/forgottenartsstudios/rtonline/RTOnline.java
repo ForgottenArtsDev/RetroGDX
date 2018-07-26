@@ -12,10 +12,13 @@ import com.forgottenartsstudios.data.Inventory_Struct;
 import com.forgottenartsstudios.data.Item_Struct;
 import com.forgottenartsstudios.data.MapItem;
 import com.forgottenartsstudios.data.MapNPC;
+import com.forgottenartsstudios.data.MapSpell;
 import com.forgottenartsstudios.data.Message;
 import com.forgottenartsstudios.data.Party;
 import com.forgottenartsstudios.data.Player;
 import com.forgottenartsstudios.data.Shop_Struct;
+import com.forgottenartsstudios.data.Spell_Inv_Struct;
+import com.forgottenartsstudios.data.Spell_Struct;
 import com.forgottenartsstudios.data.SystemMsg_Struct;
 import com.forgottenartsstudios.helpers.AssetLoader;
 import com.forgottenartsstudios.helpers.Variables;
@@ -34,7 +37,8 @@ public class RTOnline extends Game {
 
         initPackets();
 
-        new Thread(client).start();
+        //new Thread(client).start();
+        client.start();
 
         try {
             client.connect(5000, Variables.Server_IP, Variables.Server_Port, Variables.Server_Port + 1); //192.168.1.16
@@ -45,14 +49,17 @@ public class RTOnline extends Game {
 
         Connect cnt = new Connect();
         cnt.client_mode = Variables.Client_Mode;
+        cnt.build_version = Variables.buildVersion;
         client.sendTCP(cnt);
 
-        Variables.players = new Player[Variables.MaxPlayers + 1];
+        Variables.Players = new Player[Variables.MaxPlayers + 1];
         for (int i = 1; i <= Variables.MaxPlayers; i++) {
-            Variables.players[i] = new Player();
-            Variables.players[i].inventory = new Inventory_Struct[60 + 1];
+            Variables.Players[i] = new Player();
+            Variables.Players[i].inventory = new Inventory_Struct[60 + 1];
+            Variables.Players[i].spells = new Spell_Inv_Struct[60 + 1];
             for (int a = 1; a <= 60; a++) {
-                Variables.players[i].inventory[a] = new Inventory_Struct();
+                Variables.Players[i].inventory[a] = new Inventory_Struct();
+                Variables.Players[i].spells[a] = new Spell_Inv_Struct();
             }
         }
 
@@ -86,6 +93,11 @@ public class RTOnline extends Game {
         for (int i = 1; i <= Variables.MaxMapItems; i++) {
             Variables.MapItems[i] = new MapItem();
         }
+        Variables.MapSpells = new MapSpell[Variables.MaxMapSpells + 1];
+        for (int i = 1; i <= Variables.MaxMapSpells; i++) {
+            Variables.MapSpells[i] = new MapSpell();
+            Variables.MapSpells[i].setFrame(0);
+        }
 
         new Thread(client).setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             public void uncaughtException(Thread t, Throwable e) {
@@ -97,7 +109,7 @@ public class RTOnline extends Game {
         client.addListener(new Listener() {
                                public void received(Connection connection, Object object) {
                                    if (object instanceof Packet) {
-                                       checkPackets(object, connection);
+                                       checkPackets(object);
                                    }
                                }
                            });
@@ -177,11 +189,32 @@ public class RTOnline extends Game {
         client.getKryo().register(PartyInfo.class);
         client.getKryo().register(PartyDecision.class);
         client.getKryo().register(Party.class);
+        client.getKryo().register(DisbandParty.class);
+        client.getKryo().register(LeaveParty.class);
+        client.getKryo().register(AppointPartyLeader.class);
+        client.getKryo().register(KickPartyMember.class);
+        client.getKryo().register(UpdatePartyDropType.class);
+        client.getKryo().register(SendSpellInv.class);
+        client.getKryo().register(SendSpells.class);
+        client.getKryo().register(Spell_Inv_Struct.class);
+        client.getKryo().register(Spell_Inv_Struct[].class);
+        client.getKryo().register(Spell_Struct.class);
+        client.getKryo().register(SendCastSpell.class);
+        client.getKryo().register(SetHotKey.class);
+        client.getKryo().register(SendMapSpells.class);
+        client.getKryo().register(MapSpell.class);
+        client.getKryo().register(MapSpell[].class);
+        client.getKryo().register(SendCastTime.class);
+        client.getKryo().register(SendCoolDown.class);
+        client.getKryo().register(InvalidBuildVersion.class);
+        client.getKryo().register(TrashItem.class);
+        client.getKryo().register(CheckPlayerDataNull.class);
     }
-    public static void checkPackets(Object object, Connection connection) {
+
+    public static void checkPackets(Object object) {
         if (object instanceof SendLogin) { HandleClientData.HandleSendLogin(object); }
         if (object instanceof AccountNotFound) { HandleClientData.HandleAccountNotFound(); }
-        if (object instanceof AccountRegistered) { HandleClientData.HandleAccountRegistered(); }
+        if (object instanceof AccountRegistered) { HandleClientData.HandleAccountRegistered(object); }
         if (object instanceof PlayerData) { HandleClientData.HandlePlayerData(object); }
         if (object instanceof MovePlayer) { HandleClientData.HandleMovePlayer(object); }
         if (object instanceof SendNPCSpawn) { HandleClientData.HandleSpawnNPC(object); }
@@ -210,5 +243,11 @@ public class RTOnline extends Game {
         if (object instanceof SendOpenPlayerMenu) { HandleClientData.HandleOpenPlayerMenu(object); }
         if (object instanceof SendPartyInvite) { HandleClientData.HandlePartyInvite(object); }
         if (object instanceof PartyInfo) { HandleClientData.HandlePartyInfo(object); }
+        if (object instanceof SendSpellInv) { HandleClientData.HandleSendSpellInv(object); }
+        if (object instanceof SendSpells) { HandleClientData.HandleSendSpells(object); }
+        if (object instanceof SendMapSpells) { HandleClientData.HandleSendMapSpells(object); }
+        if (object instanceof SendCastTime) { HandleClientData.HandleSendCastTime(object); }
+        if (object instanceof SendCoolDown) { HandleClientData.HandleSendCoolDown(object); }
+        if (object instanceof InvalidBuildVersion) { HandleClientData.HandleInvalidBuildVersion(object); }
     }
 }

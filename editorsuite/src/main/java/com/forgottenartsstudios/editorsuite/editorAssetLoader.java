@@ -518,4 +518,52 @@ public class editorAssetLoader {
             System.exit(0);
         }
     }
+    public static void saveSpell(int spellNum) {
+        String absoPath = new File("").getAbsolutePath();
+        String fileName = absoPath + "\\rtoserver\\data\\spells\\" + spellNum + ".dat";
+
+        ObjectOutputStream outputStream = null;
+
+        try{
+            outputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+        }catch(IOException e){
+            System.out.println("Could not open the file." + e);
+            System.exit(0);
+        }
+
+        try{
+            outputStream.writeObject(editorVars.spells[spellNum]);
+
+            outputStream.close();
+        }catch(IOException e){
+            System.out.println("Writing error: " + e);
+            System.exit(0);
+        }
+    }
+    public static void loadSpell(int spellNum) {
+        String absoPath = new File("").getAbsolutePath();
+        String fileName = absoPath + "\\rtoserver\\data\\spells\\" + spellNum + ".dat";
+
+        File f = new File(fileName);
+        if(!f.exists() && !f.isDirectory()) {
+            return;
+        }
+
+        ObjectInputStream inputStream = null;
+        try{
+            inputStream = new ObjectInputStream(new FileInputStream(fileName));
+        }catch(IOException e){
+            System.out.println("There was a problem opening the file: " + e);
+            System.exit(0);
+        }
+
+        try{
+            editorVars.spells[spellNum] = (Spell_Struct) inputStream.readObject();
+
+            inputStream.close();
+        }catch(Exception e){
+            System.out.println("There was an issue reading from the file: " + e);
+            System.exit(0);
+        }
+    }
 }

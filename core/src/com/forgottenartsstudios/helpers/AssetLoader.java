@@ -31,9 +31,11 @@ public class AssetLoader {
     public static Texture warriorEmb, wizardEmb, clericEmb, rangerEmb, rogueEmb;
     public static Texture warriorEmbT, wizardEmbT, clericEmbT, rangerEmbT, rogueEmbT;
     public static Texture male, female;
-    public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, emptyMapBar;
-    public static Texture chatBar, playerMenu, partyInvite;
-    public static Texture[] sprites, tiles, items;
+    public static Texture longPressMenu;
+    public static Texture hpBar, mpBar, xpBar, emptyBar, sepBarV, sepBarH, hpMapBar, ctMapBar, emptyMapBar, crown;
+    public static Texture chatBar, playerMenu, partyInvite, inPartyBtn;
+    public static Texture disbandBtn, kickBtn, leaveBtn, appointBtn, emptyPotKey;
+    public static Texture[] sprites, tiles, items, icons, anims;
     public static TextureRegion[] spritesUp1, spritesUp2, spritesUp3;
     public static TextureRegion[] spritesDown1, spritesDown2, spritesDown3;
     public static TextureRegion[] spritesLeft1, spritesLeft2, spritesLeft3;
@@ -82,6 +84,9 @@ public class AssetLoader {
         partyInvite = new Texture(Gdx.files.internal(clientDir + "data/ui/android/party_invite.png"));
         partyInvite.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+        longPressMenu = new Texture(Gdx.files.internal(clientDir + "data/ui/android/long_press_menu.png"));
+        longPressMenu.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
         hpBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/hp_bar.png"));
         hpBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         mpBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/mp_bar.png"));
@@ -94,11 +99,18 @@ public class AssetLoader {
         sepBarV.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         sepBarH = new Texture(Gdx.files.internal(clientDir + "data/ui/android/separate_bar_h.png"));
         sepBarH.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        crown = new Texture(Gdx.files.internal(clientDir + "data/ui/crown.png"));
+        crown.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         hpMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/hp_map_bar.png"));
         hpMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        ctMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/ct_map_bar.png"));
+        ctMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         emptyMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/empty_map_bar.png"));
         emptyMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        emptyPotKey = new Texture(Gdx.files.internal(clientDir + "data/ui/empty_pot_slot.png"));
+        emptyPotKey.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         chatBar = new Texture(Gdx.files.internal(clientDir + "data/ui/android/chat_bar.png"));
         chatBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -128,6 +140,15 @@ public class AssetLoader {
         rogueEmb.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         rogueEmbT = new Texture(Gdx.files.internal(clientDir + "data/ui/android/rogue_emblem_tran.png"));
         rogueEmbT.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        disbandBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/disband_btn.png"));
+        disbandBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        kickBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/kick_btn.png"));
+        kickBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        leaveBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/leave_btn.png"));
+        leaveBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        appointBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/appoint_btn.png"));
+        appointBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         sprites = new Texture[Variables.MaxSprites + 1];
 
@@ -185,6 +206,16 @@ public class AssetLoader {
         for (int i = 1; i <= Variables.MaxIcons; i++) {
             items[i] = new Texture(Gdx.files.internal(clientDir + "data/items/" + i + ".png"));
             items[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+        icons = new Texture[Variables.MaxSpellIcons + 1];
+        for (int i = 1; i <= Variables.MaxSpellIcons; i++) {
+            icons[i] = new Texture(Gdx.files.internal(clientDir + "data/icons/" + i + ".png"));
+            icons[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+        anims = new Texture[Variables.MaxAnims + 1];
+        for (int i = 1; i <= Variables.MaxAnims; i++) {
+            anims[i] = new Texture(Gdx.files.internal(clientDir + "data/spells/" + i + ".png"));
+            anims[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         }
 
         font = new BitmapFont(Gdx.files.internal(clientDir + "data/fonts/font.fnt"));
@@ -223,11 +254,20 @@ public class AssetLoader {
         xpBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         emptyBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/empty_bar.png"));
         emptyBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        crown = new Texture(Gdx.files.internal(clientDir + "data/ui/crown.png"));
+        crown.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        inPartyBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/in_party_button.png"));
+        inPartyBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         hpMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/hp_map_bar.png"));
         hpMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        ctMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/ct_map_bar.png"));
+        ctMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         emptyMapBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/empty_map_bar.png"));
         emptyMapBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        emptyPotKey = new Texture(Gdx.files.internal(clientDir + "data/ui/empty_pot_slot.png"));
+        emptyPotKey.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         chatBar = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/chat_bar.png"));
         chatBar.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -257,6 +297,15 @@ public class AssetLoader {
         rogueEmb.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         rogueEmbT = new Texture(Gdx.files.internal(clientDir + "data/ui/desktop/rogue_emblem_tran.png"));
         rogueEmbT.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        disbandBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/disband_btn.png"));
+        disbandBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        kickBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/kick_btn.png"));
+        kickBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        leaveBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/leave_btn.png"));
+        leaveBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        appointBtn = new Texture(Gdx.files.internal(clientDir + "data/ui/appoint_btn.png"));
+        appointBtn.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         sprites = new Texture[Variables.MaxSprites + 1];
 
@@ -314,6 +363,16 @@ public class AssetLoader {
         for (int i = 1; i <= Variables.MaxIcons; i++) {
             items[i] = new Texture(Gdx.files.internal(clientDir + "data/items/" + i + ".png"));
             items[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+        icons = new Texture[Variables.MaxSpellIcons + 1];
+        for (int i = 1; i <= Variables.MaxSpellIcons; i++) {
+            icons[i] = new Texture(Gdx.files.internal(clientDir + "data/icons/" + i + ".png"));
+            icons[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+        anims = new Texture[Variables.MaxAnims + 1];
+        for (int i = 1; i <= Variables.MaxAnims; i++) {
+            anims[i] = new Texture(Gdx.files.internal(clientDir + "data/spells/" + i + ".png"));
+            anims[i].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         }
 
         font = new BitmapFont(Gdx.files.internal(clientDir + "data/fonts/font.fnt"));
@@ -368,7 +427,7 @@ public class AssetLoader {
 
     }
     public static void loadMap(int mapNum) {
-        Variables.loadingMap = true;
+        //Variables.loadingMap = true;
 
         FileHandle mapFile = null;
 
@@ -394,7 +453,7 @@ public class AssetLoader {
             System.out.println("There was an issue reading from the file: " + e);
             System.exit(0);
         }
-        Variables.loadingMap = false;
+        //Variables.loadingMap = false;
     }
     public static void checkMaps() {
         //if (Variables.Client_Mode == Variables.Client_Mode_Android) {

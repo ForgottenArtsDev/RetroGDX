@@ -1,9 +1,7 @@
 package com.forgottenartsstudios.data;
 
-import com.badlogic.gdx.graphics.Color;
 import com.forgottenartsstudios.helpers.ServerVars;
 import com.forgottenartsstudios.networking.packetdata.SendServerData;
-import com.sun.org.apache.xpath.internal.operations.Variable;
 
 /**
  * Created by forgo on 10/7/2017.
@@ -71,6 +69,12 @@ public class General {
         ServerVars.Accounts[index].chars[charSlot].setDir(ServerVars.DIR_DOWN);
 
         ServerVars.Accounts[index].chars[charSlot].setPoints(0);
+
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setSpellNum(1);
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setCastTime(ServerVars.Spells[1].CastTime);
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setCoolDown(ServerVars.Spells[1].CoolDown);
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setCastTimeTimer(0);
+        ServerVars.Accounts[index].chars[charSlot].spells[1].setCoolDownTimer(0);
     }
     public static void createCleric(int index, int charSlot) {
         ServerVars.Accounts[index].chars[1].setLevel(1);
@@ -213,7 +217,9 @@ public class General {
             if (ServerVars.mapData[mapNum].Tile[X][Y].Type != ServerVars.TILE_TYPE_NPCSPAWN) {
                 if (ServerVars.mapData[mapNum].Tile[X][Y].Type != ServerVars.TILE_TYPE_ITEM) {
                     if (ServerVars.mapData[mapNum].Tile[X][Y].Type != ServerVars.TILE_TYPE_WARP) {
-                        return false;
+                        if (ServerVars.mapData[mapNum].Tile[X][Y].Type != ServerVars.TILE_TYPE_NPCAVOID) {
+                            return false;
+                        }
                     }
                 }
             }
@@ -230,6 +236,7 @@ public class General {
                             if (ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].getNum() == 0) {
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setName(ServerVars.npcs[ServerVars.mapData[mapNum].Tile[X][Y].Data1].Name);
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setNum(ServerVars.mapData[mapNum].Tile[X][Y].Data1);
+                                ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setLevel(ServerVars.npcs[ServerVars.mapData[mapNum].Tile[X][Y].Data1].Level);
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setSprite(ServerVars.npcs[ServerVars.mapData[mapNum].Tile[X][Y].Data1].Sprite);
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setDir(ServerVars.mapData[mapNum].Tile[X][Y].Data2);
                                 ServerVars.MapNPCs[mapNum].Npc[mapNpcNum].setHP(ServerVars.npcs[ServerVars.mapData[mapNum].Tile[X][Y].Data1].Health);
@@ -285,7 +292,6 @@ public class General {
             if (ServerVars.Players[i] != null) {
                 if (ServerVars.Players[i].getMap() == mapNum) {
                     SendServerData.SendPlayerData(Index, i);
-                    SendServerData.SendPlayerData(i, Index);
                 } else if (ServerVars.Players[i].getMap() == oldMap) {
                     SendServerData.SendPlayerData(Index, i);
                 }
@@ -309,6 +315,7 @@ public class General {
         NpcNum = ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].getNum();
         if (NpcNum > 0) {
             ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].setNum(NpcNum);
+            ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].setLevel(ServerVars.npcs[NpcNum].Level);
             ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].setTarget(0);
             ServerVars.MapNPCs[MapNum].Npc[MapNpcNum].setTargetType(0);
 

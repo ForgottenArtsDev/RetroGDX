@@ -33,6 +33,9 @@ public class SaveData {
             outputStream.writeObject(account.getID());
             outputStream.writeObject(account.getPW());
 
+            outputStream.writeObject(account.isSfxOn());
+            outputStream.writeObject(account.isMusicOn());
+
             for (int i = 1; i <= 3; i++) {
                 outputStream.writeObject(account.chars[i].getName());
 
@@ -67,9 +70,18 @@ public class SaveData {
                 outputStream.writeObject(account.chars[i].getAcc1());
                 outputStream.writeObject(account.chars[i].getAcc2());
 
+                outputStream.writeObject(account.chars[i].getHotKeyQ());
+                outputStream.writeObject(account.chars[i].getHotKeyE());
+                outputStream.writeObject(account.chars[i].getHotKeyR());
+                outputStream.writeObject(account.chars[i].getHotKeyF());
+
                 for (int a = 1; a <= 60; a++) {
                     outputStream.writeObject(account.chars[i].inventory[a].getItemNum());
                     outputStream.writeObject(account.chars[i].inventory[a].getItemVal());
+                }
+
+                for (int a = 1; a <= 60; a++) {
+                    outputStream.writeObject(account.chars[i].spells[a].getSpellNum());
                 }
             }
 
@@ -162,6 +174,28 @@ public class SaveData {
 
         try {
             outputStream.writeObject(ServerVars.Shops[shopNum]);
+
+            outputStream.close();
+        }catch(IOException e){
+            System.out.println("Writing error: " + e);
+            System.exit(0);
+        }
+    }
+    public static void saveSpell(int spellNum) {
+        String absoPath = new File("").getAbsolutePath();
+        String fileName = absoPath + "\\rtoserver\\data\\spells\\" + spellNum + ".dat";
+
+        ObjectOutputStream outputStream = null;
+
+        try{
+            outputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+        }catch(IOException e){
+            System.out.println("Could not open the file." + e);
+            System.exit(0);
+        }
+
+        try{
+            outputStream.writeObject(ServerVars.Spells[spellNum]);
 
             outputStream.close();
         }catch(IOException e){

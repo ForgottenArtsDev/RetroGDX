@@ -320,7 +320,8 @@ public class npcEditor {
                     case editorVars.MONSTER_TYPE_WEAK:
                         points = 15 + ((level - 1) * 3);
                         for (int i = 1; i <= points; i++) {
-                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            //int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            int stat = findStat();
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
                                     if (useStat[1].isSelected()) {
@@ -363,7 +364,8 @@ public class npcEditor {
                     case editorVars.MONSTER_TYPE_STRONG:
                         points = 35 + ((level - 1) * 7);
                         for (int i = 1; i <= points; i++) {
-                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            //int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            int stat = findStat();
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
                                     if (useStat[1].isSelected()) {
@@ -406,7 +408,8 @@ public class npcEditor {
                     case editorVars.MONSTER_TYPE_MINION:
                         points = 45 + ((level - 1) * 10);
                         for (int i = 1; i <= points; i++) {
-                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            //int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            int stat = findStat();
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
                                     if (useStat[1].isSelected()) {
@@ -449,7 +452,8 @@ public class npcEditor {
                     case editorVars.MONSTER_TYPE_BOSS:
                         points = 65 + ((level - 1) * 20);
                         for (int i = 1; i <= points; i++) {
-                            int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            //int stat = (editorVars.Rnd.nextInt(5 + 1));
+                            int stat = findStat();
                             switch (stat) {
                                 case editorVars.STAT_TYPE_STR:
                                     if (useStat[1].isSelected()) {
@@ -497,8 +501,8 @@ public class npcEditor {
                 int MAG = Integer.parseInt(inputFields[11].getText());
                 int total = STR + DEF + VIT + AGI + MAG;
 
-                int xp = (level * 50) + (total * (total / 2));
-                int hp = (VIT + (total / 2)) * (level * (level / 2));
+                int xp = (level * 10) + (total * (total / 4));
+                int hp = ((VIT / 4) + (total / 4)) * (level * (level)) + 25;
 
                 inputFields[5].setText(Integer.toString(hp));
                 inputFields[6].setText(Integer.toString(xp));

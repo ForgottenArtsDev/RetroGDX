@@ -7,6 +7,7 @@ package com.forgottenartsstudios.networking.packets;
 public class SendNPCSpawn extends Packet {
     public String name;
     public int npcNum;
+    public int level;
     public int mapNPCNum;
     public int hp;
     public int maxHP;
