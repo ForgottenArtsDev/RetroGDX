@@ -136,7 +136,7 @@ public class RTOServer extends ApplicationAdapter {
         serverLoop();
     }
 
-    private static final long UpdateTime_KeepAlive = 5000;
+    private static final long UpdateTime_KeepAlive = 10000;
     private static final long UpdateTime_KeepAliveCount = 1000;
     private static final long UpdateTime_GameAI = 500;
     private static final long UpdateTime_SavePlayers = 60000 * 5;
