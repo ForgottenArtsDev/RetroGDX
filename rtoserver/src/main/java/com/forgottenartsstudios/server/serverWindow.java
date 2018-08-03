@@ -24,7 +24,7 @@ public class serverWindow {
         ServerVars.serverWindow = new JFrame();
         ServerVars.serverWindow.setLayout(null);
         ServerVars.serverWindow.setBounds(0, 0, 500, 200);
-        ServerVars.serverWindow.setTitle("Retro Tales Online Server");
+        ServerVars.serverWindow.setTitle("RetroGDX Demo Server");
         ServerVars.serverWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         svrMonitor.setBounds(0, 0, 350, 100);

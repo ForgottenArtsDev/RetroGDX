@@ -378,7 +378,7 @@ public class RTOServer extends ApplicationAdapter {
                             if (ServerVars.Accounts[i].getCID() > 0) {
                                 if (!ServerVars.Accounts[i].isKeepAlive()) {
                                     ServerVars.Accounts[i].setKeepCount(ServerVars.Accounts[i].getKeepCount() + 1);
-                                    if (ServerVars.Accounts[i].getKeepCount() >= 5) {
+                                    if (ServerVars.Accounts[i].getKeepCount() >= 10) {
                                         if (ServerVars.Accounts[i].getCID() > 0) {
                                             SaveData.SaveAccount(ServerVars.Accounts[i]);
 

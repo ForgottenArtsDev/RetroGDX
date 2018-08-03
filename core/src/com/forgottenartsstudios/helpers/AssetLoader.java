@@ -14,10 +14,12 @@ import com.forgottenartsstudios.data.TileLayer_Struct;
 import com.forgottenartsstudios.data.Tile_ServerStruct;
 import com.forgottenartsstudios.data.mapData;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -427,9 +429,8 @@ public class AssetLoader {
 
     }
     public static void loadMap(int mapNum) {
-        //Variables.loadingMap = true;
-
         FileHandle mapFile = null;
+        //Variables.loadingMap = true;
 
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             mapFile = Gdx.files.local(clientDir + "data/maps/" + mapNum + ".dat");
@@ -439,7 +440,7 @@ public class AssetLoader {
 
         ObjectInputStream inputStream = null;
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(mapFile.file()));
+            inputStream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(mapFile.file())));
         } catch (IOException e) {
             System.out.println("There was a problem opening the file: " + e);
             System.exit(0);
@@ -447,13 +448,14 @@ public class AssetLoader {
 
         try{
             Variables.mapRender[mapNum] = (mapData)inputStream.readObject();
-
             inputStream.close();
         }catch(Exception e){
             System.out.println("There was an issue reading from the file: " + e);
             System.exit(0);
         }
-        //Variables.loadingMap = false;
+        if (mapNum >= Variables.MaxMaps) {
+            //Variables.loadingMap = false;
+        }
     }
     public static void checkMaps() {
         //if (Variables.Client_Mode == Variables.Client_Mode_Android) {

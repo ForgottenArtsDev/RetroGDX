@@ -7,10 +7,12 @@ import com.forgottenartsstudios.networking.packets.SendLogin;
 import com.forgottenartsstudios.server.serverWindow;
 import com.sun.org.apache.xpath.internal.operations.Variable;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -267,7 +269,8 @@ public class LoadData {
 
         ObjectInputStream inputStream = null;
         try{
-            inputStream = new ObjectInputStream(new FileInputStream(fileName));
+            InputStream file = new FileInputStream(fileName);
+            inputStream = new ObjectInputStream(new BufferedInputStream(file));
         }catch(IOException e){
             System.out.println("There was a problem opening the file: " + e);
             System.exit(0);
