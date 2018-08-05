@@ -47,7 +47,7 @@ public class AssetLoader {
     public static void load() {
         if (Variables.Client_Mode == Variables.Client_Mode_Desktop)
         {
-            clientDir = "android/assets/";
+            clientDir = "";
         } else if (Variables.Client_Mode == Variables.Client_Mode_Android) {
             clientDir = "";
         }
@@ -433,9 +433,9 @@ public class AssetLoader {
         //Variables.loadingMap = true;
 
         if (Variables.Client_Mode == Variables.Client_Mode_Android) {
-            mapFile = Gdx.files.local(clientDir + "data/maps/" + mapNum + ".dat");
+            mapFile = Gdx.files.local("data/maps/" + mapNum + ".dat");
         } else if (Variables.Client_Mode == Variables.Client_Mode_Desktop) {
-            mapFile = Gdx.files.internal(clientDir + "data/maps/" + mapNum + ".dat");
+            mapFile = Gdx.files.internal("data/maps/" + mapNum + ".dat");
         }
 
         ObjectInputStream inputStream = null;

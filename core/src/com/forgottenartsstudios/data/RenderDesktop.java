@@ -644,7 +644,7 @@ public class RenderDesktop {
 
         if (LastUpdateTime_Loading < tickCount) {
             //if (firstTick > 0) {
-            AssetLoader.checkMaps();
+            //AssetLoader.checkMaps();
             for (int i = 1; i <= Variables.MaxMaps; i++) {
                 AssetLoader.loadMap(i);
                 AssetLoader.cacheTiles(i);
